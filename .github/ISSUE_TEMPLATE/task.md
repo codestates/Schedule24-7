@@ -7,14 +7,25 @@ assignees: ''
 
 ---
 
-**Is your feature request related to a problem? Please describe.**
-A clear and concise description of what the problem is. Ex. I'm always frustrated when [...]
+### ISSUE Type
+- [ ] SR
+- [ ] 기능 추가
+- [ ] 기능 삭제
+- [ ] 버그 수정
+- [ ] 의존성, 환경 변수, 빌드 관련 코드 업데이트
 
-**Describe the solution you'd like**
-A clear and concise description of what you want to happen.
+### Detail
+*진행과 관련된 세부 사항을 적어주세요*
 
-**Describe alternatives you've considered**
-A clear and concise description of any alternative solutions or features you've considered.
+### TODO
+- [ ] Job1
+- [ ] Job2
+- [ ] Job3
 
-**Additional context**
-Add any other context or screenshots about the feature request here.
+### Estimated time
+- [ ] `0.5h`
+- [ ] `1h`
+- [ ] `1.5h`
+- [ ] `2h`
+- [ ] `2.5`
+- [ ] `3h`
