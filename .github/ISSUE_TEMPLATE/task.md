@@ -1,6 +1,6 @@
 ---
 name: Task
-about: 테스크 카드 작성
+about: 테스크 작성
 title: "[Task]"
 labels: ''
 assignees: ''
