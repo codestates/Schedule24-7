@@ -1,6 +1,6 @@
 ---
 name: Error Handling
-about: Error handling, bug report
+about: 에러 핸들링 작성
 title: "[\U0001F6A8Err Handling] "
 labels: ''
 assignees: ''
