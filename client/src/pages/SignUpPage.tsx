@@ -158,7 +158,7 @@ function SignUpPage() {
             type="text"
             placeholder="이름"
             onChange={handleSignUpValue("email")}
-          ></SignUpBox
+          ></SignUpBox>
         </SignUpItems>
         <SignUpItems>
           <input

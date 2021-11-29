@@ -12,6 +12,10 @@ function App() {
       <Routes>
         <Route path="/signup" element={<SignUpPage />} />
       </Routes>
+        <Routes>
+          <Route path="/group" element={<GroupRoutes />} />
+        </Routes>
+
     </Router>
   );
 }
