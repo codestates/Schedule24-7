@@ -1,5 +1,7 @@
 import { Module } from "@nestjs/common";
+import { APP_INTERCEPTOR } from "@nestjs/core";
 import { MongooseModule } from "@nestjs/mongoose";
+import { MorganInterceptor, MorganModule } from "nest-morgan";
 
 import { AppController } from "./app.controller";
 import { AppService } from "./app.service";
@@ -10,6 +12,7 @@ import { UserModule } from "./modules/user/user.module";
 @Module({
   imports: [
     ConfigModule,
+    MorganModule,
     MongooseModule.forRootAsync({
       inject: [ConfigService],
       useFactory: async (configService: ConfigService) =>
@@ -18,6 +21,12 @@ import { UserModule } from "./modules/user/user.module";
     UserModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [
+    AppService,
+    {
+      provide: APP_INTERCEPTOR,
+      useClass: MorganInterceptor("dev"),
+    },
+  ],
 })
 export class AppModule {}
