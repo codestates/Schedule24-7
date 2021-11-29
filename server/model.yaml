@@ -1,0 +1,42 @@
+Users:
+  description: User API
+  required:
+    - userId
+    - name
+    - password
+    - email
+  properties:
+    _id:
+      type: string
+      format: uuid
+      example: ObjectId("619e")
+    userId:
+      type: string
+      example: heokiro
+    email:
+      type: string
+      example: heokiro1345@gmail.com
+    password:
+      type: number
+      example: 12341234
+    corpName:
+      type: string
+      example: codestates
+    userName:
+      type: string
+      example: kimcoding
+    birthDate:
+      type: string
+      format: date
+      example: 2000-01-23
+    createdAt:
+      type: string
+      format: date
+      example: 2021-11-24
+    group:
+      type: array
+      properties:
+        id:
+          type: string
+          format: object
+          example: 23sdf

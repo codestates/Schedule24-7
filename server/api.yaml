@@ -1,0 +1,51 @@
+paths:
+  /users:
+    post:
+      tags:
+        - users
+      summary: 회원가입 API
+      operationId: signup_user
+      description: 회원을 가입하는 api
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: reqest_user_info
+          in: body
+          schema:
+            type: object
+            required:
+              - userId
+              - userName
+              - password
+            properties:
+              userId:
+                type: string
+                example: heokiro
+              userName:
+                type: string
+                example: 허재혁
+              password:
+                type: number
+                example: 1234
+      responses:
+        201:
+          description: 회원가입에 성공하셨습니다.
+          schema:
+            type: object
+            properties:
+              data:
+                type: object
+                example: null
+              statusCode:
+                type: number
+                example: 201
+              message:
+                type: string
+                example: 회원가입에 성공하셨습니다.
+        409:
+          description: 이미 존재하는 아이디입니다.
+        500:
+          description: 서버에러가 발생했습니다.
+    delete:
