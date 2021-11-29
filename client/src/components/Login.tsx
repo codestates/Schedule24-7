@@ -93,7 +93,7 @@ export default function Login() {
           </Link>
         </LoginItems>
         <LoginItems>
-          <Link to="/signup">
+          <Link to="/findidpw">
             <span className="login-text">아이디/비밀번호찾기</span>
           </Link>
         </LoginItems>
