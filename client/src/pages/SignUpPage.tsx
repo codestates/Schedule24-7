@@ -146,21 +146,19 @@ function SignUpPage() {
       <div id="signup-title">Schedule24/7 회원가입</div>
       <form onSubmit={(e) => e.preventDefault()}>
         <SignUpItems>
-          <input
-            className="signup-box"
+          <SignUpBox
             type="text"
             placeholder="아이디"
             onChange={handleSignUpValue("email")}
-          ></input>
+          ></SignUpBox>
           {renderIdCheckMessage()}
         </SignUpItems>
         <SignUpItems>
-          <input
-            className="signup-box"
+          <SignUpBox
             type="text"
             placeholder="이름"
             onChange={handleSignUpValue("email")}
-          ></input>
+          ></SignUpBox
         </SignUpItems>
         <SignUpItems>
           <input
