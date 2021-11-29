@@ -2,22 +2,15 @@ import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import { MainLogo, MainWrapper } from "../style/theme";
 // import Footer from "../components/Footer";
-
-export const MainWrapper = styled.div`
-  height: 90vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-`;
 
 export const SignUpItems = styled.div`
   margin: 0.3rem;
 `;
 
 export const SignUpBox = styled.input`
-  border-radius: 0.3rem;
+  /* border-radius: 0.3rem; */
 `;
 
 export const BtnWrapper = styled.div`
@@ -143,6 +136,12 @@ function SignUpPage() {
 
   return (
     <MainWrapper>
+      <div>
+        <MainLogo
+          onClick={comeBackHome}
+          src="https://media.discordapp.net/attachments/907157959333785630/914705380070785064/s725_logopng.png"
+        />
+      </div>
       <div id="signup-title">Schedule24/7 회원가입</div>
       <form onSubmit={(e) => e.preventDefault()}>
         <SignUpItems>
