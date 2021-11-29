@@ -4,7 +4,7 @@ import Login from "../components/Login";
 import styled from "styled-components";
 
 export const MainWrapper = styled.div`
-  height: 700px;
+  height: 90vh;
   display: flex;
   flex-direction: column;
   justify-content: center;

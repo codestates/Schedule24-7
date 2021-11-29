@@ -85,13 +85,16 @@ export default function Login() {
       <div>
         <LoginItems>
           {/* <img src="https://media.discordapp.net/attachments/907157959333785630/910685960612765786/google_logo.png" /> */}
-          <div onClick={socialLoginHandler} className="login-text">
-            구글아이디로 로그인
-          </div>
+          <LoginBtn onClick={socialLoginHandler}>구글아이디로 로그인</LoginBtn>
         </LoginItems>
-        <LoginItems className="login-text-wrapper">
+        <LoginItems>
           <Link to="/signup">
             <span className="login-text">아이디가 없으신가요?</span>
+          </Link>
+        </LoginItems>
+        <LoginItems>
+          <Link to="/signup">
+            <span className="login-text">아이디/비밀번호찾기</span>
           </Link>
         </LoginItems>
       </div>
