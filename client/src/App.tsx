@@ -1,18 +1,23 @@
-import { FC } from "react";
-import { GlobalStyle } from "./GlobalStyle";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import GroupRoutes from "./routes/GroupRoute";
+import React from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import LoginPage from "./pages/LoginPage";
+import SignUpPage from "./pages/SignUpPage";
+import GroupRoutes from "./components/routes/GroupRoute";
 
-const App: FC = () => {
+function App() {
   return (
-    <BrowserRouter>
-      <GlobalStyle />
+    <Router>
       <Routes>
-        <Route path="/group" element={<GroupRoutes />} />
+        <Route path="/" element={<LoginPage />} />
       </Routes>
-    </BrowserRouter>
+      <Routes>
+        <Route path="/signup" element={<SignUpPage />} />
+      </Routes>
+        <Routes>
+          <Route path="/group" element={<GroupRoutes />} />
+        </Routes>
+    </Router>
   );
-};
+}
 
 export default App;
-

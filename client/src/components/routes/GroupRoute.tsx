@@ -1,6 +1,6 @@
 import { FC } from "react";
 import { Routes, Route } from "react-router-dom";
-import GroupIndexPage from "../pages/groups/GroupIndexPage";
+import GroupIndexPage from "../../pages/GroupIndexPage";
 
 const GroupRoutes: FC = () => {
   return (

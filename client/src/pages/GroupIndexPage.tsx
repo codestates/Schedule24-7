@@ -1,7 +1,7 @@
 import { FC } from "react";
-import Layout from "../../components/Layout";
+import Layout from "../components/Layout";
 import styled from "styled-components";
-import { mediaQuery } from "../../GlobalStyle";
+import { mediaQuery } from "../GlobalStyle";
 
 const TitleContaioner = styled.div`
   background-color: green;
