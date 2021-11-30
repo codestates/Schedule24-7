@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import Footer from "../components/Footer";
 import Header from "../components/Header";
-import Main from "../components/mainpage/Main";
+import ScheduleMain from "../components/schedulepage/ScheduleMain";
 import Sidebar from "../components/Sidebar";
 import { mediaQuery } from "../GlobalStyle";
 
@@ -40,7 +40,7 @@ const Foot = styled.footer`
   padding: 0.25rem;
 `;
 
-function MainPage() {
+function SchedulePage() {
   return (
     <MainPageWrapper>
       <NavBar>
@@ -50,7 +50,7 @@ function MainPage() {
         <Sidebar />
       </Side>
       <MainDiv>
-        <Main />
+        <ScheduleMain />
       </MainDiv>
       <Foot>
         <Footer />
@@ -59,4 +59,4 @@ function MainPage() {
   );
 }
 
-export default MainPage;
+export default SchedulePage;

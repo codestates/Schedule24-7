@@ -1,6 +1,7 @@
 import { FC } from "react";
 import styled from "styled-components";
 import { hideMobileCss, mediaQuery } from "../GlobalStyle";
+import { Link } from "react-router-dom";
 
 const Block = styled.nav`
   height: 85vh;
@@ -42,9 +43,9 @@ const Block = styled.nav`
 const Sidebar: FC = () => {
   return (
     <Block id="sidebar">
-      <a href="#">Home</a>
+      <Link to="/main">Home</Link>
       <a href="#">Group</a>
-      <a href="#">Schedule</a>
+      <Link to="/schedule">Schedule</Link>
       <a href="#">Mypage</a>
     </Block>
   );

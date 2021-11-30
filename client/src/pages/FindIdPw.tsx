@@ -1,13 +1,16 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { BtnWrapper } from "./SignUpPage";
 import { MainLogo, MainWrapper } from "../style/theme";
+import Footer from "../components/Footer";
 
 export const BoxWrapper = styled.div`
   display: flex;
   flex-direction: column;
+  justify-content: center;
+  height: 90vh;
 `;
 
 function FindIdPw() {
@@ -33,29 +36,27 @@ function FindIdPw() {
 
   return (
     <MainWrapper>
-      <div>
+      <BoxWrapper>
         <MainLogo
           onClick={comeBackHome}
           src="https://media.discordapp.net/attachments/907157959333785630/914705380070785064/s725_logopng.png"
         />
-      </div>
-      <BtnWrapper>
-        <button
-          onClick={() => {
-            setInputState(true);
-          }}
-        >
-          아이디찾기
-        </button>
-        <button
-          onClick={() => {
-            setInputState(false);
-          }}
-        >
-          비밀번호찾기
-        </button>
-      </BtnWrapper>
-      <BoxWrapper>
+        <BtnWrapper>
+          <button
+            onClick={() => {
+              setInputState(true);
+            }}
+          >
+            아이디찾기
+          </button>
+          <button
+            onClick={() => {
+              setInputState(false);
+            }}
+          >
+            비밀번호찾기
+          </button>
+        </BtnWrapper>
         <input
           type="text"
           placeholder="이름을 입력하세요"
@@ -76,6 +77,7 @@ function FindIdPw() {
           홈으로
         </button>
       </BoxWrapper>
+      <Footer />
     </MainWrapper>
   );
 }
