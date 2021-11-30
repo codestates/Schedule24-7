@@ -15,11 +15,14 @@ import {
   ApiOperation,
   ApiCreatedResponse,
   ApiOkResponse,
+  ApiConflictResponse,
+  ApiInternalServerErrorResponse,
 } from "@nestjs/swagger";
 
 import { User } from "src/entities/user.entity";
 import { UserService } from "./user.service";
 import { CreateUserDto } from "./dto/create-user.dto";
+import { ConflictErr, InternalSeverErr } from "src/commons/http-exception.dto";
 //import { UpdateUserDto } from "./dto/update-user.dto";
 
 @Controller("users")
@@ -30,6 +33,14 @@ export class UserController {
   @Post()
   @ApiOperation({ summary: "User 생성 API", description: "유저 등록" })
   @ApiCreatedResponse({ description: "회원 등록을 한다.", type: User })
+  @ApiConflictResponse({
+    description: "동일한 유저 아이디 및 이메일이 존재합니다.",
+    type: ConflictErr,
+  })
+  @ApiInternalServerErrorResponse({
+    description: "서버에러",
+    type: InternalSeverErr,
+  })
   async create(@Body() createUserDto: CreateUserDto, @Res() res: any) {
     console.log("hello");
     console.log(createUserDto);
@@ -37,19 +48,19 @@ export class UserController {
     return res.status(HttpStatus.CREATED).send(newUser);
   }
 
-  @Get(":id")
-  @ApiOperation({ summary: "User 조회 API", description: "유저 조회" })
-  @ApiOkResponse({
-    description: "아이디가 일치하는 유저 정보를 조회한다.",
-    type: User,
-  })
-  async findUser(
-    @Param("id") id: MongooseSchema.Types.ObjectId,
-    @Res() res: any,
-  ) {
-    const user: any = await this.userService.getUserFindById(id);
-    return res.status(HttpStatus.OK).send(user);
-  }
+  // @Get(":id")
+  // @ApiOperation({ summary: "User 조회 API", description: "유저 조회" })
+  // @ApiOkResponse({
+  //   description: "아이디가 일치하는 유저 정보를 조회한다.",
+  //   type: User,
+  // })
+  // async findUser(
+  //   @Param("id") id: MongooseSchema.Types.ObjectId,
+  //   @Res() res: any,
+  // ) {
+  //   const user: any = await this.userService.getUserFindById(id);
+  //   return res.status(HttpStatus.OK).send(user);
+  // }
 
   // @Get()
   // @ApiOperation({summary: "모든 유저 조회 API", description: "모든 유저 조회"})
