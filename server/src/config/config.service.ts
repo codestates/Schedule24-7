@@ -15,6 +15,10 @@ export class ConfigService {
     return this.envConfig[key];
   }
 
+  public getSecretConfig() {
+    return this.get("SECRET");
+  }
+
   public async getPortConfig() {
     return this.get("PORT");
   }
