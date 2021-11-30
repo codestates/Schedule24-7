@@ -1,5 +1,5 @@
 import { InjectModel } from "@nestjs/mongoose";
-import { Model, Schema as MongooseSchema } from "mongoose";
+import { Model } from "mongoose";
 
 import {
   ConflictException,
@@ -14,13 +14,13 @@ export class UserRepository {
   ) {}
 
   async createUser(createUserDto: CreateUserDto) {
-    const userExists: any = await this.getUserByEmail(createUserDto.email);
+    const isUser: any = await this.getUserByUserId(createUserDto.userId);
+    const isEmail: any = await this.getUserByEmail(createUserDto.email);
 
-    if (userExists.length === 0) {
+    if (isUser.length === 0 && isEmail.length === 0) {
       const newUser = new this.userModel({
         userId: createUserDto.userId,
         email: createUserDto.email,
-        role: createUserDto.role,
         password: createUserDto.password,
       });
 
@@ -30,14 +30,16 @@ export class UserRepository {
       } catch (error) {
         throw new InternalServerErrorException(error);
       }
-    } else {
+    } else if (isUser.length > 0) {
       throw new ConflictException("이미 존재하는 유저입니다.");
+    } else {
+      throw new ConflictException("이미 존재하는 이메일입니다.");
     }
   }
 
-  async getUserById(id: MongooseSchema.Types.ObjectId) {
+  async getUserByUserId(userId: string) {
     try {
-      const user = await this.userModel.findById(id);
+      const user = await this.userModel.find({ userId });
       return user;
     } catch (err) {
       throw new InternalServerErrorException(err);
@@ -45,9 +47,7 @@ export class UserRepository {
   }
   async getUserByEmail(email: string) {
     try {
-      const user = await this.userModel
-        .find({ email }, "name email role")
-        .exec();
+      const user = await this.userModel.find({ email }).exec();
       return user;
     } catch (err) {
       throw new InternalServerErrorException(err);
