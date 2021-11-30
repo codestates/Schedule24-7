@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { hideMobileCss, mediaQuery } from "../GlobalStyle";
 
 const Block = styled.nav`
+  height: 85vh;
   width: 175px;
   border-right: 1px solid rgba(0, 0, 0, 0.25);
   text-align: center;
