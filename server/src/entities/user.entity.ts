@@ -32,6 +32,9 @@ export class User extends Document {
   @Prop({ required: true, enum: ["ADMIN", "USER"], default: "ADMIN" })
   role: string;
 
+  @Prop({ required: true, default: "jwt" })
+  tokenType: string;
+
   @Prop()
   groups: [Types.ObjectId];
 }

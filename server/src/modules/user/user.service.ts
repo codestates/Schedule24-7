@@ -1,8 +1,13 @@
-import { Injectable } from "@nestjs/common";
+import {
+  Injectable,
+  InternalServerErrorException,
+  NotFoundException,
+} from "@nestjs/common";
 import * as bcrypt from "bcrypt";
 
 import { UserRepository } from "src/repositories/user.repository";
-import { CreateUserDto } from "./dto/create-user.dto";
+import { CreateUserDto } from "./dto/request/create-user.dto";
+//import { UpdateUserDto } from "./dto/request/update-user.dto";
 
 @Injectable()
 export class UserService {
@@ -18,24 +23,27 @@ export class UserService {
     return createdUser;
   }
 
-  // async getUserFindById(id: MongooseSchema.Types.ObjectId) {
-  //   const user = await this.userRepository.getUserById(id);
+  async getUserInfo(id: string) {
+    try {
+      const user: any = await this.userRepository.getUserById(id);
 
-  //   if (!user) {
-  //     throw new UnauthorizedException(`해당하는 ID(${id})의 정보가 없습니다.`);
-  //   }
-  //   return user;
-  // }
+      if (!user) {
+        throw new NotFoundException(`Not Found`);
+      }
+      return user;
+    } catch (err) {
+      throw new InternalServerErrorException("Internal Server Error");
+    }
+  }
 
-  // findOne(id: number) {
-  //   return `This action returns a #${id} user`;
-  // }
+  async updatePassword(id: string, new_password: string) {
+    // encode password
+    const salt: string = await bcrypt.genSalt(10);
+    const password: string = await bcrypt.hash(new_password, salt);
+    return this.userRepository.updateUserPassword(id, password);
+  }
 
-  // update(id: number, updateUserDto: UpdateUserDto) {
-  //   return `This action updates a #${id} user`;
-  // }
-
-  // remove(id: number) {
-  //   return `This action removes a #${id} user`;
-  // }
+  async remove(id: string) {
+    return await this.userRepository.remove(id);
+  }
 }
