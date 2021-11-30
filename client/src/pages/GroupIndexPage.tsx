@@ -6,7 +6,6 @@ import GroupListItem from "../components/groups/GroupListItem"
 import InnerHeader from "../components/InnerHeader";
 import AddListItem from "../components/AddListItem";
 
-
 const BlockContainer = styled.div`
   background-color: #f1f1f1;
   border: 0.5px dashed #4a4a4a;
@@ -50,6 +49,7 @@ const arrs: Group.GroupListItemProps[] = [
 const GroupIndexPage: FC = () => {
   
   return (
+
   <Layout title="그룹">
     <InnerHeader title="그룹관리" />    
       <BlockContainer>

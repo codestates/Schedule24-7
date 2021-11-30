@@ -1,8 +1,10 @@
 import { FC } from "react";
 import styled from "styled-components";
 import { hideMobileCss, mediaQuery } from "../GlobalStyle";
+import { Link } from "react-router-dom";
 
 const Block = styled.nav`
+  height: 85vh;
   width: 175px;
   border-right: 1px solid rgba(0, 0, 0, 0.25);
   text-align: center;
@@ -41,9 +43,9 @@ const Block = styled.nav`
 const Sidebar: FC = () => {
   return (
     <Block id="sidebar">
-      <a href="#">Home</a>
+      <Link to="/main">Home</Link>
       <a href="#">Group</a>
-      <a href="#">Schedule</a>
+      <Link to="/schedule">Schedule</Link>
       <a href="#">Mypage</a>
     </Block>
   );
