@@ -7,6 +7,7 @@ import { AppController } from "./app.controller";
 import { AppService } from "./app.service";
 import { ConfigModule } from "./config/config.module";
 import { ConfigService } from "./config/config.service";
+import { GroupModule } from "./modules/group/group.module";
 import { UserModule } from "./modules/user/user.module";
 
 @Module({
@@ -19,6 +20,7 @@ import { UserModule } from "./modules/user/user.module";
         configService.getMongoConfig(),
     }),
     UserModule,
+    GroupModule,
   ],
   controllers: [AppController],
   providers: [

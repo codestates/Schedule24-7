@@ -2,19 +2,20 @@ import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
 
 import { Document, Types } from "mongoose";
 
-@Schema()
+@Schema({ versionKey: false })
 export class User extends Document {
-  @Prop({ required: true, unique: true })
+  @Prop({ required: true, index: true })
   userId: string;
 
-  @Prop({ required: true, unique: true })
+  @Prop({ required: true })
   email: string;
-
-  @Prop({ enum: ["NORMAL", "TEST"], default: "NORMAL" })
-  test: string;
 
   @Prop({ required: true })
   password: string;
+
+  // 체험용 계정 여부 확인
+  @Prop({ required: true, default: false })
+  test: boolean;
 
   @Prop({ required: false })
   corpName: string;
