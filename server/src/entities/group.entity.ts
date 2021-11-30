@@ -11,7 +11,7 @@ export class Group extends Document {
   @Prop({ required: true, default: null })
   groupEmoji: string;
   @Prop({ default: Date.now })
-  createdAt: Date;
+  createdAt: string;
   @Prop({ type: MongooseSchema.Types.Array })
   works: Work[];
   @Prop({ type: MongooseSchema.Types.Array })
