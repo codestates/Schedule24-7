@@ -22,7 +22,7 @@ import { UserService } from "./user.service";
 import { CreateUserDto } from "./dto/create-user.dto";
 //import { UpdateUserDto } from "./dto/update-user.dto";
 
-@Controller("api/users")
+@Controller("users")
 @ApiTags("User API")
 export class UserController {
   constructor(private readonly userService: UserService) {}
@@ -31,6 +31,8 @@ export class UserController {
   @ApiOperation({ summary: "User 생성 API", description: "유저 등록" })
   @ApiCreatedResponse({ description: "회원 등록을 한다.", type: User })
   async create(@Body() createUserDto: CreateUserDto, @Res() res: any) {
+    console.log("hello");
+    console.log(createUserDto);
     const newUser: any = await this.userService.createUser(createUserDto);
     return res.status(HttpStatus.CREATED).send(newUser);
   }
