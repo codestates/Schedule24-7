@@ -6,6 +6,9 @@ import {
   Patch,
   Param,
   Delete,
+  InternalServerErrorException,
+  Header,
+  Headers,
 } from "@nestjs/common";
 import { AuthService } from "./auth.service";
 import { AuthLoginDto } from "./dto/auth-login.dto";
@@ -15,8 +18,18 @@ export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
   @Post("/login")
-  create(@Body() authLoginDto: AuthLoginDto) {
-    return this.authService.login(authLoginDto);
+  login(@Body() authLoginDto: AuthLoginDto) {
+    try {
+      return this.authService.login(authLoginDto);
+    } catch (err) {
+      throw new InternalServerErrorException(err);
+    }
+  }
+
+  // 토큰 테스트 라우트
+  @Post("/test")
+  test(@Headers("Authorization") accessToken: string) {
+    return this.authService.checkToken(accessToken);
   }
 
   // @Get()
