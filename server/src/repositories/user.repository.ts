@@ -18,9 +18,10 @@ export class UserRepository {
 
     if (userExists.length === 0) {
       const newUser = new this.userModel({
-        name: createUserDto.name,
+        userId: createUserDto.userId,
         email: createUserDto.email,
         role: createUserDto.role,
+        password: createUserDto.password,
       });
 
       try {
