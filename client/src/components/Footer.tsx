@@ -1,4 +1,3 @@
-import React from "react";
 import styled from "styled-components";
 
 export const FooterDiv = styled.div`
@@ -8,5 +7,5 @@ export const FooterDiv = styled.div`
 `;
 
 export default function Footer() {
-  return <FooterDiv>Copyright Schedule24/7 All Rights Reserved.</FooterDiv>;
+  return <FooterDiv>Copyright © Schedule24/7 All Rights Reserved.</FooterDiv>;
 }

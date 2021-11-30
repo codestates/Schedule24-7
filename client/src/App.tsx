@@ -4,8 +4,8 @@ import SignUpPage from "./pages/SignUpPage";
 import GroupRoutes from "./components/routes/GroupRoute";
 import FindIdPw from "./pages/FindIdPw";
 import MainPage from "./pages/MainPage";
-// import "./App.css";
 import { GlobalStyle } from "./GlobalStyle";
+import SchedulePage from "./pages/SchedulePage";
 
 function App() {
   return (
@@ -15,8 +15,9 @@ function App() {
         <Route path="/" element={<LoginPage />} />
         <Route path="/signup" element={<SignUpPage />} />
         <Route path="/findidpw" element={<FindIdPw />} />
-        <Route path="/mainpage" element={<MainPage />} />
+        <Route path="/main" element={<MainPage />} />
         <Route path="/group" element={<GroupRoutes />} />
+        <Route path="/schedule" element={<SchedulePage />} />
       </Routes>
     </Router>
   );

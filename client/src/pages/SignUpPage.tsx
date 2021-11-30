@@ -3,7 +3,8 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { MainLogo, MainWrapper } from "../style/theme";
-// import Footer from "../components/Footer";
+import Footer from "../components/Footer";
+import { LoginBox } from "../components/Login";
 
 export const SignUpItems = styled.div`
   margin: 0.3rem;
@@ -19,6 +20,14 @@ export const BtnWrapper = styled.div`
   justify-content: center;
   align-items: center;
   margin: 0.3rem;
+`;
+
+export const SignUpWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 90vh;
 `;
 
 axios.defaults.withCredentials = true;
@@ -136,68 +145,68 @@ function SignUpPage() {
 
   return (
     <MainWrapper>
-      <div>
+      <SignUpWrapper>
         <MainLogo
           onClick={comeBackHome}
           src="https://media.discordapp.net/attachments/907157959333785630/914705380070785064/s725_logopng.png"
         />
-      </div>
-      <div id="signup-title">Schedule24/7 회원가입</div>
-      <form onSubmit={(e) => e.preventDefault()}>
-        <SignUpItems>
-          <SignUpBox
-            type="text"
-            placeholder="아이디"
-            onChange={handleSignUpValue("email")}
-          ></SignUpBox>
-          {renderIdCheckMessage()}
-        </SignUpItems>
-        <SignUpItems>
-          <SignUpBox
-            type="text"
-            placeholder="이름"
-            onChange={handleSignUpValue("email")}
-          ></SignUpBox>
-        </SignUpItems>
-        <SignUpItems>
-          <input
-            className="signup-box"
-            type="password"
-            placeholder="8자 이상, 영어, 숫자, 특수문자를 포함한 비밀번호"
-            onChange={handleSignUpValue("password")}
-          ></input>
-        </SignUpItems>
-        <SignUpItems>
-          <input
-            className="signup-box"
-            type="password"
-            placeholder="비밀번호 확인"
-            onChange={handleSignUpValue("passwordCheck")}
-          ></input>
-          {renderFeedbackMessage()}
-          {renderValidationCheckMessage()}
-        </SignUpItems>
-        <SignUpItems>
-          <input
-            className="signup-box"
-            type="email"
-            placeholder="email"
-            onChange={handleSignUpValue("email")}
-          ></input>
-        </SignUpItems>
-        <BtnWrapper>
-          <button onClick={handleEmailAuth}>이메일인증</button>
-        </BtnWrapper>
-        <BtnWrapper>
-          <button className="signup-btn" onClick={handleSignUp}>
-            회원가입
-          </button>
-          <button className="signup-btn" onClick={comeBackHome}>
-            홈으로
-          </button>
-        </BtnWrapper>
-      </form>
-      {/* <Footer /> */}
+        <div id="signup-title">Schedule24/7 회원가입</div>
+        <form onSubmit={(e) => e.preventDefault()}>
+          <SignUpItems>
+            <SignUpBox
+              type="text"
+              placeholder="아이디"
+              onChange={handleSignUpValue("email")}
+            ></SignUpBox>
+            {renderIdCheckMessage()}
+          </SignUpItems>
+          <SignUpItems>
+            <SignUpBox
+              type="text"
+              placeholder="이름"
+              onChange={handleSignUpValue("email")}
+            ></SignUpBox>
+          </SignUpItems>
+          <SignUpItems>
+            <input
+              className="signup-box"
+              type="password"
+              placeholder="8자 이상, 영어, 숫자, 특수문자를 포함한 비밀번호"
+              onChange={handleSignUpValue("password")}
+            ></input>
+          </SignUpItems>
+          <SignUpItems>
+            <input
+              className="signup-box"
+              type="password"
+              placeholder="비밀번호 확인"
+              onChange={handleSignUpValue("passwordCheck")}
+            ></input>
+            {renderFeedbackMessage()}
+            {renderValidationCheckMessage()}
+          </SignUpItems>
+          <SignUpItems>
+            <input
+              className="signup-box"
+              type="email"
+              placeholder="email"
+              onChange={handleSignUpValue("email")}
+            ></input>
+          </SignUpItems>
+          <BtnWrapper>
+            <button onClick={handleEmailAuth}>이메일인증</button>
+          </BtnWrapper>
+          <BtnWrapper>
+            <button className="signup-btn" onClick={handleSignUp}>
+              회원가입
+            </button>
+            <button className="signup-btn" onClick={comeBackHome}>
+              홈으로
+            </button>
+          </BtnWrapper>
+        </form>
+      </SignUpWrapper>
+      <Footer />
     </MainWrapper>
   );
 }
