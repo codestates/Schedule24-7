@@ -9,14 +9,6 @@ class Content {
   @Prop()
   team: Team[];
 }
-class Team {
-  @Prop()
-  work: Work;
-
-  @Prop()
-  members: Member[];
-}
-
 class Member {
   @Prop({ required: true, index: true })
   memberId: number;
@@ -28,6 +20,13 @@ class Work {
   workId: number;
   @Prop({ required: true })
   workName: string;
+}
+class Team {
+  @Prop()
+  work: Work;
+
+  @Prop()
+  members: Member[];
 }
 
 class Group {
