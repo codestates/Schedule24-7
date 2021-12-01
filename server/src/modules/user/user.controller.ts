@@ -3,13 +3,15 @@ import {
   Get,
   Post,
   Body,
+  Headers,
   Patch,
-  Param,
   Delete,
   Res,
   HttpStatus,
+  BadRequestException,
+  InternalServerErrorException,
+  UnauthorizedException,
 } from "@nestjs/common";
-import { Schema as MongooseSchema } from "mongoose";
 import {
   ApiTags,
   ApiOperation,
@@ -17,22 +19,43 @@ import {
   ApiOkResponse,
   ApiConflictResponse,
   ApiInternalServerErrorResponse,
+  ApiBadRequestResponse,
+  ApiUnauthorizedResponse,
+  ApiNotFoundResponse,
+  ApiHeader,
+  ApiNoContentResponse,
 } from "@nestjs/swagger";
+import { InjectConnection } from "@nestjs/mongoose";
+import { Connection } from "mongoose";
 
-import { User } from "src/entities/user.entity";
 import { UserService } from "./user.service";
-import { CreateUserDto } from "./dto/create-user.dto";
-import { ConflictErr, InternalSeverErr } from "src/commons/http-exception.dto";
-//import { UpdateUserDto } from "./dto/update-user.dto";
+import { AuthService } from "../auth/auth.service";
+import { CreateUserDto } from "./dto/request/create-user.dto";
+import { CreateUserResDto } from "./dto/response/create-user.dto";
+import {
+  BadRequestErr,
+  ConflictErr,
+  InternalSeverErr,
+  NotFoundErr,
+  UnauthorizeErr,
+} from "src/commons/http-exception.dto";
+import { GetUserInfoResDto } from "./dto/response/select-user.dto";
+// import { UpdateUserDto } from "./dto/request/update-user.dto";
+import { UpdateUserResDto } from "./dto/response/update-user.dto";
 
 @Controller("users")
 @ApiTags("User API")
 export class UserController {
-  constructor(private readonly userService: UserService) {}
+  constructor(
+    @InjectConnection()
+    private readonly mongoConnection: Connection,
+    private readonly userService: UserService,
+    private readonly authService: AuthService,
+  ) {}
 
   @Post()
-  @ApiOperation({ summary: "User 생성 API", description: "유저 등록" })
-  @ApiCreatedResponse({ description: "회원 등록을 한다.", type: User })
+  @ApiOperation({ summary: "신규 회원가입", description: "회원 가입" })
+  @ApiCreatedResponse({ description: "created", type: CreateUserResDto })
   @ApiConflictResponse({
     description: "동일한 유저 아이디 및 이메일이 존재합니다.",
     type: ConflictErr,
@@ -42,44 +65,144 @@ export class UserController {
     type: InternalSeverErr,
   })
   async create(@Body() createUserDto: CreateUserDto, @Res() res: any) {
-    console.log("hello");
-    console.log(createUserDto);
-    const newUser: any = await this.userService.createUser(createUserDto);
-    return res.status(HttpStatus.CREATED).send(newUser);
+    // 몽고 세션 연결
+    const session = await this.mongoConnection.startSession();
+    // 트랜잭션 시작
+    session.startTransaction();
+    try {
+      const newUser: any = await this.userService.createUser(createUserDto);
+      await session.commitTransaction(); // 이상없이 진행시 커밋
+      return res.status(HttpStatus.CREATED).send(newUser);
+    } catch (err) {
+      await session.abortTransaction(); // 이상 발생시 커밋 취소
+      throw new BadRequestException(err);
+    } finally {
+      session.endSession(); // 세션 연결 종료
+    }
   }
 
-  // @Get(":id")
-  // @ApiOperation({ summary: "User 조회 API", description: "유저 조회" })
-  // @ApiOkResponse({
-  //   description: "아이디가 일치하는 유저 정보를 조회한다.",
-  //   type: User,
-  // })
-  // async findUser(
-  //   @Param("id") id: MongooseSchema.Types.ObjectId,
-  //   @Res() res: any,
-  // ) {
-  //   const user: any = await this.userService.getUserFindById(id);
-  //   return res.status(HttpStatus.OK).send(user);
-  // }
+  @Get()
+  @ApiOperation({
+    summary: "유저 관련 데이터 조회 API",
+    description: "유저정보 조회",
+  })
+  @ApiHeader({
+    name: "Authorization",
+    description: "Bearer + 엑세스 토큰",
+    required: true,
+  })
+  @ApiOkResponse({
+    description: "아이디가 일치하는 유저 정보를 조회한다.",
+    type: GetUserInfoResDto,
+  })
+  @ApiBadRequestResponse({
+    description: "잘못된 요청입니다.",
+    type: BadRequestErr,
+  })
+  @ApiUnauthorizedResponse({
+    description: "유효하지 않은 토큰입니다.",
+    type: UnauthorizeErr,
+  })
+  @ApiNotFoundResponse({
+    description: "정보를 조회할수 없습니다.",
+    type: NotFoundErr,
+  })
+  @ApiInternalServerErrorResponse({
+    description: "서버에러",
+    type: InternalSeverErr,
+  })
+  async getUserInfo(
+    @Headers("Authorization") authorization: string,
+    @Res() res: any,
+  ) {
+    const session = await this.mongoConnection.startSession();
+    session.startTransaction();
+    const accessToken: string = authorization.split(" ")[1];
+    if (!accessToken) throw new BadRequestException("Bad Request");
+    try {
+      const { _id }: any = await this.authService.checkToken(accessToken);
+      if (!_id) throw new UnauthorizedException("Unauthorized");
+      const user: any = await this.userService.getUserInfo(_id);
+      await session.commitTransaction();
+      return res.status(HttpStatus.OK).send(user);
+    } catch {
+      await session.abortTransaction();
+      throw new InternalServerErrorException("Internal Server Error");
+    } finally {
+      session.endSession();
+    }
+  }
 
-  // @Get()
-  // @ApiOperation({summary: "모든 유저 조회 API", description: "모든 유저 조회"})
-  // @ApiOkResponse({description: "모든 유저 정보를 조회한다.", type: User})
-  // findAll() {
-  //   return this.userService.findAll();
-  // }
+  @Patch()
+  @ApiOperation({ summary: "비밀번호 변경 API" })
+  @ApiHeader({
+    name: "Authorization",
+    description: "Bearer + 엑세스 토큰",
+    required: true,
+  })
+  @ApiOkResponse({
+    description: "아이디가 일치하는 유저 정보를 수정한다.",
+    type: UpdateUserResDto,
+  })
+  async update(
+    @Headers("Authorization") authorization: string,
+    @Body("new_password") new_password: string,
+    @Res() res: any,
+  ) {
+    const session = await this.mongoConnection.startSession();
+    session.startTransaction();
 
-  // @Patch(":id")
-  // @ApiOperation({summary: "유저 정보 API"})
-  // @ApiOkResponse({description: "아이디가 일치하는 유저 정보를 수정한다.", type: User})
-  // update(@Param("id") id: string, @Body() updateUserDto: UpdateUserDto) {
-  //   return this.userService.update(+id, updateUserDto);
-  // }
+    const accessToken: string = authorization.split(" ")[1];
+    if (!accessToken) throw new BadRequestException("Bad Request");
+    try {
+      const { _id }: any = await this.authService.checkToken(accessToken);
+      if (!_id) throw new UnauthorizedException("Unauthorized");
 
-  // @Delete(":id")
-  // @ApiOperation({summary: "유저 삭제 API"})
-  // @ApiNoContentResponse({description: "아이디가 일치하는 유저 정보를 삭제한다."})
-  // remove(@Param("id") id: string) {
-  //   return this.userService.remove(+id);
-  // }
+      const user: any = await this.userService.updatePassword(
+        _id,
+        new_password,
+      );
+      if (user) {
+        await session.commitTransaction();
+        return res
+          .status(HttpStatus.CREATED)
+          .send({ message: "비밀번호 수정 성공" });
+      }
+    } catch {
+      await session.abortTransaction();
+      throw new InternalServerErrorException("Internal Server Error");
+    } finally {
+      session.endSession();
+    }
+  }
+
+  @Delete()
+  @ApiOperation({ summary: "회원 탈퇴 API" })
+  @ApiNoContentResponse({
+    description: "아이디가 일치하는 유저 정보를 삭제한다.",
+  })
+  async signOut(
+    @Headers("Authorization") authorization: string,
+    @Res() res: any,
+  ) {
+    const session = await this.mongoConnection.startSession();
+    session.startTransaction();
+
+    const accessToken: string = authorization.split(" ")[1];
+    if (!accessToken) throw new BadRequestException("Bad Request");
+    try {
+      const { _id }: any = await this.authService.checkToken(accessToken);
+      if (!_id) throw new UnauthorizedException("Unauthorized");
+      await this.userService.remove(_id);
+      await session.commitTransaction();
+      return res
+        .status(HttpStatus.OK)
+        .send({ message: "회원탈퇴에 성공했습니다" });
+    } catch (err) {
+      await session.abortTransaction();
+      throw new InternalServerErrorException("Internal Server Error");
+    } finally {
+      session.endSession();
+    }
+  }
 }
