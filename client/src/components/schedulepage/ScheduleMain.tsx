@@ -16,11 +16,7 @@ export default function ScheduleMain() {
 
   return (
     <MainWrapper>
-      {currentPage ? (
-        <ScheduleBox handleCurrentPage={handleCurrentPage} />
-      ) : (
-        <ViewSchedule />
-      )}
+      <ScheduleBox />
     </MainWrapper>
   );
 }

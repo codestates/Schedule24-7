@@ -37,21 +37,25 @@ export default function ScheduleItem({ DayNum, NewDummy }: any) {
   return (
     <Box>
       <div>{DayNum.split("-")[2]}</div>
-      {viewData.length !== 0 ? (
-        <Worksdiv>
-          <div>
-            <span>{viewData[0].team[0].work.workName}</span>
-            <span>{viewData[0].team[0].members[0].memberName}</span>
-          </div>
-          <div>
-            <span>{viewData[0].team[1].work.workName}</span>
-            <span>{viewData[0].team[1].members[0].memberName}</span>
-          </div>
-          <div>
-            <span>{viewData[0].team[2].work.workName}</span>
-            <span>{viewData[0].team[2].members[0].memberName}</span>
-          </div>
-        </Worksdiv>
+      {viewData !== undefined ? (
+        viewData.length !== 0 ? (
+          <Worksdiv>
+            <div>
+              <span>{viewData[0].team[0].work.workName}</span>
+              <span>{viewData[0].team[0].members[0].memberName}</span>
+            </div>
+            <div>
+              <span>{viewData[0].team[1].work.workName}</span>
+              <span>{viewData[0].team[1].members[0].memberName}</span>
+            </div>
+            <div>
+              <span>{viewData[0].team[2].work.workName}</span>
+              <span>{viewData[0].team[2].members[0].memberName}</span>
+            </div>
+          </Worksdiv>
+        ) : (
+          ""
+        )
       ) : (
         ""
       )}

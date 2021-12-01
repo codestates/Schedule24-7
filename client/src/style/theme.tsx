@@ -45,4 +45,6 @@ export const BoxWrapper = styled.div`
   background-color: #ececec;
 `;
 
-export const AddBtn = styled.button``;
+export const AddBtn = styled.button`
+  width: 100px;
+`;
