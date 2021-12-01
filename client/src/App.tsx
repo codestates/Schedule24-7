@@ -16,7 +16,7 @@ function App() {
         <Route path="/signup" element={<SignUpPage />} />
         <Route path="/findidpw" element={<FindIdPw />} />
         <Route path="/main" element={<MainPage />} />
-        <Route path="/group" element={<GroupRoutes />} />
+        <Route path="/group/*" element={<GroupRoutes />} />
         <Route path="/schedule" element={<SchedulePage />} />
       </Routes>
     </Router>

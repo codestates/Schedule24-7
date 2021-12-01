@@ -44,7 +44,7 @@ const Sidebar: FC = () => {
   return (
     <Block id="sidebar">
       <Link to="/main">Home</Link>
-      <a href="#">Group</a>
+      <a href="/group">Group</a>
       <Link to="/schedule">Schedule</Link>
       <a href="#">Mypage</a>
     </Block>
