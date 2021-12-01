@@ -1,9 +1,15 @@
-import { Injectable, UnauthorizedException } from "@nestjs/common";
+import {
+  Injectable,
+  InternalServerErrorException,
+  UnauthorizedException,
+} from "@nestjs/common";
 import { AuthRepository } from "../../repositories/auth.repository";
 import { JwtService } from "@nestjs/jwt";
 import { AuthLoginDto } from "./dto/auth-login.dto";
 import * as bcrypt from "bcrypt";
-
+import { AuthCheckPassDto } from "./dto/auth-checkPass.dto";
+import { AuthCheckIdDto } from "./dto/auth-checkId.dto";
+import { boolean } from "joi";
 @Injectable()
 export class AuthService {
   constructor(
@@ -20,7 +26,7 @@ export class AuthService {
       throw new UnauthorizedException("존재하지 않는 userId 입니다.");
     }
     // 패스워드 일치여부 확인
-    const passwordCheck = await bcrypt.compare(
+    const passwordCheck = bcrypt.compare(
       authLoginDto.password,
       userInfo.password,
     );
@@ -39,23 +45,45 @@ export class AuthService {
     return { accessToken };
   }
 
+  async checkPass(authCheckPassDto: AuthCheckPassDto, tokenData: any) {
+    try {
+      const userInfo = await this.authRepository.getUserByObjectId(
+        tokenData._id,
+      );
+      if (!userInfo) {
+        throw new UnauthorizedException("토큰 값이 유효하지 않습니다.");
+      }
+      const passwordCheck = await bcrypt.compare(
+        authCheckPassDto.password,
+        userInfo.password,
+      );
+      return passwordCheck;
+    } catch (err) {
+      throw new InternalServerErrorException(err);
+    }
+  }
+  async checkId(authCheckIdDto: AuthCheckIdDto) {
+    try {
+      const userInfo = await this.authRepository.getUserByUserId(
+        authCheckIdDto.userId,
+      );
+      if (!userInfo) {
+        return { message: `존재하지 않는 userId 입니다.` };
+      } else {
+        return { message: `존재하는 userId 입니다.` };
+      }
+    } catch (err) {
+      throw new InternalServerErrorException(err);
+    }
+  }
+
+  validateToken(authorization: string) {
+    const accessToken: string = authorization.split(" ")[1];
+    const tokenData: {} = this.jwtService.verify(accessToken);
+    return tokenData;
+  }
   checkToken(accessToken: string) {
     const result = this.jwtService.decode(accessToken);
     return result;
   }
-  // create(createAuthDto: CreateAuthDto) {
-  //   return 'This action adds a new auth';
-  // }
-  // findAll() {
-  //   return `This action returns all auth`;
-  // }
-  // findOne(id: number) {
-  //   return `This action returns a #${id} auth`;
-  // }
-  // update(id: number, updateAuthDto: UpdateAuthDto) {
-  //   return `This action updates a #${id} auth`;
-  // }
-  // remove(id: number) {
-  //   return `This action removes a #${id} auth`;
-  // }
 }

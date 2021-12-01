@@ -9,8 +9,11 @@ import {
   InternalServerErrorException,
   Header,
   Headers,
+  Res,
 } from "@nestjs/common";
 import { AuthService } from "./auth.service";
+import { AuthCheckIdDto } from "./dto/auth-checkId.dto";
+import { AuthCheckPassDto } from "./dto/auth-checkPass.dto";
 import { AuthLoginDto } from "./dto/auth-login.dto";
 
 @Controller("auth")
@@ -26,29 +29,31 @@ export class AuthController {
     }
   }
 
-  // 토큰 테스트 라우트
-  @Post("/test")
-  test(@Headers("Authorization") accessToken: string) {
-    return this.authService.checkToken(accessToken);
+  @Post("/checkpass")
+  async checkPass(
+    @Headers("Authorization") authorization: string,
+    @Body() authCheckPassDto: AuthCheckPassDto,
+    @Res() res: any,
+  ) {
+    try {
+      const tokenData: {} = this.authService.validateToken(authorization);
+      const passwordCheck: boolean = await this.authService.checkPass(
+        authCheckPassDto,
+        tokenData,
+      );
+      return res.status(200).send(passwordCheck);
+    } catch (err) {
+      throw new InternalServerErrorException(err);
+    }
   }
 
-  // @Get()
-  // findAll() {
-  //   return this.authService.findAll();
-  // }
-
-  // @Get(':id')
-  // findOne(@Param('id') id: string) {
-  //   return this.authService.findOne(+id);
-  // }
-
-  // @Patch(':id')
-  // update(@Param('id') id: string, @Body() updateAuthDto: UpdateAuthDto) {
-  //   return this.authService.update(+id, updateAuthDto);
-  // }
-
-  // @Delete(':id')
-  // remove(@Param('id') id: string) {
-  //   return this.authService.remove(+id);
-  // }
+  @Post("/checkid")
+  async checkId(@Body() authCheckIdDto: AuthCheckIdDto, @Res() res: any) {
+    try {
+      const IdCheck = await this.authService.checkId(authCheckIdDto);
+      return res.status(200).send(IdCheck);
+    } catch (err) {
+      throw new InternalServerErrorException(err);
+    }
+  }
 }
