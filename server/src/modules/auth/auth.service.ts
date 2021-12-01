@@ -9,12 +9,13 @@ import { AuthLoginDto } from "./dto/auth-login.dto";
 import * as bcrypt from "bcrypt";
 import { AuthCheckPassDto } from "./dto/auth-checkPass.dto";
 import { AuthCheckIdDto } from "./dto/auth-checkId.dto";
-import { boolean } from "joi";
+import { MailerService } from "@nestjs-modules/mailer";
 @Injectable()
 export class AuthService {
   constructor(
     private readonly authRepository: AuthRepository,
     private readonly jwtService: JwtService,
+    private readonly mailerService: MailerService,
   ) {}
 
   async login(authLoginDto: AuthLoginDto) {
@@ -85,5 +86,22 @@ export class AuthService {
   checkToken(accessToken: string) {
     const result = this.jwtService.decode(accessToken);
     return result;
+  }
+
+  async example(): Promise<void> {
+    this.mailerService
+      .sendMail({
+        to: "imdex1009@gmail.com",
+        from: "guest1@schedule24-7.link",
+        subject: "Testing",
+        text: "welcome",
+        html: "<b>welcome<b>",
+      })
+      .then(() => {
+        console.log("sended");
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }
 }
