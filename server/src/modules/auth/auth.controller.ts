@@ -56,4 +56,10 @@ export class AuthController {
       throw new InternalServerErrorException(err);
     }
   }
+
+  @Post("/test")
+  async example() {
+    console.log("h");
+    return await this.authService.example();
+  }
 }
