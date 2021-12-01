@@ -1,6 +1,7 @@
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
 
-import { Document, Types } from "mongoose";
+import { Document, Schema as MongooseSchema } from "mongoose";
+import { Group } from "./group.entity";
 
 @Schema({ versionKey: false })
 export class User extends Document {
@@ -20,7 +21,7 @@ export class User extends Document {
   @Prop({ required: false })
   corpName: string;
 
-  @Prop({ required: false })
+  @Prop({ required: true })
   userName: string;
 
   @Prop({ required: false })
@@ -35,8 +36,8 @@ export class User extends Document {
   @Prop({ required: true, default: "jwt" })
   tokenType: string;
 
-  @Prop()
-  groups: [Types.ObjectId];
+  @Prop({ type: [{ type: MongooseSchema.Types.ObjectId, ref: "Group" }] })
+  groups: Group[];
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);

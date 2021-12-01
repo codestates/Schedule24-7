@@ -1,5 +1,5 @@
 import { InjectModel } from "@nestjs/mongoose";
-import { Model } from "mongoose";
+import { Model, Schema as MongooseSchema } from "mongoose";
 
 import {
   ConflictException,
@@ -25,6 +25,7 @@ export class UserRepository {
         userId: createUserDto.userId,
         email: createUserDto.email,
         password: createUserDto.password,
+        userName: createUserDto.userName,
       });
 
       try {
@@ -84,6 +85,21 @@ export class UserRepository {
       await this.userModel.remove({ _id: id });
     } catch (err) {
       throw new NotFoundException(err);
+    }
+  }
+  // 신규 그룹 생성시 유저에 그룹 objectId 추가
+  async addGroupIdFromGroup(id: string, group: any) {
+    try {
+      // 해당 유저로 생성한 그룹아이디를 추가한다.
+      const updateUser: any = await this.userModel.updateOne(
+        { _id: id },
+        {
+          $push: { groups: { _id: group._id } },
+        },
+      );
+      return updateUser;
+    } catch (err) {
+      throw new NotFoundException("Not Found Data and update");
     }
   }
 }
