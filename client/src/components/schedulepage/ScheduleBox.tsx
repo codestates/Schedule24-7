@@ -1,22 +1,29 @@
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { AddBtn, BoxHeader, BoxSection, BoxWrapper } from "../../style/theme";
 import BoxSample from "../mainpage/BoxSample";
 
-interface Iprops {
-  handleCurrentPage: () => void;
+// interface Iprops {
+//   handleCurrentPage: () => void;
+// }
+// { handleCurrentPage }: Iprops
+{
+  /* <div onClick={handleCurrentPage}>         </div> */
 }
 
-export default function ScheduleBox({ handleCurrentPage }: Iprops) {
+export default function ScheduleBox() {
   return (
     <BoxSection>
       <BoxHeader>
         <span>스케쥴</span>
-        <AddBtn>새스케줄추가</AddBtn>
+        <Link to="/schedule/add">
+          <AddBtn>새스케줄추가</AddBtn>
+        </Link>
       </BoxHeader>
       <BoxWrapper>
-        <div onClick={handleCurrentPage}>
+        <Link to="/schedule/view">
           <BoxSample />
-        </div>
+        </Link>
       </BoxWrapper>
     </BoxSection>
   );

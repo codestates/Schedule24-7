@@ -1,0 +1,35 @@
+.react-datepicker {
+  font-size: 1rem !important;
+  /* font-weight: bold; */
+  border: 1px solid gray;
+  background-color: white;
+}
+
+.react-datepicker__header {
+  font-weight: bold;
+}
+
+.react-datepicker__month {
+  margin: 0.4rem;
+  text-align: center;
+}
+.react-datepicker__month .react-datepicker__month-text {
+  display: inline-block;
+  width: 6rem;
+  margin: 2px;
+  border: 1px solid gray;
+  cursor: pointer;
+}
+
+.react-datepicker__year .react-datepicker__year-text {
+  display: inline-block;
+  width: 6rem;
+  margin: 2px;
+  border: 1px solid gray;
+  cursor: pointer;
+}
+
+.react-datepicker__month-text:hover,
+.react-datepicker__year-text:hover {
+  background-color: #f0f0f0;
+}
