@@ -2,22 +2,47 @@ import { FC } from "react";
 import Header from "./Header";
 import styled from "styled-components";
 import SideBar from "./Sidebar";
+import { mediaQuery } from "../GlobalStyle";
+import Footer from "./Footer";
 
 const Container = styled.div`
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  height: 100vh;
+  grid-template-columns: 0.15fr 1fr 1fr;
+  grid-template-rows: 0.15fr 8fr 0.5fr;
+  grid-template-areas:
+    "nav nav nav"
+    "sidebar main main"
+    "sidebar footer footer";
+  ${mediaQuery.mobile} {
+    grid-template-columns: 0fr 1fr 1fr;
+    grid-template-rows: 0.2fr 8fr 0.5fr;
+  }
 `;
 
-const BodyWrapper = styled.div`
-  display: flex;
-  flex: 1;
-  position: relative;
+const NavBar = styled.nav`
+  grid-area: nav;
+`;
+
+const MainDiv = styled.main`
+  grid-area: main;
+  padding: 0.25rem;
+`;
+
+const Side = styled.div`
+  /* background: #9aaab7; */
+  grid-area: sidebar;
+`;
+
+const Foot = styled.footer`
+  /* background: #ff9637; */
+  grid-area: footer;
+  padding: 0.25rem;
 `;
 
 const UserContentWrapper = styled.div`
-  padding: 30px;
   box-sizing: border-box;
+  margin: 1rem;
 `;
 
 interface Props {
@@ -27,11 +52,18 @@ interface Props {
 const Layout: FC<Props> = ({ children, title }) => {
   return (
     <Container>
-      <Header title={title} />
-      <BodyWrapper>
+      <NavBar>
+        <Header title={title} />
+      </NavBar>
+      <Side>
         <SideBar />
+      </Side>
+      <MainDiv>
         <UserContentWrapper>{children}</UserContentWrapper>
-      </BodyWrapper>
+      </MainDiv>
+      <Foot>
+        <Footer />
+      </Foot>
     </Container>
   );
 };

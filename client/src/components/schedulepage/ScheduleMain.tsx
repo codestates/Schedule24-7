@@ -1,22 +1,24 @@
-import { useState } from "react";
 import styled from "styled-components";
-import ScheduleBox from "./ScheduleBox";
-import ViewSchedule from "./ViewScheduel";
+import { AddBtn, BoxHeader, BoxSection, BoxWrapper } from "../../style/theme";
+import { Link } from "react-router-dom";
+import BoxSample from "../mainpage/BoxSample";
 
-export const MainWrapper = styled.div`
-  padding: 1rem;
-`;
+export const MainWrapper = styled.div``;
 
 export default function ScheduleMain() {
-  const [currentPage, setCurrentPage] = useState(true);
-
-  const handleCurrentPage = (): void => {
-    setCurrentPage(false);
-  };
-
   return (
-    <MainWrapper>
-      <ScheduleBox />
-    </MainWrapper>
+    <BoxSection>
+      <BoxHeader>
+        <span>스케쥴</span>
+        <Link to="/schedule/add">
+          <AddBtn>새스케줄추가</AddBtn>
+        </Link>
+      </BoxHeader>
+      <BoxWrapper>
+        <Link to="/schedule/view">
+          <BoxSample />
+        </Link>
+      </BoxWrapper>
+    </BoxSection>
   );
 }

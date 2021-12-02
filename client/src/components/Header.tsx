@@ -3,58 +3,50 @@ import styled from "styled-components";
 import { DefaultLayout, hideMobileCss, mediaQuery } from "../GlobalStyle";
 
 const Block = styled.header`
-  background-color: #3c3c3c;
+  background-color: #272727;
   width: 100%;
-  z-index:15;
-
-  ${mediaQuery.mobile} {
-    background-color: #000;
-  }
-`
-
-const PaddingLayout = styled(DefaultLayout)`
-  padding: 0 25px;
-  height: 69px;
+  padding: 0.5rem;
+  height: 58px;
   box-sizing: border-box;
   display: flex;
   justify-content: space-between;
   align-items: center;
-
-  /* @media (max-width: 768px) */
-  ${mediaQuery.mobile} {
-    padding: 0 10px;
-    height: 58px;
-  }
 `;
 
-const HeaderLeft = styled.div``;
-const HeaderRight = styled.div``;
+const HeaderLeft = styled.div`
+  padding-left: 1rem;
+`;
+const HeaderRight = styled.div`
+  padding-right: 1rem;
+`;
 const HeaderCenter = styled.div``;
 const PageTitle = styled.h1`
   color: #fff;
-  font-size: 22px;
+  font-size: 18px;
+  font-weight: 400;
 `;
 
 const PageName = styled.span`
   font-weight: 700;
-  font-size: 24px;
+  font-size: 20px;
   color: #fff;
 
   ${hideMobileCss(true)}
 `;
+
 const UserInfoWrap = styled.div`
   display: flex;
   align-items: center;
   img {
-    width: 45px;
-    height: 45px;
+    width: 30px;
+    height: 30px;
     border-radius: 50%;
   }
   span {
     margin-left: 13px;
-    font-size: 20px;
+    font-size: 16px;
     color: #fff;
-    font-weight: 700;
+    font-weight: 500;
   }
 
   ${hideMobileCss(true, "flex")}
@@ -67,9 +59,8 @@ const LogoWrapper = styled.div`
   ${hideMobileCss(false)}
 `;
 const MenuWrapper = styled.div`
-  padding: 3px;
-  width: 51px;
-  height: 39px;
+  width: 40px;
+  height: 30px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -78,7 +69,7 @@ const MenuWrapper = styled.div`
     background-color: #fff;
     border-radius: 100px;
     width: 100%;
-    height: 7px;
+    height: 6px;
   }
 
   ${hideMobileCss(false, "flex")}
@@ -97,29 +88,27 @@ const Header: FC<Props> = ({ title }) => {
   }, []);
   return (
     <Block>
-      <PaddingLayout>
-        <HeaderLeft>
-          <LogoWrapper />
-          <PageName>Schedule24/7</PageName>
-        </HeaderLeft>
-        <HeaderCenter>
-          {title === undefined ? null : <PageTitle>{title}</PageTitle>}
-        </HeaderCenter>
-        <HeaderRight>
-          <UserInfoWrap>
-            <img
-              alt="user-img"
-              src="https://cdn-icons-png.flaticon.com/512/906/906361.png"
-            />
-            <span>DevUpUser01</span>
-          </UserInfoWrap>
-          <MenuWrapper onClick={toggleSideBar}>
-            <div />
-            <div />
-            <div />
-          </MenuWrapper>
-        </HeaderRight>
-      </PaddingLayout>
+      <HeaderLeft>
+        <PageName>Schedule24/7</PageName>
+        <LogoWrapper />
+      </HeaderLeft>
+      <HeaderCenter>
+        {title === undefined ? null : <PageTitle>{title}</PageTitle>}
+      </HeaderCenter>
+      <HeaderRight>
+        <UserInfoWrap>
+          <img
+            alt="user-img"
+            src="https://cdn-icons-png.flaticon.com/512/906/906361.png"
+          />
+          <span>DevUpUser01</span>
+        </UserInfoWrap>
+        <MenuWrapper onClick={toggleSideBar}>
+          <div />
+          <div />
+          <div />
+        </MenuWrapper>
+      </HeaderRight>
     </Block>
   );
 };

@@ -1,6 +1,4 @@
-import React, { useState } from "react";
-import styled from "styled-components";
-import moment, { calendarFormat, Moment as MomentTypes } from "moment";
+import moment, { Moment as MomentTypes } from "moment";
 
 function Calendar(option: any): any {
   let date = moment(option);

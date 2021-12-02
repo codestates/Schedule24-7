@@ -1,11 +1,10 @@
 import { useState } from "react";
 import styled from "styled-components";
 import Calendar from "./CalendarGenerator";
-import { dayArr, numArr, ScheduleDummy } from "./ScheduleDummy";
+import { dayArr, ScheduleDummy } from "./ScheduleDummy";
 import ScheduleItem from "./ScheduleItem";
 import TableHeader from "./TableHeader";
-import moment, { Moment as MomentTypes } from "moment";
-import { useEffect } from "react";
+import moment from "moment";
 
 export const TableTopWrapper = styled.div`
   display: flex;

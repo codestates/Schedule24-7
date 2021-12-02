@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import styled from "styled-components";
-import { AddBtn, BoxHeader, BoxSection, BoxWrapper } from "../../style/theme";
+import { AddBtn, BoxHeader, BoxSection } from "../../style/theme";
 import DatePicker from "react-datepicker";
 import "./react-datepicker.css";
 import { ko } from "date-fns/esm/locale";
@@ -28,7 +28,6 @@ export default function AddSchedule() {
     return;
   };
   //스케쥴 생성 함수(만들예정)
-
   //   const state = useSelector((state)=>{})
 
   return (
