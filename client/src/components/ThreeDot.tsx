@@ -25,9 +25,9 @@ const ThreeDot: FC = () => {
   return (
     <Block id="ThreeDot">
       <a href="#">스케줄</a>
-      <a href="#">멤버관리</a>
-      <a href="#">기본정보</a>
-      <a href="#">그룹관리</a>
+      <a href="/group/member">멤버관리</a>
+      <a href="/group/info">기본정보</a>
+      <a href="#">근무조건</a>
     </Block>
   );
 };

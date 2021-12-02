@@ -1,3 +1,4 @@
+ 
 import {
   FC,
   useCallback,
@@ -85,7 +86,6 @@ const MultiColumnSelectBox: FC<Props> = ({
     const resizeHandler = () => {
       if (ref.current === null) return;
       const parentElement = ref.current.parentElement;
-      // const { parentElement } = ref.current;
 
       setWidthSize(parentElement?.clientWidth ?? null);
     };
@@ -119,10 +119,25 @@ const MultiColumnSelectBox: FC<Props> = ({
     if (selectValue === null || typeof onChange === "undefined") return;
     onChange(selectValue.value);
   }, [selectValue, onChange]);
+  
+  const myRef = useRef<HTMLDivElement>(null)
+  
+  useEffect(() => {
+    function handleClickOutside(e: MouseEvent): void {
+        if (myRef.current && !myRef.current.contains(e.target as Node)) {
+            setIsVisible(false);
+        }
+    }
+    window.addEventListener('click', handleClickOutside);
+    return () => {
+      window.removeEventListener('click', handleClickOutside);
+    };
+  }, [myRef]);
+
 
   return (
     <Block ref={ref}>
-      <VsibleWrapper onClick={toggleIsVisible}>
+      <VsibleWrapper ref={myRef} onClick={toggleIsVisible} >
         <span>{viewSelectValue?.text ?? defaultValue.text}</span>
         <div />
       </VsibleWrapper>

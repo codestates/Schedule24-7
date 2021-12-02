@@ -7,7 +7,6 @@ import InnerHeader from "../components/InnerHeader";
 import GroupSelectBar from "../components/groups/GroupSelectBar";
 import MemberListItem from "../components/groups/MemberListItem";
 import AddListButton from "../components/AddListButton"
-import MemberListEditItem from "../components/groups/MemberListEditItem";
 
 const BlockContainer = styled.div`
   background-color: #f1f1f1;
@@ -26,7 +25,7 @@ const BlockContainer = styled.div`
   }
 `;
 
-const GroupMemberPage: FC = () => {
+const GroupSetPage: FC = () => {
   const navigate = useNavigate();
   const handler = useCallback(() => {
     navigate("group/member");
@@ -35,8 +34,6 @@ const GroupMemberPage: FC = () => {
   return (
     <Layout title="그룹">
       <GroupSelectBar />
-      <MemberListItem />
-      <MemberListItem />
       <MemberListItem />
       <AddListButton
         onClick={handler}
@@ -49,4 +46,4 @@ const GroupMemberPage: FC = () => {
   )
 };
 
-export default GroupMemberPage;
+export default GroupSetPage;
