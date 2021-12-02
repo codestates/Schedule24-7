@@ -8,6 +8,7 @@ import {
 } from "@nestjs/common";
 import { User } from "../entities/user.entity";
 import { CreateUserDto } from "../modules/user/dto/request/create-user.dto";
+import { FindUserIdDto } from "src/modules/user/dto/request/find-userId.dto";
 
 export class UserRepository {
   constructor(
@@ -15,12 +16,10 @@ export class UserRepository {
   ) {}
   // 회원생성
   async createUser(createUserDto: CreateUserDto) {
-    // 동일한 유저아이디가 있는지 확인
-    const isUser: any = await this.getUserByUserId(createUserDto.userId);
     // 동일한 이메일이 있는지 확인
     const isEmail: any = await this.getUserByEmail(createUserDto.email);
     // 동일한 정보가 없는 경우 정보 등록
-    if (isUser.length === 0 && isEmail.length === 0) {
+    if (isEmail.length === 0) {
       const newUser: any = new this.userModel({
         userId: createUserDto.userId,
         email: createUserDto.email,
@@ -34,24 +33,17 @@ export class UserRepository {
       } catch (error) {
         throw new InternalServerErrorException(error);
       }
-      // 유저가 존재하거나
-    } else if (isUser.length > 0) {
-      throw new ConflictException("이미 존재하는 유저입니다.");
     } else {
       // 이메일이 존재하거나
       throw new ConflictException("이미 존재하는 이메일입니다.");
     }
   }
-  // 동일한 유저 아이디가 있는지
+  // 동일한 유저 아이디 체크
   async getUserByUserId(userId: string) {
-    try {
-      const user: any = await this.userModel.find({ userId });
-      return user;
-    } catch (err) {
-      throw new InternalServerErrorException(err);
-    }
+    const user: any = await this.userModel.find({ userId });
+    return user;
   }
-  // 동일한 이메일이 있는지 확인
+  // 동일한 이메일 체크
   async getUserByEmail(email: string) {
     try {
       const user: any = await this.userModel.find({ email }).exec();
@@ -60,8 +52,8 @@ export class UserRepository {
       throw new InternalServerErrorException(err);
     }
   }
-  // 동일한 아이디가 있는지 확인
-  async getUserById(id: string) {
+  // 유저 데이터 조회(패스워드 제외한)
+  async getUserDataById(id: string) {
     try {
       const user: any = await this.userModel.findById(id).select("-password");
       return user;
@@ -69,6 +61,19 @@ export class UserRepository {
       throw new InternalServerErrorException(err);
     }
   }
+
+  // 유저 데이터 조회(패스워드 제외한)
+  async getUserInfoById(id: string) {
+    try {
+      const user: any = await this.userModel
+        .findById(id)
+        .select("userId, email, userName");
+      return user;
+    } catch (err) {
+      throw new InternalServerErrorException(err);
+    }
+  }
+
   // 비밀 번호 수정
   async updateUserPassword(id: string, new_password: string) {
     try {
@@ -101,5 +106,19 @@ export class UserRepository {
     } catch (err) {
       throw new NotFoundException("Not Found Data and update");
     }
+  }
+
+  // 유저의 비밀번호 가져오기
+  async getUserPasswordById(id: string) {
+    const result: any = await this.userModel.findById(id).select("password");
+    return result;
+  }
+
+  // 유저 아이디 찾기
+  async findUserId(id: string, dto: FindUserIdDto) {
+    const { email, userName } = dto;
+    return await this.userModel
+      .findOne({ _id: id, email: email, userName: userName })
+      .select("userId");
   }
 }
