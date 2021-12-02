@@ -10,6 +10,8 @@ import * as bcrypt from "bcrypt";
 import { AuthCheckPassDto } from "./dto/auth-checkPass.dto";
 import { AuthCheckIdDto } from "./dto/auth-checkId.dto";
 import { MailerService } from "@nestjs-modules/mailer";
+import { threadId } from "worker_threads";
+import { AuthSendEmailDto } from "./dto/auth-sendEmail.dto";
 @Injectable()
 export class AuthService {
   constructor(
@@ -88,20 +90,21 @@ export class AuthService {
     return result;
   }
 
-  async example(): Promise<void> {
-    this.mailerService
+  sendEmailCheck(authSendEmailDto: AuthSendEmailDto) {
+    const number = this.authRepository.generateNumber(111111, 999999);
+
+    return this.mailerService
       .sendMail({
-        to: "imdex1009@gmail.com",
-        from: "guest1@schedule24-7.link",
+        to: authSendEmailDto.email,
+        from: "team.schedule247@gmail.com",
         subject: "Testing",
-        text: "welcome",
-        html: "<b>welcome<b>",
+        html: `<p>아래 6자리 인증번호를 입력해주세요</br><b>${number}</b></p>`,
       })
       .then(() => {
-        console.log("sended");
+        return number;
       })
       .catch((err) => {
-        console.log(err);
+        return err;
       });
   }
 }

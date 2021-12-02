@@ -33,4 +33,9 @@ export class AuthRepository {
       throw new InternalServerErrorException(err);
     }
   }
+
+  generateNumber(min: number, max: number): number {
+    const number: number = Math.round(Math.random() * (max - min) + min);
+    return number;
+  }
 }
