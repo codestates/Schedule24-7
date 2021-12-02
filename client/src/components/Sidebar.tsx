@@ -46,7 +46,7 @@ const Sidebar: FC = () => {
       <Link to="/main">Home</Link>
       <a href="/group">Group</a>
       <Link to="/schedule">Schedule</Link>
-      <a href="#">Mypage</a>
+      <Link to="/mypage">Mypage</Link>
     </Block>
   );
 };

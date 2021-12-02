@@ -6,6 +6,7 @@ import FindIdPw from "./pages/FindIdPw";
 import MainPage from "./pages/MainPage";
 import { GlobalStyle } from "./GlobalStyle";
 import ScheduleRoutes from "./components/routes/ScheduleRoute";
+import MyPage from "./pages/MyPage";
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
         <Route path="/main" element={<MainPage />} />
         <Route path="/group/*" element={<GroupRoutes />} />
         <Route path="/schedule/*" element={<ScheduleRoutes />} />
+        <Route path="/mypage" element={<MyPage />} />
       </Routes>
     </Router>
   );
