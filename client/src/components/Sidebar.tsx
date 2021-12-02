@@ -4,19 +4,22 @@ import { hideMobileCss, mediaQuery } from "../GlobalStyle";
 import { Link } from "react-router-dom";
 
 const Block = styled.nav`
-  height: 85vh;
-  width: 175px;
+  padding-top: 1rem;
   border-right: 1px solid rgba(0, 0, 0, 0.25);
+  height: 95%;
+  width: 140px;
   text-align: center;
+  margin: 0px;
 
   ${mediaQuery.mobile} {
     width: 0px;
 
     &.open {
       display: block;
-      background-color: #000;
+      background-color: #3c3c3c;
       z-index: 10;
-      width: 152px;
+      width: 140px;
+      height: 100%;
       position: fixed;
       top: 58px;
       bottom: 0;
@@ -24,7 +27,7 @@ const Block = styled.nav`
 
       > a {
         color: #fff;
-        font-weight: 700;
+        font-size: 16px;
       }
     }
   }
@@ -33,10 +36,13 @@ const Block = styled.nav`
 
   > a {
     display: block;
-    font-size: 23px;
+    font-size: 18px;
     color: #676767;
-    margin-top: 15px;
     text-decoration: none;
+    margin-bottom: 1rem;
+  }
+  > a:hover {
+    color: #1d36c7;
   }
 `;
 
@@ -44,7 +50,7 @@ const Sidebar: FC = () => {
   return (
     <Block id="sidebar">
       <Link to="/main">Home</Link>
-      <a href="/group">Group</a>
+      <Link to="/group">Group</Link>
       <Link to="/schedule">Schedule</Link>
       <Link to="/mypage">Mypage</Link>
     </Block>

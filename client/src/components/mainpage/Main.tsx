@@ -3,9 +3,7 @@ import Favorite from "./Favorite";
 import GroupShortcut from "./GroupShortcut";
 import ScheduleShortcut from "./ScheduleShortcut";
 
-export const MainWrapper = styled.div`
-  padding: 1rem;
-`;
+export const MainWrapper = styled.div``;
 
 export default function Main() {
   return (

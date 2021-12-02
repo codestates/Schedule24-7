@@ -4,7 +4,6 @@ import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { MainLogo, MainWrapper } from "../style/theme";
 import Footer from "../components/Footer";
-import { LoginBox } from "../components/Login";
 
 export const SignUpItems = styled.div`
   margin: 0.3rem;
