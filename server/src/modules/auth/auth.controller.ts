@@ -15,6 +15,7 @@ import { AuthService } from "./auth.service";
 import { AuthCheckIdDto } from "./dto/auth-checkId.dto";
 import { AuthCheckPassDto } from "./dto/auth-checkPass.dto";
 import { AuthLoginDto } from "./dto/auth-login.dto";
+import { AuthSendEmailDto } from "./dto/auth-sendEmail.dto";
 
 @Controller("auth")
 export class AuthController {
@@ -57,9 +58,9 @@ export class AuthController {
     }
   }
 
-  @Post("/test")
-  async example() {
+  @Post("/mailCheck")
+  async sendEmailCheck(authSendEmailDto: AuthSendEmailDto) {
     console.log("h");
-    return await this.authService.example();
+    return await this.authService.sendEmailCheck(authSendEmailDto);
   }
 }

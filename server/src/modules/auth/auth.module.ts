@@ -24,12 +24,13 @@ import { HandlebarsAdapter } from "@nestjs-modules/mailer/dist/adapters/handleba
     MailerModule.forRootAsync({
       useFactory: () => ({
         transport: {
-          host: "email-smtp.ap-northeast-2.amazonaws.com",
+          service: "Google",
+          host: "smtp.gmail.com",
           port: 587,
-          secure: true,
+          secure: false,
           auth: {
-            user: "AKIAWWOKYD7J36464T4W",
-            pass: "BLvgm+QDx/qg53AlnvdglI24KffEAYtNyXwVh8ob3Ld1",
+            user: "team.schedule247@gmail.com",
+            pass: "teamDevup1123",
           },
         },
 
