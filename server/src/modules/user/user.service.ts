@@ -4,6 +4,7 @@ import {
   NotFoundException,
 } from "@nestjs/common";
 import * as bcrypt from "bcrypt";
+import { Schema as MongooseSchema } from "mongoose";
 
 import { UserRepository } from "src/repositories/user.repository";
 import { CreateUserDto } from "./dto/request/create-user.dto";
@@ -45,5 +46,13 @@ export class UserService {
 
   async remove(id: string) {
     return await this.userRepository.remove(id);
+  }
+
+  async addGroupIdFromGroup(id: string, group: any) {
+    const result: any = await this.userRepository.addGroupIdFromGroup(
+      id,
+      group,
+    );
+    return result;
   }
 }

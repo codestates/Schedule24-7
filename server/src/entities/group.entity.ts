@@ -21,7 +21,7 @@ export class Group extends Document {
 
   // 스케줄 연결
   @Prop({ type: [ScheduleSchema] })
-  groups: Schedule[];
+  schedules: Schedule[];
 }
 class Work {
   @Prop({ index: true })
