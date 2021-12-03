@@ -30,23 +30,23 @@ export class AuthController {
     }
   }
 
-  @Post("/checkpass")
-  async checkPass(
-    @Headers("Authorization") authorization: string,
-    @Body() authCheckPassDto: AuthCheckPassDto,
-    @Res() res: any,
-  ) {
-    try {
-      const tokenData: {} = this.authService.validateToken(authorization);
-      const passwordCheck: boolean = await this.authService.checkPass(
-        authCheckPassDto,
-        tokenData,
-      );
-      return res.status(200).send(passwordCheck);
-    } catch (err) {
-      throw new InternalServerErrorException(err);
-    }
-  }
+  // @Post("/checkpass")
+  // async checkPass(
+  //   @Headers("Authorization") authorization: string,
+  //   @Body() authCheckPassDto: AuthCheckPassDto,
+  //   @Res() res: any,
+  // ) {
+  //   try {
+  //     const tokenData: {} = this.authService.validateToken(authorization);
+  //     const passwordCheck: boolean = await this.authService.checkPass(
+  //       authCheckPassDto,
+  //       tokenData,
+  //     );
+  //     return res.status(200).send(passwordCheck);
+  //   } catch (err) {
+  //     throw new InternalServerErrorException(err);
+  //   }
+  // }
 
   @Post("/checkid")
   async checkId(@Body() authCheckIdDto: AuthCheckIdDto, @Res() res: any) {
@@ -58,9 +58,8 @@ export class AuthController {
     }
   }
 
-  @Post("/mailCheck")
-  async sendEmailCheck(authSendEmailDto: AuthSendEmailDto) {
-    console.log("h");
-    return await this.authService.sendEmailCheck(authSendEmailDto);
+  @Get("/email/:email")
+  async sendAuthMail(@Param("email") email: string) {
+    return await this.authService.sendAuthMail(email);
   }
 }

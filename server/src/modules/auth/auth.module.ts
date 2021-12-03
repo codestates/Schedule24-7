@@ -9,11 +9,16 @@ import { ConfigService } from "src/config/config.service";
 import { ConfigModule } from "src/config/config.module";
 import { MailerModule } from "@nestjs-modules/mailer";
 import { HandlebarsAdapter } from "@nestjs-modules/mailer/dist/adapters/handlebars.adapter";
+import { Auth, AuthSchema } from "src/entities/auth.entity";
+import { UserModule } from "../user/user.module";
 
 @Global()
 @Module({
   imports: [
-    MongooseModule.forFeature([{ name: User.name, schema: UserSchema }]),
+    MongooseModule.forFeature([
+      { name: User.name, schema: UserSchema },
+      { name: Auth.name, schema: AuthSchema },
+    ]),
     JwtModule.registerAsync({
       useFactory: async (configService: ConfigService) => ({
         secret: configService.getSecretConfig(),
@@ -21,19 +26,22 @@ import { HandlebarsAdapter } from "@nestjs-modules/mailer/dist/adapters/handleba
       inject: [ConfigService],
     }),
     ConfigModule,
+    UserModule,
     MailerModule.forRootAsync({
       useFactory: () => ({
         transport: {
           service: "Google",
-          host: "smtp.gmail.com",
+          host: process.env.EMAIL_HOST,
           port: 587,
           secure: false,
           auth: {
-            user: "team.schedule247@gmail.com",
-            pass: "teamDevup1123",
+            user: process.env.EMAIL_USER,
+            pass: process.env.EMAIL_PASSWORD,
           },
         },
-
+        defaults: {
+          from: `"Team DevUp" <${process.env.EMAIL_ADDRESS}>`,
+        },
         template: {
           dir: __dirname + "/templates",
           adapter: new HandlebarsAdapter(),

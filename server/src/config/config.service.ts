@@ -15,6 +15,19 @@ export class ConfigService {
     return this.envConfig[key];
   }
 
+  public getEmailAddressConfig(): string {
+    return this.get("EMAIL_ADDRESS");
+  }
+  public getEmailHostConfig(): string {
+    return this.get("EMAIL_HOST");
+  }
+  public getEmailUserConfig(): string {
+    return this.get("EMAIL_USER");
+  }
+  public getEmailPasswordConfig(): string {
+    return this.get("EMAIL_PASSWORD");
+  }
+
   public getSecretConfig() {
     return this.get("SECRET");
   }
