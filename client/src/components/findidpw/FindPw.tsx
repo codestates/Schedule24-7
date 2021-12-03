@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { NormalBox, NormalBtn } from "../../style/theme";
 
 export default function FindPw() {
   const [userInfo, setUserInfo] = useState<any>({
@@ -7,18 +7,13 @@ export default function FindPw() {
     username: "",
     passowrd: "",
   });
+  //유저정보상태관리
 
   const handleUserInfo =
     (key: string) => (e: React.ChangeEvent<HTMLInputElement>) => {
       setUserInfo({ ...userInfo, [key]: e.target.value });
     };
-
-  let navigate = useNavigate();
-
-  function comeBackHome() {
-    navigate("/");
-  }
-  //루트페이지로 이동시키는 함수
+  //유저정보저장함수
 
   const handleFindPw = (): void => {
     return;
@@ -27,23 +22,22 @@ export default function FindPw() {
 
   return (
     <>
-      <input
+      <NormalBox
         type="text"
         placeholder="아이디를 입력하세요"
         onChange={handleUserInfo("id")}
       />
-      <input
+      <NormalBox
         type="text"
         placeholder="이름을 입력하세요"
         onChange={handleUserInfo("username")}
       />
-      <input
+      <NormalBox
         type="email"
         placeholder="이메일을 입력하세요"
         onChange={handleUserInfo("password")}
       />
-      <button onClick={handleFindPw}>비밀번호 찾기</button>
-      <button onClick={comeBackHome}>홈으로</button>
+      <NormalBtn onClick={handleFindPw}>비밀번호 찾기</NormalBtn>
     </>
   );
 }
