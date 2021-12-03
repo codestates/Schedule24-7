@@ -26,30 +26,30 @@ export const ScheduleDummy = [
               },
             ],
           },
-          {
-            work: {
-              workId: 2,
-              workName: "E",
-            },
-            members: [
-              {
-                memberId: 1,
-                memberName: "김해커 이해커 박해커",
-              },
-            ],
-          },
-          {
-            work: {
-              workId: 3,
-              workName: "N",
-            },
-            members: [
-              {
-                memberId: 1,
-                memberName: "김자바 이자바 박자바",
-              },
-            ],
-          },
+          // {
+          //   work: {
+          //     workId: 2,
+          //     workName: "E",
+          //   },
+          //   members: [
+          //     {
+          //       memberId: 1,
+          //       memberName: "김해커 이해커 박해커",
+          //     },
+          //   ],
+          // },
+          // {
+          //   work: {
+          //     workId: 3,
+          //     workName: "N",
+          //   },
+          //   members: [
+          //     {
+          //       memberId: 1,
+          //       memberName: "김자바 이자바 박자바",
+          //     },
+          //   ],
+          // },
         ],
       },
       {
@@ -177,18 +177,18 @@ export const ScheduleDummy = [
               },
             ],
           },
-          {
-            work: {
-              workId: 3,
-              workName: "N",
-            },
-            members: [
-              {
-                memberId: 1,
-                memberName: "김자바 이자바 박자바",
-              },
-            ],
-          },
+          // {
+          //   work: {
+          //     workId: 3,
+          //     workName: "N",
+          //   },
+          //   members: [
+          //     {
+          //       memberId: 1,
+          //       memberName: "김자바 이자바 박자바",
+          //     },
+          //   ],
+          // },
         ],
       },
     ],
