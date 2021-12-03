@@ -20,6 +20,7 @@ import { AuthService } from "../auth/auth.service";
 import { Group } from "src/entities/group.entity";
 import { GetGroup } from "src/commons/decorator.dto";
 import { UserService } from "../user/user.service";
+import { AuthRepository } from "src/repositories/auth.repository";
 
 @Controller("group")
 export class GroupController {
@@ -27,6 +28,7 @@ export class GroupController {
     private readonly groupService: GroupService,
     private readonly authService: AuthService,
     private readonly userService: UserService,
+    private readonly authRepository: AuthRepository,
   ) {}
 
   @Post()
@@ -41,7 +43,7 @@ export class GroupController {
     // 유효한 토큰인가?
     if (!accessToken) throw new UnauthorizedException("Unauthorized");
     try {
-      const { _id }: any = await this.authService.checkToken(accessToken);
+      const { _id }: any = await this.authRepository.validateToken(accessToken);
       // 토큰의 오브젝트아이디정보가 제대로 들어있는가?
       if (!_id) throw new UnauthorizedException("Unauthorized");
       const createdGroup: any = await this.groupService.createGroup(group);

@@ -8,9 +8,6 @@ import { AuthRepository } from "../../repositories/auth.repository";
 import { JwtService } from "@nestjs/jwt";
 import { AuthLoginDto } from "./dto/auth-login.dto";
 import * as bcrypt from "bcrypt";
-import { AuthCheckPassDto } from "./dto/auth-checkPass.dto";
-import { AuthCheckIdDto } from "./dto/auth-checkId.dto";
-import { MailerService } from "@nestjs-modules/mailer";
 import { UserRepository } from "src/repositories/user.repository";
 import { AuthNumberDto } from "./dto/authNumber.dto";
 import { AuthCheckUserIdLossDto } from "./dto/auth-checkUserIdLoss.dto";
@@ -27,12 +24,14 @@ export class AuthService {
     const userInfo = await this.userRepository.getUserByUserId(
       authLoginDto.userId,
     );
+    console.log(userInfo);
     // 사용자 정보 확인하여 전달된 userId 검증
     if (!userInfo) {
       throw new UnauthorizedException("존재하지 않는 userId 입니다.");
     }
+    console.log(userInfo.password);
     // 패스워드 일치여부 확인
-    const passwordCheck = bcrypt.compare(
+    const passwordCheck = await bcrypt.compare(
       authLoginDto.password,
       userInfo.password,
     );
@@ -43,10 +42,10 @@ export class AuthService {
 
     const accessToken = this.authRepository.generateToken(userInfo);
 
-    return { accessToken };
+    return accessToken;
   }
 
-  async checkPass(authCheckPassDto: AuthCheckPassDto, authorization: string) {
+  async checkPass(password: string, authorization: string) {
     try {
       const tokenData: any = this.authRepository.validateToken(authorization);
       const userInfo = await this.authRepository.getUserByObjectId(
@@ -55,24 +54,19 @@ export class AuthService {
       if (!userInfo) {
         throw new UnauthorizedException("토큰 값이 유효하지 않습니다.");
       }
-      const passwordCheck = await bcrypt.compare(
-        authCheckPassDto.password,
-        userInfo.password,
-      );
+      const passwordCheck = await bcrypt.compare(password, userInfo.password);
       return passwordCheck;
     } catch (err) {
       throw new InternalServerErrorException(err);
     }
   }
-  async checkId(authCheckIdDto: AuthCheckIdDto) {
+  async checkId(userId: string) {
     try {
-      const userInfo = await this.authRepository.getUserByUserId(
-        authCheckIdDto.userId,
-      );
+      const userInfo = await this.authRepository.getUserByUserId(userId);
       if (!userInfo) {
-        return { message: `존재하지 않는 userId 입니다.` };
+        return false;
       } else {
-        return { message: `존재하는 userId 입니다.` };
+        return true;
       }
     } catch (err) {
       throw new InternalServerErrorException(err);
@@ -80,6 +74,11 @@ export class AuthService {
   }
 
   async sendAuthMail(email: string): Promise<any> {
+    const userInfo = await this.userRepository.getUserByEmail(email);
+    if (!!userInfo) {
+      throw new BadRequestException(`이미 존재하는 이메일 입니다`);
+    }
+
     const authNumber: number = this.authRepository.generateAuthNumber(
       1111,
       9999,
@@ -120,7 +119,7 @@ export class AuthService {
       throw new UnauthorizedException();
     }
 
-    if (userInfo.username !== authCheckUserIdLossDto.userName) {
+    if (userInfo.userName !== authCheckUserIdLossDto.userName) {
       throw new UnauthorizedException();
     }
 
@@ -147,14 +146,10 @@ export class AuthService {
       throw new UnauthorizedException();
     }
     const salt: string = await bcrypt.genSalt(10);
-    const temporaryPassword: string = await bcrypt.hash(
-      this.authRepository.generateTemporaryPassword(),
-      salt,
-    );
-    await this.userRepository.updateUserPassword(
-      authCheckPasswordLossDto.userId,
-      temporaryPassword,
-    );
+    const temporaryPassword: string =
+      this.authRepository.generateTemporaryPassword();
+    const hashedPassword: string = await bcrypt.hash(temporaryPassword, salt);
+    await this.userRepository.updateUserPassword(userInfo._id, hashedPassword);
 
     const result: boolean = await this.authRepository.sendPasswordMail(
       authCheckPasswordLossDto.email,
@@ -167,17 +162,5 @@ export class AuthService {
     } else {
       throw new InternalServerErrorException();
     }
-  }
-
-  //! 아래 삭제 예정 함수
-
-  validateToken(authorization: string) {
-    const accessToken: string = authorization.split(" ")[1];
-    const tokenData: {} = this.jwtService.verify(accessToken);
-    return tokenData;
-  }
-  checkToken(accessToken: string) {
-    const result = this.jwtService.decode(accessToken);
-    return result;
   }
 }
