@@ -21,7 +21,7 @@ const HeaderRight = styled.div`
 `;
 const HeaderCenter = styled.div``;
 const PageTitle = styled.div`
-  margin-left: 9.5rem;
+  margin-left: 7.5rem;
   color: #fff;
   font-size: 18px;
   font-weight: 400;
@@ -29,6 +29,11 @@ const PageTitle = styled.div`
   ${mediaQuery.mobile} {
     margin-left: 0;
   }
+`;
+
+const HeaderLogo = styled.img`
+  width: 10rem;
+  /* ${hideMobileCss(true)} */
 `;
 
 const PageName = styled.span`
@@ -94,8 +99,9 @@ const Header: FC<Props> = ({ title }) => {
   return (
     <Block>
       <HeaderLeft>
-        <PageName>Schedule24/7</PageName>
-        <LogoWrapper />
+        <HeaderLogo src="https://media.discordapp.net/attachments/907157959333785630/916227740267581440/S247_Logoheadertitle.png" />
+        {/* <PageName>Schedule24/7</PageName> */}
+        {/* <LogoWrapper /> */}
       </HeaderLeft>
       <HeaderCenter>
         {title === undefined ? null : <PageTitle>{title}</PageTitle>}

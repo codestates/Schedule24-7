@@ -10,18 +10,17 @@ axios.defaults.withCredentials = true;
 // { handleOnMyPage, userId }
 
 export const UserInfoSection = styled.section`
-  height: 80vh;
+  height: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  /* background-color: #0c0c0c; */
+  margin-top: 3rem;
 `;
 
 export const UserInfoDiv = styled.div`
   background-color: #f9f9f9;
   width: 450px;
-  min-height: 500px;
   padding: 2rem;
   display: flex;
   flex-direction: column;
