@@ -10,14 +10,15 @@ import * as bcrypt from "bcrypt";
 import { AuthCheckPassDto } from "./dto/auth-checkPass.dto";
 import { AuthCheckIdDto } from "./dto/auth-checkId.dto";
 import { MailerService } from "@nestjs-modules/mailer";
-import { threadId } from "worker_threads";
 import { AuthSendEmailDto } from "./dto/auth-sendEmail.dto";
+import { UserRepository } from "src/repositories/user.repository";
 @Injectable()
 export class AuthService {
   constructor(
     private readonly authRepository: AuthRepository,
-    private readonly jwtService: JwtService,
     private readonly mailerService: MailerService,
+    private readonly userRepository: UserRepository,
+    private readonly jwtService: JwtService,
   ) {}
 
   async login(authLoginDto: AuthLoginDto) {
@@ -38,12 +39,7 @@ export class AuthService {
       throw new UnauthorizedException("password가 일치하지 않습니다");
     }
 
-    // 토큰 발급을 위한 정보 구성
-    const payload: { [_id: string]: string } = { _id: userInfo._id.toString() };
-    // 토큰 생성
-    const accessToken: string = this.jwtService.sign(payload, {
-      expiresIn: "1d",
-    });
+    const accessToken = this.authRepository.generateToken(userInfo);
 
     return { accessToken };
   }
@@ -80,6 +76,25 @@ export class AuthService {
     }
   }
 
+  async sendAuthMail(email: string): Promise<any> {
+    const authNumber: number = this.authRepository.generateAuthNumber(
+      1111,
+      9999,
+    );
+    await this.authRepository.sendAuthMail(email, authNumber);
+    const data = await this.authRepository.createAuth(authNumber);
+    const _id: string = data._id.toString();
+
+    // 5분 뒤 인증정보 데이터베이스 삭제
+    setTimeout(
+      () => this.authRepository.deleteAuthByObjectId(_id),
+      1000 * 60 * 5,
+    );
+    return {
+      message: "email was sent",
+      _id,
+    };
+  }
   validateToken(authorization: string) {
     const accessToken: string = authorization.split(" ")[1];
     const tokenData: {} = this.jwtService.verify(accessToken);
@@ -88,23 +103,5 @@ export class AuthService {
   checkToken(accessToken: string) {
     const result = this.jwtService.decode(accessToken);
     return result;
-  }
-
-  sendEmailCheck(authSendEmailDto: AuthSendEmailDto) {
-    const number = this.authRepository.generateNumber(111111, 999999);
-
-    return this.mailerService
-      .sendMail({
-        to: authSendEmailDto.email,
-        from: "team.schedule247@gmail.com",
-        subject: "Testing",
-        html: `<p>아래 6자리 인증번호를 입력해주세요</br><b>${number}</b></p>`,
-      })
-      .then(() => {
-        return number;
-      })
-      .catch((err) => {
-        return err;
-      });
   }
 }

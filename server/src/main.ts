@@ -9,6 +9,7 @@ import { ConfigService } from "./config/config.service";
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
+  const config = new ConfigService();
   app.enableCors({
     origin: true,
     credentials: true,
@@ -32,7 +33,6 @@ async function bootstrap() {
   const document = SwaggerModule.createDocument(app, apiConfig);
   SwaggerModule.setup("api-doc", app, document);
 
-  const config = new ConfigService();
   await app.listen(await config.getPortConfig());
 }
 bootstrap();
