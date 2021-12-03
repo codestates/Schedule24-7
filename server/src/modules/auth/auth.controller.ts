@@ -39,6 +39,7 @@ export class AuthController {
 
   @Post("authnumber")
   async checkAuthId(@Body() authNumberDto: AuthNumberDto, @Res() res: any) {
+    console.log(authNumberDto);
     try {
       await this.authService.checkAuthId(authNumberDto);
       return res.status(200).send();
@@ -48,13 +49,10 @@ export class AuthController {
   }
 
   @Get("/userId/:userId")
-  async checkId(
-    @Param("userId") authCheckIdDto: AuthCheckIdDto,
-    @Res() res: any,
-  ) {
+  async checkId(@Param("userId") userId: string, @Res() res: any) {
     try {
-      const IdCheck = await this.authService.checkId(authCheckIdDto);
-      return res.status(200).send(IdCheck);
+      const IdCheck: boolean = await this.authService.checkId(userId);
+      return res.status(200).send({ result: IdCheck });
     } catch (err) {
       throw new InternalServerErrorException(err);
     }
@@ -63,27 +61,31 @@ export class AuthController {
   @Get("/password/:password")
   async checkPass(
     @Headers("Authorization") authorization: string,
-    @Param("password") authCheckPassDto: AuthCheckPassDto,
+    @Param("password") password: string,
     @Res() res: any,
   ) {
     try {
       const passwordCheck: boolean = await this.authService.checkPass(
-        authCheckPassDto,
+        password,
         authorization,
       );
-      return res.status(200).send(passwordCheck);
+      return res.status(200).send({ result: passwordCheck });
     } catch (err) {
       throw new InternalServerErrorException(err);
     }
   }
 
-  @Post("/loss/userId")
+  @Post("/loss/userid")
   checkUserIdLoss(
     @Body() authCheckUserIdLossDto: AuthCheckUserIdLossDto,
     @Res() res: any,
   ) {
-    this.authService.checkUserIdLoss(authCheckUserIdLossDto);
-    return res.status(200).send();
+    try {
+      this.authService.checkUserIdLoss(authCheckUserIdLossDto);
+      return res.status(200).send();
+    } catch (err) {
+      throw new InternalServerErrorException(err);
+    }
   }
 
   @Post("/loss/password")
@@ -91,7 +93,11 @@ export class AuthController {
     @Body() authCheckPasswordLossDto: AuthCheckPasswordLossDto,
     @Res() res: any,
   ) {
-    this.authService.checkPasswordIdLoss(authCheckPasswordLossDto);
-    return res.status(200).send();
+    try {
+      this.authService.checkPasswordIdLoss(authCheckPasswordLossDto);
+      return res.status(200).send();
+    } catch (err) {
+      throw new InternalServerErrorException(err);
+    }
   }
 }

@@ -15,9 +15,9 @@ export class UserRepository {
   async createUser(createUserDto: CreateUserDto): Promise<User> {
     const { email, userId, password, userName } = createUserDto;
     // 동일한 이메일이 있는지 확인
-    const isEmail: boolean = await this.getUserByEmail(email);
+    const userInfo = await this.getUserByEmail(email);
     // 동일한 정보가 없는 경우 정보 등록
-    if (!isEmail) {
+    if (userInfo.email !== createUserDto.email) {
       const newUser: any = new this.userModel({
         userId,
         email,
@@ -30,18 +30,16 @@ export class UserRepository {
     }
   }
   // 동일한 유저 아이디 체크
-  async getUserByUserId(userId: string): Promise<boolean> {
-    const user: any = await this.userModel.find({ userId });
-    if (user) throw new ConflictException("Conflict");
-    return false;
+  async getUserByUserId(userId: string): Promise<User> {
+    const user: any = await this.userModel.findOne({ userId });
+    return user;
   }
 
   // 동일한 이메일 체크
-  async getUserByEmail(email: string): Promise<boolean> {
-    const user: any = await this.userModel.find({ email }).exec();
-    if (user) throw new ConflictException("Conflict");
+  async getUserByEmail(email: string): Promise<User> {
+    const user: any = await this.userModel.findOne({ email }).exec();
 
-    return false;
+    return user;
   }
   // 유저 데이터 조회(패스워드 제외한)
   async getUserDataById(id: string): Promise<object> {

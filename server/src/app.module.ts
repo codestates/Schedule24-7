@@ -1,6 +1,7 @@
 import { MailerModule } from "@nestjs-modules/mailer";
 import { Module } from "@nestjs/common";
 import { APP_INTERCEPTOR } from "@nestjs/core";
+import { JwtModule } from "@nestjs/jwt";
 import { MongooseModule } from "@nestjs/mongoose";
 import { MorganInterceptor, MorganModule } from "nest-morgan";
 import { AppController } from "./app.controller";
