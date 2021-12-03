@@ -7,11 +7,9 @@ import {
   Patch,
   Delete,
   Res,
-  Param,
   HttpStatus,
   BadRequestException,
   InternalServerErrorException,
-  UnauthorizedException,
   UseFilters,
 } from "@nestjs/common";
 import {
@@ -44,8 +42,6 @@ import {
 import { GetUserInfoResDto } from "./dto/response/select-user.dto";
 import { UpdateUserResDto } from "./dto/response/update-user.dto";
 import { HttpExceptionFilter } from "src/commons/http-exception.filter";
-import { FindUserIdDto } from "./dto/request/find-userId.dto";
-import { FindPasswordDto } from "./dto/request/find-password.dto";
 
 @UseFilters(HttpExceptionFilter)
 @Controller("users")
@@ -122,35 +118,8 @@ export class UserController {
   ) {
     const session = await this.mongoConnection.startSession();
     session.startTransaction();
-    const accessToken: string = authorization.split(" ")[1];
-    if (!accessToken) throw new BadRequestException("Bad Request");
     try {
-      const { _id }: any = await this.authService.checkToken(accessToken);
-      if (!_id) throw new UnauthorizedException("Unauthorized");
-      const user: any = await this.userService.getUserInfoAll(_id);
-      await session.commitTransaction();
-      return res.status(HttpStatus.OK).send(user);
-    } catch {
-      await session.abortTransaction();
-      throw new InternalServerErrorException("Internal Server Error");
-    } finally {
-      session.endSession();
-    }
-  }
-
-  @Get("/info")
-  async getUserInfo(
-    @Headers("Authorization") authorization: string,
-    @Res() res: any,
-  ) {
-    const session = await this.mongoConnection.startSession();
-    session.startTransaction();
-    const accessToken: string = authorization.split(" ")[1];
-    if (!accessToken) throw new BadRequestException("Bad Request");
-    try {
-      const { _id }: any = await this.authService.checkToken(accessToken);
-      if (!_id) throw new UnauthorizedException("Unauthorized");
-      const user: any = await this.userService.getUserInfo(_id);
+      const user: any = await this.userService.getUserInfoAll(authorization);
       await session.commitTransaction();
       return res.status(HttpStatus.OK).send(user);
     } catch {
@@ -180,14 +149,9 @@ export class UserController {
     const session = await this.mongoConnection.startSession();
     session.startTransaction();
 
-    const accessToken: string = authorization.split(" ")[1];
-    if (!accessToken) throw new BadRequestException("Bad Request");
     try {
-      const { _id }: any = await this.authService.checkToken(accessToken);
-      if (!_id) throw new UnauthorizedException("Unauthorized");
-
       const user: any = await this.userService.updatePassword(
-        _id,
+        authorization,
         new_password,
       );
       if (user) {
@@ -216,12 +180,8 @@ export class UserController {
     const session = await this.mongoConnection.startSession();
     session.startTransaction();
 
-    const accessToken: string = authorization.split(" ")[1];
-    if (!accessToken) throw new BadRequestException("Bad Request");
     try {
-      const { _id }: any = await this.authService.checkToken(accessToken);
-      if (!_id) throw new UnauthorizedException("Unauthorized");
-      await this.userService.remove(_id);
+      await this.userService.remove(authorization);
       await session.commitTransaction();
       return res
         .status(HttpStatus.OK)
@@ -232,84 +192,5 @@ export class UserController {
     } finally {
       session.endSession();
     }
-  }
-
-  // 동일한 유저아이디 체크
-  @Get("checkUserId/:userId")
-  async checkUserId(@Param("userId") userId: string, @Res() res: any) {
-    try {
-      console.log(userId);
-      // 요청 정보가 제대로 왔는지
-      if (!userId) throw new BadRequestException("bad request");
-      const result: any = await this.userService.checkUserId(userId);
-      // 동일한 아이디가 없을시
-      if (!result)
-        return res
-          .status(HttpStatus.OK)
-          .send({ result, message: "가입 가능한 아이디입니다." });
-      // 동일한 아이디가 있을시
-      else
-        return res
-          .status(HttpStatus.CONFLICT)
-          .send({ result, message: "돌일한 아이디가 있습니다." });
-    } catch (err) {
-      throw new InternalServerErrorException(err);
-    }
-  }
-
-  // 비밀번호 일치
-  @Get("checkPassword/:password")
-  async checkPassword(
-    @Headers("Authorization") authorization: string,
-    @Param("password") password: string,
-    @Res() res: any,
-  ) {
-    const accessToken: string = authorization.split(" ")[1];
-    if (!accessToken || !password) throw new BadRequestException("Bad Request");
-    try {
-      const { _id }: any = await this.authService.checkToken(accessToken);
-      const result: boolean = await this.userService.checkPassword(
-        _id,
-        password,
-      );
-      if (result)
-        res
-          .status(HttpStatus.OK)
-          .send({ result, message: "동일한 비밀번호입니다." });
-      else
-        res
-          .status(HttpStatus.OK)
-          .send({ result, message: "동일한 비밀번호가 아닙니다." });
-    } catch (err) {
-      throw new InternalServerErrorException("Internal server error");
-    }
-  }
-
-  // 유저아이디 찾기
-  @Post("findId")
-  async findId(
-    @Headers("Authorization") authorization: string,
-    @Body() findUserIdDto: FindUserIdDto,
-    @Res() res: any,
-  ) {
-    const accessToken: string = authorization.split(" ")[1];
-    if (!accessToken || !findUserIdDto)
-      throw new BadRequestException("Bad Request");
-    const { _id }: any = await this.authService.checkToken(accessToken);
-    try {
-      const userId: string = await this.userService.findId(_id, findUserIdDto);
-      return res.status(HttpStatus.OK).send(userId);
-    } catch (err) {
-      throw new InternalServerErrorException(err);
-    }
-  }
-  // 유저 비밀번호 찾기
-  @Post("findPassword")
-  async findPassword(
-    @Headers("Authorization") authorization: string,
-    @Body() findPasswordDto: FindPasswordDto,
-    @Res() res: any,
-  ) {
-    return res.status(HttpStatus.OK).send();
   }
 }
