@@ -6,6 +6,13 @@ import ScheduleItem from "./ScheduleItem";
 import TableHeader from "./TableHeader";
 import moment from "moment";
 
+export const ViewScheduleWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  /* align-items: center; */
+  justify-content: center;
+`;
+
 export const TableTopWrapper = styled.div`
   display: flex;
   align-items: center;
@@ -18,20 +25,33 @@ export const DateWrapper = styled.div`
   justify-content: center;
 `;
 
+export const SelectBox = styled.select`
+  border-radius: 0.4rem;
+  width: 135px;
+  height: 30px;
+  color: #3b3b3b;
+  border: 0.1px solid #858585;
+  cursor: grab;
+`;
+
+export const YearMonth = styled.span`
+  font-size: 20px;
+  font-weight: bold;
+  margin: 5px;
+`;
+
 export const ScheduleTable = styled.div`
   display: grid;
-  height: 60vh;
+  height: 65vh;
   justify-content: center;
   margin: 1.5rem;
   grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
   grid-template-rows: 0.2fr 1fr 1fr 1fr 1fr 1fr;
-  /* grid-template-columns: repeat(7, minmax(auto, auto)); */
-  /* grid-template-rows: repeat(6, minmax(1rem, auto)); */
 `;
 
 export default function ViewSchedule() {
   const [currentDate, setCurrentDate] = useState(() =>
-    moment().format("YYYY-MM-DD")
+    moment().format("YYYY-MM-01")
   );
   const [currentData, setCurrentData] = useState<any[] | undefined>(undefined);
 
@@ -49,10 +69,10 @@ export default function ViewSchedule() {
   };
 
   return (
-    <div>
+    <ViewScheduleWrapper>
       <TableTopWrapper>
-        <select onChange={handleCurrentDate}>
-          <option value={moment().format("YYYY-MM-DD")}>
+        <SelectBox onChange={handleCurrentDate}>
+          <option value={moment().format("YYYY-MM-01")}>
             날짜를 선택하세요
           </option>
           {ScheduleDummy.map((el, idx) => {
@@ -62,10 +82,10 @@ export default function ViewSchedule() {
               </option>
             );
           })}
-        </select>
+        </SelectBox>
         <DateWrapper>
-          <span>{currentDate.split("-")[0]}년</span>
-          <span>{currentDate.split("-")[1]}월</span>
+          <YearMonth>{currentDate.split("-")[0]}년</YearMonth>
+          <YearMonth>{currentDate.split("-")[1]}월</YearMonth>
         </DateWrapper>
       </TableTopWrapper>
       <ScheduleTable>
@@ -76,20 +96,6 @@ export default function ViewSchedule() {
           return <ScheduleItem key={idx} DayNum={el} NewDummy={currentData} />;
         })}
       </ScheduleTable>
-    </div>
+    </ViewScheduleWrapper>
   );
-}
-
-{
-  /* <ScheduleTable>
-{dayArr.map((el, idx) => {
-  return <TableHeader key={idx} DayHeader={el} />;
-})}
-{numArr.map((el, idx) => {
-  return <ScheduleItem key={idx} DayNum={el} />;
-})}
-{ScheduleDummy[0].contents.map((el, idx) => {
-  return <ScheduleItem key={idx} Schedule={el} />;
-})}
-</ScheduleTable> */
 }

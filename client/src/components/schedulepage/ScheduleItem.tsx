@@ -1,27 +1,67 @@
 import styled from "styled-components";
 
 export const Box = styled.div`
-  display: flex;
-  flex-direction: column;
   min-width: 5rem;
-  /* height: 9rem; */
-  /* box-shadow: 0.1rem 0.1rem 0.1rem gray; */
-  /* border-radius: 0.5rem; */
-  background-color: white;
-  border: 1px solid black;
+  background-color: #ffffff;
+  border-radius: 0.5rem;
+  box-shadow: 0.05rem 0.05rem 0.1rem rgba(0, 0, 0, 0.25);
+  border: 0.01rem solid rgba(0, 0, 0, 0.15);
+  margin: 0.1rem;
+  align-items: center;
+  justify-content: center;
 `;
 
 export const Worksdiv = styled.div`
   display: flex;
   flex-direction: column;
-  height: 100%;
+  height: 77px;
   align-items: center;
   justify-content: center;
+  margin-bottom: 0.1rem;
 `;
 
-// interface Iprops {
-//   Schedule: object;
-// }
+export const Day = styled.span`
+  font-size: 14px;
+  font-weight: bold;
+  color: #444444;
+  margin-left: 0.3rem;
+`;
+
+export const WorkWrapper = styled.div`
+  display: flex;
+  margin: 0.1rem;
+  justify-content: center;
+  align-items: center;
+`;
+
+export const Work = styled.div`
+  color: #444444;
+  width: 1rem;
+  font-size: 15px;
+  margin-right: 0.1rem;
+  margin-left: 0.1rem;
+`;
+
+export const Worker = styled.div`
+  display: flex;
+  border-radius: 1rem;
+  max-width: 10rem;
+  color: #ffffff;
+  justify-content: center;
+  align-items: center;
+  padding: 0.2rem 0.5rem;
+  font-size: 13px;
+
+  &.a {
+    background-color: #fdb137;
+  }
+  &.b {
+    background-color: #f36648;
+  }
+  &.c {
+    background-color: #4152a4;
+  }
+`;
 
 export default function ScheduleItem({ DayNum, NewDummy }: any) {
   // console.log(NewDummy[0]);
@@ -36,22 +76,22 @@ export default function ScheduleItem({ DayNum, NewDummy }: any) {
 
   return (
     <Box>
-      <div>{DayNum.split("-")[2]}</div>
+      <Day>{DayNum.split("-")[2]}</Day>
       {viewData !== undefined ? (
         viewData.length !== 0 ? (
           <Worksdiv>
-            <div>
-              <span>{viewData[0].team[0].work.workName}</span>
-              <span>{viewData[0].team[0].members[0].memberName}</span>
-            </div>
-            <div>
-              <span>{viewData[0].team[1].work.workName}</span>
-              <span>{viewData[0].team[1].members[0].memberName}</span>
-            </div>
-            <div>
-              <span>{viewData[0].team[2].work.workName}</span>
-              <span>{viewData[0].team[2].members[0].memberName}</span>
-            </div>
+            {viewData[0].team.map((el: any, idx: number) => {
+              let classes: string[] = ["a", "b", "c"];
+              let className = classes[idx];
+              return (
+                <WorkWrapper key={idx}>
+                  <Work>{el.work.workName}</Work>
+                  <Worker className={className}>
+                    {el.members[0].memberName}
+                  </Worker>
+                </WorkWrapper>
+              );
+            })}
           </Worksdiv>
         ) : (
           ""
@@ -62,25 +102,3 @@ export default function ScheduleItem({ DayNum, NewDummy }: any) {
     </Box>
   );
 }
-
-// export default function ScheduleItem({ Schedule }: any) {
-//   return (
-//     <Box>
-//       <div>{Schedule.contentId}</div>
-//       <Worksdiv>
-//         <div>
-//           <span>{Schedule.team[0].work.workName}</span>
-//           <span>{Schedule.team[0].members[0].memberName}</span>
-//         </div>
-//         <div>
-//           <span>{Schedule.team[1].work.workName}</span>
-//           <span>{Schedule.team[1].members[0].memberName}</span>
-//         </div>
-//         <div>
-//           <span>{Schedule.team[2].work.workName}</span>
-//           <span>{Schedule.team[2].members[0].memberName}</span>
-//         </div>
-//       </Worksdiv>
-//     </Box>
-//   );
-// }
