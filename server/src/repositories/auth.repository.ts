@@ -8,14 +8,11 @@ import {
 import { JwtService } from "@nestjs/jwt";
 
 import { InjectModel } from "@nestjs/mongoose";
-import { template } from "handlebars";
-import { number } from "joi";
 import { Model } from "mongoose";
+import { nanoid } from "nanoid";
 import { ConfigService } from "src/config/config.service";
 import { Auth } from "src/entities/auth.entity";
 import { User } from "src/entities/user.entity";
-import { AuthLoginDto } from "src/modules/auth/dto/auth-login.dto";
-import { AuthSendEmailDto } from "src/modules/auth/dto/auth-sendEmail.dto";
 
 export class AuthRepository {
   constructor(
@@ -96,11 +93,55 @@ export class AuthRepository {
 
   // * ObjectId로 auth 컬렉션 데이터 조회
   async getAuthByObjectId(_id: string) {
-    return await this.authModel.findOne({ _id });
+    try {
+      return await this.authModel.findOne({ _id });
+    } catch (err) {
+      throw new InternalServerErrorException(err);
+    }
   }
 
   // * ObjectId로 auth 컬렉션 데이터 삭제
   async deleteAuthByObjectId(_id: string) {
     return await this.authModel.findByIdAndDelete(_id);
+  }
+
+  // * ID 메일 발송 함수
+  sendIdMail(email: string, userId: string, userName: string) {
+    return this.mailerService
+      .sendMail({
+        to: email,
+        subject: "Testing",
+        html: `<p>${userName}님의 아이디는 다음과 같습니다.</p>
+        <h1>${userId}</h1>`,
+      })
+      .then(() => {
+        return true;
+      })
+      .catch((err) => {
+        throw new InternalServerErrorException(err);
+      });
+  }
+  // * 임시 비밀번호 메일 발송 함수
+  async sendPasswordMail(
+    email: string,
+    userId: string,
+    temporaryPassword: string,
+  ) {
+    try {
+      await this.mailerService.sendMail({
+        to: email,
+        subject: "Testing",
+        html: `<p>${userId}님의 임시비밀번호는 다음과 같습니다.</p>
+        <h1>${temporaryPassword}</h1>`,
+      });
+      return true;
+    } catch (err) {
+      throw new InternalServerErrorException(err);
+    }
+  }
+
+  // * 임시 비밀번호 생성 함수
+  generateTemporaryPassword(): string {
+    return nanoid(10);
   }
 }

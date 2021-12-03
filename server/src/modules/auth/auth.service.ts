@@ -1,4 +1,5 @@
 import {
+  BadRequestException,
   Injectable,
   InternalServerErrorException,
   UnauthorizedException,
@@ -10,19 +11,20 @@ import * as bcrypt from "bcrypt";
 import { AuthCheckPassDto } from "./dto/auth-checkPass.dto";
 import { AuthCheckIdDto } from "./dto/auth-checkId.dto";
 import { MailerService } from "@nestjs-modules/mailer";
-import { AuthSendEmailDto } from "./dto/auth-sendEmail.dto";
 import { UserRepository } from "src/repositories/user.repository";
+import { AuthNumberDto } from "./dto/authNumber.dto";
+import { AuthCheckUserIdLossDto } from "./dto/auth-checkUserIdLoss.dto";
+import { AuthCheckPasswordLossDto } from "./dto/auth-checkPasswordLoss.dto";
 @Injectable()
 export class AuthService {
   constructor(
     private readonly authRepository: AuthRepository,
-    private readonly mailerService: MailerService,
     private readonly userRepository: UserRepository,
     private readonly jwtService: JwtService,
   ) {}
 
   async login(authLoginDto: AuthLoginDto) {
-    const userInfo = await this.authRepository.getUserByUserId(
+    const userInfo = await this.userRepository.getUserByUserId(
       authLoginDto.userId,
     );
     // 사용자 정보 확인하여 전달된 userId 검증
@@ -44,8 +46,9 @@ export class AuthService {
     return { accessToken };
   }
 
-  async checkPass(authCheckPassDto: AuthCheckPassDto, tokenData: any) {
+  async checkPass(authCheckPassDto: AuthCheckPassDto, authorization: string) {
     try {
+      const tokenData: any = this.authRepository.validateToken(authorization);
       const userInfo = await this.authRepository.getUserByObjectId(
         tokenData._id,
       );
@@ -95,6 +98,79 @@ export class AuthService {
       _id,
     };
   }
+
+  async checkAuthId(authNumberDto: AuthNumberDto) {
+    const auth = await this.authRepository.getAuthByObjectId(authNumberDto._id);
+    if (!auth) {
+      throw new UnauthorizedException();
+    }
+
+    if (auth.authNumber !== authNumberDto.authNumber) {
+      throw new BadRequestException();
+    }
+    await this.authRepository.deleteAuthByObjectId(authNumberDto._id);
+    return;
+  }
+
+  async checkUserIdLoss(authCheckUserIdLossDto: AuthCheckUserIdLossDto) {
+    const userInfo = await this.userRepository.getUserByEmail(
+      authCheckUserIdLossDto.email,
+    );
+    if (!userInfo) {
+      throw new UnauthorizedException();
+    }
+
+    if (userInfo.username !== authCheckUserIdLossDto.userName) {
+      throw new UnauthorizedException();
+    }
+
+    return await this.authRepository.sendIdMail(
+      authCheckUserIdLossDto.email,
+      userInfo.userId,
+      authCheckUserIdLossDto.userName,
+    );
+  }
+
+  async checkPasswordIdLoss(
+    authCheckPasswordLossDto: AuthCheckPasswordLossDto,
+  ) {
+    const userInfo = await this.userRepository.getUserByUserId(
+      authCheckPasswordLossDto.userId,
+    );
+    if (!userInfo) {
+      throw new UnauthorizedException();
+    }
+    if (
+      authCheckPasswordLossDto.userName !== userInfo.userName ||
+      authCheckPasswordLossDto.email !== userInfo.email
+    ) {
+      throw new UnauthorizedException();
+    }
+    const salt: string = await bcrypt.genSalt(10);
+    const temporaryPassword: string = await bcrypt.hash(
+      this.authRepository.generateTemporaryPassword(),
+      salt,
+    );
+    await this.userRepository.updateUserPassword(
+      authCheckPasswordLossDto.userId,
+      temporaryPassword,
+    );
+
+    const result: boolean = await this.authRepository.sendPasswordMail(
+      authCheckPasswordLossDto.email,
+      authCheckPasswordLossDto.userId,
+      temporaryPassword,
+    );
+
+    if (result) {
+      return;
+    } else {
+      throw new InternalServerErrorException();
+    }
+  }
+
+  //! 아래 삭제 예정 함수
+
   validateToken(authorization: string) {
     const accessToken: string = authorization.split(" ")[1];
     const tokenData: {} = this.jwtService.verify(accessToken);
