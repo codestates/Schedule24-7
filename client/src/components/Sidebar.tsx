@@ -42,7 +42,8 @@ const Block = styled.nav`
     margin-bottom: 1rem;
   }
   > a:hover {
-    color: #1d36c7;
+    color: #2f5fd7;
+    font-weight: bold;
   }
 `;
 
