@@ -43,7 +43,6 @@ import { GetUserInfoResDto } from "./dto/response/select-user.dto";
 import { UpdateUserResDto } from "./dto/response/update-user.dto";
 import { HttpExceptionFilter } from "src/commons/http-exception.filter";
 
-@UseFilters(HttpExceptionFilter)
 @Controller("users")
 @ApiTags("User API")
 export class UserController {
@@ -51,7 +50,6 @@ export class UserController {
     @InjectConnection()
     private readonly mongoConnection: Connection,
     private readonly userService: UserService,
-    private readonly authService: AuthService,
   ) {}
 
   @Post()
@@ -76,7 +74,7 @@ export class UserController {
       return res.status(HttpStatus.CREATED).send(newUser);
     } catch (err) {
       await session.abortTransaction(); // 이상 발생시 커밋 취소
-      throw new BadRequestException(err);
+      throw new InternalServerErrorException("Internal server Error");
     } finally {
       session.endSession(); // 세션 연결 종료
     }
@@ -116,18 +114,8 @@ export class UserController {
     @Headers("Authorization") authorization: string,
     @Res() res: any,
   ) {
-    const session = await this.mongoConnection.startSession();
-    session.startTransaction();
-    try {
-      const user: any = await this.userService.getUserInfoAll(authorization);
-      await session.commitTransaction();
-      return res.status(HttpStatus.OK).send(user);
-    } catch {
-      await session.abortTransaction();
-      throw new InternalServerErrorException("Internal Server Error");
-    } finally {
-      session.endSession();
-    }
+    const user: any = await this.userService.getUserInfoAll(authorization);
+    return res.status(HttpStatus.OK).send(user);
   }
 
   @Patch()

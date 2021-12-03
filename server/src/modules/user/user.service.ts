@@ -11,7 +11,6 @@ export class UserService {
   constructor(
     private readonly userRepository: UserRepository,
     private readonly authRepository: AuthRepository,
-    private readonly authService: AuthService,
   ) {}
 
   // 회원가입
@@ -29,7 +28,7 @@ export class UserService {
   async getUserInfoAll(auth: string) {
     const data: any = await this.authRepository.validateToken(auth);
     const { _id } = data;
-    if (_id) throw new UnauthorizedException("Unauthorized");
+    if (!_id) throw new UnauthorizedException("Unauthorized");
     return await this.userRepository.getUserDataById(_id);
   }
 
@@ -37,12 +36,13 @@ export class UserService {
   async updatePassword(auth: string, new_password: string) {
     const data: any = await this.authRepository.validateToken(auth);
     const { _id } = data;
-    if (_id) throw new UnauthorizedException("Unauthorized");
+    if (!_id) throw new UnauthorizedException("Unauthorized");
     // encode password
     const salt: string = await bcrypt.genSalt(10);
     const password: string = await bcrypt.hash(new_password, salt);
     return this.userRepository.updateUserPassword(_id, password);
   }
+
   // 회원탈퇴
   async remove(auth: string) {
     const data: any = await this.authRepository.validateToken(auth);
