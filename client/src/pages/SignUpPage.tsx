@@ -6,11 +6,29 @@ import { MainLogo, MainWrapper } from "../style/theme";
 import Footer from "../components/Footer";
 
 export const SignUpItems = styled.div`
-  margin: 0.3rem;
+  margin: 0.8rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 `;
 
 export const SignUpBox = styled.input`
+  width: 300px;
+  height: 40px;
+  padding-left: 10px;
   /* border-radius: 0.3rem; */
+  border: 1px solid #a5a5a5;
+  box-shadow: 0.05rem 0.05rem 0.05rem #6969692d;
+  margin-bottom: 0.25rem;
+`;
+
+export const SignUpText = styled.div`
+  font-weight: bold;
+
+  &.sub {
+    font-size: 12px;
+    font-weight: 340;
+  }
 `;
 
 export const BtnWrapper = styled.div`
@@ -19,6 +37,23 @@ export const BtnWrapper = styled.div`
   justify-content: center;
   align-items: center;
   margin: 0.3rem;
+`;
+
+export const SignUpBtn = styled.button`
+  width: 313px;
+  height: 35px;
+  color: white;
+  box-shadow: 0.05rem 0.05rem 0.05rem #696969;
+  border: 0px solid #a5a5a5;
+  cursor: pointer;
+  margin-bottom: 1rem;
+
+  &.a {
+    background-color: #5c5c5c;
+  }
+  &.b {
+    background-color: #7c7c7c;
+  }
 `;
 
 export const SignUpWrapper = styled.div`
@@ -149,60 +184,62 @@ function SignUpPage() {
           onClick={comeBackHome}
           src="https://media.discordapp.net/attachments/907157959333785630/914705380070785064/s725_logopng.png"
         />
-        <div id="signup-title">Schedule24/7 회원가입</div>
+        {/* <div id="signup-title">Schedule24/7 회원가입</div> */}
         <form onSubmit={(e) => e.preventDefault()}>
           <SignUpItems>
+            <SignUpText>아이디</SignUpText>
             <SignUpBox
               type="text"
-              placeholder="아이디"
+              // placeholder="아이디"
               onChange={handleSignUpValue("email")}
             ></SignUpBox>
             {renderIdCheckMessage()}
           </SignUpItems>
           <SignUpItems>
+            <SignUpText>이름</SignUpText>
             <SignUpBox
               type="text"
-              placeholder="이름"
+              // placeholder="이름"
               onChange={handleSignUpValue("email")}
             ></SignUpBox>
           </SignUpItems>
           <SignUpItems>
-            <input
-              className="signup-box"
+            <SignUpText>비밀번호</SignUpText>
+            <SignUpText className="sub">
+              * 8자 이상, 영어, 숫자, 특수문자를 포함한 비밀번호
+            </SignUpText>
+            <SignUpBox
               type="password"
-              placeholder="8자 이상, 영어, 숫자, 특수문자를 포함한 비밀번호"
+              // placeholder="8자 이상, 영어, 숫자, 특수문자를 포함한 비밀번호"
               onChange={handleSignUpValue("password")}
-            ></input>
+            ></SignUpBox>
           </SignUpItems>
           <SignUpItems>
-            <input
-              className="signup-box"
+            <SignUpText>비밀번호확인</SignUpText>
+            <SignUpBox
               type="password"
-              placeholder="비밀번호 확인"
+              // placeholder="비밀번호 확인"
               onChange={handleSignUpValue("passwordCheck")}
-            ></input>
+            ></SignUpBox>
             {renderFeedbackMessage()}
             {renderValidationCheckMessage()}
           </SignUpItems>
           <SignUpItems>
-            <input
-              className="signup-box"
+            <SignUpText>이메일</SignUpText>
+            <SignUpBox
               type="email"
-              placeholder="email"
+              // placeholder="email"
               onChange={handleSignUpValue("email")}
-            ></input>
+            ></SignUpBox>
           </SignUpItems>
-          <BtnWrapper>
-            <button onClick={handleEmailAuth}>이메일인증</button>
-          </BtnWrapper>
-          <BtnWrapper>
-            <button className="signup-btn" onClick={handleSignUp}>
+          <SignUpItems>
+            <SignUpBtn className="b" onClick={handleEmailAuth}>
+              이메일인증
+            </SignUpBtn>
+            <SignUpBtn className="a" onClick={handleSignUp}>
               회원가입
-            </button>
-            <button className="signup-btn" onClick={comeBackHome}>
-              홈으로
-            </button>
-          </BtnWrapper>
+            </SignUpBtn>
+          </SignUpItems>
         </form>
       </SignUpWrapper>
       <Footer />
@@ -211,3 +248,7 @@ function SignUpPage() {
 }
 
 export default SignUpPage;
+
+// <SignUpBtn className="b" onClick={comeBackHome}>
+//   홈으로
+// </SignUpBtn>

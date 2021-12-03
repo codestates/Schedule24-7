@@ -1,18 +1,70 @@
 import { useState } from "react";
 import axios from "axios";
 import EditUser from "./EditUser";
-import { MainLogo, MainWrapper } from "../../style/theme";
+import { NormalBox, NormalBtn, MainLogo } from "../../style/theme";
 import { useNavigate } from "react-router";
-import { BtnWrapper } from "../../pages/SignUpPage";
 import styled from "styled-components";
 
 axios.defaults.withCredentials = true;
 
 // { handleOnMyPage, userId }
 
+export const UserInfoSection = styled.section`
+  height: 80vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  /* background-color: #0c0c0c; */
+`;
+
+export const UserInfoDiv = styled.div`
+  background-color: #f9f9f9;
+  width: 450px;
+  min-height: 500px;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border-radius: 0.5rem;
+  border: 1px solid #cacacac0;
+  box-shadow: 1px 1px 1px #cacaca57;
+`;
+
+export const UserInfoWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  /* background-color: #f9f9f9; */
+`;
+
+export const UserInfoItems = styled.div`
+  display: flex;
+  flex-direction: column;
+  margin-top: 0.5rem;
+`;
+
+export const InfoHeader = styled.div`
+  font-weight: bold;
+  &.sub {
+    font-size: 12px;
+    font-weight: 340;
+  }
+`;
+
 export const InfoBox = styled.div`
-  border: 1px solid black;
-  margin: 0.3rem;
+  width: 300px;
+  height: 30px;
+  padding-top: 15px;
+  padding-left: 10px;
+  /* border-radius: 0.3rem; */
+  border: 1px solid #a5a5a5;
+  box-shadow: 0.05rem 0.05rem 0.05rem #6969692d;
+  margin-bottom: 0.4rem;
+  align-items: center;
+  background-color: white;
 `;
 
 function UserInfo() {
@@ -87,49 +139,54 @@ function UserInfo() {
   //비밀번호 변경 요청하는 함수
 
   return (
-    <MainWrapper>
-      <MainLogo
-        onClick={comeBackHome}
-        src="https://media.discordapp.net/attachments/907157959333785630/914705380070785064/s725_logopng.png"
-      />
-      <div>Schedule 24/7 회원정보</div>
-      <form onSubmit={(e) => e.preventDefault()}>
-        <InfoBox>userId</InfoBox>
-        <InfoBox>유저이름</InfoBox>
-        <div>
-          <input
-            type="email"
-            placeholder="email"
-            onChange={handlePassword("password")}
-          ></input>
-        </div>
-        <div>
-          <input
-            type="password"
-            placeholder="현재 password"
-            onChange={handlePassword("password")}
-          ></input>
-        </div>
-        <BtnWrapper>
-          <button onClick={checkPassword}>계정확인</button>
-          {/* <button
-          onClick={() => handleOnMyPage(false)}
-          >
-            뒤로
-          </button> */}
-        </BtnWrapper>
-      </form>
-      {errorCheck ? (
-        <EditUser
-        //   errorMessageCheck={errorMessageCheck}
-        //   handlePassword={handlePassword}
-        //   handleChangePassowrd={handleChangePassowrd}
+    <UserInfoSection>
+      <UserInfoDiv>
+        <MainLogo
+          onClick={comeBackHome}
+          src="https://media.discordapp.net/attachments/907157959333785630/914705380070785064/s725_logopng.png"
         />
-      ) : (
-        ""
-      )}
-      {errorMessageCheck ? <div>{errorMessage}</div> : ""}
-    </MainWrapper>
+        <form onSubmit={(e) => e.preventDefault()}>
+          <UserInfoWrapper>
+            <UserInfoItems>
+              {/* <h2>회원정보</h2> */}
+              <InfoHeader>아이디</InfoHeader>
+              <InfoBox>TeamDevUp</InfoBox>
+            </UserInfoItems>
+            <UserInfoItems>
+              <InfoHeader>사용자이름</InfoHeader>
+              <InfoBox>이민형</InfoBox>
+            </UserInfoItems>
+            <UserInfoItems>
+              <InfoHeader>비밀번호변경 및 탈퇴</InfoHeader>
+              <InfoHeader className="sub">
+                * 계정정보확인 후 가능합니다
+              </InfoHeader>
+              <NormalBox
+                type="email"
+                placeholder="email"
+                onChange={handlePassword("password")}
+              />
+              <NormalBox
+                type="password"
+                placeholder="비밀번호"
+                onChange={handlePassword("password")}
+              />
+              <NormalBtn onClick={checkPassword}>계정확인</NormalBtn>
+            </UserInfoItems>
+          </UserInfoWrapper>
+        </form>
+        {errorCheck ? (
+          <EditUser
+          //   errorMessageCheck={errorMessageCheck}
+          //   handlePassword={handlePassword}
+          //   handleChangePassowrd={handleChangePassowrd}
+          />
+        ) : (
+          ""
+        )}
+        {errorMessageCheck ? <div>{errorMessage}</div> : ""}
+      </UserInfoDiv>
+    </UserInfoSection>
   );
 }
 

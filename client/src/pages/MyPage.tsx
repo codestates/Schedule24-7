@@ -3,7 +3,7 @@ import UserInfo from "../components/mypage/UserInfo";
 
 function MyPage() {
   return (
-    <Layout>
+    <Layout title="내정보">
       <UserInfo />
     </Layout>
   );

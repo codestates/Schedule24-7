@@ -19,6 +19,10 @@ export const ModalBtn = styled.button`
   border-radius: 0.5rem;
   cursor: pointer;
   margin: 0.15rem;
+
+  &.cancel {
+    background-color: #c40000;
+  }
 `;
 
 export const ModalBtnWrapper = styled.div`
@@ -33,7 +37,7 @@ export const TextWrapper = styled.div`
 export const ModalView = styled.div`
   position: absolute;
   top: calc(50vh - 100px);
-  left: calc(50vw - 120px);
+  left: calc(50vw - 131px);
   background-color: rgba(255, 255, 255, 0.9);
   display: flex;
   flex-direction: column;
@@ -54,7 +58,9 @@ export default function ConfirmModal({ handleCloseModal, deleteConfirm }: any) {
         <TextWrapper>정말 삭제하시겠습니까?</TextWrapper>
         <ModalBtnWrapper>
           <ModalBtn onClick={deleteConfirm}>확인</ModalBtn>
-          <ModalBtn onClick={handleCloseModal}>취소</ModalBtn>
+          <ModalBtn className="cancel" onClick={handleCloseModal}>
+            취소
+          </ModalBtn>
         </ModalBtnWrapper>
       </ModalView>
       <ModalBackdrop onClick={handleCloseModal}></ModalBackdrop>

@@ -20,10 +20,15 @@ const HeaderRight = styled.div`
   padding-right: 1rem;
 `;
 const HeaderCenter = styled.div``;
-const PageTitle = styled.h1`
+const PageTitle = styled.div`
+  margin-left: 9.5rem;
   color: #fff;
   font-size: 18px;
   font-weight: 400;
+
+  ${mediaQuery.mobile} {
+    margin-left: 0;
+  }
 `;
 
 const PageName = styled.span`

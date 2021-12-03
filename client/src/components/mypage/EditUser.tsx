@@ -3,14 +3,15 @@ import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import ConfirmModal from "./ConfirmModal";
+import { NormalBox, NormalBtn } from "../../style/theme";
 // import { logoutChange } from "../actions/loginChange";
 
-export const EditBtnWrapper = styled.div`
+export const EditWrapper = styled.div`
+  margin-top: 0.5rem;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin: 0.3rem;
 `;
 
 axios.defaults.withCredentials = true;
@@ -71,36 +72,30 @@ export default function EditUser() {
 
   return (
     <form onSubmit={(e) => e.preventDefault()}>
-      <div>
-        <input
+      <EditWrapper>
+        <NormalBox
           type="password"
-          placeholder="변경할 Password"
+          placeholder="변경할 비밀번호"
           // onChange={handlePassword("newPassword")}
-        ></input>
-      </div>
-      <div>
-        <input
-          type="password"
-          placeholder="변경할 Password 확인"
-          // onChange={handlePassword("newPasswordCheck")}
-        ></input>
-      </div>
-      <EditBtnWrapper>
-        <div>
-          <button>비밀번호변경</button>
-        </div>
-        <div>
-          <button onClick={handleOpenModal}>회원탈퇴</button>
-        </div>
-      </EditBtnWrapper>
-      {openModal ? (
-        <ConfirmModal
-          handleCloseModal={handleCloseModal}
-          deleteConfirm={deleteConfirm}
         />
-      ) : (
-        ""
-      )}
+        <NormalBox
+          type="password"
+          placeholder="변경할 비밀번호 확인"
+          // onChange={handlePassword("newPasswordCheck")}
+        />
+        <NormalBtn>비밀번호변경</NormalBtn>
+        <NormalBtn className="out" onClick={handleOpenModal}>
+          회원탈퇴
+        </NormalBtn>
+        {openModal ? (
+          <ConfirmModal
+            handleCloseModal={handleCloseModal}
+            deleteConfirm={deleteConfirm}
+          />
+        ) : (
+          ""
+        )}
+      </EditWrapper>
     </form>
   );
 }

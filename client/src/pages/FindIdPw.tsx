@@ -2,7 +2,6 @@ import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import { BtnWrapper } from "./SignUpPage";
 import { MainLogo, MainWrapper } from "../style/theme";
 import Footer from "../components/Footer";
 import FindId from "../components/findidpw/FindId";
@@ -13,6 +12,33 @@ export const BoxWrapper = styled.div`
   flex-direction: column;
   justify-content: center;
   height: 90vh;
+`;
+
+export const BtnWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 0.3rem;
+`;
+
+export const ChangeBtn = styled.button`
+  width: 152px;
+  height: 35px;
+  color: white;
+  box-shadow: 0.05rem 0.05rem 0.05rem #696969;
+  border: 0px solid #a5a5a5;
+  cursor: pointer;
+  margin-bottom: 1rem;
+  background-color: #7c7c7c;
+  margin: 0.2rem;
+
+  &:hover {
+    background-color: #001988;
+  }
+
+  &:focus {
+    background-color: #5c5c5c;
+  }
 `;
 
 function FindIdPw() {
@@ -34,20 +60,20 @@ function FindIdPw() {
           src="https://media.discordapp.net/attachments/907157959333785630/914705380070785064/s725_logopng.png"
         />
         <BtnWrapper>
-          <button
+          <ChangeBtn
             onClick={() => {
               setInputState(true);
             }}
           >
             아이디찾기
-          </button>
-          <button
+          </ChangeBtn>
+          <ChangeBtn
             onClick={() => {
               setInputState(false);
             }}
           >
             비밀번호찾기
-          </button>
+          </ChangeBtn>
         </BtnWrapper>
         {inputState ? <FindId /> : <FindPw />}
       </BoxWrapper>
