@@ -1,10 +1,5 @@
 import { MailerService } from "@nestjs-modules/mailer";
-import {
-  HttpCode,
-  InternalServerErrorException,
-  NotAcceptableException,
-  UnauthorizedException,
-} from "@nestjs/common";
+import { InternalServerErrorException } from "@nestjs/common";
 import { JwtService } from "@nestjs/jwt";
 
 import { InjectModel } from "@nestjs/mongoose";

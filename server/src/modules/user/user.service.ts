@@ -50,12 +50,4 @@ export class UserService {
     if (!_id) throw new UnauthorizedException("Unauthorized");
     return await this.userRepository.remove(_id);
   }
-  // 유저의 그룹 아이디 추가
-  async addGroupIdFromGroup(id: string, group: any) {
-    const result: any = await this.userRepository.addGroupIdFromGroup(
-      id,
-      group,
-    );
-    return result;
-  }
 }

@@ -2,74 +2,106 @@ import {
   Controller,
   Get,
   Post,
-  Body,
   Patch,
   Param,
   Delete,
   Headers,
   Res,
   HttpStatus,
-  UnauthorizedException,
   InternalServerErrorException,
-  BadRequestException,
-  NotFoundException,
 } from "@nestjs/common";
+import { Connection } from "mongoose";
 
 import { GroupService } from "./group.service";
-import { AuthService } from "../auth/auth.service";
 import { Group } from "src/entities/group.entity";
 import { GetGroup } from "src/commons/decorator.dto";
-import { UserService } from "../user/user.service";
-import { AuthRepository } from "src/repositories/auth.repository";
 
 @Controller("group")
 export class GroupController {
   constructor(
     private readonly groupService: GroupService,
-    private readonly authService: AuthService,
-    private readonly userService: UserService,
-    private readonly authRepository: AuthRepository,
+    private readonly mongoConnection: Connection,
   ) {}
 
   @Post()
-  async create(
+  async createGroup(
     @Headers("Authorization") authorization: string,
     @GetGroup() group: Group,
     @Res() res: any,
   ) {
-    // 트큰이 왔는가?
-    if (!authorization) throw new BadRequestException("Bad Request");
-    const accessToken: string = authorization.split(" ")[1];
-    // 유효한 토큰인가?
-    if (!accessToken) throw new UnauthorizedException("Unauthorized");
+    const session = await this.mongoConnection.startSession();
+    session.startTransaction();
     try {
-      const { _id }: any = await this.authRepository.validateToken(accessToken);
-      // 토큰의 오브젝트아이디정보가 제대로 들어있는가?
-      if (!_id) throw new UnauthorizedException("Unauthorized");
-      const createdGroup: any = await this.groupService.createGroup(group);
+      const createdGroup: any = await this.groupService.createGroup(
+        authorization,
+        group,
+      );
       // 신규 그룹 생성에 성공했는가?
       if (createdGroup) {
-        // 성공시 user에 그룹 아이디 추가
-        const result: any = await this.userService.addGroupIdFromGroup(
-          _id,
-          createdGroup,
-        );
-        // 그룹아이디 추가 성공시 응답 메시지 전송
-        if (result) return res.status(HttpStatus.CREATED).send("Created");
+        await session.commitTransaction();
+        return res.status(HttpStatus.CREATED).send("Created");
       }
     } catch (err) {
+      await session.abortTransaction();
       throw new InternalServerErrorException("Internal Server Error");
+    } finally {
+      session.endSession();
     }
-    return res.status(HttpStatus.OK).send();
   }
 
-  // @Get()
-  // findAll() {
-  //   return this.groupService.findAll();
-  // }
+  @Get()
+  async getGroup(
+    @Headers("Authorization") authorization: string,
+    @Res() res: any,
+  ) {
+    const result: any = await this.groupService.getGroup(authorization);
+    return res.status(HttpStatus.OK).send(result);
+  }
 
-  // @Delete(":id")
-  // remove(@Param("id") id: string) {
-  //   return this.groupService.remove(+id);
-  // }
+  // 그룹정보 업데이트
+  @Patch(":groupId")
+  async updateGroup(
+    @Headers("Authorization") authorization: string,
+    @Param("groupId") groupId: string,
+    @GetGroup() group: Group,
+    @Res() res: any,
+  ) {
+    const session = await this.mongoConnection.startSession();
+    session.startTransaction();
+    try {
+      const result: any = await this.groupService.updateGroup(
+        authorization,
+        groupId,
+        group,
+      );
+      if (result) {
+        await session.commitTransaction();
+        return res.status(HttpStatus.CREATED).send(result);
+      }
+    } catch (err) {
+      await session.abortTransaction();
+      throw new InternalServerErrorException(err);
+    } finally {
+      session.endSession();
+    }
+  }
+
+  // 그룹 삭제
+  @Delete(":id")
+  async removeGroup(
+    @Headers("Authorization") authorization: string,
+    @Param("groupId") groupId: string,
+    @Res() res: any,
+  ) {
+    const session = await this.mongoConnection.startSession();
+    session.startTransaction();
+    try {
+      await this.groupService.removeGroup(authorization, groupId);
+      return res.status(HttpStatus.OK).send("OK");
+    } catch {
+      throw new InternalServerErrorException("Internal Server Error");
+    } finally {
+      session.endSession();
+    }
+  }
 }

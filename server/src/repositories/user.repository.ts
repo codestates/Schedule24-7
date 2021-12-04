@@ -4,8 +4,7 @@ import { Model } from "mongoose";
 import { ConflictException, NotFoundException } from "@nestjs/common";
 import { User } from "../entities/user.entity";
 import { CreateUserDto } from "../modules/user/dto/request/create-user.dto";
-import { FindUserIdDto } from "src/modules/user/dto/request/find-userId.dto";
-import { FindPasswordDto } from "src/modules/user/dto/request/find-password.dto";
+import { group } from "console";
 
 export class UserRepository {
   constructor(
@@ -91,6 +90,15 @@ export class UserRepository {
     return updateUser;
   }
 
+  // 그룹 삭제시 해당유저의 그룹아이디도 삭제
+  async removeGroupFromUser(_id: any, groupId: string): Promise<void> {
+    await this.userModel.updateOne(
+      { _id },
+      {
+        $pull: { groups: { _id: groupId } },
+      },
+    );
+  }
   // 유저의 비밀번호 가져오기 - 비밀번호 일치
   async getUserPasswordById(id: string) {
     const userData: any = await this.userModel.findById(id).select("password");
@@ -98,24 +106,19 @@ export class UserRepository {
     return userData.password;
   }
 
-  // 유저 정보 조회(유저이름, 이메일) - 유저 아이디 찾기
-  async findUserId(dto: FindUserIdDto) {
-    const { email, userName } = dto;
-    const userData: any = await this.userModel
-      .findOne({ email: email, userName: userName })
-      .select("userId");
-    if (!userData) throw new NotFoundException("Not Found");
-    return userData;
+  // 해당 유저의 그룹 정보 조회
+  async getGroup(id: string) {
+    const result: any = await this.userModel.findById(id).populate("groups");
+    return result;
   }
-  // 유저 정보 조회(유저이름, 이메일, 유저 아이디) - 유저 비밀번호 찾기
-  async findPassword(dto: FindPasswordDto) {
-    const { email, userName, userId } = dto;
-    const userData: any = await this.userModel.findOne({
-      email: email,
-      userName: userName,
-      userId: userId,
-    });
-    if (!userData) throw new NotFoundException("Not Found");
-    return userData;
+
+  // 해당 유저가 그룹 아이디를 가졌는지 확인.
+  async getUserGroupId(id: string, groupId: string): Promise<boolean> {
+    const userData: any = await this.userModel
+      .findOne({
+        $and: [{ _id: id }, { $oid: groupId }],
+      })
+      .select("groups");
+    return userData.groups.length ? true : false;
   }
 }
