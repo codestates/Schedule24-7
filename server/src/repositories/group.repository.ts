@@ -4,6 +4,7 @@ import { Model } from "mongoose";
 import { InternalServerErrorException } from "@nestjs/common";
 
 import { Group } from "../entities/group.entity";
+import { User } from "src/entities/user.entity";
 
 export class GroupRepository {
   constructor(
@@ -62,6 +63,55 @@ export class GroupRepository {
       {
         $pull: { schedules: { _id: scheduleId } },
       },
+    );
+  }
+
+  // ? 그룹아이디를 통한 그룹 조회
+  async findGroupByGroupId(groupId: string): Promise<Group & { _id: any }> {
+    return await this.groupModel.findById(groupId);
+  }
+
+  // ? 그룹아이디를 통한 멤버 추가
+  async addMemberToGroupByGroupId(groupId: string, newMember: Group) {
+    return await this.groupModel.findByIdAndUpdate(groupId, {
+      $push: { members: newMember },
+    });
+  }
+
+  // ? 그룹아이디를 통한 그룹 내 memberIdCount 필드 값 +1 증가
+  async increaseMemberIdCountByGroupId(groupId: string) {
+    return await this.groupModel.findByIdAndUpdate(groupId, {
+      $inc: { memberIdCount: 1 },
+    });
+  }
+
+  // ? 그룹아이디와 멤버 아이디를 통한 멤버 정보 수정
+  async updateMemberByGroupAndMemberIds(
+    groupId: string,
+    memberId: number,
+    memberData: any,
+  ) {
+    return await this.groupModel.findOneAndUpdate(
+      {
+        _id: groupId,
+        members: { $elemMatch: { memberId: memberId } },
+      },
+      {
+        $set: {
+          "members.$": memberData,
+        },
+      },
+      {
+        returnDocument: "after",
+      },
+    );
+  }
+
+  //! 멤버 리셋용 명령
+  async resetMembersByGroupId(groupId: string) {
+    return await this.groupModel.updateOne(
+      { _id: groupId },
+      { $set: { members: [], memberIdCount: 0 } },
     );
   }
 }
