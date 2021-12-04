@@ -97,4 +97,60 @@ export class GroupService {
       await this.groupRepository.removeGroup(groupId);
     }
   }
+
+  // ! 멤버 정보 초기화
+  // * DELETE "/memeber/:groupId" 연결
+  async resetMember(groupId: string) {
+    return this.groupRepository.resetMembersByGroupId(groupId);
+  }
+
+  // ? 새로운 멤버 추가
+  // * POST "/member/:groupId" 연결
+  async createMember(authorization: string, member: Group, groupId: string) {
+    try {
+      this.authRepository.validateToken(authorization);
+    } catch (err) {
+      throw new UnauthorizedException(err);
+    }
+
+    try {
+      // 멤버간 Id 값 중복을 피하기 위해 memberIdCount +1 증가 및 기존 IdCount 값 추출
+      const IdCount: Group =
+        await this.groupRepository.increaseMemberIdCountByGroupId(groupId);
+      // memberIdCount 최신 값으로 memberId 값 설정
+      const newMember: Group = Object.assign(
+        {},
+        { memberId: IdCount.memberIdCount },
+        member,
+      );
+      await this.groupRepository.addMemberToGroupByGroupId(groupId, newMember);
+      return;
+    } catch (error) {
+      throw new InternalServerErrorException(error);
+    }
+  }
+
+  // ? 기존 멤버 편집
+  // * PATCH "/member/:groupId/:memberId" 연결
+  async updateMember(
+    authorization: string,
+    params: { groupId: string; memberId: number },
+    memberData: any,
+  ) {
+    try {
+      this.authRepository.validateToken(authorization);
+    } catch (err) {
+      throw new UnauthorizedException(err);
+    }
+    memberData.memberId = params.memberId;
+    try {
+      return await this.groupRepository.updateMemberByGroupAndMemberIds(
+        params.groupId,
+        params.memberId,
+        memberData,
+      );
+    } catch (err) {
+      throw new InternalServerErrorException(err);
+    }
+  }
 }

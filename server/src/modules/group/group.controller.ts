@@ -9,6 +9,7 @@ import {
   Res,
   HttpStatus,
   InternalServerErrorException,
+  Body,
 } from "@nestjs/common";
 import { InjectConnection } from "@nestjs/mongoose";
 import { Connection } from "mongoose";
@@ -105,6 +106,52 @@ export class GroupController {
       throw new InternalServerErrorException("Internal Server Error");
     } finally {
       session.endSession();
+    }
+  }
+
+  /**
+   * TODO 멤버 API 작성
+   */
+
+  // ! 테스트용 멤버 관련 데이터 리셋
+  @Delete("/member/:groupId")
+  async resetMember(@Param("groupId") groupId: string) {
+    try {
+      return this.groupService.resetMember(groupId);
+    } catch (err) {
+      throw new Error(err);
+    }
+  }
+
+  // ? 새로운 멤버 추가
+  @Post("/member/:groupId")
+  async createMember(
+    @Param("groupId") groupId: string,
+    @Headers("Authorization") authorization: string,
+    @GetGroup() member: Group,
+  ) {
+    try {
+      return this.groupService.createMember(authorization, member, groupId);
+    } catch (error) {
+      throw new Error(error);
+    }
+  }
+
+  // ? 기존 멤버 편집
+  @Patch("/member/:groupId/:memberId")
+  async updateMember(
+    @Param() params: { groupId: string; memberId: number },
+    @Headers("Authorization") authorization: string,
+    @Body() memberData: any,
+  ) {
+    try {
+      return await this.groupService.updateMember(
+        authorization,
+        params,
+        memberData,
+      );
+    } catch (error) {
+      throw new Error(error);
     }
   }
 }

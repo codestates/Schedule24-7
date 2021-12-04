@@ -12,6 +12,10 @@ export class Group extends Document {
   groupEmoji: string;
   @Prop({ default: Date.now })
   createdAt: string;
+  @Prop({ default: 0 })
+  memberIdCount: number;
+  @Prop({ default: 0 })
+  conditionIdCount: number;
   @Prop({ type: MongooseSchema.Types.Array })
   works: Work[];
   @Prop({ type: MongooseSchema.Types.Array })
