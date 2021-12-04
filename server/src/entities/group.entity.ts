@@ -20,7 +20,7 @@ export class Group extends Document {
   conditions: Condition[];
 
   // 스케줄 연결
-  @Prop({ type: [ScheduleSchema] })
+  @Prop({ type: [{ type: MongooseSchema.Types.ObjectId, ref: "Schedule" }] })
   schedules: Schedule[];
 }
 class Work {
