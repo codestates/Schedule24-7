@@ -11,6 +11,7 @@ import { ConfigService } from "./config/config.service";
 import { AuthModule } from "./modules/auth/auth.module";
 import { GroupModule } from "./modules/group/group.module";
 import { ScheduleModule } from "./modules/schedule/schedule.module";
+
 import { UserModule } from "./modules/user/user.module";
 
 @Module({

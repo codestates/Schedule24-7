@@ -7,12 +7,12 @@ import {
   NotFoundException,
   UnauthorizedException,
 } from "@nestjs/common";
+
 import { Group } from "src/entities/group.entity";
 import { AuthRepository } from "src/repositories/auth.repository";
 import { GroupRepository } from "src/repositories/group.repository";
 import { ScheduleRepository } from "src/repositories/schedule.repository";
 import { UserRepository } from "src/repositories/user.repository";
-import { ScheduleService } from "../schedule/schedule.service";
 
 @Injectable()
 export class GroupService {
@@ -25,7 +25,7 @@ export class GroupService {
   ) {}
 
   // 신규 그룹 추가
-  async createGroup(auth: string, group: any) {
+  async createGroup(auth: string, group: Group) {
     // 요청된 그룹데이터를 받아서 그룹도큐먼트에 저장
     try {
       const { _id }: any = await this.authRepository.validateToken(auth);

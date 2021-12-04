@@ -1,8 +1,9 @@
 import { forwardRef, Module } from "@nestjs/common";
+import { MongooseModule } from "@nestjs/mongoose";
+
 import { ScheduleService } from "./schedule.service";
 import { ScheduleController } from "./schedule.controller";
 import { ScheduleRepository } from "src/repositories/schedule.repository";
-import { MongooseModule } from "@nestjs/mongoose";
 import { GroupModule } from "../group/group.module";
 import { UserModule } from "../user/user.module";
 import { Schedule, ScheduleSchema } from "src/entities/schedule.entity";
@@ -13,6 +14,7 @@ import { Schedule, ScheduleSchema } from "src/entities/schedule.entity";
       { name: Schedule.name, schema: ScheduleSchema },
     ]),
     UserModule,
+    forwardRef(() => GroupModule),
   ],
   controllers: [ScheduleController],
   providers: [ScheduleService, ScheduleRepository],
