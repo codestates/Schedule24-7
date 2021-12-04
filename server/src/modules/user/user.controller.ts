@@ -27,9 +27,6 @@ import {
 import { InjectConnection } from "@nestjs/mongoose";
 import { Connection } from "mongoose";
 
-import { UserService } from "./user.service";
-import { CreateUserDto } from "./dto/request/create-user.dto";
-import { CreateUserResDto } from "./dto/response/create-user.dto";
 import {
   BadRequestErr,
   ConflictErr,
@@ -37,6 +34,9 @@ import {
   NotFoundErr,
   UnauthorizeErr,
 } from "src/commons/http-exception.dto";
+import { UserService } from "./user.service";
+import { CreateUserDto } from "./dto/request/create-user.dto";
+import { CreateUserResDto } from "./dto/response/create-user.dto";
 import { GetUserInfoResDto } from "./dto/response/select-user.dto";
 import { UpdateUserResDto } from "./dto/response/update-user.dto";
 //import { HttpExceptionFilter } from "src/commons/http-exception.filter";

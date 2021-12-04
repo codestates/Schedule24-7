@@ -9,7 +9,6 @@ import { AuthRepository } from "src/repositories/auth.repository";
 import { GroupRepository } from "src/repositories/group.repository";
 import { ScheduleRepository } from "src/repositories/schedule.repository";
 import { UserRepository } from "src/repositories/user.repository";
-import { GroupService } from "../group/group.service";
 import { CreateScheduleDto } from "./dto/create-schedule.dto";
 import { UpdateScheduleDto } from "./dto/update-schedule.dto";
 
@@ -23,13 +22,13 @@ export class ScheduleService {
     private readonly userRepoSitory: UserRepository,
   ) {}
 
-  create(createScheduleDto: CreateScheduleDto) {
-    return "This action adds a new schedule";
-  }
+  // create(createScheduleDto: CreateScheduleDto) {
+  //   return "This action adds a new schedule";
+  // }
 
-  update(id: number, updateScheduleDto: UpdateScheduleDto) {
-    return `This action updates a #${id} schedule`;
-  }
+  // update(id: number, updateScheduleDto: UpdateScheduleDto) {
+  //   return `This action updates a #${id} schedule`;
+  // }
 
   async removeSchedule(auth: string, groupId: string, scheduleId: string) {
     // 요청 정보 확인

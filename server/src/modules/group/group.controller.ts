@@ -10,8 +10,8 @@ import {
   HttpStatus,
   InternalServerErrorException,
 } from "@nestjs/common";
+import { InjectConnection } from "@nestjs/mongoose";
 import { Connection } from "mongoose";
-
 import { GroupService } from "./group.service";
 import { Group } from "src/entities/group.entity";
 import { GetGroup } from "src/commons/decorator.dto";
@@ -20,6 +20,7 @@ import { GetGroup } from "src/commons/decorator.dto";
 export class GroupController {
   constructor(
     private readonly groupService: GroupService,
+    @InjectConnection()
     private readonly mongoConnection: Connection,
   ) {}
 
@@ -87,7 +88,7 @@ export class GroupController {
   }
 
   // 그룹 삭제
-  @Delete(":id")
+  @Delete(":groupId")
   async removeGroup(
     @Headers("Authorization") authorization: string,
     @Param("groupId") groupId: string,
@@ -97,8 +98,10 @@ export class GroupController {
     session.startTransaction();
     try {
       await this.groupService.removeGroup(authorization, groupId);
+      await session.commitTransaction();
       return res.status(HttpStatus.OK).send("OK");
     } catch {
+      await session.abortTransaction();
       throw new InternalServerErrorException("Internal Server Error");
     } finally {
       session.endSession();

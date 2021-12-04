@@ -12,29 +12,40 @@ import {
   HttpStatus,
   InternalServerErrorException,
 } from "@nestjs/common";
-import { ScheduleService } from "./schedule.service";
-import { CreateScheduleDto } from "./dto/create-schedule.dto";
-import { UpdateScheduleDto } from "./dto/update-schedule.dto";
 import { Connection } from "mongoose";
+import { InjectConnection } from "@nestjs/mongoose";
+
+import { ScheduleService } from "./schedule.service";
+import { GetSchedule } from "src/commons/decorator.dto";
+import { Schedule } from "src/entities/schedule.entity";
 
 @Controller("schedule")
 export class ScheduleController {
   constructor(
+    @InjectConnection()
+    private readonly mongooseConnection: Connection,
     private readonly scheduleService: ScheduleService,
-    private readonly mongoConnection: Connection,
   ) {}
 
   @Post(":groupId")
-  create(@Body() createScheduleDto: CreateScheduleDto) {
-    return this.scheduleService.create(createScheduleDto);
+  createSchedule(
+    @Headers("Authorization") authorization: string,
+    @Param("groupId") groupId: string,
+    @GetSchedule() schedule: Schedule,
+    @Res() res: any,
+  ) {
+    return res.status(HttpStatus.CREATED).send("Create Schedule");
   }
 
   @Patch(":groupId/:scheduleId")
-  update(
-    @Param("id") id: string,
-    @Body() updateScheduleDto: UpdateScheduleDto,
+  updateSchedule(
+    @Headers("Authorization") authorization: string,
+    @Param("groupId") groupId: string,
+    @Param("scheduleId") scheduleId: string,
+    @GetSchedule() schedule: Schedule,
+    @Res() res: any,
   ) {
-    return this.scheduleService.update(+id, updateScheduleDto);
+    return res.status(HttpStatus.OK).send("Update Schedule");
   }
 
   @Delete(":groupId/:scheduleId")
@@ -44,7 +55,7 @@ export class ScheduleController {
     @Param("scheduleId") scheduleId: string,
     @Res() res: any,
   ) {
-    const session = await this.mongoConnection.startSession();
+    const session = await this.mongooseConnection.startSession();
     session.startTransaction();
     try {
       await this.scheduleService.removeSchedule(
