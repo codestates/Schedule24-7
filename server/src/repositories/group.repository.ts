@@ -107,6 +107,22 @@ export class GroupRepository {
     );
   }
 
+  // ? 그룹아이디와 멤버 아이디를 통한 멤버 삭제
+  async removeMemberByGroupAndMemberIds(groupId: string, memberId: number) {
+    console.log(typeof memberId);
+    return await this.groupModel.findOneAndUpdate(
+      {
+        _id: groupId,
+      },
+      {
+        $pull: { members: { memberId: memberId } },
+      },
+      {
+        returnDocument: "after",
+      },
+    );
+  }
+
   //! 멤버 리셋용 명령
   async resetMembersByGroupId(groupId: string) {
     return await this.groupModel.updateOne(

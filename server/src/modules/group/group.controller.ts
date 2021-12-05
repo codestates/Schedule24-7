@@ -154,4 +154,16 @@ export class GroupController {
       throw new Error(error);
     }
   }
+
+  @Delete("/member/:groupId/:memberId")
+  async removeMember(
+    @Param() params: { groupId: string; memberId: number },
+    @Headers("Authorization") authorization: string,
+  ) {
+    try {
+      return await this.groupService.removeMember(authorization, params);
+    } catch (error) {
+      throw new Error(error);
+    }
+  }
 }

@@ -13,6 +13,7 @@ import { AuthRepository } from "src/repositories/auth.repository";
 import { GroupRepository } from "src/repositories/group.repository";
 import { ScheduleRepository } from "src/repositories/schedule.repository";
 import { UserRepository } from "src/repositories/user.repository";
+import { parentPort } from "worker_threads";
 
 @Injectable()
 export class GroupService {
@@ -142,6 +143,7 @@ export class GroupService {
     } catch (err) {
       throw new UnauthorizedException(err);
     }
+    params.memberId = Number(params.memberId);
     memberData.memberId = params.memberId;
     try {
       return await this.groupRepository.updateMemberByGroupAndMemberIds(
@@ -151,6 +153,30 @@ export class GroupService {
       );
     } catch (err) {
       throw new InternalServerErrorException(err);
+    }
+  }
+
+  // ? 기존 멤버 삭제
+  // * DELETE "/member/:groupId/:memberId" 연결
+  async removeMember(
+    authorization: string,
+    params: { groupId: string; memberId: number },
+  ) {
+    try {
+      this.authRepository.validateToken(authorization);
+    } catch (err) {
+      throw new UnauthorizedException(err);
+    }
+
+    params.memberId = Number(params.memberId);
+
+    try {
+      return await this.groupRepository.removeMemberByGroupAndMemberIds(
+        params.groupId,
+        params.memberId,
+      );
+    } catch (error) {
+      throw new UnauthorizedException(error);
     }
   }
 }
