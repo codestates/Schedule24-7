@@ -16,6 +16,8 @@ import { Connection } from "mongoose";
 import { GroupService } from "./group.service";
 import { Group } from "src/entities/group.entity";
 import { GetGroup } from "src/commons/decorator.dto";
+import { CreateConditionDto } from "./dto/createCondition.dto";
+import { UpdateConditionDto } from "./dto/updateCondition.dto";
 
 @Controller("group")
 export class GroupController {
@@ -150,6 +152,75 @@ export class GroupController {
         params,
         memberData,
       );
+    } catch (error) {
+      throw new Error(error);
+    }
+  }
+
+  // ? 기존 멤버 삭제
+  @Delete("/member/:groupId/:memberId")
+  async removeMember(
+    @Param() params: { groupId: string; memberId: number },
+    @Headers("Authorization") authorization: string,
+  ) {
+    try {
+      await this.groupService.removeMember(authorization, params);
+      return;
+    } catch (error) {
+      throw new Error(error);
+    }
+  }
+
+  /**
+   *
+   * Todo : 조건 관련 명령어 ------------------------
+   */
+
+  // ? 새로운 조건 추가
+  @Post("/condition/:groupId")
+  async createCondition(
+    @Param("groupId") groupId: string,
+    @Headers("Authorization") authorization: string,
+    @Body()
+    condition: CreateConditionDto,
+  ): Promise<any> {
+    try {
+      return this.groupService.createCondition(
+        authorization,
+        groupId,
+        condition,
+      );
+    } catch (error) {
+      throw new Error(error);
+    }
+  }
+
+  // ? 기존 조건 수정
+  @Patch("/condition/:groupId/:conditionId")
+  async updateCondition(
+    @Param() params: { groupId: string; conditionId: number },
+    @Headers("Authorization") authorization: string,
+    @Body() conditionData: UpdateConditionDto,
+  ) {
+    try {
+      return await this.groupService.updateCondition(
+        authorization,
+        params,
+        conditionData,
+      );
+    } catch (error) {
+      throw new Error(error);
+    }
+  }
+
+  // ? 기존 조건 삭제
+  @Delete("/condition/:groupId/:conditionId")
+  async removeCondition(
+    @Param() params: { groupId: string; conditionId: number },
+    @Headers("Authorization") authorization: string,
+  ) {
+    try {
+      return await this.groupService.removeCondition(authorization, params);
     } catch (error) {
       throw new Error(error);
     }

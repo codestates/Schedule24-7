@@ -7,12 +7,16 @@ import {
   NotFoundException,
   UnauthorizedException,
 } from "@nestjs/common";
+import { identity } from "rxjs";
 
 import { Group } from "src/entities/group.entity";
 import { AuthRepository } from "src/repositories/auth.repository";
 import { GroupRepository } from "src/repositories/group.repository";
 import { ScheduleRepository } from "src/repositories/schedule.repository";
 import { UserRepository } from "src/repositories/user.repository";
+import { parentPort } from "worker_threads";
+import { CreateConditionDto } from "./dto/createCondition.dto";
+import { UpdateConditionDto } from "./dto/updateCondition.dto";
 
 @Injectable()
 export class GroupService {
@@ -142,6 +146,7 @@ export class GroupService {
     } catch (err) {
       throw new UnauthorizedException(err);
     }
+    params.memberId = Number(params.memberId);
     memberData.memberId = params.memberId;
     try {
       return await this.groupRepository.updateMemberByGroupAndMemberIds(
@@ -151,6 +156,126 @@ export class GroupService {
       );
     } catch (err) {
       throw new InternalServerErrorException(err);
+    }
+  }
+
+  // ? 기존 멤버 삭제
+  // * DELETE "/member/:groupId/:memberId" 연결
+  async removeMember(
+    authorization: string,
+    params: { groupId: string; memberId: number },
+  ) {
+    try {
+      this.authRepository.validateToken(authorization);
+    } catch (err) {
+      throw new UnauthorizedException(err);
+    }
+
+    params.memberId = Number(params.memberId);
+
+    try {
+      return await this.groupRepository.removeMemberByGroupAndMemberIds(
+        params.groupId,
+        params.memberId,
+      );
+    } catch (error) {
+      throw new UnauthorizedException(error);
+    }
+  }
+
+  /**
+   * ? 새로운 조건 추가
+   * * POST /condition/:groupId
+   * @param authorization
+   * @param groupId
+   * @param condition
+   * @returns
+   */
+  async createCondition(
+    authorization: string,
+    groupId: string,
+    condition: CreateConditionDto,
+  ) {
+    try {
+      this.authRepository.validateToken(authorization);
+    } catch (error) {
+      throw new UnauthorizedException(error);
+    }
+
+    try {
+      const IdCount =
+        await this.groupRepository.increaseConditionIdCountByGroupId(groupId);
+
+      const newCondition: CreateConditionDto = Object.assign({}, condition, {
+        conditionId: IdCount.conditionIdCount,
+      });
+
+      return await this.groupRepository.createConditionByGroupId(
+        groupId,
+        newCondition,
+      );
+    } catch (error) {
+      throw new InternalServerErrorException(error);
+    }
+  }
+
+  /**
+   * ? 기존 조건 수정
+   * * PATCH /condition/:groupId/:conditionId
+   * @param authorization
+   * @param params
+   * @param conditionData
+   * @returns
+   */
+  async updateCondition(
+    authorization: string,
+    params: { groupId: string; conditionId: number },
+    conditionData: UpdateConditionDto,
+  ) {
+    try {
+      this.authRepository.validateToken(authorization);
+    } catch (err) {
+      throw new UnauthorizedException(err);
+    }
+    params.conditionId = Number(params.conditionId);
+    conditionData.conditionId = params.conditionId;
+    try {
+      return await this.groupRepository.updateConditionByGroupAndConditionIds(
+        params.groupId,
+        params.conditionId,
+        conditionData,
+      );
+    } catch (err) {
+      throw new InternalServerErrorException(err);
+    }
+  }
+
+  /**
+   * ? 기존 조건 삭제
+   * * DELETE /condition/:groupId/:conditionId
+   * @param authorization
+   * @param params
+   * @returns
+   */
+  async removeCondition(
+    authorization: string,
+    params: { groupId: string; conditionId: number },
+  ) {
+    try {
+      this.authRepository.validateToken(authorization);
+    } catch (error) {
+      throw new UnauthorizedException(error);
+    }
+
+    params.conditionId = Number(params.conditionId);
+
+    try {
+      return await this.groupRepository.removeConditionByGroupAndConditionIds(
+        params.groupId,
+        params.conditionId,
+      );
+    } catch (error) {
+      throw new InternalServerErrorException(error);
     }
   }
 }
