@@ -45,9 +45,13 @@ export class ScheduleService {
       groupId,
     );
     const workInfo: any = await this.groupRepository.getWorkByGroupId(groupId);
-
     // 조회한 정보를 통해 콘텐츠(스켸줄) 생성
-    const contents = [];
+    const contents = this.scheduleRepository.createContentsForm(
+      scheduleDto.period,
+      memberInfo.members,
+      workInfo.works,
+      conditionInfo.conditions,
+    );
     // 요청한 정보, 그룹정보(아이디, 그룹명), 콘텐츠를 디비에 저장
     const group: object = { groupId: groupId, groupName: memberInfo.groupName };
     const result: any = await this.scheduleRepository.createSchedule(
@@ -58,7 +62,7 @@ export class ScheduleService {
     if (result) {
       const pushScheduleId: any =
         await this.groupRepository.pushScheduleIdfromGroup(groupId, result._id);
-      return pushScheduleId;
+      return result;
     } else throw new InternalServerErrorException("Internal Server Error");
 
     // 1. 그냥 멤버 안 넣고 날짜랑 id 값만 박혀 있는 스케줄 콘텐츠 뽑기 => 지금

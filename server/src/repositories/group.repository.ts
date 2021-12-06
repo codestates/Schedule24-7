@@ -197,7 +197,7 @@ export class GroupRepository {
   }
   // 스케쥴 작성을 위한 조건정보 조회
   async getConditionByGroupId(groupId: string) {
-    return await this.groupModel.findById(groupId).select("condtions");
+    return await this.groupModel.findById(groupId).select("conditions");
   }
   // 스케쥴 작성을 위한 근무정보 조회
   async getWorkByGroupId(groupId: string) {

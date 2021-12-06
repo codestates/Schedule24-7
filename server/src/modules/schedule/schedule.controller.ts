@@ -11,6 +11,7 @@ import {
   Headers,
   HttpStatus,
   InternalServerErrorException,
+  BadRequestException,
 } from "@nestjs/common";
 import { Connection } from "mongoose";
 import { InjectConnection } from "@nestjs/mongoose";
@@ -18,6 +19,7 @@ import { InjectConnection } from "@nestjs/mongoose";
 import { ScheduleService } from "./schedule.service";
 import { GetSchedule } from "src/commons/decorator.dto";
 import { Schedule } from "src/entities/schedule.entity";
+
 import { CreateScheduleDto } from "./dto/create-schedule.dto";
 
 @Controller("schedule")
@@ -45,11 +47,11 @@ export class ScheduleController {
       );
       if (result) {
         await session.commitTransaction();
-        return res.status(HttpStatus.CREATED).send("Create Schedule");
+        return res.status(HttpStatus.CREATED).send(result);
       }
-    } catch {
+    } catch (err) {
       await session.abortTransaction();
-      throw new InternalServerErrorException("Internal Server Error");
+      throw new InternalServerErrorException(err);
     } finally {
       session.endSession();
     }
