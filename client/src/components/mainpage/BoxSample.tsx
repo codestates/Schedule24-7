@@ -1,10 +1,13 @@
 import styled from "styled-components";
 
 export const Box = styled.div`
-  width: 7rem;
-  height: 7rem;
-  box-shadow: 0.1rem 0.1rem 0.1rem gray;
-  border-radius: 0.7rem;
+  display: flex;
+  flex-direction: column;
+  width: 9rem;
+  height: 9rem;
+  border: 1px solid #cfcdcd;
+  /* box-shadow: 1px 1px 1px #a7a7a75c; */
+  border-radius: 0.4rem;
   background-color: white;
   margin: 0.5rem;
 `;

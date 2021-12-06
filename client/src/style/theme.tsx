@@ -39,11 +39,53 @@ export const BoxHeader = styled.div`
 
 export const BoxWrapper = styled.div`
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(125px, auto));
+  grid-template-columns: repeat(auto-fill, minmax(9rem, auto));
   border: 1px dotted #696969;
   border-radius: 0.5rem;
   padding: 0.3rem;
   background-color: #ececec;
+  grid-column-gap: 10px;
+`;
+
+export const ShortcutContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  /* align-items: center; */
+  border: 1px dotted #696969;
+  border-radius: 0.5rem;
+  padding: 0.3rem;
+  background-color: #ececec;
+`;
+
+export const ShortcutBoxWrapper = styled.div`
+  max-height: 20rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(135px, auto));
+  /* grid-template-rows: repeat(auto-fill, minmax(125px, auto)); */
+  margin-right: 0.5rem;
+  overflow: hidden;
+  grid-column-gap: 10px;
+  &.showBoxes {
+    max-height: 100rem;
+  }
+`;
+
+export const SeeMoreWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+`;
+
+export const SeeMore = styled.div`
+  padding-top: 5px;
+  width: 100px;
+  height: 22px;
+  border: 1px solid #cfcdcd;
+  text-align: center;
+  /* background-color: #fdfdfd; */
+  border-radius: 5px;
+  cursor: grab;
+  margin-bottom: 3px;
 `;
 
 export const AddBtn = styled.button`
