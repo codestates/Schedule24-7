@@ -50,7 +50,7 @@ const Block = styled.nav`
 const Sidebar: FC = () => {
   return (
     <Block id="sidebar">
-      <Link to="/main">Home</Link>
+      <Link to="/">Home</Link>
       <Link to="/group">Group</Link>
       <Link to="/schedule">Schedule</Link>
       <Link to="/mypage">Mypage</Link>

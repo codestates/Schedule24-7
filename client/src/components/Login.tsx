@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 // import { loginChange, logoutChange } from "../actions/loginChange";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
+import { loginChange } from "../redux/actions/loginActions";
 
 export const LoginItems = styled.div`
   display: flex;
@@ -68,7 +69,7 @@ export const GoogleLogo = styled.img`
 axios.defaults.withCredentials = true;
 
 export default function Login() {
-  //   const dispatch = useDispatch();
+  const dispatch = useDispatch();
   const [isError, setIsError] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
 
@@ -98,7 +99,7 @@ export default function Login() {
     //     setIsError(true);
     //     setErrorMessage("아이디 또는 비밀번호를 확인해주세요");
     //   });
-    return;
+    dispatch(loginChange());
   };
 
   const socialLoginHandler = () => {
