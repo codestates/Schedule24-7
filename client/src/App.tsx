@@ -9,10 +9,27 @@ import ScheduleRoutes from "./components/routes/ScheduleRoute";
 import MyPage from "./pages/MyPage";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "./redux/reducers";
+import { useEffect } from "react";
+import { loginChange } from "./redux/actions/loginActions";
 
 function App() {
   const loginState = useSelector((state: RootState) => state.loginReducer);
   const dispatch = useDispatch();
+
+  const keepLogin = () => {
+    if (
+      window.localStorage.getItem("email") &&
+      window.localStorage.getItem("password")
+    ) {
+      dispatch(loginChange());
+    }
+  };
+  //로그인 유지를 위한 함수
+
+  useEffect(() => {
+    keepLogin();
+  }, []);
+  //최초렌더시 로그인 유지함수 실행
 
   return (
     <Router>

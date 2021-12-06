@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
-// import { loginChange, logoutChange } from "../actions/loginChange";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import { loginChange } from "../redux/actions/loginActions";
+import { ErrMsg } from "../style/theme";
 
 export const LoginItems = styled.div`
   display: flex;
@@ -74,7 +74,7 @@ export default function Login() {
   const [errorMessage, setErrorMessage] = useState("");
 
   const [loginInfo, setLoginInfo] = useState({
-    email: "",
+    userId: "",
     password: "",
   });
 
@@ -84,22 +84,22 @@ export default function Login() {
     };
 
   const handleLogin = () => {
-    // window.localStorage.setItem("email", loginInfo.email);
-    // window.localStorage.setItem("password", loginInfo.password);
-    // axios
-    //   .post("https://server.webmarker.link/users/login", {
-    //     email: loginInfo.email,
-    //     password: loginInfo.password,
-    //   })
-    //   .then((res) => {
-    //     window.localStorage.setItem("token", res.data.data.accessToken);
-    //     dispatch(loginChange());
-    //   })
-    //   .catch(() => {
-    //     setIsError(true);
-    //     setErrorMessage("아이디 또는 비밀번호를 확인해주세요");
-    //   });
-    dispatch(loginChange());
+    window.localStorage.setItem("email", loginInfo.userId);
+    window.localStorage.setItem("password", loginInfo.password);
+    axios
+      .post("https://server.schedule24-7.link/auth/login", {
+        userId: loginInfo.userId,
+        password: loginInfo.password,
+      })
+      .then((res) => {
+        // console.log(res.data);
+        window.localStorage.setItem("token", res.data.accessToken);
+        dispatch(loginChange());
+      })
+      .catch(() => {
+        setIsError(true);
+        setErrorMessage("아이디 또는 비밀번호를 확인해주세요");
+      });
   };
 
   const socialLoginHandler = () => {
@@ -117,7 +117,7 @@ export default function Login() {
           <LoginBox
             type="text"
             placeholder="아이디"
-            onChange={handleLoginInfo("email")}
+            onChange={handleLoginInfo("userId")}
           ></LoginBox>
           <LoginBox
             type="password"
@@ -129,7 +129,7 @@ export default function Login() {
           <LoginBtn className="a" onClick={handleLogin}>
             로그인
           </LoginBtn>
-          {isError ? <div>{errorMessage}</div> : ""}
+          {isError ? <ErrMsg className="loginErr">{errorMessage}</ErrMsg> : ""}
           <LoginBtn className="b" onClick={socialLoginHandler}>
             <GoogleLogo src="https://media.discordapp.net/attachments/907157959333785630/910685960612765786/google_logo.png" />
             구글아이디로 로그인
