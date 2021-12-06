@@ -123,3 +123,19 @@ export const NormalBtn = styled.button`
     background-color: #b90000;
   }
 `;
+
+export const ErrMsg = styled.div`
+  margin-top: 3px;
+  font-size: 13px;
+  &.err {
+    color: #c40202;
+  }
+  &.ok {
+    color: #0e7a00;
+  }
+  &.loginErr {
+    color: #c40202;
+    margin-top: 0px;
+    margin-bottom: 5px;
+  }
+`;
