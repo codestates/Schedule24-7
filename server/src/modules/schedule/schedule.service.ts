@@ -3,6 +3,7 @@ import {
   forwardRef,
   Inject,
   Injectable,
+  InternalServerErrorException,
   UnauthorizedException,
 } from "@nestjs/common";
 import { AuthRepository } from "src/repositories/auth.repository";
@@ -22,9 +23,44 @@ export class ScheduleService {
     private readonly userRepoSitory: UserRepository,
   ) {}
 
-  // create(createScheduleDto: CreateScheduleDto) {
-  //   return "This action adds a new schedule";
-  // }
+  async createSchedule(
+    auth: string,
+    groupId: string,
+    scheduleDto: CreateScheduleDto,
+  ) {
+    // 요청 정보 확인
+    if (!auth.length || !groupId.length || !Object.keys(scheduleDto).length) {
+      throw new BadRequestException("Bad Requst");
+    }
+    // 토큰 복호화해서 정보 확인
+    const { _id }: any = await this.authRepository.validateToken(auth);
+    const userInfo: any = await this.userRepoSitory.getUserDataById(_id);
+    if (!userInfo) throw new UnauthorizedException("Unauthorized");
+
+    // 멤버 정보, 조건 정보, 근무 정보 조회
+    const memberInfo: any = await this.groupRepository.getMemberByGroupId(
+      groupId,
+    );
+    const conditionInfo: any = await this.groupRepository.getConditionByGroupId(
+      groupId,
+    );
+    const workInfo: any = await this.groupRepository.getWorkByGroupId(groupId);
+
+    // 조회한 정보를 통해 콘텐츠(스켸줄) 생성
+    const contents = [];
+    // 요청한 정보, 그룹정보(아이디, 그룹명), 콘텐츠를 디비에 저장
+    const group: object = { groupId: groupId, groupName: memberInfo.groupName };
+    const result: any = await this.scheduleRepository.createSchedule(
+      scheduleDto,
+      group,
+      contents,
+    );
+    if (result) {
+      const pushScheduleId: any =
+        await this.groupRepository.pushScheduleIdfromGroup(groupId, result._id);
+      return pushScheduleId;
+    } else throw new InternalServerErrorException("Internal Server Error");
+  }
 
   async updateSchedule(
     auth: string,

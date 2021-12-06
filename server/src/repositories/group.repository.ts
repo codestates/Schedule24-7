@@ -190,7 +190,7 @@ export class GroupRepository {
 
   // 스케쥴 작성을 위한 멤버정보 조회
   async getMemberByGroupId(groupId: string) {
-    return await this.groupModel.findById(groupId).select("members");
+    return await this.groupModel.findById(groupId).select("groupName members");
   }
   // 스케쥴 작성을 위한 조건정보 조회
   async getConditionByGroupId(groupId: string) {
@@ -199,5 +199,17 @@ export class GroupRepository {
   // 스케쥴 작성을 위한 근무정보 조회
   async getWorkByGroupId(groupId: string) {
     return await this.groupModel.findById(groupId).select("works");
+  }
+
+  // 생성된 스케쥴 아이디 푸쉬
+  async pushScheduleIdfromGroup(groupId: string, scheduleId: string) {
+    const updateGroup: any = await this.groupModel.updateOne(
+      { _id: groupId },
+      {
+        $push: { schedules: { _id: scheduleId } },
+      },
+    );
+    if (!updateGroup) throw new NotFoundException("Not Found");
+    return updateGroup;
   }
 }
