@@ -18,6 +18,7 @@ import { InjectConnection } from "@nestjs/mongoose";
 import { ScheduleService } from "./schedule.service";
 import { GetSchedule } from "src/commons/decorator.dto";
 import { Schedule } from "src/entities/schedule.entity";
+import { CreateScheduleDto } from "./dto/create-schedule.dto";
 
 @Controller("schedule")
 export class ScheduleController {
@@ -28,13 +29,30 @@ export class ScheduleController {
   ) {}
 
   @Post(":groupId")
-  createSchedule(
+  async createSchedule(
     @Headers("Authorization") authorization: string,
     @Param("groupId") groupId: string,
-    @GetSchedule() schedule: Schedule,
+    @Body() scheduleDto: CreateScheduleDto,
     @Res() res: any,
   ) {
-    return res.status(HttpStatus.CREATED).send("Create Schedule");
+    const session = await this.mongooseConnection.startSession();
+    session.startTransaction();
+    try {
+      const result: any = await this.scheduleService.createSchedule(
+        authorization,
+        groupId,
+        scheduleDto,
+      );
+      if (result) {
+        await session.commitTransaction();
+        return res.status(HttpStatus.CREATED).send("Create Schedule");
+      }
+    } catch {
+      await session.abortTransaction();
+      throw new InternalServerErrorException("Internal Server Error");
+    } finally {
+      session.endSession();
+    }
   }
 
   @Patch(":groupId/:scheduleId")
