@@ -60,6 +60,10 @@ export class ScheduleService {
         await this.groupRepository.pushScheduleIdfromGroup(groupId, result._id);
       return pushScheduleId;
     } else throw new InternalServerErrorException("Internal Server Error");
+
+    // 1. 그냥 멤버 안 넣고 날짜랑 id 값만 박혀 있는 스케줄 콘텐츠 뽑기 => 지금
+    // 2. 멤버를 조건 없이 랜덤으로 넣은 스케줄 콘텐츠 뽑기
+    // 3. 조건을 넣어서 나온 스케줄 콘텐츠 뽑기
   }
 
   async updateSchedule(
