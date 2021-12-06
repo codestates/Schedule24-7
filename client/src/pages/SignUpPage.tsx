@@ -31,14 +31,6 @@ export const SignUpText = styled.div`
   }
 `;
 
-export const BtnWrapper = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  margin: 0.3rem;
-`;
-
 export const SignUpBtn = styled.button`
   width: 313px;
   height: 35px;
