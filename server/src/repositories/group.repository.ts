@@ -167,6 +167,7 @@ export class GroupRepository {
     );
   }
 
+  // ? 그룹아이디와 조건아이디로 기존 조건 삭제
   async removeConditionByGroupAndConditionIds(
     groupId: string,
     conditionId: number,
