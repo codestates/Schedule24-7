@@ -59,17 +59,30 @@ export class ScheduleRepository {
      */
     const memberList = memberInfo.slice();
     const record = {};
+    const recordweekly = {};
+    const recordmonthly = {};
+    for (let i = 0; i < workInfo.length; i++) {
+      recordweekly[workInfo[i].workName] = 0;
+      recordmonthly[workInfo[i].workName] = 0;
+    }
+
     for (let i = 0; i < memberList.length; i++) {
+      const _recordweekly = Object.assign({}, recordweekly);
+      const _recordmonthly = Object.assign({}, recordmonthly);
       record[memberList[i]["memberId"]] = {};
+
+      // record 내부 각각의 멤버 객체에
       for (let key in memberList[i]) {
         if (key === "memberId") {
           continue;
         }
         record[memberList[i]["memberId"]][key] = memberList[i][key];
       }
+      record[memberList[i]["memberId"]].weekly = _recordweekly;
+      record[memberList[i]["memberId"]].monthly = _recordmonthly;
     }
-    console.log(record);
 
+    // ! 일자별로 반복문
     for (let i = 0; i < days; i++) {
       const newDate = {
         contentId: i + 1,
@@ -81,15 +94,33 @@ export class ScheduleRepository {
       // return result
       const team = [];
       const tempList = memberList.slice();
+
+      // 월요일에 record 주간 근무 수 리셋
+      if (new Date(newDate.date).getDay() === 1) {
+        // for (let )
+      }
+
+      // ! 근무 형태 수 만큼 반복문
       for (let i = 0; i < workInfo.length; i++) {
         const members = [];
+
+        // ! 근무 형태의 제한 인원에 맞게 인원 넣기 반복문
         for (let j = 0; j < workInfo[i].limit; j++) {
           const index = Math.round(Math.random() * (tempList.length - 1));
           try {
+            const memberId = tempList[index].memberId;
+            const memberName = tempList[index].memberName;
             members.push({
-              memberId: tempList[index].memberId,
-              memberName: tempList[index].memberName,
+              memberId,
+              memberName,
             });
+            const workName = workInfo[i].workName;
+            const _memberRecord = record[memberId];
+            // console.log(_memberRecord);
+            _memberRecord.weekly[workName]++;
+            _memberRecord.monthly[workName]++;
+            // console.log(_memberRecord.weekly[workName]);
+
             tempList.splice(index, 1);
           } catch {
             throw new BadRequestException(
@@ -102,6 +133,7 @@ export class ScheduleRepository {
       newDate.team = team;
       arr[i] = newDate;
     }
+    console.log(record);
 
     return arr;
   }

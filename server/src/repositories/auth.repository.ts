@@ -70,7 +70,7 @@ export class AuthRepository {
       .sendMail({
         to: email,
         subject: "Testing",
-        html: `<p>아래 6자리 인증번호를 입력해주세요</p>
+        html: `<p>아래 4자리 인증번호를 입력해주세요</p>
         <h1>${authNumber}</h1>`,
       })
       .then(() => {
