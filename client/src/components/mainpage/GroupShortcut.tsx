@@ -9,6 +9,7 @@ import {
   ShortcutBoxWrapper,
   ShortcutContainer,
 } from "../../style/theme";
+import GroupListItem from "../groups/GroupListItem";
 import BoxSample from "./BoxSample";
 
 export default function GroupShortcut() {
@@ -21,6 +22,30 @@ export default function GroupShortcut() {
       setShowBoxes(true);
     }
   };
+  
+  const arrs: Group.GroupListItemProps[] = [
+  {
+    emoji: "🍕",
+    groupDesc: "당직1팀 명단(수정가능)",
+    groupName: "당직1팀",
+  },
+  {
+    emoji: "🍕",
+    groupDesc: "당직2팀 명단(수정가능)",
+    groupName: "당직2팀",
+  },
+  {
+    emoji: "🍕",
+    groupDesc: "당직3팀 명단(수정가능)",
+    groupName: "당직3팀",
+  },
+  {
+    emoji: "🍕",
+    groupDesc: "당직4팀 명단(수정가능)",
+    groupName: "당직4팀",
+  },
+];
+
 
   return (
     <BoxSection>
@@ -30,26 +55,9 @@ export default function GroupShortcut() {
       </BoxHeader>
       <ShortcutContainer>
         <ShortcutBoxWrapper className={showBoxes ? "showBoxes" : ""}>
-          <BoxSample />
-          <BoxSample />
-          <BoxSample />
-          <BoxSample />
-          <BoxSample />
-          <BoxSample />
-          <BoxSample />
-          <BoxSample />
-          <BoxSample />
-          <BoxSample />
-          <BoxSample />
-          <BoxSample />
-          <BoxSample />
-          <BoxSample />
-          <BoxSample />
-          <BoxSample />
-          <BoxSample />
-          <BoxSample />
-          <BoxSample />
-          <BoxSample />
+        {[...arrs, ...arrs, ...arrs, ...arrs, ...arrs, ...arrs].map((item) => (
+          <GroupListItem {...item} />
+        ))}
         </ShortcutBoxWrapper>
         <SeeMoreWrapper>
           <SeeMore onClick={handleShowBoxes}>더보기</SeeMore>

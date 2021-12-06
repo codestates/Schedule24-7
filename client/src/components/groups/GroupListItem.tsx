@@ -1,62 +1,68 @@
-import { FC, useCallback } from "react";
+import { FC, useState } from "react";
+import { Link } from "react-router-dom";
 import styled from "styled-components";
-import { DefaultLayout, hideMobileCss, mediaQuery } from "../../GlobalStyle";
-import { useState } from "react";
 import ThreeDot from "../ThreeDot";
 
-const Block = styled.div`
-  padding: 13px;
-  box-sizing: border-box;
-  background: #ffffff;
-  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-  border-radius: 15px;
-  position: relative;
+export const MainDiv = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 9rem;
+  height: 9rem;
+  border: 1px solid #cfcdcd;
+  /* box-shadow: 1px 1px 1px #a7a7a75c; */
+  border-radius: 0.4rem;
+  background-color: white;
+  margin: 0.5rem;
+
+  a {
+    text-decoration: none;
+  }
+  a:visited {
+    text-decoration: none;
+  }
 `;
 
-const MenuWrapper = styled.div`
+export const Div1 = styled.div`
   display: flex;
   justify-content: space-between;
-  align-items: center;
-  span {
-    font-weight: 700;
-    font-size: 20px;
-  }
 `;
-const ContentWrapper = styled.div`
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
 
-  h4 {
-    font-weight: 700;
-    font-size: 20px;
-    color: #000000;
-    margin: 0;
-  }
-  p {
-    margin: 0;
-    margin-top: 8px;
-    font-weight: 400;
-    font-size: 12px;
-    color: #9d9b9b;
-  }
+export const SubDiv1 = styled.div`
+  margin-left: 0.5rem;
 `;
+export const SubDiv2 = styled.div`
+  margin-right: 0.55rem;
+  margin-top: 0.35rem;
+`;
+
+export const Div2 = styled.div`
+  font-size: 18px;
+  font-weight: bold;
+  margin-left: 0.7rem;
+  margin-top: 1.8rem;
+  color: black;
+`;
+
+export const Div3 = styled.div`
+  font-size: 14px;
+  font-weight: 300;
+  margin-left: 0.7rem;
+`;
+
 const ToggleMenu = styled.div`
   display: flex;
   flex-direction: column;
   cursor: pointer;
   > div {
     border-radius: 50%;
-    width: 6px;
-    height: 6px;
+    width: 4px;
+    height: 4px;
     background-color: #000000;
   }
   > div + div {
     margin-top: 2px;
   }
 `;
-
-
 
 const GroupListItem: FC<Group.GroupListItemProps> = ({
   emoji,
@@ -65,29 +71,31 @@ const GroupListItem: FC<Group.GroupListItemProps> = ({
 }) => {
   const [openThreeDot, setOpenThreeDot] = useState(false);
   const handleOpenThreeDot = () => {
-    setOpenThreeDot(true)
-  }
+    setOpenThreeDot(true);
+  };
   const handleCloseThreeDot = () => {
-    return (openThreeDot ? setOpenThreeDot(false) : null)
-  }
-  
+    return openThreeDot ? setOpenThreeDot(false) : null;
+  };
+
   return (
-    <Block onClick={handleCloseThreeDot}>
-      <MenuWrapper>
-        <span>{emoji}</span>
-        <ToggleMenu onClick={handleOpenThreeDot} >
-          <div />
-          <div />
-          <div />
-        </ToggleMenu>
-      </MenuWrapper>
-        {openThreeDot ? <ThreeDot /> : null }
-      <ContentWrapper>
-        <h4>{groupName}</h4>
-        <p>{groupDesc}</p>
-      </ContentWrapper>
-    </Block>
+    <MainDiv onClick={handleCloseThreeDot}>
+      <Div1>
+        <SubDiv1>{emoji}</SubDiv1>
+        <SubDiv2>
+          <ToggleMenu onClick={handleOpenThreeDot}>
+            <div />
+            <div />
+            <div />
+          </ToggleMenu>
+        </SubDiv2>
+        {openThreeDot ? <ThreeDot /> : ""}
+      </Div1>
+      <Link to="/group/member">
+        <Div2>{groupName}</Div2>
+      </Link>
+      <Div3>{groupDesc}</Div3>
+    </MainDiv>
   );
-};
+}
 
 export default GroupListItem;
