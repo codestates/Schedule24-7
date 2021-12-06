@@ -26,9 +26,30 @@ export class ScheduleService {
   //   return "This action adds a new schedule";
   // }
 
-  // update(id: number, updateScheduleDto: UpdateScheduleDto) {
-  //   return `This action updates a #${id} schedule`;
-  // }
+  async updateSchedule(
+    auth: string,
+    groupId: string,
+    scheduleId: string,
+    schedule: any,
+  ) {
+    // 요청 정보 확인
+    if (
+      !auth.length ||
+      !groupId.length ||
+      !scheduleId.length ||
+      !Object.keys(schedule).length
+    ) {
+      throw new BadRequestException("Bad Requst");
+    }
+    // 토큰 복호화해서 정보 확인
+    const { _id }: any = await this.authRepository.validateToken(auth);
+    const userInfo: any = await this.userRepoSitory.getUserDataById(_id);
+    if (!userInfo) throw new UnauthorizedException("Unauthorized");
+    // 그룹 도큐먼트에 그룹아이디와 스케쥴 아이디가 있는지 확인
+    const groupInfo: any = await this.groupRepository.getScheduleIdFromGroup;
+    // 있으면 해당 스케쥴의 내용을 수정
+    return `This action updates a schedule`;
+  }
 
   async removeSchedule(auth: string, groupId: string, scheduleId: string) {
     // 요청 정보 확인

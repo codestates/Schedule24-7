@@ -34,13 +34,7 @@ export class GroupRepository {
     const { groupName, groupDesc, groupEmoji, createdAt, works } = group;
     const updateGroupData = await this.groupModel.updateOne(
       { _id: groupId },
-      {
-        groupName,
-        groupDesc,
-        groupEmoji,
-        createdAt,
-        works,
-      },
+      group,
     );
     console.log("update");
     console.log(updateGroupData);
@@ -192,5 +186,18 @@ export class GroupRepository {
       { $set: { members: [], memberIdCount: 0 } },
       { returnDocument: "after" },
     );
+  }
+
+  // 스케쥴 작성을 위한 멤버정보 조회
+  async getMemberByGroupId(groupId: string) {
+    return await this.groupModel.findById(groupId).select("members");
+  }
+  // 스케쥴 작성을 위한 조건정보 조회
+  async getConditionByGroupId(groupId: string) {
+    return await this.groupModel.findById(groupId).select("condtions");
+  }
+  // 스케쥴 작성을 위한 근무정보 조회
+  async getWorkByGroupId(groupId: string) {
+    return await this.groupModel.findById(groupId).select("works");
   }
 }

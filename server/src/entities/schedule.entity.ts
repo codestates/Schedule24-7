@@ -1,6 +1,13 @@
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
 import { Document, Schema as MongooseSchema } from "mongoose";
-import { Group } from "./group.entity";
+
+class Group {
+  @Prop()
+  groupId: MongooseSchema.Types.ObjectId;
+
+  @Prop()
+  groupName: string;
+}
 
 @Schema()
 export class Schedule extends Document {
@@ -12,8 +19,8 @@ export class Schedule extends Document {
   period: string; // 2021-12-01
   @Prop({ default: Date.now })
   createdAt: Date;
-  @Prop({ type: [{ type: MongooseSchema.Types.ObjectId, ref: "Group" }] })
-  groups: Group[];
+  @Prop({ required: true })
+  group: Group;
   @Prop()
   contents: Content[];
 }
