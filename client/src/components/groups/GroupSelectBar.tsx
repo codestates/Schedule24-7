@@ -23,7 +23,6 @@ const Block = styled.div`
 const GroupSelectBar: FC = () => {
   return (
     <>
-    <h4>그룹 기본정보</h4>
     <Block>      
       <a href="#">스케줄</a>
       <a href="/group/member">멤버관리</a>
