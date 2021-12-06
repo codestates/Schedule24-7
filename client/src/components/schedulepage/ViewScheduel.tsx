@@ -42,11 +42,11 @@ export const YearMonth = styled.span`
 
 export const ScheduleTable = styled.div`
   display: grid;
-  height: 65vh;
+  height: 75vh;
   justify-content: center;
   margin: 1.5rem;
   grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
-  grid-template-rows: 0.2fr 1fr 1fr 1fr 1fr 1fr;
+  grid-template-rows: 0.2fr 1fr 1fr 1fr 1fr 1fr 1fr;
 `;
 
 export default function ViewSchedule() {
