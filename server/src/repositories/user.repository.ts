@@ -12,18 +12,13 @@ export class UserRepository {
   ) {}
   // 회원생성
   async createUser(createUserDto: CreateUserDto) {
-    const { email, userId, password, userName } = createUserDto;
+    const { email } = createUserDto;
     // 동일한 이메일이 있는지 확인
     const userInfo = await this.getUserByEmail(email);
     // 동일한 정보가 없는 경우 정보 등록
     if (!userInfo) {
-      const newUser: any = new this.userModel({
-        userId,
-        email,
-        password,
-        userName,
-      });
-
+      const newUser: any = new this.userModel(createUserDto);
+      //console.log(newUser);
       const createdUser: any = await newUser.save();
       return createdUser;
     } else {

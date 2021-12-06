@@ -4,17 +4,14 @@ import {
   Inject,
   Injectable,
   InternalServerErrorException,
-  NotFoundException,
   UnauthorizedException,
 } from "@nestjs/common";
-import { identity } from "rxjs";
 
 import { Group } from "src/entities/group.entity";
 import { AuthRepository } from "src/repositories/auth.repository";
 import { GroupRepository } from "src/repositories/group.repository";
 import { ScheduleRepository } from "src/repositories/schedule.repository";
 import { UserRepository } from "src/repositories/user.repository";
-import { parentPort } from "worker_threads";
 import { CreateConditionDto } from "./dto/createCondition.dto";
 import { UpdateConditionDto } from "./dto/updateCondition.dto";
 
@@ -60,6 +57,7 @@ export class GroupService {
     return groups;
   }
 
+  // 그룹 정보 수정
   async updateGroup(auth: string, groupId: string, group: Group) {
     if (!auth.length || !groupId.length || !Object.keys(group).length) {
       throw new BadRequestException("Bad Requst");

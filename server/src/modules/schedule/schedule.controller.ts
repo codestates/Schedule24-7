@@ -38,14 +38,29 @@ export class ScheduleController {
   }
 
   @Patch(":groupId/:scheduleId")
-  updateSchedule(
+  async updateSchedule(
     @Headers("Authorization") authorization: string,
     @Param("groupId") groupId: string,
     @Param("scheduleId") scheduleId: string,
     @GetSchedule() schedule: Schedule,
     @Res() res: any,
   ) {
-    return res.status(HttpStatus.OK).send("Update Schedule");
+    const session = await this.mongooseConnection.startSession();
+    session.startTransaction();
+    try {
+      const result: any = await this.scheduleService.updateSchedule(
+        authorization,
+        groupId,
+        scheduleId,
+        schedule,
+      );
+      await session.commitTransaction();
+      return res.status(HttpStatus.OK).send("Update Schedule");
+    } catch (e) {
+      await session.abortTransaction();
+    } finally {
+      session.endSession();
+    }
   }
 
   @Delete(":groupId/:scheduleId")
