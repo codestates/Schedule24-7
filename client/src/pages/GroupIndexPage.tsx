@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC,useCallback } from "react";
 import Layout from "../components/Layout";
 import styled from "styled-components";
 import { mediaQuery } from "../GlobalStyle";
@@ -49,9 +49,9 @@ const arrs: Group.GroupListItemProps[] = [
 
 const GroupIndexPage: FC = () => {
   const navigate = useNavigate()
-  const handleClickLink = () => {
-    navigate("/group/add")
-  }
+  const handleClickLink = useCallback(() => {
+    navigate("group/add");
+  }, [navigate]);
   
   
   

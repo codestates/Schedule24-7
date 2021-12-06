@@ -5,7 +5,6 @@ import { DefaultLayout, hideMobileCss, mediaQuery } from "../../GlobalStyle";
 const Block = styled.div`
   display: flex;
   flex-direction: row;
-  justify-content: center;
   align-items: center;
   padding: 11px 6px;
 
@@ -29,7 +28,7 @@ const GroupSelectBar: FC = () => {
       <a href="#">스케줄</a>
       <a href="/group/member">멤버관리</a>
       <a href="/group/info">기본정보</a>
-      <a href="#">근무조건</a>
+      <a href="/group/condition">근무조건</a>
     </Block>
     </>
   );
