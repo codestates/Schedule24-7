@@ -43,7 +43,6 @@ export class UserRepository {
       .findById({ _id: id })
       .select("-password");
     if (!user) throw new NotFoundException("Not Found");
-    console.log(user);
     return user;
   }
 
