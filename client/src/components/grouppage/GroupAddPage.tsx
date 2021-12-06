@@ -1,10 +1,10 @@
 import { FC } from "react";
-import Layout from "../components/Layout";
+import Layout from "../Layout";
 import styled from "styled-components";
-import InnerHeader from "../components/InnerHeader";
-import GroupBasicInfo from "../components/groups/GroupBasicInfo";
-import DailyWork from "../components/groups/DailyWork"
-import WorkNameNumber from "../components/groups/WorkNameNumber";
+import InnerHeader from "../InnerHeader";
+import GroupBasicInfo from "../groups/GroupBasicInfo";
+import DailyWork from "../groups/DailyWork"
+import WorkNameNumber from "../groups/WorkNameNumber";
 
 const arrs: Group.GroupListItemProps[] = [
   {

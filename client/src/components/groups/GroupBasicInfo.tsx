@@ -9,7 +9,15 @@ const Block = styled.div`
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   border-radius: 15px;
   position: relative;
+  width: 300px;
+
+  .groupName {
+    width: 229px;
+    height: 50px;
+  }
+
 `;
+
 
 const selectBoxOptions: SelectOption[] = [
   {
@@ -181,8 +189,8 @@ const GroupBasicInfo: FC = () => {
       <Block>
         <div>
           <MultiColumnSelectBox options={selectBoxOptions} />
-          <input placeholder="그룹명" />
-          <input placeholder="그룹설명" />
+          <input className="groupName" placeholder="그룹명" />
+          <input className="groupDesc" placeholder="그룹설명" />
         </div>
       </Block>
     </>

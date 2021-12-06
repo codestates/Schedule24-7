@@ -1,13 +1,13 @@
 import { FC,useCallback } from "react";
-import Layout from "../components/Layout";
+import Layout from "../Layout";
 import styled from "styled-components";
-import { mediaQuery } from "../GlobalStyle";
+import { mediaQuery } from "../../GlobalStyle";
 import { useNavigate } from "react-router";
-import InnerHeader from "../components/InnerHeader";
-import GroupSelectBar from "../components/groups/GroupSelectBar";
-import MemberListItem from "../components/groups/MemberListItem";
-import AddListButton from "../components/AddListButton"
-import MemberListEditItem from "../components/groups/MemberListEditItem";
+import InnerHeader from "../InnerHeader";
+import GroupSelectBar from "../groups/GroupSelectBar";
+import MemberListItem from "../groups/MemberListItem";
+import AddListButton from "../AddListButton"
+import MemberListEditItem from "../groups/MemberListEditItem";
 
 const BlockContainer = styled.div`
   background-color: #f1f1f1;
@@ -29,7 +29,7 @@ const BlockContainer = styled.div`
 const GroupMemberPage: FC = () => {
   const navigate = useNavigate();
   const handler = useCallback(() => {
-    navigate("group/member");
+    navigate("/group");
   }, [navigate]);
   
   return (
