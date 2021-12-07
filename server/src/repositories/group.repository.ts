@@ -10,6 +10,7 @@ import { Group } from "../entities/group.entity";
 import { User } from "src/entities/user.entity";
 import { CreateConditionDto } from "src/modules/group/dto/createCondition.dto";
 import { UpdateConditionDto } from "src/modules/group/dto/updateCondition.dto";
+import HttpError from "src/commons/httpError";
 
 export class GroupRepository {
   constructor(
@@ -72,16 +73,26 @@ export class GroupRepository {
 
   // ? 그룹아이디를 통한 멤버 추가
   async addMemberToGroupByGroupId(groupId: string, newMember: Group) {
-    return await this.groupModel.findByIdAndUpdate(groupId, {
-      $push: { members: newMember },
-    });
+    return await this.groupModel.findByIdAndUpdate(
+      groupId,
+      {
+        $push: { members: newMember },
+      },
+      {},
+    );
   }
 
   // ? 그룹아이디를 통한 그룹 내 memberIdCount 필드 값 +1 증가
   async increaseMemberIdCountByGroupId(groupId: string) {
-    return await this.groupModel.findByIdAndUpdate(groupId, {
-      $inc: { memberIdCount: 1 },
-    });
+    try {
+      return await this.groupModel.findByIdAndUpdate(groupId, {
+        $inc: { memberIdCount: 1 },
+      });
+    } catch (err) {
+      if (err.name === "CastError")
+        throw new HttpError(400, "CastError: groupId 값이 올바르지 않습니다");
+      else throw new HttpError(500, "서버 내부 에러입니다");
+    }
   }
 
   // ? 그룹아이디와 멤버 아이디를 통한 멤버 정보 수정
@@ -90,42 +101,60 @@ export class GroupRepository {
     memberId: number,
     memberData: any,
   ) {
-    return await this.groupModel.findOneAndUpdate(
-      {
-        _id: groupId,
-        members: { $elemMatch: { memberId: memberId } },
-      },
-      {
-        $set: {
-          "members.$": memberData,
+    try {
+      return await this.groupModel.findOneAndUpdate(
+        {
+          _id: groupId,
+          members: { $elemMatch: { memberId: memberId } },
         },
-      },
-      {
-        returnDocument: "after",
-      },
-    );
+        {
+          $set: {
+            "members.$": memberData,
+          },
+        },
+        {
+          returnDocument: "after",
+        },
+      );
+    } catch (error) {
+      if (error.name === "CastError")
+        throw new HttpError(400, "CastError: groupId 값이 올바르지 않습니다");
+      else throw new HttpError(500, "서버 내부 에러입니다");
+    }
   }
 
   // ? 그룹아이디와 멤버 아이디를 통한 멤버 삭제
   async removeMemberByGroupAndMemberIds(groupId: string, memberId: number) {
-    return await this.groupModel.findOneAndUpdate(
-      {
-        _id: groupId,
-      },
-      {
-        $pull: { members: { memberId: memberId } },
-      },
-      {
-        returnDocument: "after",
-      },
-    );
+    try {
+      return await this.groupModel.findOneAndUpdate(
+        {
+          _id: groupId,
+        },
+        {
+          $pull: { members: { memberId: memberId } },
+        },
+        {
+          returnDocument: "after",
+        },
+      );
+    } catch (error) {
+      if (error.name === "CastError")
+        throw new HttpError(400, "CastError: groupId 값이 올바르지 않습니다");
+      else throw new HttpError(500, "서버 내부 에러입니다");
+    }
   }
 
   // ? 그룹아이디를 통한 그룹 내 memberIdCount 필드 값 +1 증가
   async increaseConditionIdCountByGroupId(groupId: string) {
-    return await this.groupModel.findByIdAndUpdate(groupId, {
-      $inc: { conditionIdCount: 1 },
-    });
+    try {
+      return await this.groupModel.findByIdAndUpdate(groupId, {
+        $inc: { conditionIdCount: 1 },
+      });
+    } catch (err) {
+      if (err.name === "CastError")
+        throw new HttpError(400, "CastError: groupId 값이 올바르지 않습니다");
+      else throw new HttpError(500, "서버 내부 에러입니다");
+    }
   }
 
   // ? 그룹아이디로 조건 추가

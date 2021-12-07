@@ -1,11 +1,14 @@
 import {
   BadRequestException,
   forwardRef,
+  HttpCode,
   Inject,
   Injectable,
   InternalServerErrorException,
   UnauthorizedException,
 } from "@nestjs/common";
+import { HttpErrorByCode } from "@nestjs/common/utils/http-error-by-code.util";
+import HttpError from "src/commons/httpError";
 
 import { Group } from "src/entities/group.entity";
 import { AuthRepository } from "src/repositories/auth.repository";
@@ -109,26 +112,34 @@ export class GroupService {
   // ? 새로운 멤버 추가
   // * POST "/member/:groupId" 연결
   async createMember(authorization: string, member: Group, groupId: string) {
+    // * 토큰 유효성 검사
     try {
       this.authRepository.validateToken(authorization);
     } catch (err) {
-      throw new UnauthorizedException(err);
+      throw new HttpError(401, err.message);
     }
 
-    try {
-      // 멤버간 Id 값 중복을 피하기 위해 memberIdCount +1 증가 및 기존 IdCount 값 추출
-      const IdCount: Group =
-        await this.groupRepository.increaseMemberIdCountByGroupId(groupId);
-      // memberIdCount 최신 값으로 memberId 값 설정
-      const newMember: Group = Object.assign(
-        {},
-        { memberId: IdCount.memberIdCount },
-        member,
-      );
-      await this.groupRepository.addMemberToGroupByGroupId(groupId, newMember);
-      return;
-    } catch (error) {
-      throw new InternalServerErrorException(error);
+    // * 멤버간 Id 값 중복을 피하기 위해 memberIdCount +1 증가 및 기존 IdCount 값 추출
+    const IdCount: Group =
+      await this.groupRepository.increaseMemberIdCountByGroupId(groupId);
+
+    if (!IdCount) throw new HttpError(400, "groupId 값이 올바르지 않습니다");
+
+    // * memberIdCount 최신 값으로 memberId 값 설정
+    const newMember: Group = Object.assign(
+      {},
+      { memberId: IdCount.memberIdCount },
+      member,
+    );
+    // * 그룹 아이디로 그룹 조회하여 멤버 추가
+    const result = await this.groupRepository.addMemberToGroupByGroupId(
+      groupId,
+      newMember,
+    );
+    if (!result) {
+      throw new HttpError(500, "업데이트가 정상적으로 완료되지 않았습니다.");
+    } else {
+      return "업데이트가 정상적으로 완료되었습니다.";
     }
   }
 
@@ -139,21 +150,28 @@ export class GroupService {
     params: { groupId: string; memberId: number },
     memberData: any,
   ) {
+    // * 토큰 유효성 검사
     try {
       this.authRepository.validateToken(authorization);
     } catch (err) {
-      throw new UnauthorizedException(err);
+      throw new HttpError(401, err.message);
     }
+
+    // * 전달되는 memberId 숫자 값으로 변형 후 업데이트 데이터에 저장
     params.memberId = Number(params.memberId);
     memberData.memberId = params.memberId;
-    try {
-      return await this.groupRepository.updateMemberByGroupAndMemberIds(
-        params.groupId,
-        params.memberId,
-        memberData,
-      );
-    } catch (err) {
-      throw new InternalServerErrorException(err);
+
+    // * DB상 업데이트 진행
+    const result = await this.groupRepository.updateMemberByGroupAndMemberIds(
+      params.groupId,
+      params.memberId,
+      memberData,
+    );
+
+    if (!result) {
+      throw new HttpError(500, "업데이트가 완료되지 않았습니다.");
+    } else {
+      return "업데이트가 정상적으로 완료되었습니다.";
     }
   }
 
@@ -163,21 +181,25 @@ export class GroupService {
     authorization: string,
     params: { groupId: string; memberId: number },
   ) {
+    // * 토큰 유효성 검사
     try {
       this.authRepository.validateToken(authorization);
     } catch (err) {
-      throw new UnauthorizedException(err);
+      throw new HttpError(401, err.message);
     }
 
+    // * memberId 숫자형으로 변환 후 재할당
     params.memberId = Number(params.memberId);
 
-    try {
-      return await this.groupRepository.removeMemberByGroupAndMemberIds(
-        params.groupId,
-        params.memberId,
-      );
-    } catch (error) {
-      throw new UnauthorizedException(error);
+    const result = await this.groupRepository.removeMemberByGroupAndMemberIds(
+      params.groupId,
+      params.memberId,
+    );
+
+    if (!result) {
+      throw new HttpError(500, "삭제가 완료되지 않았습니다.");
+    } else {
+      return "삭제가 정상적으로 완료되었습니다.";
     }
   }
 
@@ -194,26 +216,34 @@ export class GroupService {
     groupId: string,
     condition: CreateConditionDto,
   ) {
+    // * 토큰 유효성 검사
     try {
       this.authRepository.validateToken(authorization);
-    } catch (error) {
-      throw new UnauthorizedException(error);
+    } catch (err) {
+      throw new HttpError(401, err.message);
     }
 
-    try {
-      const IdCount =
-        await this.groupRepository.increaseConditionIdCountByGroupId(groupId);
+    // * 조건간 Id 값 중복을 피하기 위해 conditionIdCount +1 증가 및 기존 conditionIdCount 값 추출
+    const IdCount =
+      await this.groupRepository.increaseConditionIdCountByGroupId(groupId);
 
-      const newCondition: CreateConditionDto = Object.assign({}, condition, {
-        conditionId: IdCount.conditionIdCount,
-      });
+    if (!IdCount) throw new HttpError(401, "groupId 값이 올바르지 않습니다.");
 
-      return await this.groupRepository.createConditionByGroupId(
-        groupId,
-        newCondition,
-      );
-    } catch (error) {
-      throw new InternalServerErrorException(error);
+    // * 추가될 신규 조건에 conditionId 값 추가
+    const newCondition: CreateConditionDto = Object.assign({}, condition, {
+      conditionId: IdCount.conditionIdCount,
+    });
+
+    // * condition 추가 진행
+    const result = await this.groupRepository.createConditionByGroupId(
+      groupId,
+      newCondition,
+    );
+
+    if (!result) {
+      throw new HttpError(500, "조건 추가가 정상적으로 이루어지지 않았습니다");
+    } else {
+      return "조건 추가가 완료되었습니다";
     }
   }
 
@@ -230,21 +260,29 @@ export class GroupService {
     params: { groupId: string; conditionId: number },
     conditionData: UpdateConditionDto,
   ) {
+    // * 토큰 유효성 검사
     try {
       this.authRepository.validateToken(authorization);
     } catch (err) {
-      throw new UnauthorizedException(err);
+      throw new HttpError(401, err.message);
     }
+
+    // * 전달된 conditionId 타입 Number Type으로 수정
     params.conditionId = Number(params.conditionId);
     conditionData.conditionId = params.conditionId;
-    try {
-      return await this.groupRepository.updateConditionByGroupAndConditionIds(
+
+    // * condition 업데이트 내용 DB 반영
+    const result =
+      await this.groupRepository.updateConditionByGroupAndConditionIds(
         params.groupId,
         params.conditionId,
         conditionData,
       );
-    } catch (err) {
-      throw new InternalServerErrorException(err);
+
+    if (!result) {
+      throw new HttpError(500, "조건 추가가 정상적으로 이루어지지 않았습니다");
+    } else {
+      return "조건 추가가 완료되었습니다";
     }
   }
 
@@ -259,21 +297,26 @@ export class GroupService {
     authorization: string,
     params: { groupId: string; conditionId: number },
   ) {
+    // * 토큰 유효성 검사
     try {
       this.authRepository.validateToken(authorization);
-    } catch (error) {
-      throw new UnauthorizedException(error);
+    } catch (err) {
+      throw new HttpError(401, err.message);
     }
 
+    // * 전달된 conditionId 타입 Number Type으로 수정
     params.conditionId = Number(params.conditionId);
 
-    try {
-      return await this.groupRepository.removeConditionByGroupAndConditionIds(
+    const result =
+      await this.groupRepository.removeConditionByGroupAndConditionIds(
         params.groupId,
         params.conditionId,
       );
-    } catch (error) {
-      throw new InternalServerErrorException(error);
+
+    if (!result) {
+      throw new HttpError(500, "조건 추가가 정상적으로 이루어지지 않았습니다");
+    } else {
+      return "조건 추가가 완료되었습니다";
     }
   }
 }
