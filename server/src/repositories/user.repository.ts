@@ -1,10 +1,9 @@
 import { InjectModel } from "@nestjs/mongoose";
 import { Model } from "mongoose";
 
-import { ConflictException, NotFoundException } from "@nestjs/common";
 import { User } from "../entities/user.entity";
 import { CreateUserDto } from "../modules/user/dto/request/create-user.dto";
-import { group } from "console";
+import HttpError from "src/commons/httpError";
 
 export class UserRepository {
   constructor(
@@ -22,7 +21,7 @@ export class UserRepository {
       const createdUser: any = await newUser.save();
       return createdUser;
     } else {
-      throw new ConflictException("Conflic Email");
+      throw new HttpError(409, "Conflic Email");
     }
   }
   // 동일한 유저 아이디 체크
@@ -42,7 +41,7 @@ export class UserRepository {
     const user: any = await this.userModel
       .findById({ _id: id })
       .select("-password");
-    if (!user) throw new NotFoundException("Not Found");
+    if (!user) throw new HttpError(404, "Not Found");
     return user;
   }
 
@@ -51,7 +50,7 @@ export class UserRepository {
     const user: any = await this.userModel
       .findById(id)
       .select("userId, email, userName");
-    if (!user) throw new NotFoundException("Not Found UserInfo");
+    if (!user) throw new HttpError(404, "Not Found UserInfo");
     return user;
   }
 
@@ -63,13 +62,13 @@ export class UserRepository {
         $set: { password: new_password },
       },
     );
-    if (!updateUser) throw new NotFoundException("Not Found");
-    return updateUser;
+    if (!updateUser) throw new HttpError(404, "Not Found");
+    else return updateUser;
   }
   // 회원탈퇴
-  async remove(id: string) {
-    const result: any = await this.userModel.remove({ _id: id });
-    if (!result) throw new NotFoundException("Not Found");
+  async signOut(id: string) {
+    const result: any = await this.userModel.deleteOne({ _id: id });
+    if (!result) throw new HttpError(404, "Not Found");
   }
   // 신규 그룹 생성시 유저에 그룹 objectId 추가
   async addGroupIdFromGroup(id: string, group: any) {
@@ -80,7 +79,7 @@ export class UserRepository {
         $push: { groups: { _id: group._id } },
       },
     );
-    if (!updateUser) throw new NotFoundException("Not Found");
+    if (!updateUser) throw new HttpError(404, "Not Found");
     return updateUser;
   }
 
@@ -96,7 +95,7 @@ export class UserRepository {
   // 유저의 비밀번호 가져오기 - 비밀번호 일치
   async getUserPasswordById(id: string) {
     const userData: any = await this.userModel.findById(id).select("password");
-    if (!userData) throw new NotFoundException("Not Found");
+    if (!userData) throw new HttpError(404, "Not Found");
     return userData.password;
   }
 

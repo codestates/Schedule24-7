@@ -1,6 +1,8 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import { setFirstView } from "../../redux/actions/scheduleActions";
 import ScheduleThreeDot from "./ScheduleThreeDot";
 
 export const MainDiv = styled.div`
@@ -41,6 +43,7 @@ export const Div2 = styled.div`
   margin-left: 0.7rem;
   margin-top: 1.8rem;
   color: black;
+  cursor: pointer;
 `;
 
 export const Div3 = styled.div`
@@ -65,12 +68,20 @@ const ToggleMenu = styled.div`
 `;
 
 export default function BoxItem({ schedule }: any) {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [openThreeDot, setOpenThreeDot] = useState(false);
   const handleOpenThreeDot = () => {
     setOpenThreeDot(true);
   };
   const handleCloseThreeDot = () => {
     return openThreeDot ? setOpenThreeDot(false) : null;
+  };
+
+  const connectViewSchedule = (date: string): void => {
+    console.log(date);
+    dispatch(setFirstView(date));
+    navigate("/schedule/view");
   };
 
   return (
@@ -86,9 +97,13 @@ export default function BoxItem({ schedule }: any) {
         </SubDiv2>
         {openThreeDot ? <ScheduleThreeDot /> : ""}
       </Div1>
-      <Link to="/schedule/view">
-        <Div2>{schedule.scheduleName}</Div2>
-      </Link>
+      <Div2
+        onClick={() => {
+          connectViewSchedule(schedule.period);
+        }}
+      >
+        {schedule.scheduleName}
+      </Div2>
       <Div3>{schedule.group.groupName}</Div3>
     </MainDiv>
   );

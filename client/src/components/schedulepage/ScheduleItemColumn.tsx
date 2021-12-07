@@ -1,37 +1,54 @@
 import styled from "styled-components";
+import { mediaQuery } from "../../GlobalStyle";
 
 export const Box = styled.div`
+  display: flex;
   min-width: 5rem;
+  min-height: 40px;
   background-color: #ffffff;
   border-radius: 0.5rem;
-  box-shadow: 0.05rem 0.05rem 0.1rem rgba(0, 0, 0, 0.25);
+  box-shadow: 3px rgba(0, 0, 0, 0.25);
   border: 0.01rem solid rgba(0, 0, 0, 0.15);
   margin: 0.1rem;
   align-items: center;
-  justify-content: center;
 `;
 
 export const Worksdiv = styled.div`
   display: flex;
-  flex-direction: column;
-  height: 77px;
+  width: 100%;
+  min-height: 77px;
   align-items: center;
   justify-content: center;
   margin-bottom: 0.1rem;
+  flex: 1 1 auto;
 `;
 
 export const Day = styled.span`
   font-size: 14px;
   font-weight: bold;
-  color: #444444;
+  width: 30px;
+  /* height: 20px;
+  padding-top: 5px;
+  border-radius: 50%; */
+  color: #494949;
   margin-left: 0.3rem;
+  /* background-color: #494949; */
+  text-align: center;
+  ${mediaQuery.mobile} {
+    font-size: 11px;
+    width: 12px;
+  }
 `;
 
 export const WorkWrapper = styled.div`
   display: flex;
-  margin: 0.1rem;
+  /* width: 100%; */
+  margin: 0.5rem;
   justify-content: center;
   align-items: center;
+  ${mediaQuery.mobile} {
+    margin: 0.2rem;
+  }
 `;
 
 export const Work = styled.div`
@@ -40,19 +57,20 @@ export const Work = styled.div`
   font-size: 15px;
   margin-right: 0.1rem;
   margin-left: 0.1rem;
+  ${mediaQuery.mobile} {
+    font-size: 11px;
+  }
 `;
 
 export const Worker = styled.div`
   display: flex;
   border-radius: 1rem;
-  max-width: 8rem;
-  max-height: 1.8rem;
+  /* max-width: 10rem; */
   color: #ffffff;
   justify-content: center;
-  /* align-items: center; */
+  align-items: center;
   padding: 0.2rem 0.5rem;
   font-size: 13px;
-  overflow: hidden;
 
   &.a {
     background-color: #fdb137;
@@ -63,9 +81,14 @@ export const Worker = styled.div`
   &.c {
     background-color: #4152a4;
   }
+
+  ${mediaQuery.mobile} {
+    font-size: 11px;
+    max-width: 6rem;
+  }
 `;
 
-export default function ScheduleItem({ DayNum, NewDummy }: any) {
+export default function ScheduleItemColumn({ DayNum, NewDummy }: any) {
   // console.log(NewDummy[0]);
   let viewData: any;
   if (NewDummy !== undefined) {

@@ -5,6 +5,7 @@ import { JwtService } from "@nestjs/jwt";
 import { InjectModel } from "@nestjs/mongoose";
 import { Model } from "mongoose";
 import { nanoid } from "nanoid";
+import HttpError from "src/commons/httpError";
 import { ConfigService } from "src/config/config.service";
 import { Auth } from "src/entities/auth.entity";
 import { User } from "src/entities/user.entity";
@@ -24,7 +25,7 @@ export class AuthRepository {
       const user = await this.userModel.findOne({ userId });
       return user;
     } catch (err) {
-      throw new InternalServerErrorException(err);
+      throw new HttpError(400, "userId의 값이 올바르지 않습니다");
     }
   }
 
@@ -91,7 +92,7 @@ export class AuthRepository {
     try {
       return await this.authModel.findOne({ _id });
     } catch (err) {
-      throw new InternalServerErrorException(err);
+      throw new HttpError(400, "전달된 _id가 올바르지 않습니다");
     }
   }
 
@@ -101,20 +102,18 @@ export class AuthRepository {
   }
 
   // * ID 메일 발송 함수
-  sendIdMail(email: string, userId: string, userName: string) {
-    return this.mailerService
-      .sendMail({
+  async sendIdMail(email: string, userId: string, userName: string) {
+    try {
+      await this.mailerService.sendMail({
         to: email,
         subject: "Testing",
         html: `<p>${userName}님의 아이디는 다음과 같습니다.</p>
         <h1>${userId}</h1>`,
-      })
-      .then(() => {
-        return true;
-      })
-      .catch((err) => {
-        throw new InternalServerErrorException(err);
       });
+      return true;
+    } catch (err) {
+      return false;
+    }
   }
   // * 임시 비밀번호 메일 발송 함수
   async sendPasswordMail(
@@ -131,7 +130,7 @@ export class AuthRepository {
       });
       return true;
     } catch (err) {
-      throw new InternalServerErrorException(err);
+      return false;
     }
   }
 

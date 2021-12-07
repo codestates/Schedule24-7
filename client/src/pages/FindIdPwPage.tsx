@@ -41,7 +41,7 @@ export const ChangeBtn = styled.button`
   }
 `;
 
-function FindIdPw() {
+function FindIdPwPage() {
   const [inputState, setInputState] = useState(true);
   //아이디 찾기 비밀번호 찾기 상태변경
 
@@ -82,4 +82,4 @@ function FindIdPw() {
   );
 }
 
-export default FindIdPw;
+export default FindIdPwPage;

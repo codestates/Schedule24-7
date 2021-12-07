@@ -14,6 +14,7 @@ import BoxSample from "./BoxSample";
 import { useSelector } from "react-redux";
 import { RootState } from "../../redux/reducers";
 
+
 export default function GroupShortcut() {
   const [showBoxes, setShowBoxes] = useState(false);
   const groups = useSelector((store: RootState) => store.group.groups);

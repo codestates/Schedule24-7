@@ -8,8 +8,6 @@ import {
   Delete,
   Res,
   HttpStatus,
-  InternalServerErrorException,
-  UseFilters,
 } from "@nestjs/common";
 import {
   ApiTags,
@@ -24,8 +22,6 @@ import {
   ApiHeader,
   ApiNoContentResponse,
 } from "@nestjs/swagger";
-import { InjectConnection } from "@nestjs/mongoose";
-import { Connection } from "mongoose";
 
 import {
   BadRequestErr,
@@ -39,16 +35,11 @@ import { CreateUserDto } from "./dto/request/create-user.dto";
 import { CreateUserResDto } from "./dto/response/create-user.dto";
 import { GetUserInfoResDto } from "./dto/response/select-user.dto";
 import { UpdateUserResDto } from "./dto/response/update-user.dto";
-//import { HttpExceptionFilter } from "src/commons/http-exception.filter";
 
 @Controller("users")
 @ApiTags("User API")
 export class UserController {
-  constructor(
-    @InjectConnection()
-    private readonly mongoConnection: Connection,
-    private readonly userService: UserService,
-  ) {}
+  constructor(private readonly userService: UserService) {}
 
   @Post()
   @ApiOperation({ summary: "신규 회원가입", description: "회원 가입" })
@@ -62,20 +53,8 @@ export class UserController {
     type: InternalSeverErr,
   })
   async create(@Body() createUserDto: CreateUserDto, @Res() res: any) {
-    // 몽고 세션 연결
-    const session = await this.mongoConnection.startSession();
-    // 트랜잭션 시작
-    session.startTransaction();
-    try {
-      const newUser: any = await this.userService.createUser(createUserDto);
-      await session.commitTransaction(); // 이상없이 진행시 커밋
-      return res.status(HttpStatus.CREATED).send(newUser);
-    } catch (err) {
-      await session.abortTransaction(); // 이상 발생시 커밋 취소
-      throw new InternalServerErrorException("Internal server Error");
-    } finally {
-      session.endSession(); // 세션 연결 종료
-    }
+    const newUser: any = await this.userService.createUser(createUserDto);
+    if (newUser) return res.status(HttpStatus.CREATED).send("Created");
   }
 
   @Get()
@@ -127,31 +106,13 @@ export class UserController {
     description: "아이디가 일치하는 유저 정보를 수정한다.",
     type: UpdateUserResDto,
   })
-  async update(
+  async updatePassword(
     @Headers("Authorization") authorization: string,
     @Body("new_password") new_password: string,
     @Res() res: any,
   ) {
-    const session = await this.mongoConnection.startSession();
-    session.startTransaction();
-
-    try {
-      const user: any = await this.userService.updatePassword(
-        authorization,
-        new_password,
-      );
-      if (user) {
-        await session.commitTransaction();
-        return res
-          .status(HttpStatus.CREATED)
-          .send({ message: "비밀번호 수정 성공" });
-      }
-    } catch {
-      await session.abortTransaction();
-      throw new InternalServerErrorException("Internal Server Error");
-    } finally {
-      session.endSession();
-    }
+    await this.userService.updatePassword(authorization, new_password);
+    return res.status(HttpStatus.OK).send("비밀번호 수정 성공");
   }
 
   @Delete()
@@ -163,20 +124,8 @@ export class UserController {
     @Headers("Authorization") authorization: string,
     @Res() res: any,
   ) {
-    const session = await this.mongoConnection.startSession();
-    session.startTransaction();
-
-    try {
-      await this.userService.remove(authorization);
-      await session.commitTransaction();
-      return res
-        .status(HttpStatus.OK)
-        .send({ message: "회원탈퇴에 성공했습니다" });
-    } catch (err) {
-      await session.abortTransaction();
-      throw new InternalServerErrorException("Internal Server Error");
-    } finally {
-      session.endSession();
-    }
+    const result: any = await this.userService.signOut(authorization);
+    if (result)
+      return res.status(HttpStatus.OK).send("회원탈퇴에 성공했습니다");
   }
 }
