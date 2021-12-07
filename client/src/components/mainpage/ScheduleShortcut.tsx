@@ -1,4 +1,6 @@
 import { useState } from "react";
+import { useSelector } from "react-redux";
+import { RootState } from "../../redux/reducers";
 import {
   AddBtn,
   BoxHeader,
@@ -8,9 +10,9 @@ import {
   ShortcutBoxWrapper,
   ShortcutContainer,
 } from "../../style/theme";
-import AddScheduleBoxItem from "../schedulepage/AddScheduleBoxItem";
+// import AddScheduleBoxItem from "../schedulepage/AddScheduleBoxItem";
 import BoxItem from "../schedulepage/BoxItem";
-import { ScheduleDummy } from "../schedulepage/ScheduleDummy";
+// import { ScheduleDummy } from "../schedulepage/ScheduleDummy";
 
 export default function ScheduleShortcut() {
   const [showBoxes, setShowBoxes] = useState(false);
@@ -21,6 +23,7 @@ export default function ScheduleShortcut() {
       setShowBoxes(true);
     }
   };
+  const scheduleData = useSelector((state: RootState) => state.scheduleReducer);
 
   return (
     <BoxSection>
@@ -30,7 +33,7 @@ export default function ScheduleShortcut() {
       </BoxHeader>
       <ShortcutContainer>
         <ShortcutBoxWrapper className={showBoxes ? "showBoxes" : ""}>
-          {ScheduleDummy.map((el, idx) => {
+          {scheduleData.data.map((el, idx) => {
             return <BoxItem key={idx} schedule={el} />;
           })}
           {/* <AddScheduleBoxItem /> */}

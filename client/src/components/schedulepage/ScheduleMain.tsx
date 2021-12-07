@@ -3,11 +3,15 @@ import { AddBtn, BoxHeader, BoxSection, BoxWrapper } from "../../style/theme";
 import { Link } from "react-router-dom";
 import BoxItem from "./BoxItem";
 import { ScheduleDummy } from "./ScheduleDummy";
-import AddScheduleBoxItem from "./AddScheduleBoxItem";
+import { useSelector } from "react-redux";
+import { RootState } from "../../redux/reducers";
+// import AddScheduleBoxItem from "./AddScheduleBoxItem";
 
 export const MainWrapper = styled.div``;
 
 export default function ScheduleMain() {
+  const scheduleData = useSelector((state: RootState) => state.scheduleReducer);
+
   return (
     <BoxSection>
       <BoxHeader>
@@ -17,7 +21,7 @@ export default function ScheduleMain() {
         </Link>
       </BoxHeader>
       <BoxWrapper>
-        {ScheduleDummy.map((el, idx) => {
+        {scheduleData.data.map((el, idx) => {
           return <BoxItem key={idx} schedule={el} />;
         })}
         {/* <AddScheduleBoxItem /> */}
