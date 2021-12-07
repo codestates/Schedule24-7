@@ -1,10 +1,20 @@
 import Layout from "../Layout";
-import { FC, useState, useCallback } from "react";
+import {
+  FC,
+  useState,
+  useCallback,
+  ChangeEvent,
+  useMemo,
+  useEffect,
+} from "react";
 import styled from "styled-components";
 import { BoxHeader, BoxSection } from "../../style/theme";
 import MultiColumnSelectBox from "../MultiColumnSelectBox";
 import { selectBoxOptions } from "../groups/GroupDummydata";
 import { useNavigate } from "react-router";
+import { createGroupApi, getGroupsApi } from "../../lib/api/group";
+import { useDispatch } from "react-redux";
+import { getGroups } from "../../redux/actions/Group";
 
 export const AddGroupWrapper = styled.section`
   display: flex;
@@ -34,7 +44,6 @@ export const DivWrapper = styled.div`
   flex-direction: column;
   margin: 0.5rem;
 `;
-
 
 export const TitleHeader = styled.div`
   font-size: 22px;
@@ -108,17 +117,123 @@ export const AddBtn = styled.button`
   background-color: #5c5c5c;
 `;
 
+interface GroupAddState {
+  groupName: string;
+  groupDesc: string;
+  groupEmoji: string;
+  works: GroupWork[];
+}
 
-const GropAddPage: FC= () => {
-  const [startDate, setStartDate] = useState<any>(new Date());
-  const handleAddSchedule = (): void => {
-    return;
+interface GroupWork {
+  workName: string;
+  limit: number;
+}
+
+const GropAddPage: FC = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const [formState, setFromState] = useState<GroupAddState>({
+    groupEmoji: "",
+    groupDesc: "",
+    groupName: "",
+    works: [
+      {
+        workName: "",
+        limit: 1,
+      },
+    ],
+  });
+
+  const renderWorkingForm = () => {
+    const changeHandler =
+      (idx: number, handler: (data: GroupWork, value: string) => GroupWork) =>
+      (e: ChangeEvent<any>) => {
+        setFromState({
+          ...formState,
+          works: formState.works.map((work, workIdx) =>
+            workIdx === idx ? handler(work, e.target.value) : work
+          ),
+        });
+      };
+    const workNameHandler = (work: GroupWork, value: string): GroupWork => ({
+      ...work,
+      workName: value,
+    });
+    const workLimitHandler = (work: GroupWork, value: string): GroupWork => ({
+      ...work,
+      limit: Number(value),
+    });
+
+    return formState.works.map((work, targetIdx: number) => (
+      <div>
+        <div>
+          {targetIdx + 1} :
+          <WorkBox
+            value={work.workName}
+            onChange={changeHandler(targetIdx, workNameHandler)}
+            type="text"
+            placeholder="근무명을 입력해주세요"
+          />
+        </div>
+        <div>
+          근무인원 :
+          <WorkSelect
+            value={work.limit}
+            onChange={changeHandler(targetIdx, workLimitHandler)}
+          >
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+          </WorkSelect>
+        </div>
+      </div>
+    ));
   };
-  
-    const navigate = useNavigate()
+
+  const changeInputHandler = useCallback((e: ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setFromState((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  }, []);
+  const emojiHandler = useCallback((emoji: string) => {
+    setFromState((prev) => ({
+      ...prev,
+      groupEmoji: emoji,
+    }));
+  }, []);
+  const changeWorkCount = useCallback((e: ChangeEvent<HTMLSelectElement>) => {
+    const newCount = Number(e.target.value);
+    setFromState((prev) => {
+      const newWorks = Array(newCount)
+        .fill(1)
+        .map((_, idx) => prev.works[idx] ?? { limit: 1, workName: "" });
+      return {
+        ...prev,
+        works: newWorks,
+      };
+    });
+  }, []);
   const handleClickLink = useCallback(() => {
     navigate("/group");
   }, [navigate]);
+  const createGroup = async () => {
+    const { groupDesc, groupEmoji, groupName, works } = formState;
+
+    try {
+      await createGroupApi({
+        groupDesc,
+        groupEmoji,
+        groupName,
+        works,
+      });
+      const response = await getGroupsApi();
+      dispatch(getGroups(response.data));
+    } catch (err) {
+      // TODO 그룹 생성 실패 에러 처리.
+    }
+  };
 
   return (
     <Layout title="그룹생성">
@@ -126,7 +241,7 @@ const GropAddPage: FC= () => {
         <BoxHeader>
           <span>신규그룹생성</span>
         </BoxHeader>
-        < AddGroupWrapper>
+        <AddGroupWrapper>
           <AddDiv>
             <DivWrapper>
               <TitleHeader>신규그룹 기본 설정</TitleHeader>
@@ -134,66 +249,46 @@ const GropAddPage: FC= () => {
             <DivWrapper>
               <Title>그룹기본설정</Title>
               <div>
-                <MultiColumnSelectBox options={selectBoxOptions} />
-                <NameBox type="text" placeholder="그룹 이름 입력" />
+                <MultiColumnSelectBox
+                  onChange={emojiHandler}
+                  value={formState.groupEmoji}
+                  options={selectBoxOptions}
+                />
+                <NameBox
+                  onChange={changeInputHandler}
+                  name="groupName"
+                  type="text"
+                  value={formState.groupName}
+                  placeholder="그룹 이름 입력"
+                />
               </div>
-                <DescBox type="text" placeholder="그룹 설명 입력" />                
-              </DivWrapper>
-
+              <DescBox
+                name="groupDesc"
+                onChange={changeInputHandler}
+                value={formState.groupDesc}
+                type="text"
+                placeholder="그룹 설명 입력"
+              />
+            </DivWrapper>
             <DivWrapper>
               <Title>일일근무일수</Title>
-              <TeamSelect>
-                <option>1</option>
-                <option>2</option>
-                <option>3</option>
+              <TeamSelect onChange={changeWorkCount}>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
               </TeamSelect>
             </DivWrapper>
             <DivWrapper>
               <Title>근무명 및 근무인원</Title>
-              <div>
-                1  :
-                <WorkBox type="text" placeholder="근무명을 입력해주세요" />
-                </div>
-                <div>
-                  근무인원 :
-                  <WorkSelect>
-                    <option>1</option>
-                    <option>2</option>
-                    <option>3</option>
-                  </WorkSelect>
-              </div>
-              <div>
-                2  :
-                <WorkBox type="text" placeholder="근무명을 입력해주세요" />
-                </div>
-                <div>
-                  근무인원 :
-                  <WorkSelect>
-                    <option>1</option>
-                    <option>2</option>
-                    <option>3</option>
-                  </WorkSelect>
-               </div>
-               <div>
-                3  :
-                <WorkBox type="text" placeholder="근무명을 입력해주세요" />
-                </div>
-                <div>
-                  근무인원 :
-                  <WorkSelect>
-                    <option>1</option>
-                    <option>2</option>
-                    <option>3</option>
-                  </WorkSelect>
-                </div>                
+              {renderWorkingForm()}
             </DivWrapper>
-            <AddBtn onClick={handleAddSchedule}>그룹생성</AddBtn>
+            <AddBtn onClick={createGroup}>그룹생성</AddBtn>
             <AddBtn onClick={handleClickLink}>그룹생성취소</AddBtn>
           </AddDiv>
-        </ AddGroupWrapper>
+        </AddGroupWrapper>
       </BoxSection>
     </Layout>
   );
-}
+};
 
 export default GropAddPage;
