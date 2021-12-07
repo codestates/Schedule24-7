@@ -2,11 +2,13 @@ import { GET_GORUPS, GroupAction } from "../actions/Group";
 
 export interface GroupStore {
   groups: Group.GroupListItemResDTO[];
+  members: Group.GroupListItemResDTO[];
 }
 
 const initialState: GroupStore = {
   groups: [],
-};
+  members: [],
+}
 
 const groupReducer: Reducer<GroupStore, GroupAction> = (
   state = initialState,

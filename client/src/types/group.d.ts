@@ -6,7 +6,12 @@ namespace Group {
     groupName: string;
     id: string;
     conditions: any[];
-    members: any[];
+    members: {
+      memberId: string;
+      memberName: string;
+      memberPosition: string;
+      memberVacation: any[];
+    }[];
     schedule: any[];
     works: any[];
   }
