@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import { BoxHeader, BoxSection } from "../../style/theme";
 import DatePicker from "react-datepicker";
@@ -7,6 +7,8 @@ import "./react-datepicker.css";
 import { ko } from "date-fns/esm/locale";
 import MultiColumnSelectBox from "../MultiColumnSelectBox";
 import { selectBoxOptions } from "./ScheduleDummy";
+import { addNewSchedule } from "../../redux/actions/scheduleActions";
+import axios from "axios";
 
 export const AddScheduleWrapper = styled.section`
   display: flex;
@@ -80,12 +82,140 @@ export const AddBtn = styled.button`
 `;
 
 export default function AddSchedule() {
-  const [startDate, setStartDate] = useState<any>(new Date());
-  const handleAddSchedule = (): void => {
-    return;
+  const tmpData = {
+    id: 'ObjectId("619f0e9722f97d6e8631291d")',
+    scheduleName: "22년 2월",
+    createdAt: "2021-12-01 01:01:01",
+    scheduleEmoji: "💬",
+    period: "2022-02-01",
+    group: {
+      groupId: 1,
+      groupName: "당직 1팀",
+    },
+    contents: [
+      {
+        contentId: 1,
+        date: "2022-02-04",
+        team: [
+          {
+            work: {
+              workId: 1,
+              workName: "D",
+            },
+            members: [
+              {
+                memberId: 1,
+                memberName: "김코딩 이코딩 박코딩",
+              },
+            ],
+          },
+          {
+            work: {
+              workId: 2,
+              workName: "E",
+            },
+            members: [
+              {
+                memberId: 1,
+                memberName: "김해커 이해커 박해커",
+              },
+            ],
+          },
+          {
+            work: {
+              workId: 3,
+              workName: "N",
+            },
+            members: [
+              {
+                memberId: 1,
+                memberName: "김자바 이자바 박자바",
+              },
+            ],
+          },
+        ],
+      },
+      {
+        contentId: 2,
+        date: "2022-02-05",
+        team: [
+          {
+            work: {
+              workId: 1,
+              workName: "D",
+            },
+            members: [
+              {
+                memberId: 1,
+                memberName: "김코딩 이코딩 박코딩",
+              },
+            ],
+          },
+          {
+            work: {
+              workId: 2,
+              workName: "E",
+            },
+            members: [
+              {
+                memberId: 1,
+                memberName: "김해커 이해커 박해커",
+              },
+            ],
+          },
+          {
+            work: {
+              workId: 3,
+              workName: "N",
+            },
+            members: [
+              {
+                memberId: 1,
+                memberName: "김자바 이자바 박자바",
+              },
+            ],
+          },
+        ],
+      },
+    ],
   };
+
+  const dispatch = useDispatch();
+  const [startDate, setStartDate] = useState<any>(new Date());
+
+  const [scheduleInfo, setScheduleInfo] = useState({
+    groupId: "",
+    scheduleName: "",
+    scheduleEmoji: "",
+    period: startDate,
+  });
+
   //스케쥴 생성 함수(만들예정)
-  //   const state = useSelector((state)=>{})
+  const handleNewSchedule = (): void => {
+    // axios
+    //   .post(
+    //     `https://server.schedule24-7.link/schedule/${scheduleInfo.groupId}`,
+    //     {
+    //       scheduleName: scheduleInfo.scheduleName,
+    //       scheduleEmoji: scheduleInfo.scheduleEmoji,
+    //       period: scheduleInfo.period,
+    //     },
+    //     {
+    //       headers: {
+    //         authorization: `Bearer ${window.localStorage.getItem("token")}`,
+    //       },
+    //     }
+    //   )
+    //   .then((res) => dispatch(addNewSchedule(res)));
+    dispatch(addNewSchedule(tmpData));
+  };
+
+  const handleScheduleInfo =
+    (key: string) => (e: React.ChangeEvent<HTMLSelectElement>) => {
+      // console.log(e.target.value);
+      console.log(scheduleInfo.period);
+      setScheduleInfo({ ...scheduleInfo, [key]: e.target.value });
+    };
 
   return (
     <BoxSection>
@@ -106,10 +236,11 @@ export default function AddSchedule() {
           </DivWrapper>
           <DivWrapper>
             <Title>그룹선택</Title>
-            <TeamSelect>
-              <option>당직1팀</option>
-              <option>당직2팀</option>
-              <option>당직3팀</option>
+            <TeamSelect onChange={handleScheduleInfo("groupId")}>
+              <option>팀선택</option>
+              <option value={"당직1팀"}>당직1팀</option>
+              <option value={"당직2팀"}>당직2팀</option>
+              <option value={"당직3팀"}>당직3팀</option>
             </TeamSelect>
           </DivWrapper>
           <DivWrapper>
@@ -117,13 +248,20 @@ export default function AddSchedule() {
             <DatePicker
               locale={ko}
               selected={startDate}
-              onChange={(date) => setStartDate(date)}
               dateFormat="MM/yyyy"
+              onChange={(date: any) => {
+                let newDate = new Date(date);
+                let result = `${date.getFullYear()}-${
+                  newDate.getMonth() + 1
+                }-01`;
+                console.log(result);
+                setStartDate(date);
+              }}
               showMonthYearPicker
               showFullMonthYearPicker
             />
           </DivWrapper>
-          <AddBtn onClick={handleAddSchedule}>스케쥴생성</AddBtn>
+          <AddBtn onClick={handleNewSchedule}>스케쥴생성</AddBtn>
         </AddDiv>
       </AddScheduleWrapper>
     </BoxSection>

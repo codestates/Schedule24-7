@@ -55,18 +55,3 @@ function App() {
 }
 
 export default App;
-
-{
-  /* <Routes>
-{loginState.login ? (
-  <Route path="/" element={<MainPage />} />
-) : (
-  <Route path="/" element={<LoginPage />} />
-)}
-<Route path="/signup" element={<SignUpPage />} />
-<Route path="/findidpw" element={<FindIdPw />} />
-<Route path="/group/*" element={<GroupRoutes />} />
-<Route path="/schedule/*" element={<ScheduleRoutes />} />
-<Route path="/mypage" element={<MyPage />} />
-</Routes> */
-}
