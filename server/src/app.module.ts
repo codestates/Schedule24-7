@@ -1,11 +1,12 @@
 import { MailerModule } from "@nestjs-modules/mailer";
 import { Module } from "@nestjs/common";
-import { APP_INTERCEPTOR } from "@nestjs/core";
+import { APP_FILTER, APP_INTERCEPTOR } from "@nestjs/core";
 import { JwtModule } from "@nestjs/jwt";
 import { MongooseModule } from "@nestjs/mongoose";
 import { MorganInterceptor, MorganModule } from "nest-morgan";
 import { AppController } from "./app.controller";
 import { AppService } from "./app.service";
+import CatchException from "./commons/catchException";
 import { ConfigModule } from "./config/config.module";
 import { ConfigService } from "./config/config.service";
 import { AuthModule } from "./modules/auth/auth.module";
@@ -34,6 +35,10 @@ import { UserModule } from "./modules/user/user.module";
     {
       provide: APP_INTERCEPTOR,
       useClass: MorganInterceptor("dev"),
+    },
+    {
+      provide: APP_FILTER,
+      useClass: CatchException,
     },
   ],
 })

@@ -72,7 +72,6 @@ export class UserController {
       return res.status(HttpStatus.CREATED).send(newUser);
     } catch (err) {
       await session.abortTransaction(); // 이상 발생시 커밋 취소
-      throw new InternalServerErrorException("Internal server Error");
     } finally {
       session.endSession(); // 세션 연결 종료
     }
@@ -148,7 +147,6 @@ export class UserController {
       }
     } catch {
       await session.abortTransaction();
-      throw new InternalServerErrorException("Internal Server Error");
     } finally {
       session.endSession();
     }
@@ -174,7 +172,6 @@ export class UserController {
         .send({ message: "회원탈퇴에 성공했습니다" });
     } catch (err) {
       await session.abortTransaction();
-      throw new InternalServerErrorException("Internal Server Error");
     } finally {
       session.endSession();
     }
