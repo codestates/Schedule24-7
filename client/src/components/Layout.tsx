@@ -30,12 +30,10 @@ const MainDiv = styled.main`
 `;
 
 const Side = styled.div`
-  /* background: #9aaab7; */
   grid-area: sidebar;
 `;
 
 const Foot = styled.footer`
-  /* background: #ff9637; */
   grid-area: footer;
   padding: 0.25rem;
 `;

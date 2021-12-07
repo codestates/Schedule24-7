@@ -4,7 +4,7 @@ import { hideMobileCss, mediaQuery } from "../GlobalStyle";
 import { Link } from "react-router-dom";
 
 const Block = styled.nav`
-  padding-top: 1rem;
+  padding-top: 0.5rem;
   border-right: 1px solid rgba(0, 0, 0, 0.25);
   height: 95%;
   width: 140px;
@@ -27,7 +27,7 @@ const Block = styled.nav`
 
       > a {
         color: #fff;
-        font-size: 16px;
+        font-weight: 16px;
       }
     }
   }
@@ -36,14 +36,15 @@ const Block = styled.nav`
 
   > a {
     display: block;
-    font-size: 18px;
-    color: #676767;
+    font-size: 15px;
+    color: #6d6d6d;
     text-decoration: none;
-    margin-bottom: 1rem;
+    padding: 0.7rem;
   }
   > a:hover {
-    color: #2f5fd7;
-    font-weight: bold;
+    /* color: #2f5fd7; */
+    color: #252525;
+    background-color: #ddeef8;
   }
 `;
 

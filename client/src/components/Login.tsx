@@ -84,7 +84,7 @@ export default function Login() {
     };
 
   const handleLogin = () => {
-    window.localStorage.setItem("email", loginInfo.userId);
+    window.localStorage.setItem("userId", loginInfo.userId);
     window.localStorage.setItem("password", loginInfo.password);
     axios
       .post("https://server.schedule24-7.link/auth/login", {

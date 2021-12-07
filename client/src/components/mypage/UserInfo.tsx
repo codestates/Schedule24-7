@@ -4,6 +4,7 @@ import EditUser from "./EditUser";
 import { NormalBox, NormalBtn, MainLogo } from "../../style/theme";
 import { useNavigate } from "react-router";
 import styled from "styled-components";
+import { useEffect } from "react";
 
 axios.defaults.withCredentials = true;
 
@@ -69,10 +70,11 @@ export const InfoBox = styled.div`
 function UserInfo() {
   let navigate = useNavigate();
 
+  //루트페이지로 이동시키는 함수
   function comeBackHome() {
     navigate("/main");
   }
-  //루트페이지로 이동시키는 함수
+
   const [newPassword, setPassword] = useState({
     password: "",
     newPassword: "",
@@ -81,13 +83,27 @@ function UserInfo() {
   const [errorCheck, setError] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string>("");
   const [errorMessageCheck, setErrorMessageCheck] = useState<boolean>(false);
+  const [userInfo, setUserInfo] = useState<string>("");
 
+  useEffect(() => {
+    axios
+      .get("https://server.schedule24-7.link/users", {
+        headers: {
+          authorization: `Bearer ${window.localStorage.getItem("token")}`,
+        },
+      })
+      .then((res) => {
+        // console.log(res);
+        setUserInfo(res.data.userName);
+      });
+  }, []);
+
+  //회원가입 정보를 변경하는 함수
   const handlePassword =
     (key: string) => (e: React.ChangeEvent<HTMLInputElement>) => {
       setPassword({ ...newPassword, [key]: e.target.value });
       console.log(newPassword.newPassword);
     };
-  //회원가입 정보를 변경하는 함수
 
   const checkPassword = () => {
     // axios
@@ -149,11 +165,11 @@ function UserInfo() {
             <UserInfoItems>
               {/* <h2>회원정보</h2> */}
               <InfoHeader>아이디</InfoHeader>
-              <InfoBox>TeamDevUp</InfoBox>
+              <InfoBox>{window.localStorage.getItem("userId")}</InfoBox>
             </UserInfoItems>
             <UserInfoItems>
               <InfoHeader>사용자이름</InfoHeader>
-              <InfoBox>이민형</InfoBox>
+              <InfoBox>{userInfo}</InfoBox>
             </UserInfoItems>
             <UserInfoItems>
               <InfoHeader>비밀번호변경 및 탈퇴</InfoHeader>
