@@ -1,9 +1,7 @@
-import {
-  BadRequestException,
-  InternalServerErrorException,
-} from "@nestjs/common";
+import { InternalServerErrorException } from "@nestjs/common";
 import { InjectModel } from "@nestjs/mongoose";
 import { Model } from "mongoose";
+import HttpError from "src/commons/httpError";
 
 import { Schedule } from "src/entities/schedule.entity";
 import { CreateScheduleDto } from "src/modules/schedule/dto/create-schedule.dto";
@@ -71,7 +69,7 @@ export class ScheduleRepository {
       record[memberList[i]["memberId"]] = {};
 
       //! record 내부 각각의 멤버 객체에
-      for (let key in memberList[i]) {
+      for (const key in memberList[i]) {
         if (key === "memberId") {
           continue;
         }
@@ -107,8 +105,8 @@ export class ScheduleRepository {
 
       // * 월요일에 record 주간 근무 수 리셋
       if (new Date(newDate.date).getDay() === 1) {
-        for (let memberId in record) {
-          for (let workId in record[memberId].weekly) {
+        for (const memberId in record) {
+          for (const workId in record[memberId].weekly) {
             record[memberId].weekly[workId] = 0;
           }
         }
@@ -120,7 +118,7 @@ export class ScheduleRepository {
       // 2. 해독한 조건으로 Templist 수정
       // 배열로 온 조건들 하나씩 확인하는 반복문
       // tempList에 있는 것들을 하나씩 대조... 반복문
-      for (let condition of conditionInfo) {
+      for (const condition of conditionInfo) {
         // 주기 설정
         const conditionCycle = condition.cycle;
         // 대상되는 근무
@@ -171,7 +169,8 @@ export class ScheduleRepository {
 
             tempList.splice(index, 1);
           } catch {
-            throw new BadRequestException(
+            throw new HttpError(
+              400,
               "근무표를 생성하기에 인원이 부족하거나 조건이 잘못 설정되어 있습니다",
             );
           }

@@ -75,8 +75,10 @@ export class ScheduleController {
         scheduleId,
         schedule,
       );
-      await session.commitTransaction();
-      return res.status(HttpStatus.OK).send("Update Schedule");
+      if (result) {
+        await session.commitTransaction();
+        return res.status(HttpStatus.OK).send("Update Schedule");
+      }
     } catch (e) {
       await session.abortTransaction();
     } finally {

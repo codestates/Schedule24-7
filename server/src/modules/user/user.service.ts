@@ -1,5 +1,6 @@
 import { Injectable, UnauthorizedException } from "@nestjs/common";
 import * as bcrypt from "bcrypt";
+import HttpError from "src/commons/httpError";
 
 import { AuthRepository } from "src/repositories/auth.repository";
 import { UserRepository } from "src/repositories/user.repository";
@@ -28,7 +29,7 @@ export class UserService {
   async getUserInfoAll(auth: string) {
     const data: any = await this.authRepository.validateToken(auth);
     const { _id } = data;
-    if (!_id) throw new UnauthorizedException("Unauthorized");
+    if (!_id) throw new HttpError(401, "Unauthorized");
     return await this.userRepository.getUserDataById(_id);
   }
 
@@ -36,7 +37,7 @@ export class UserService {
   async updatePassword(auth: string, new_password: string) {
     const data: any = await this.authRepository.validateToken(auth);
     const { _id } = data;
-    if (!_id) throw new UnauthorizedException("Unauthorized");
+    if (!_id) throw new HttpError(401, "Unauthorized");
     // encode password
     const salt: string = await bcrypt.genSalt(10);
     const password: string = await bcrypt.hash(new_password, salt);
@@ -47,7 +48,7 @@ export class UserService {
   async remove(auth: string) {
     const data: any = await this.authRepository.validateToken(auth);
     const { _id } = data;
-    if (!_id) throw new UnauthorizedException("Unauthorized");
+    if (!_id) throw new HttpError(401, "Unauthorized");
     return await this.userRepository.remove(_id);
   }
 }
