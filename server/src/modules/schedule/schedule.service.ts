@@ -1,11 +1,7 @@
-import {
-  BadRequestException,
-  forwardRef,
-  Inject,
-  Injectable,
-  InternalServerErrorException,
-  UnauthorizedException,
-} from "@nestjs/common";
+import { forwardRef, Inject, Injectable } from "@nestjs/common";
+import { InjectConnection } from "@nestjs/mongoose";
+import { Connection } from "mongoose";
+
 import HttpError from "src/commons/httpError";
 import { AuthRepository } from "src/repositories/auth.repository";
 import { GroupRepository } from "src/repositories/group.repository";
@@ -22,6 +18,8 @@ export class ScheduleService {
     private readonly authRepository: AuthRepository,
     private readonly scheduleRepository: ScheduleRepository,
     private readonly userRepoSitory: UserRepository,
+    @InjectConnection()
+    private readonly mongooseConnection: Connection,
   ) {}
 
   async createSchedule(
@@ -30,7 +28,7 @@ export class ScheduleService {
     scheduleDto: CreateScheduleDto,
   ) {
     // 요청 정보 확인
-    if (!auth.length || !groupId.length || !Object.keys(scheduleDto).length) {
+    if (!auth || !groupId || !Object.keys(scheduleDto).length) {
       throw new HttpError(400, "Bad Requst");
     }
     // 토큰 복호화해서 정보 확인
@@ -83,47 +81,54 @@ export class ScheduleService {
     scheduleId: string,
     schedule: any,
   ) {
-    // 요청 정보 확인
-    if (
-      !auth.length ||
-      !groupId.length ||
-      !scheduleId.length ||
-      !Object.keys(schedule).length
-    ) {
-      throw new HttpError(400, "Bad Requst");
-    }
-    // 토큰 복호화해서 정보 확인
-    const { _id }: any = await this.authRepository.validateToken(auth);
-    const userInfo: any = await this.userRepoSitory.getUserDataById(_id);
-    if (!userInfo) throw new HttpError(401, "Unauthorized");
-    // 그룹 도큐먼트에 그룹아이디와 스케쥴 아이디가 있는지 확인
-    const groupInfo: any = await this.groupRepository.getScheduleIdFromGroup;
-    // 있으면 해당 스케쥴의 내용을 수정
-    if (!groupInfo) {
-      throw new HttpError(4404, "Not Found");
-    } else {
-      const updateSchedule = await this.scheduleRepository.updateSchedule(
-        scheduleId,
-        schedule,
-      );
-      return updateSchedule;
-    }
+    const session = await this.mongooseConnection.startSession();
+    session.withTransaction(async () => {
+      // 요청 정보 확인
+      if (!auth || !groupId || !scheduleId || !Object.keys(schedule).length) {
+        throw new HttpError(400, "Bad Requst");
+      }
+      // 토큰 복호화해서 정보 확인
+      const { _id }: any = await this.authRepository.validateToken(auth);
+      const userInfo: any = await this.userRepoSitory.getUserDataById(_id);
+      if (!userInfo) throw new HttpError(401, "Unauthorized");
+      // 그룹 도큐먼트에 그룹아이디와 스케쥴 아이디가 있는지 확인
+      const groupInfo: any = await this.groupRepository.getScheduleIdFromGroup;
+      // 있으면 해당 스케쥴의 내용을 수정
+      if (!groupInfo) {
+        throw new HttpError(404, "Not Found");
+      } else {
+        const updateSchedule = await this.scheduleRepository.updateSchedule(
+          scheduleId,
+          schedule,
+        );
+        return updateSchedule;
+      }
+    });
+    session.endSession();
   }
 
   async removeSchedule(auth: string, groupId: string, scheduleId: string) {
-    // 요청 정보 확인
-    if (!auth.length || !groupId.length || !scheduleId.length) {
-      throw new HttpError(400, "Bad Requst");
-    } else {
-      // 토큰 정보 복호화
-      const { _id }: any = await this.authRepository.validateToken(auth);
-      const userInfo: any = await this.userRepoSitory.getUserDataById(_id);
-      // 토큰 정보 확인
-      if (!userInfo) throw new HttpError(401, "Unauthorizied!");
-      // 그룹에 스케쥴 아이디 삭제
-      await this.groupRepository.removeScheduleIdFromGroup(groupId, scheduleId);
-      // 스케쥴 삭제
-      await this.scheduleRepository.removeSchedule(scheduleId);
-    }
+    const session = await this.mongooseConnection.startSession();
+    session.withTransaction(async () => {
+      // 요청 정보 확인
+      if (!auth || !groupId || !scheduleId) {
+        throw new HttpError(400, "Bad Requst");
+      } else {
+        // 토큰 정보 복호화
+        const { _id }: any = await this.authRepository.validateToken(auth);
+        const userInfo: any = await this.userRepoSitory.getUserDataById(_id);
+        // 토큰 정보 확인
+        if (!Object.keys(userInfo).length)
+          throw new HttpError(401, "Unauthorizied!");
+        // 그룹에 스케쥴 아이디 삭제
+        await this.groupRepository.removeScheduleIdFromGroup(
+          groupId,
+          scheduleId,
+        );
+        // 스케쥴 삭제
+        return await this.scheduleRepository.removeSchedule(scheduleId);
+      }
+    });
+    session.endSession();
   }
 }

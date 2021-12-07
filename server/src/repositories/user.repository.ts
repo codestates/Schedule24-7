@@ -63,11 +63,11 @@ export class UserRepository {
       },
     );
     if (!updateUser) throw new HttpError(404, "Not Found");
-    return updateUser;
+    else return updateUser;
   }
   // 회원탈퇴
-  async remove(id: string) {
-    const result: any = await this.userModel.remove({ _id: id });
+  async signOut(id: string) {
+    const result: any = await this.userModel.deleteOne({ _id: id });
     if (!result) throw new HttpError(404, "Not Found");
   }
   // 신규 그룹 생성시 유저에 그룹 objectId 추가
