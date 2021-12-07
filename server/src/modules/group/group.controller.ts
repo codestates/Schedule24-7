@@ -18,6 +18,7 @@ import { Group } from "src/entities/group.entity";
 import { GetGroup } from "src/commons/decorator.dto";
 import { CreateConditionDto } from "./dto/createCondition.dto";
 import { UpdateConditionDto } from "./dto/updateCondition.dto";
+import { Response } from "express";
 
 @Controller("group")
 export class GroupController {
@@ -131,11 +132,23 @@ export class GroupController {
     @Param("groupId") groupId: string,
     @Headers("Authorization") authorization: string,
     @GetGroup() member: Group,
+    @Res() res: Response,
   ) {
+    const session = await this.mongoConnection.startSession();
+    session.startTransaction();
     try {
-      return this.groupService.createMember(authorization, member, groupId);
+      const result = await this.groupService.createMember(
+        authorization,
+        member,
+        groupId,
+      );
+      await session.commitTransaction();
+      return res.status(201).send({ result });
     } catch (error) {
-      throw new Error(error);
+      await session.abortTransaction();
+      return res.status(error.status).send(error);
+    } finally {
+      await session.endSession();
     }
   }
 
@@ -145,15 +158,23 @@ export class GroupController {
     @Param() params: { groupId: string; memberId: number },
     @Headers("Authorization") authorization: string,
     @Body() memberData: any,
+    @Res() res: Response,
   ) {
+    const session = await this.mongoConnection.startSession();
+    session.startTransaction();
     try {
-      return await this.groupService.updateMember(
+      const result = await this.groupService.updateMember(
         authorization,
         params,
         memberData,
       );
-    } catch (error) {
-      throw new Error(error);
+      await session.commitTransaction();
+      return res.send({ result });
+    } catch (err) {
+      await session.abortTransaction();
+      return res.status(err.status).send(err);
+    } finally {
+      await session.endSession();
     }
   }
 
@@ -162,12 +183,22 @@ export class GroupController {
   async removeMember(
     @Param() params: { groupId: string; memberId: number },
     @Headers("Authorization") authorization: string,
+    @Res() res: Response,
   ) {
+    const session = await this.mongoConnection.startSession();
+    session.startTransaction();
     try {
-      await this.groupService.removeMember(authorization, params);
-      return;
-    } catch (error) {
-      throw new Error(error);
+      const result = await this.groupService.removeMember(
+        authorization,
+        params,
+      );
+      await session.commitTransaction();
+      return res.send({ result });
+    } catch (err) {
+      await session.abortTransaction();
+      return res.status(err.status).send(err);
+    } finally {
+      await session.endSession();
     }
   }
 
@@ -183,15 +214,23 @@ export class GroupController {
     @Headers("Authorization") authorization: string,
     @Body()
     condition: CreateConditionDto,
+    @Res() res: Response,
   ): Promise<any> {
+    const session = await this.mongoConnection.startSession();
+    session.startTransaction();
     try {
-      return this.groupService.createCondition(
+      const result = await this.groupService.createCondition(
         authorization,
         groupId,
         condition,
       );
-    } catch (error) {
-      throw new Error(error);
+      await session.commitTransaction();
+      return res.send({ result });
+    } catch (err) {
+      await session.abortTransaction();
+      return res.status(err.status).send(err);
+    } finally {
+      await session.endSession();
     }
   }
 
@@ -201,15 +240,23 @@ export class GroupController {
     @Param() params: { groupId: string; conditionId: number },
     @Headers("Authorization") authorization: string,
     @Body() conditionData: UpdateConditionDto,
+    @Res() res: Response,
   ) {
+    const session = await this.mongoConnection.startSession();
+    session.startTransaction();
     try {
-      return await this.groupService.updateCondition(
+      const result = await this.groupService.updateCondition(
         authorization,
         params,
         conditionData,
       );
-    } catch (error) {
-      throw new Error(error);
+      await session.commitTransaction();
+      return res.send({ result });
+    } catch (err) {
+      await session.abortTransaction();
+      return res.status(err.status).send(err);
+    } finally {
+      await session.endSession();
     }
   }
 
@@ -218,11 +265,22 @@ export class GroupController {
   async removeCondition(
     @Param() params: { groupId: string; conditionId: number },
     @Headers("Authorization") authorization: string,
+    @Res() res: Response,
   ) {
+    const session = await this.mongoConnection.startSession();
+    session.startTransaction();
     try {
-      return await this.groupService.removeCondition(authorization, params);
-    } catch (error) {
-      throw new Error(error);
+      const result = await this.groupService.removeCondition(
+        authorization,
+        params,
+      );
+      await session.commitTransaction();
+      return res.send({ result });
+    } catch (err) {
+      await session.abortTransaction();
+      return res.status(err.status).send(err);
+    } finally {
+      await session.endSession();
     }
   }
 }
