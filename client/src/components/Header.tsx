@@ -1,6 +1,8 @@
-import { FC, useCallback } from "react";
+import { FC, useCallback, useState } from "react";
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { DefaultLayout, hideMobileCss, mediaQuery } from "../GlobalStyle";
+import HeaderDropdown from "./HeaderDropdown";
 
 const Block = styled.header`
   background-color: #272727;
@@ -14,14 +16,17 @@ const Block = styled.header`
 `;
 
 const HeaderLeft = styled.div`
+  width: 270px;
   padding-left: 1rem;
 `;
 const HeaderRight = styled.div`
+  display: flex;
+  justify-content: right;
+  width: 150px;
   padding-right: 1rem;
 `;
 const HeaderCenter = styled.div``;
 const PageTitle = styled.div`
-  margin-left: 7.5rem;
   color: #fff;
   font-size: 18px;
   font-weight: 400;
@@ -61,6 +66,7 @@ const UserInfoWrap = styled.div`
 
   ${hideMobileCss(true, "flex")}
 `;
+
 const LogoWrapper = styled.div`
   width: 64px;
   height: 42px;
@@ -68,6 +74,7 @@ const LogoWrapper = styled.div`
 
   ${hideMobileCss(false)}
 `;
+
 const MenuWrapper = styled.div`
   width: 40px;
   height: 30px;
@@ -85,11 +92,34 @@ const MenuWrapper = styled.div`
   ${hideMobileCss(false, "flex")}
 `;
 
+export const UserId = styled.div`
+  color: white;
+  margin-left: 7px;
+  cursor: pointer;
+`;
+
+export const BackGround = styled.div`
+  background-color: rgba(0, 0, 0, 0);
+  position: fixed;
+  top: 0%;
+  left: 0%;
+  bottom: 0%;
+  right: 0%;
+`;
+
 interface Props {
   title?: string;
 }
 
 const Header: FC<Props> = ({ title }) => {
+  const [openDropdown, setOpenDropdown] = useState(false);
+  const handleOpenDropdown = () => {
+    setOpenDropdown(true);
+  };
+  const handleCloseDropdown = () => {
+    return openDropdown ? setOpenDropdown(false) : null;
+  };
+
   const toggleSideBar = useCallback(() => {
     const sideBar = document.getElementById("sidebar");
 
@@ -99,9 +129,10 @@ const Header: FC<Props> = ({ title }) => {
   return (
     <Block>
       <HeaderLeft>
-        <HeaderLogo src="https://media.discordapp.net/attachments/907157959333785630/916227740267581440/S247_Logoheadertitle.png" />
-        {/* <PageName>Schedule24/7</PageName> */}
-        {/* <LogoWrapper /> */}
+        <Link to="/">
+          <HeaderLogo src="https://media.discordapp.net/attachments/907157959333785630/916227740267581440/S247_Logoheadertitle.png" />
+          {/* <LogoWrapper /> */}
+        </Link>
       </HeaderLeft>
       <HeaderCenter>
         {title === undefined ? null : <PageTitle>{title}</PageTitle>}
@@ -112,7 +143,17 @@ const Header: FC<Props> = ({ title }) => {
             alt="user-img"
             src="https://cdn-icons-png.flaticon.com/512/906/906361.png"
           />
-          <span>DevUpUser01</span>
+          <UserId onClick={handleOpenDropdown}>
+            {window.localStorage.getItem("userId")}
+          </UserId>
+          {openDropdown ? (
+            <>
+              <HeaderDropdown />
+              <BackGround onClick={handleCloseDropdown}></BackGround>
+            </>
+          ) : (
+            ""
+          )}
         </UserInfoWrap>
         <MenuWrapper onClick={toggleSideBar}>
           <div />

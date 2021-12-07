@@ -12,15 +12,15 @@ export default function ScheduleMain() {
     <BoxSection>
       <BoxHeader>
         <span>스케쥴</span>
-        {/* <Link to="/schedule/add">
+        <Link to="/schedule/add">
           <AddBtn>새스케줄추가</AddBtn>
-        </Link> */}
+        </Link>
       </BoxHeader>
       <BoxWrapper>
         {ScheduleDummy.map((el, idx) => {
           return <BoxItem key={idx} schedule={el} />;
         })}
-        <AddScheduleBoxItem />
+        {/* <AddScheduleBoxItem /> */}
       </BoxWrapper>
     </BoxSection>
   );

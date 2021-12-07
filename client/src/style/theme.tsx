@@ -90,6 +90,16 @@ export const SeeMore = styled.div`
 
 export const AddBtn = styled.button`
   width: 100px;
+  height: 30px;
+  /* background-color: white;
+  border: 1px solid #a8a8a8;
+  border-radius: 5px;
+  color: #3d3d3d;
+  margin-bottom: 3px;
+  :hover {
+    background-color: #e9e9e9;
+    color: #161616;
+  } */
 `;
 
 export const NormalBox = styled.input`

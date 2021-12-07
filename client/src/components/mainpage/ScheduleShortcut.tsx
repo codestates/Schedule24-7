@@ -33,7 +33,7 @@ export default function ScheduleShortcut() {
           {ScheduleDummy.map((el, idx) => {
             return <BoxItem key={idx} schedule={el} />;
           })}
-          <AddScheduleBoxItem />
+          {/* <AddScheduleBoxItem /> */}
         </ShortcutBoxWrapper>
         <SeeMoreWrapper>
           <SeeMore onClick={handleShowBoxes}>더보기</SeeMore>

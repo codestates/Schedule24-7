@@ -85,7 +85,7 @@ function SignUpPage() {
     navigate("/");
   }
 
-  //회원가입을 위한 정보 상태
+  //회원가입을 정보
   const [signUpInfo, setSignUpInfo] = useState({
     userId: "",
     userName: "",
@@ -99,37 +99,25 @@ function SignUpPage() {
     authNumber: 0,
   });
 
-  //메세지 렌더링 상태
-  const [messageRender, setMessageRender] = useState(false);
-
-  //아이디가 이미 존재할 경우 에러상태 변경하여 조건부 렌더링
-  const [isError, setIsError] = useState(false);
-
-  //인증번호 아이디 관리
+  //인증번호 아이디
   const [authId, setAuthId] = useState<string>("");
 
-  //회원가입 버튼 상태관리
-  const [permitSignUp, setPermitSignUp] = useState(false);
+  //에러상태묶음
+  const [errors, setErrors] = useState({
+    idOverlap: false,
+    permitSignUpBtn: false,
+    emptyBoxCheck: false,
+    emailValidCheck: false,
+    permitAuthNumBox: false,
+  });
 
-  //빈박스 체크
-  const [emptyBox, setEmptyBox] = useState(false);
-
-  //이메일존재여부 상태
-  const [emailValidCheck, setEmailValidCheck] = useState(false);
-
-  //인증번호 입력창 관리
-  const [permitAuth, setPermitAuth] = useState(false);
+  //메세지 렌더링 상태
+  const [messageRender, setMessageRender] = useState(false);
 
   //회원가입 정보를 변경하는 함수
   const handleSignUpValue =
     (key: string) => (e: React.ChangeEvent<HTMLInputElement>) => {
       setSignUpInfo({ ...signUpInfo, [key]: e.target.value });
-    };
-
-  //인증번호 저장 함수
-  const handleAuthNumUpValue =
-    (key: string) => (e: React.ChangeEvent<HTMLInputElement>) => {
-      setAuthNumber({ ...authNumber, [key]: e.target.value });
     };
 
   //아이디 중복 검사 함수
@@ -139,52 +127,22 @@ function SignUpPage() {
       .then((res) => {
         // console.log(res);
         setMessageRender(true);
-        setIsError(res.data.result);
+        // setIsError(res.data.result);
+        setErrors({ ...errors, idOverlap: res.data.result });
       })
       .catch(() => {
         setMessageRender(true);
-        setIsError(true);
+        // setIsError(true);
+        setErrors({ ...errors, idOverlap: true });
       });
-  };
-
-  //비밀번호 일치여부 판단하는 함수
-  const passwordMatchConfirm = () => {
-    if (signUpInfo.password === signUpInfo.passwordCheck) {
-      return true;
-    } else {
-      return false;
-    }
-  };
-
-  // 유효성체크해서 에러여부 리턴하는 함수
-  const validationConfirm = () => {
-    if (strongPassword(signUpInfo.password)) {
-      return true;
-    } else {
-      return false;
-    }
   };
 
   //ID가 이미 존재할 경우 작동하는 함수
   const idMatchConfirm = () => {
-    if (isError) {
+    if (errors.idOverlap) {
       return true;
     } else {
       return false;
-    }
-  };
-
-  //비밀번호 유효성 검사 함수
-  function strongPassword(str: string) {
-    return /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/.test(
-      str
-    );
-  }
-
-  //오류메세지를 렌더하는 함수
-  const renderFeedbackMessage = () => {
-    if (!passwordMatchConfirm()) {
-      return <ErrMsg className="err">패스워드가 일치하지 않습니다</ErrMsg>;
     }
   };
 
@@ -199,6 +157,22 @@ function SignUpPage() {
     }
   };
 
+  //비밀번호 유효성 검사 함수
+  const strongPassword = (str: string): boolean => {
+    return /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/.test(
+      str
+    );
+  };
+
+  //유효성체크해서 에러여부 리턴하는 함수
+  const validationConfirm = (): boolean => {
+    if (strongPassword(signUpInfo.password)) {
+      return true;
+    } else {
+      return false;
+    }
+  };
+
   //비밀번호 유효성 검사 결과 렌더링하는 함수
   const renderValidationCheckMessage = () => {
     if (signUpInfo.password !== "" && !validationConfirm()) {
@@ -206,16 +180,42 @@ function SignUpPage() {
     }
   };
 
+  //비밀번호 일치여부 판단하는 함수
+  const passwordMatchConfirm = () => {
+    if (signUpInfo.password === signUpInfo.passwordCheck) {
+      return true;
+    } else {
+      return false;
+    }
+  };
+
+  //비밀번호 불일치 오류메세지를 렌더하는 함수
+  const renderFeedbackMessage = () => {
+    if (!passwordMatchConfirm()) {
+      return <ErrMsg className="err">패스워드가 일치하지 않습니다</ErrMsg>;
+    }
+  };
+
+  //인증번호 저장 함수
+  const handleAuthNumUpValue =
+    (key: string) => (e: React.ChangeEvent<HTMLInputElement>) => {
+      setAuthNumber({ ...authNumber, [key]: e.target.value });
+    };
+
   //인증번호 발송 요청 함수
   const handleAuthnumSend = () => {
     axios
       .get(`https://server.schedule24-7.link/auth/email/${signUpInfo.email}`)
       .then((res: any) => {
-        setPermitAuth(true);
+        setErrors({
+          ...errors,
+          permitAuthNumBox: true,
+          emailValidCheck: false,
+        });
         setAuthId(res.data._id);
       })
       .catch(() => {
-        setEmailValidCheck(true);
+        setErrors({ ...errors, emailValidCheck: true });
       });
   };
 
@@ -226,7 +226,7 @@ function SignUpPage() {
         authNumber: Number(authNumber.authNumber),
         _id: authId,
       })
-      .then(() => setPermitSignUp(true));
+      .then(() => setErrors({ ...errors, permitSignUpBtn: true }));
   };
 
   //빈칸있을 경우 메시지 렌더 함수
@@ -236,7 +236,8 @@ function SignUpPage() {
 
   //회원가입 서버에 요청하는 함수
   const handleSignUp = () => {
-    setEmptyBox(true);
+    // setEmptyBox(true);
+    setErrors({ ...errors, emptyBoxCheck: true });
     if (
       strongPassword(signUpInfo.password) &&
       signUpInfo.password !== "" &&
@@ -255,7 +256,6 @@ function SignUpPage() {
           comeBackHome();
         });
     }
-
     //  .catch(() => {
     //   setIsError(true);
     // })
@@ -282,7 +282,7 @@ function SignUpPage() {
               </SignUpBtn>
             </SignUpSubItem>
             {messageRender ? renderIdCheckMessage() : ""}
-            {emptyBox
+            {errors.emptyBoxCheck
               ? signUpInfo.userId === ""
                 ? renderEmptyBoxCheck()
                 : ""
@@ -294,7 +294,7 @@ function SignUpPage() {
               type="text"
               onChange={handleSignUpValue("userName")}
             ></SignUpBox>
-            {emptyBox
+            {errors.emptyBoxCheck
               ? signUpInfo.userName === ""
                 ? renderEmptyBoxCheck()
                 : ""
@@ -309,11 +309,12 @@ function SignUpPage() {
               type="password"
               onChange={handleSignUpValue("password")}
             ></SignUpBox>
-            {emptyBox
+            {errors.emptyBoxCheck
               ? signUpInfo.password === ""
                 ? renderEmptyBoxCheck()
                 : ""
               : ""}
+            {renderValidationCheckMessage()}
           </SignUpItems>
           <SignUpItems>
             <SignUpText>비밀번호확인</SignUpText>
@@ -322,7 +323,6 @@ function SignUpPage() {
               onChange={handleSignUpValue("passwordCheck")}
             ></SignUpBox>
             {renderFeedbackMessage()}
-            {renderValidationCheckMessage()}
           </SignUpItems>
           <SignUpItems className="sub">
             <SignUpText>이메일</SignUpText>
@@ -336,18 +336,18 @@ function SignUpPage() {
                 인증번호발송
               </SignUpBtn>
             </SignUpSubItem>
-            {emailValidCheck ? (
+            {errors.emailValidCheck ? (
               <ErrMsg className="err">이미 존재하는 이메일입니다</ErrMsg>
             ) : (
               ""
             )}
           </SignUpItems>
-          {permitAuth ? (
+          {errors.permitAuthNumBox ? (
             <SignUpItems>
               <SignUpText className="sub">* 인증번호 입력</SignUpText>
               <SignUpSubItem>
                 <SignUpBox
-                  type="number"
+                  type="text"
                   className="sub"
                   onChange={handleAuthNumUpValue("authNumber")}
                 ></SignUpBox>
@@ -360,7 +360,7 @@ function SignUpPage() {
           ) : (
             ""
           )}
-          {permitSignUp ? (
+          {errors.permitSignUpBtn ? (
             <SignUpItems>
               <SignUpBtn className="a" onClick={handleSignUp}>
                 회원가입
