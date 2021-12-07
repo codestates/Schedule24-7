@@ -125,6 +125,7 @@ interface GroupAddState {
 }
 
 interface GroupWork {
+  workId: number;
   workName: string;
   limit: number;
 }
@@ -133,11 +134,12 @@ const GropAddPage: FC = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [formState, setFromState] = useState<GroupAddState>({
-    groupEmoji: "",
+    groupEmoji: "😃",
     groupDesc: "",
     groupName: "",
     works: [
       {
+        workId: 1,
         workName: "",
         limit: 1,
       },
@@ -162,6 +164,10 @@ const GropAddPage: FC = () => {
     const workLimitHandler = (work: GroupWork, value: string): GroupWork => ({
       ...work,
       limit: Number(value),
+    });
+    const workIdHandler = (work: GroupWork, value: string): GroupWork => ({
+      ...work,
+      workId: Number(value),
     });
 
     return formState.works.map((work, targetIdx: number) => (
@@ -230,6 +236,8 @@ const GropAddPage: FC = () => {
       });
       const response = await getGroupsApi();
       dispatch(getGroups(response.data));
+      alert("그룹생성 완료!")
+      navigate("/group")
     } catch (err) {
       // TODO 그룹 생성 실패 에러 처리.
     }
@@ -279,7 +287,8 @@ const GropAddPage: FC = () => {
               </TeamSelect>
             </DivWrapper>
             <DivWrapper>
-              <Title>근무명 및 근무인원</Title>
+              <Title
+              >근무명 및 근무인원</Title>
               {renderWorkingForm()}
             </DivWrapper>
             <AddBtn onClick={createGroup}>그룹생성</AddBtn>

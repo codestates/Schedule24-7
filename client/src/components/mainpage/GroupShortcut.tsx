@@ -10,9 +10,14 @@ import {
   ShortcutContainer,
 } from "../../style/theme";
 import GroupListItem from "../groups/GroupListItem";
+import BoxSample from "./BoxSample";
+import { useSelector } from "react-redux";
+import { RootState } from "../../redux/reducers";
+
 
 export default function GroupShortcut() {
   const [showBoxes, setShowBoxes] = useState(false);
+  const groups = useSelector((store: RootState) => store.group.groups);
 
   const handleShowBoxes = () => {
     if (showBoxes) {
@@ -31,7 +36,16 @@ export default function GroupShortcut() {
       <ShortcutContainer>
         <ShortcutBoxWrapper
           className={showBoxes ? "showBoxes" : ""}
-        ></ShortcutBoxWrapper>
+        >
+                  {groups.map((group) => (
+          <GroupListItem
+            desc={group.groupDesc}
+            emoji={group.groupEmoji}
+            name={group.groupName}
+            key={group.id}
+          />
+        ))}
+        </ShortcutBoxWrapper>
         <SeeMoreWrapper>
           <SeeMore onClick={handleShowBoxes}>더보기</SeeMore>
         </SeeMoreWrapper>

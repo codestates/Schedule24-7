@@ -3,8 +3,6 @@ import Layout from "../components/Layout";
 import styled from "styled-components";
 import { mediaQuery } from "../GlobalStyle";
 import GroupListItem from "../components/groups/GroupListItem";
-import InnerHeader from "../components/InnerHeader";
-import AddButton from "../components/AddButton";
 import { useNavigate } from "react-router";
 import { BoxWrapper } from "../style/theme";
 import { AddBtn, BoxHeader } from "../style/theme";
