@@ -64,11 +64,12 @@ const ToggleMenu = styled.div`
   }
 `;
 
-const GroupListItem: FC<Group.GroupListItemProps> = ({
-  emoji,
-  groupDesc,
-  groupName,
-}) => {
+interface Props {
+  emoji: string;
+  desc: string;
+  name: string;
+}
+const GroupListItem: FC<Props> = ({ emoji, desc, name }) => {
   const [openThreeDot, setOpenThreeDot] = useState(false);
   const handleOpenThreeDot = () => {
     setOpenThreeDot(true);
@@ -91,11 +92,11 @@ const GroupListItem: FC<Group.GroupListItemProps> = ({
         {openThreeDot ? <ThreeDot /> : ""}
       </Div1>
       <Link to="/group/member">
-        <Div2>{groupName}</Div2>
+        <Div2>{name}</Div2>
       </Link>
-      <Div3>{groupDesc}</Div3>
+      <Div3>{desc}</Div3>
     </MainDiv>
   );
-}
+};
 
 export default GroupListItem;

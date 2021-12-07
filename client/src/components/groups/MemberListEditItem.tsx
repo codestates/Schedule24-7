@@ -13,8 +13,8 @@ const Block = styled.div`
   flex-direction: column;
 
   &.edit {
-    display: none; !important
- }
+    display: none !important;
+  }
 `;
 
 const DescBlock = styled.div`
@@ -23,29 +23,29 @@ const DescBlock = styled.div`
   margin-left: 20px;
 
   > #membertitle {
-  display: flex;
-  font-size: 12px;
-  justify-content: flex-end;
-  align-items: flex-end;
-  font-style: bold;
-  width: 60px;
+    display: flex;
+    font-size: 12px;
+    justify-content: flex-end;
+    align-items: flex-end;
+    font-style: bold;
+    width: 60px;
   }
   > #membervalue {
-  margin-left: 50px;
-  display: flex;
-  font-size: 22px;
-  justify-content: flex-start;
-  align-items: flex-end;
-  font-style: bold;
-  width: 200px;
+    margin-left: 50px;
+    display: flex;
+    font-size: 22px;
+    justify-content: flex-start;
+    align-items: flex-end;
+    font-style: bold;
+    width: 200px;
   }
 
   &.button {
-  margin-top: 30px;
-  margin-right: 20px;
-  justify-content: space-between
+    margin-top: 30px;
+    margin-right: 20px;
+    justify-content: space-between;
   }
-`
+`;
 
 const EditBlock = styled.div`
   position: absolute;
@@ -57,88 +57,66 @@ const EditBlock = styled.div`
   flex-direction: column;
 
   &.edit {
-    display: none; !important
- }
+    display: none !important;
+  }
 `;
 
-
-
 const MemberListEditItem: FC = () => {
-  const [isEdit, setIsEdit] = useState(false)
+  const [isEdit, setIsEdit] = useState(false);
   const handleButton = () => {
-    setIsEdit(true)
-  }
-   const handleCancleButton = () => {
-    setIsEdit(false)
-  }
-   
+    setIsEdit(true);
+  };
+  const handleCancleButton = () => {
+    setIsEdit(false);
+  };
+
   return (
     <>
-      <Block  className={isEdit ? "edit" : "" }>
-        <DescBlock>        
-          <div id="membertitle" >이름</div>
+      <Block className={isEdit ? "edit" : ""}>
+        <DescBlock>
+          <div id="membertitle">이름</div>
           <div id="membervalue">김코딩 </div>
         </DescBlock>
-        <DescBlock>          
-          <div id="membertitle" >직급</div>
+        <DescBlock>
+          <div id="membertitle">직급</div>
           <div id="membervalue">1팀장</div>
         </DescBlock>
-        <DescBlock>          
-          <div id="membertitle" >휴가예정일</div>
+        <DescBlock>
+          <div id="membertitle">휴가예정일</div>
           <div id="membervalue">11.23, 11.24</div>
         </DescBlock>
-        <DescBlock className="button">        
-          <SmallButton
-          title={"수정"}
-          onClick={handleButton}
-          color={"black"}
-          />
-          <SmallButton
-          title={"저장"}
-          onClick={handleButton}
-          color={"red"}
-          />
-        </DescBlock>          
+        <DescBlock className="button">
+          <SmallButton title={"수정"} onClick={handleButton} color={"black"} />
+          <SmallButton title={"저장"} onClick={handleButton} color={"red"} />
+        </DescBlock>
       </Block>
-      <EditBlock className={isEdit ? "" : "edit" }>
-        <DescBlock>        
-          <div id="membertitle" >이름</div>
-          <input
-            id="membervalue"
-            placeholder="이름을 입력해주세요"
-          />
+      <EditBlock className={isEdit ? "" : "edit"}>
+        <DescBlock>
+          <div id="membertitle">이름</div>
+          <input id="membervalue" placeholder="이름을 입력해주세요" />
         </DescBlock>
-        <DescBlock>          
-          <div id="membertitle" >직급</div>
-          <input
-            id="membervalue"
-            placeholder="직급을 입력해주세요"
-          />
+        <DescBlock>
+          <div id="membertitle">직급</div>
+          <input id="membervalue" placeholder="직급을 입력해주세요" />
         </DescBlock>
-        <DescBlock>          
-          <div id="membertitle" >휴가예정일</div>
-          <input
-            id="membervalue"
-            placeholder="내용을 입력해주세요"
-          />
+        <DescBlock>
+          <div id="membertitle">휴가예정일</div>
+          <input id="membervalue" placeholder="내용을 입력해주세요" />
         </DescBlock>
-        <DescBlock className="button">        
+        <DescBlock className="button">
           <SmallButton
-          title={"수정 완료"}
-          onClick={handleButton}
-          color={"black"}
+            title={"수정 완료"}
+            onClick={handleButton}
+            color={"black"}
           />
           <SmallButton
-          title={"수정 취소"}
-          onClick={handleCancleButton}
-          color={"grey"}
+            title={"수정 취소"}
+            onClick={handleCancleButton}
+            color={"grey"}
           />
-        </DescBlock>          
+        </DescBlock>
       </EditBlock>
-      
     </>
-   
-
   );
 };
 
@@ -156,7 +134,7 @@ export default MemberListEditItem;
 //   margin-top: 60px;
 //   margin-left: 20px;
 //   display: ${(props) => props.display}
-//   flex-direction: column; 
+//   flex-direction: column;
 // `;
 
 // const DescBlock = styled.div`
@@ -209,23 +187,23 @@ export default MemberListEditItem;
 //     setIsEdit(true)
 //     console.log(1)
 //   }
-   
+
 //   return (
 //     <>
 //       <Block  display={isEdit ? "none" : "flex" }>
-//         <DescBlock>        
+//         <DescBlock>
 //           <div id="membertitle" >이름</div>
 //           <div id="membervalue">김코딩 </div>
 //         </DescBlock>
-//         <DescBlock>          
+//         <DescBlock>
 //           <div id="membertitle" >직급</div>
 //           <div id="membervalue">1팀장</div>
 //         </DescBlock>
-//         <DescBlock>          
+//         <DescBlock>
 //           <div id="membertitle" >휴가예정일</div>
 //           <div id="membervalue">11.23, 11.24</div>
 //         </DescBlock>
-//         <DescBlock className="button">        
+//         <DescBlock className="button">
 //           <SmallButton
 //           title={"수정"}
 //           onClick={handleButton}
@@ -236,22 +214,22 @@ export default MemberListEditItem;
 //           onClick={handleButton}
 //           color={"red"}
 //           />
-//         </DescBlock>          
+//         </DescBlock>
 //       </Block>
 //       <EditBlock>
-//         <DescBlock>        
+//         <DescBlock>
 //           <div id="membertitle" >이름</div>
 //           <div id="membervalue">박코딩 </div>
 //         </DescBlock>
-//         <DescBlock>          
+//         <DescBlock>
 //           <div id="membertitle" >직급</div>
 //           <div id="membervalue">1팀장</div>
 //         </DescBlock>
-//         <DescBlock>          
+//         <DescBlock>
 //           <div id="membertitle" >휴가예정일</div>
 //           <div id="membervalue">11.23, 11.24</div>
 //         </DescBlock>
-//         <DescBlock className="button">        
+//         <DescBlock className="button">
 //           <SmallButton
 //           title={"수정"}
 //           onClick={handleButton}
@@ -262,11 +240,10 @@ export default MemberListEditItem;
 //           onClick={handleButton}
 //           color={"red"}
 //           />
-//         </DescBlock>          
+//         </DescBlock>
 //       </EditBlock>
-      
+
 //     </>
-   
 
 //   );
 // };
