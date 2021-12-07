@@ -10,7 +10,6 @@ import {
   ShortcutContainer,
 } from "../../style/theme";
 import GroupListItem from "../groups/GroupListItem";
-import BoxSample from "./BoxSample";
 
 export default function GroupShortcut() {
   const [showBoxes, setShowBoxes] = useState(false);
