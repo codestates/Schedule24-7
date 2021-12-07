@@ -32,9 +32,23 @@ export class ScheduleRepository {
       throw new InternalServerErrorException(err);
     }
   }
+
   // 스케쥴 수정
   async updateSchedule(scheduleId: string, schedule: any) {
-    await this.scheduleModel.updateOne({ _id: scheduleId }, { $set: schedule });
+    console.log(schedule);
+    const { contentId } = schedule.contents[0];
+    const result = await this.scheduleModel.findOneAndUpdate(
+      {
+        $and: [
+          { _id: scheduleId },
+          { contents: { $elemMatch: { contentId: contentId } } },
+        ],
+      },
+      {
+        $set: { "contents.$": schedule.contents[0] },
+      },
+    );
+    return result;
   }
   // 스케줄 삭제
   async removeSchedule(scheduleId: string) {

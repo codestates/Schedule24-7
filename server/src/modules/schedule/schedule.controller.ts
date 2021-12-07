@@ -9,8 +9,6 @@ import {
   Headers,
   HttpStatus,
 } from "@nestjs/common";
-import { Connection } from "mongoose";
-import { InjectConnection } from "@nestjs/mongoose";
 
 import { ScheduleService } from "./schedule.service";
 import { GetSchedule } from "src/commons/decorator.dto";

@@ -92,7 +92,11 @@ export class ScheduleService {
       const userInfo: any = await this.userRepoSitory.getUserDataById(_id);
       if (!userInfo) throw new HttpError(401, "Unauthorized");
       // 그룹 도큐먼트에 그룹아이디와 스케쥴 아이디가 있는지 확인
-      const groupInfo: any = await this.groupRepository.getScheduleIdFromGroup;
+      const groupInfo: any =
+        await this.groupRepository.checkScheduleIdFromGroup(
+          groupId,
+          scheduleId,
+        );
       // 있으면 해당 스케쥴의 내용을 수정
       if (!groupInfo) {
         throw new HttpError(404, "Not Found");
