@@ -140,7 +140,7 @@ const GroupBasicInfoEditPage: FC = () => {
           <span>신규그룹생성</span>
         </BoxHeader>
         < AddGroupWrapper>
-            <GroupSelectBar />
+          <GroupSelectBar />
           <AddDiv>
             <DivWrapper>
               <TitleHeader>신규그룹 기본 설정</TitleHeader>

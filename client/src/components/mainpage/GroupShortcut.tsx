@@ -22,30 +22,6 @@ export default function GroupShortcut() {
       setShowBoxes(true);
     }
   };
-  
-  const arrs: Group.GroupListItemProps[] = [
-  {
-    emoji: "🍕",
-    groupDesc: "당직1팀 명단(수정가능)",
-    groupName: "당직1팀",
-  },
-  {
-    emoji: "🍕",
-    groupDesc: "당직2팀 명단(수정가능)",
-    groupName: "당직2팀",
-  },
-  {
-    emoji: "🍕",
-    groupDesc: "당직3팀 명단(수정가능)",
-    groupName: "당직3팀",
-  },
-  {
-    emoji: "🍕",
-    groupDesc: "당직4팀 명단(수정가능)",
-    groupName: "당직4팀",
-  },
-];
-
 
   return (
     <BoxSection>
@@ -54,11 +30,9 @@ export default function GroupShortcut() {
         <AddBtn>새그룹추가</AddBtn>
       </BoxHeader>
       <ShortcutContainer>
-        <ShortcutBoxWrapper className={showBoxes ? "showBoxes" : ""}>
-        {[...arrs, ...arrs, ...arrs, ...arrs, ...arrs, ...arrs].map((item) => (
-          <GroupListItem {...item} />
-        ))}
-        </ShortcutBoxWrapper>
+        <ShortcutBoxWrapper
+          className={showBoxes ? "showBoxes" : ""}
+        ></ShortcutBoxWrapper>
         <SeeMoreWrapper>
           <SeeMore onClick={handleShowBoxes}>더보기</SeeMore>
         </SeeMoreWrapper>
