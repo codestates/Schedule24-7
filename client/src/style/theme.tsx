@@ -148,4 +148,8 @@ export const ErrMsg = styled.div`
     margin-top: 0px;
     margin-bottom: 5px;
   }
+  &.centered {
+    color: #c40202;
+    text-align: center;
+  }
 `;
