@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { ErrMsg, MainLogo, MainWrapper } from "../style/theme";
 import Footer from "../components/Footer";
-import Timer from "../components/Timer";
+// import Timer from "../components/Timer";
 
 export const SignUpItems = styled.div`
   margin: 0.8rem 0.8rem 0.8rem 0.8rem;
@@ -109,6 +109,7 @@ function SignUpPage() {
     emptyBoxCheck: false,
     emailValidCheck: false,
     permitAuthNumBox: false,
+    authCodeErr: false,
   });
 
   //메세지 렌더링 상태
@@ -125,14 +126,11 @@ function SignUpPage() {
     axios
       .get(`https://server.schedule24-7.link/auth/userId/${signUpInfo.userId}`)
       .then((res) => {
-        // console.log(res);
         setMessageRender(true);
-        // setIsError(res.data.result);
         setErrors({ ...errors, idOverlap: res.data.result });
       })
       .catch(() => {
         setMessageRender(true);
-        // setIsError(true);
         setErrors({ ...errors, idOverlap: true });
       });
   };
@@ -226,7 +224,12 @@ function SignUpPage() {
         authNumber: Number(authNumber.authNumber),
         _id: authId,
       })
-      .then(() => setErrors({ ...errors, permitSignUpBtn: true }));
+      .then(() =>
+        setErrors({ ...errors, permitSignUpBtn: true, authCodeErr: false })
+      )
+      .catch(() => {
+        setErrors({ ...errors, authCodeErr: true });
+      });
   };
 
   //빈칸있을 경우 메시지 렌더 함수
@@ -236,7 +239,6 @@ function SignUpPage() {
 
   //회원가입 서버에 요청하는 함수
   const handleSignUp = () => {
-    // setEmptyBox(true);
     setErrors({ ...errors, emptyBoxCheck: true });
     if (
       strongPassword(signUpInfo.password) &&
@@ -355,6 +357,11 @@ function SignUpPage() {
                   이메일인증
                 </SignUpBtn>
               </SignUpSubItem>
+              {errors.authCodeErr ? (
+                <ErrMsg className="err">잘못된 인증번호 입니다</ErrMsg>
+              ) : (
+                ""
+              )}
               {/* <Timer /> */}
             </SignUpItems>
           ) : (
