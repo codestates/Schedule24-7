@@ -33,9 +33,13 @@ export class ScheduleService {
       throw new BadRequestException("Bad Requst");
     }
     // 토큰 복호화해서 정보 확인
-    const { _id }: any = await this.authRepository.validateToken(auth);
-    const userInfo: any = await this.userRepoSitory.getUserDataById(_id);
-    if (!userInfo) throw new UnauthorizedException("Unauthorized");
+    try {
+      const { _id }: any = await this.authRepository.validateToken(auth);
+      const userInfo: any = await this.userRepoSitory.getUserDataById(_id);
+      if (!userInfo) throw new UnauthorizedException("Unauthorized");
+    } catch (error) {
+      throw new UnauthorizedException(error);
+    }
 
     // 멤버 정보, 조건 정보, 근무 정보 조회
     const memberInfo: any = await this.groupRepository.getMemberByGroupId(
