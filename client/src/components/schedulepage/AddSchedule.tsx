@@ -5,10 +5,12 @@ import { BoxHeader, BoxSection } from "../../style/theme";
 import DatePicker from "react-datepicker";
 import "./react-datepicker.css";
 import { ko } from "date-fns/esm/locale";
-import MultiColumnSelectBox from "../MultiColumnSelectBox";
 import { selectBoxOptions } from "./ScheduleDummy";
 import { addNewSchedule } from "../../redux/actions/scheduleActions";
 import axios from "axios";
+import EmojiBox from "./EmojiBox";
+import { useEffect } from "react";
+import { useCallback } from "react";
 
 export const AddScheduleWrapper = styled.section`
   display: flex;
@@ -187,35 +189,49 @@ export default function AddSchedule() {
     groupId: "",
     scheduleName: "",
     scheduleEmoji: "",
-    period: startDate,
+    period: "",
   });
 
   //스케쥴 생성 함수(만들예정)
   const handleNewSchedule = (): void => {
-    // axios
-    //   .post(
-    //     `https://server.schedule24-7.link/schedule/${scheduleInfo.groupId}`,
-    //     {
-    //       scheduleName: scheduleInfo.scheduleName,
-    //       scheduleEmoji: scheduleInfo.scheduleEmoji,
-    //       period: scheduleInfo.period,
-    //     },
-    //     {
-    //       headers: {
-    //         authorization: `Bearer ${window.localStorage.getItem("token")}`,
-    //       },
-    //     }
-    //   )
-    //   .then((res) => dispatch(addNewSchedule(res)));
-    dispatch(addNewSchedule(tmpData));
+    // console.log()
+    axios
+      .post(
+        `https://server.schedule24-7.link/schedule/${scheduleInfo.groupId}`,
+        {
+          scheduleName: scheduleInfo.scheduleName,
+          scheduleEmoji: scheduleInfo.scheduleEmoji,
+          period: scheduleInfo.period,
+        },
+        {
+          headers: {
+            authorization: `Bearer ${window.localStorage.getItem("token")}`,
+          },
+        }
+      )
+      .then(() => alert("새스케쥴추가성공"));
+    // dispatch(addNewSchedule(tmpData));
   };
 
-  const handleScheduleInfo =
+  const handleSelectInfo =
     (key: string) => (e: React.ChangeEvent<HTMLSelectElement>) => {
-      // console.log(e.target.value);
-      console.log(scheduleInfo.period);
       setScheduleInfo({ ...scheduleInfo, [key]: e.target.value });
     };
+
+  const handleTextInfo =
+    (key: string) => (e: React.ChangeEvent<HTMLInputElement>) => {
+      setScheduleInfo({ ...scheduleInfo, [key]: e.target.value });
+    };
+
+  const handleEmoji = useCallback((emoji: string): void => {
+    setScheduleInfo({ ...scheduleInfo, scheduleEmoji: emoji });
+  }, []);
+
+  useEffect(() => {
+    let newDate = new Date(startDate);
+    let result = `${newDate.getFullYear()}-${newDate.getMonth() + 1}-01`;
+    setScheduleInfo({ ...scheduleInfo, period: result });
+  }, [startDate]);
 
   return (
     <BoxSection>
@@ -230,13 +246,17 @@ export default function AddSchedule() {
           <DivWrapper>
             <Title>이름설정</Title>
             <div>
-              <MultiColumnSelectBox options={selectBoxOptions} />
-              <NameBox type="text" placeholder="스케쥴 이름 입력" />
+              <EmojiBox options={selectBoxOptions} handleEmoji={handleEmoji} />
+              <NameBox
+                type="text"
+                onChange={handleTextInfo("scheduleName")}
+                placeholder="스케쥴 이름 입력"
+              />
             </div>
           </DivWrapper>
           <DivWrapper>
             <Title>그룹선택</Title>
-            <TeamSelect onChange={handleScheduleInfo("groupId")}>
+            <TeamSelect onChange={handleSelectInfo("groupId")}>
               <option>팀선택</option>
               <option value={"당직1팀"}>당직1팀</option>
               <option value={"당직2팀"}>당직2팀</option>
@@ -250,11 +270,7 @@ export default function AddSchedule() {
               selected={startDate}
               dateFormat="MM/yyyy"
               onChange={(date: any) => {
-                let newDate = new Date(date);
-                let result = `${date.getFullYear()}-${
-                  newDate.getMonth() + 1
-                }-01`;
-                console.log(result);
+                // console.log(result);
                 setStartDate(date);
               }}
               showMonthYearPicker
