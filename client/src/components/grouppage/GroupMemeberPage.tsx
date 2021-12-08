@@ -1,4 +1,4 @@
-import { FC, useCallback } from "react";
+import { FC, useCallback,useEffect } from "react";
 import Layout from "../Layout";
 import styled from "styled-components";
 import { mediaQuery } from "../../GlobalStyle";
@@ -7,11 +7,13 @@ import GroupSelectBar from "../groups/GroupSelectBar";
 import MemberListItem from "../groups/MemberListItem";
 import AddListButton from "../AddListButton";
 import MemberListEditItem from "../groups/MemberListEditItem";
-import { useSelector } from "react-redux";
 import { RootState } from "../../redux/reducers";
 import { group } from "yargs";
 import AddMemberList from "../groups/AddMemberList";
 import { useParams } from "react-router";
+import { useDispatch, useSelector } from "react-redux";
+import { getGroupsApi } from "../../lib/api/group";
+import { getGroups } from "../../redux/actions/Group";
 
 const BlockContainer = styled.div`
   background-color: #f1f1f1;
@@ -41,28 +43,31 @@ const BlockContainer = styled.div`
 // }
 
 const GroupMemberPage: FC = () => {
+  const dispatch = useDispatch();
   const groups = useSelector((store: RootState) => store.group.groups);
   const { groupId } = useParams();
   const selectgroup = groups.filter((item) => item._id === groupId)
-  const members = selectgroup[0].members
-  console.log(members)
-  console.log(2)
-  console.log(groups)
   const navigate = useNavigate();
   const handler = useCallback(() => {
     navigate("/group");
   }, [navigate]);
+  
+   useEffect(() => {
+    getGroupsApi().then((res) => {
+      dispatch(getGroups(res.data));
+    });
+  }, [dispatch]);
 
   return (
     <Layout title="그룹">
       {/* <GroupSelectBar /> */}
-      {members.map((item) => ( 
+      {selectgroup[0].members ? selectgroup[0].members.map((item) => ( 
       <MemberListItem
           name={item.memberName}
           position={item.memberPosition}
           vacation={item.memberVacation}        
       />
-      ))}
+      )): null}
       <AddListButton
         onClick={handler}
         iconSrc={
