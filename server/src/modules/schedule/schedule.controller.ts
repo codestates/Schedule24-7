@@ -71,7 +71,7 @@ export class ScheduleController {
     return res.status(HttpStatus.OK).send("OK");
   }
 
-  @Get(":scheduleId")
+  @Get("/share/:scheduleId")
   async shareSchedule(
     @Param("scheduleId") scheduleId: string,
     @Res() res: any,
