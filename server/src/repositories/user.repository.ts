@@ -101,7 +101,10 @@ export class UserRepository {
 
   // 해당 유저의 그룹 정보 조회
   async getGroup(id: string) {
-    const result: any = await this.userModel.findById(id).populate("groups");
+    const result: any = await this.userModel.findById(id).populate({
+      path: "groups",
+      populate: { path: "schedules" },
+    });
     return result;
   }
 
