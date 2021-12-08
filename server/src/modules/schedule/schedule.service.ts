@@ -75,6 +75,7 @@ export class ScheduleService {
     // 3. 조건을 넣어서 나온 스케줄 콘텐츠 뽑기
   }
 
+  // 스케쥴 멤버 변경 수정 부분
   async updateSchedule(
     auth: string,
     groupId: string,
@@ -111,6 +112,7 @@ export class ScheduleService {
     session.endSession();
   }
 
+  // 스케쥴 삭제 부분
   async removeSchedule(auth: string, groupId: string, scheduleId: string) {
     const session = await this.mongooseConnection.startSession();
     session.withTransaction(async () => {
@@ -134,5 +136,10 @@ export class ScheduleService {
       }
     });
     session.endSession();
+  }
+
+  // 스케쥴 조회 부분
+  shareSchedule(scheduleId: string): any {
+    return await this.scheduleRepository.shareSchedule(scheduleId);
   }
 }
