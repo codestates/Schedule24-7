@@ -8,41 +8,41 @@ const Block = styled.div`
   height: 70px;
   left: 10px;
   top: 160px;
-  background: #FFFFFF;
+  background: #ffffff;
   box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.25);
   border-radius: 15px;
   margin: 10px;
 
   div.name {
-  position: absolute;
-  margin-top: 17px;
-  margin-left: 35px;
-  font-style: normal;
-  font-weight: bold;
-  font-size: 20px;
-  line-height: 23px;
+    position: absolute;
+    margin-top: 17px;
+    margin-left: 35px;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 20px;
+    line-height: 23px;
   }
 
   div.position {
-  position: absolute;
-  margin-top: 40px;
-  margin-left: 35px;
-  font-style: normal;
-  font-weight: 300;
-  font-size: 12px;
-  line-height: 14px;  
+    position: absolute;
+    margin-top: 40px;
+    margin-left: 35px;
+    font-style: normal;
+    font-weight: 300;
+    font-size: 12px;
+    line-height: 14px;
   }
 
   &.open {
-  width: 370px;
-  height: 300px;
-  background: #FFFFFF;
-  box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.25);
-  border-radius: 15px;  
+    width: 370px;
+    height: 300px;
+    background: #ffffff;
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 15px;
   }
-  
+
   div.close {
-  display: none
+    display: none;
   }
 `;
 
@@ -59,42 +59,42 @@ const VsibleWrapper = styled.div`
     height: 20px;
     background-color: #323131;
     clip-path: polygon(50% 0%, 100% 50%, 90% 60%, 50% 20%, 10% 60%, 0% 50%);
-  
+
     &.open {
-     clip-path: polygon(50% 80%, 90% 40%, 100% 50%, 50% 100%, 0 50%, 10% 40%);
+      clip-path: polygon(50% 80%, 90% 40%, 100% 50%, 50% 100%, 0 50%, 10% 40%);
     }
   }
-
 `;
 
+interface Props {
+  name: string;
+  position: string;
+  vacation: any;
+}
 
-
-
-const MemberListItem: FC = () => {
-  const [isOpen, setIsOpen] = useState(false)
+const MemberListItem: FC<Props> = ({name, position, vacation}) => {
+  const [isOpen, setIsOpen] = useState(false);
   const toggleIsOpen = useCallback(() => {
     setIsOpen((prev) => !prev);
-  }, [])
- 
+  }, []);
+
   return (
     <>
-      <Block
-       className= {isOpen ? "open" : ""}
-      >
-        <div className="name">김코딩</div>
-        <div className="position">1팀장</div>
-          <VsibleWrapper onClick={toggleIsOpen}>
-          <div
-           className= {isOpen ? "open" : ""}
-          />
+      <Block className={isOpen ? "open" : ""}>
+        <div className="name">{name}</div>
+        <div className="position">{position}</div>
+        <VsibleWrapper onClick={toggleIsOpen}>
+          <div className={isOpen ? "open" : ""} />
         </VsibleWrapper>
         <div className={isOpen ? "open" : "close"}>
-          <MemberListEditItem />
+          <MemberListEditItem
+            name={name}
+            position={position}
+            vacation={vacation}
+          />
         </div>
       </Block>
     </>
-   
-
   );
 };
 

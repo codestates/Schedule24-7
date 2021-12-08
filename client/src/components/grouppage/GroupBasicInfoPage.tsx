@@ -147,7 +147,7 @@ const GroupBasicInfoPage: FC = () => {
           <span>신규그룹생성</span>
         </BoxHeader>
         < AddGroupWrapper>
-          <GroupSelectBar />
+          {/* <GroupSelectBar {id}/> */}
           <AddDiv>
             <DivWrapper>
               <div>💥</div>

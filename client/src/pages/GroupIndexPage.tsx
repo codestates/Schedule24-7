@@ -21,8 +21,6 @@ const GroupIndexPage: FC = () => {
   }, [navigate]);
 
   useEffect(() => {
-    // const groups: Group.GroupListItemResDTO[] = [];
-    // dispatch(getGroups(groups));
     getGroupsApi().then((res) => {
       dispatch(getGroups(res.data));
     });
@@ -37,10 +35,11 @@ const GroupIndexPage: FC = () => {
       <BoxWrapper>
         {groups.map((group) => (
           <GroupListItem
+            id={group._id}
             desc={group.groupDesc}
             emoji={group.groupEmoji}
             name={group.groupName}
-            key={group.id}
+            key={group._id}
           />
         ))}
 
