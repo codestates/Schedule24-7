@@ -49,13 +49,18 @@ export class GroupRepository {
     await this.groupModel.deleteOne({ _id: groupId });
   }
 
+  async checkScheduleIdFromGroup(groupId: string, scheduleId: string) {
+    return await this.groupModel.findOne({
+      $and: [{ _id: groupId }, { $oid: scheduleId }],
+    });
+  }
+
   // 그룹 삭제를 할때 그룹에 해당하는 스케쥴 아이디가 필요
   // 기존의 조회는 헤더의 토큰 정보를 갖고 해당유저의 그룹 정보를 가져오는 식이라
   // 쓸데 없는 데이터를 많이 가져오기에 조인없이 그룹도큐먼트에서 조회
   async getScheduleIdFromGroup(groupId: string) {
     return await this.groupModel.findById(groupId).select("schedules");
   }
-
   // 스케쥴을 삭제시 그룹에서 스케쥴아이디 삭제
   async removeScheduleIdFromGroup(id: string, scheduleId: string) {
     await this.groupModel.updateOne(
