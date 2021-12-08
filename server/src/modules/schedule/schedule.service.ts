@@ -135,7 +135,7 @@ export class ScheduleService {
   }
 
   // 스케쥴 조회 부분
-  shareSchedule(scheduleId: string): any {
+  async shareSchedule(scheduleId: string) {
     return await this.scheduleRepository.shareSchedule(scheduleId);
   }
 }
