@@ -34,7 +34,8 @@ export default function GroupShortcut() {
       </BoxHeader>
       <ShortcutContainer>
         <ShortcutBoxWrapper className={showBoxes ? "showBoxes" : ""}>
-          {groups.map((group) => (
+          {groups ?    
+            groups.map((group) => (
             <GroupListItem
               id={group._id}
               desc={group.groupDesc}
@@ -42,7 +43,7 @@ export default function GroupShortcut() {
               name={group.groupName}
               key={group._id}
             />
-          ))}
+          )): null}
         </ShortcutBoxWrapper>
         <SeeMoreWrapper>
           <SeeMore onClick={handleShowBoxes}>더보기</SeeMore>
