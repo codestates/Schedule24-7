@@ -1,5 +1,6 @@
 import {
   Controller,
+  Get,
   Post,
   Body,
   Patch,
@@ -70,5 +71,14 @@ export class ScheduleController {
       scheduleId,
     );
     return res.status(HttpStatus.OK).send("OK");
+  }
+
+  @Get(":scheduleId")
+  async shareSchedule(
+    @Param("scheduleId") scheduleId: string,
+    @Res() res: any,
+  ) {
+    const result: any = await this.scheduleService.shareSchedule(scheduleId);
+    return res.status(HttpStatus.OK).send(result);
   }
 }

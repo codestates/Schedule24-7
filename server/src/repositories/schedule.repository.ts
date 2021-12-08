@@ -34,11 +34,20 @@ export class ScheduleRepository {
   }
   // 스케쥴 수정
   async updateSchedule(scheduleId: string, schedule: any) {
-    await this.scheduleModel.updateOne({ _id: scheduleId }, { $set: schedule });
+    return await this.scheduleModel.updateOne(
+      { _id: scheduleId },
+      { $set: schedule },
+    );
   }
   // 스케줄 삭제
   async removeSchedule(scheduleId: string) {
     await this.scheduleModel.deleteOne({ _id: scheduleId });
+    return;
+  }
+
+  // 스케쥴 조회(공유)
+  async shareSchedule(scheduleId: string) {
+    return await this.scheduleModel.findOne({ _id: scheduleId });
   }
 
   // content 배열 생성
