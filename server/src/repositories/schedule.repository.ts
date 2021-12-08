@@ -35,18 +35,9 @@ export class ScheduleRepository {
 
   // 스케쥴 수정
   async updateSchedule(scheduleId: string, schedule: any) {
-    console.log(schedule);
-    const { contentId } = schedule.contents[0];
-    const result = await this.scheduleModel.findOneAndUpdate(
-      {
-        $and: [
-          { _id: scheduleId },
-          { contents: { $elemMatch: { contentId: contentId } } },
-        ],
-      },
-      {
-        $set: { "contents.$": schedule.contents[0] },
-      },
+    const result = await this.scheduleModel.updateOne(
+      { _id: scheduleId },
+      { $set: { contents: schedule.contents } },
     );
     return result;
   }
