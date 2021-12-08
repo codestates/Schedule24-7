@@ -1,5 +1,6 @@
 import { FC } from "react";
 import styled from "styled-components";
+import { Link } from "react-router-dom";
 
 const Block = styled.nav`
   width: 100px;
@@ -35,10 +36,10 @@ interface Props {
 const ThreeDot: FC<Props> = ({ id }) => {
   return (
     <Block id="ThreeDot">
-      <a href="#">스케줄</a>
-      <a href={`/group/${id}/member`}>멤버관리</a>
-      <a href={`/group/${id}/info`}>기본정보</a>
-      <a href={`/group/${id}/condition`}>근무조건</a>
+      <Link to={`/group/${id}/schedule`}>스케줄</Link>
+      <Link to={`/group/${id}/member`}>멤버관리</Link>
+      <Link to={`/group/${id}/info`}>기본정보</Link>
+      <Link to={`/group/${id}/condition`}>근무조건</Link>
     </Block>
   );
 };
