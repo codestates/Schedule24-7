@@ -11,6 +11,7 @@ import { MailerModule } from "@nestjs-modules/mailer";
 import { HandlebarsAdapter } from "@nestjs-modules/mailer/dist/adapters/handlebars.adapter";
 import { Auth, AuthSchema } from "src/entities/auth.entity";
 import { UserModule } from "../user/user.module";
+import { HttpModule } from "@nestjs/axios";
 
 @Global()
 @Module({
@@ -24,6 +25,10 @@ import { UserModule } from "../user/user.module";
         secret: configService.getSecretConfig(),
       }),
       inject: [ConfigService],
+    }),
+    HttpModule.register({
+      timeout: 5000,
+      maxRedirects: 5,
     }),
     ConfigModule,
     UserModule,
