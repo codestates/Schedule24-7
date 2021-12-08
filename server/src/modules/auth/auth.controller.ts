@@ -1,3 +1,4 @@
+import { HttpService } from "@nestjs/axios";
 import {
   Controller,
   Get,
@@ -6,9 +7,15 @@ import {
   Param,
   Headers,
   Res,
+  InternalServerErrorException,
+  Query,
 } from "@nestjs/common";
 import { InjectConnection } from "@nestjs/mongoose";
+import { AxiosResponse } from "axios";
+import { resolveObjectURL } from "buffer";
+import { response, Response } from "express";
 import { Connection } from "mongoose";
+import { firstValueFrom, lastValueFrom, switchMap } from "rxjs";
 import { AuthService } from "./auth.service";
 import { AuthCheckPasswordLossDto } from "./dto/auth-checkPasswordLoss.dto";
 import { AuthCheckUserIdLossDto } from "./dto/auth-checkUserIdLoss.dto";
@@ -156,6 +163,37 @@ export class AuthController {
       return res.status(err.status).send(err);
     } finally {
       session.endSession();
+    }
+  }
+
+  // ! 구글 Oauth
+  @Get("/google")
+  async googleAuth(@Res() res: Response) {
+    const GOOGLE_AUTH_URL = "https://accounts.google.com/o/oauth2/v2/auth";
+    const GOOGLE_AUTH_REDIRECT_URL =
+      "http://localhost:3000/auth/google/callback";
+    try {
+      return res.redirect(
+        `${GOOGLE_AUTH_URL}?client_id=${process.env.GOOGLE_AUTH_CLIENT_ID}&redirect_uri=${GOOGLE_AUTH_REDIRECT_URL}&response_type=code&include_granted_scopes=true&scope=https://www.googleapis.com/auth/userinfo.email`,
+      );
+    } catch (err) {
+      throw new InternalServerErrorException(err);
+    }
+  }
+
+  @Get("/google/callback")
+  async googleCallback(@Query("code") code: string, @Res() res: Response) {
+    try {
+      const accessToken = await this.authService.googleCallback(code);
+      return res
+        .cookie("accessToken", accessToken, {
+          domain: "localhost",
+          httpOnly: true,
+          sameSite: true,
+        })
+        .redirect("http://localhost:3000/");
+    } catch (err) {
+      return res.status(err.status).send(err);
     }
   }
 }

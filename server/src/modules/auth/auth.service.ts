@@ -8,12 +8,15 @@ import { AuthNumberDto } from "./dto/authNumber.dto";
 import { AuthCheckUserIdLossDto } from "./dto/auth-checkUserIdLoss.dto";
 import { AuthCheckPasswordLossDto } from "./dto/auth-checkPasswordLoss.dto";
 import HttpError from "src/commons/httpError";
+import { HttpService } from "@nestjs/axios";
+import { lastValueFrom } from "rxjs";
 @Injectable()
 export class AuthService {
   constructor(
     private readonly authRepository: AuthRepository,
     private readonly userRepository: UserRepository,
     private readonly jwtService: JwtService,
+    private readonly httpService: HttpService,
   ) {}
 
   /**
@@ -244,5 +247,57 @@ export class AuthService {
     } else {
       return "이메일이 정상적으로 발송되었습니다.";
     }
+  }
+
+  async googleCallback(code: string) {
+    const GOOGLE_AUTH_URL = "https://accounts.google.com/o/oauth2/v2/auth";
+    const GOOGLE_AUTH_TOKEN_URL = "https://oauth2.googleapis.com/token";
+    const GOOGLE_AUTH_REDIRECT_URL =
+      "http://localhost:3000/auth/google/callback";
+
+    const { data }: any = await lastValueFrom(
+      this.httpService.request({
+        method: "POST",
+        url: `${GOOGLE_AUTH_TOKEN_URL}`,
+        headers: {
+          "content-type": "application/x-www-form-urlencoded;charset=utf-8",
+        },
+        params: {
+          grant_type: "authorization_code",
+          client_id: process.env.GOOGLE_AUTH_CLIENT_ID,
+          client_secret: process.env.GOOGLE_AUTH_CLIENT_SECRET,
+          redirect_uri: GOOGLE_AUTH_REDIRECT_URL,
+          code: code,
+        },
+      }),
+    );
+    const access_token = data.access_token;
+    const { data: snsData }: any = await lastValueFrom(
+      this.httpService.get(
+        `https://www.googleapis.com/oauth2/v3/userinfo?access_token=${access_token}`,
+      ),
+    );
+
+    const parseName = snsData.email.split("@")[0];
+    const tempPassword = this.authRepository.generateTemporaryPassword();
+
+    const userInfo = {
+      email: snsData.email,
+      userId: snsData.sub,
+      userName: parseName,
+      password: tempPassword,
+      tokenType: "google",
+    };
+
+    const isExist = await this.userRepository.getUserByUserId(userInfo.userId);
+
+    let accessToken;
+    if (isExist) {
+      accessToken = this.authRepository.generateToken(isExist);
+    } else {
+      const signUpGoogle = await this.userRepository.createUser(userInfo);
+      accessToken = this.authRepository.generateToken(signUpGoogle);
+    }
+    return accessToken;
   }
 }
