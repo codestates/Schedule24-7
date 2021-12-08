@@ -214,7 +214,10 @@ const GropAddPage: FC = () => {
     setFromState((prev) => {
       const newWorks = Array(newCount)
         .fill(1)
-        .map((_, idx) => prev.works[idx] ?? { limit: 1, workName: "" });
+        .map(
+          (_, idx) =>
+            prev.works[idx] ?? { limit: 1, workName: "", workId: idx + 1 }
+        );
       return {
         ...prev,
         works: newWorks,
@@ -236,8 +239,8 @@ const GropAddPage: FC = () => {
       });
       const response = await getGroupsApi();
       dispatch(getGroups(response.data));
-      alert("그룹생성 완료!")
-      navigate("/group")
+      alert("그룹생성 완료!");
+      navigate("/group");
     } catch (err) {
       // TODO 그룹 생성 실패 에러 처리.
     }
@@ -287,8 +290,7 @@ const GropAddPage: FC = () => {
               </TeamSelect>
             </DivWrapper>
             <DivWrapper>
-              <Title
-              >근무명 및 근무인원</Title>
+              <Title>근무명 및 근무인원</Title>
               {renderWorkingForm()}
             </DivWrapper>
             <AddBtn onClick={createGroup}>그룹생성</AddBtn>

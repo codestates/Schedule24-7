@@ -39,6 +39,17 @@ const DescBlock = styled.div`
   }
 `
 
+const WorkSelect = styled.select`
+  width: 208px;
+  height: 24px;
+  margin-left:40px;
+  padding-left: 10px;
+  border: 1px solid #a5a5a5;
+  box-shadow: 0.05rem 0.05rem 0.05rem #6969692d;
+
+  background-color: white;
+`;
+
 const EditBlock = styled.div`
   position: absolute;
   width: 370px;
@@ -66,23 +77,43 @@ const AddConditionList: FC = () => {
       <EditBlock>
         <DescBlock>        
           <div id="conditiontitle">대상</div>
-          <input id="conditionvalue"/>
+            <WorkSelect>
+              <option>모든인원</option>
+              <option>2</option>
+              <option>3</option>
+           </WorkSelect>
         </DescBlock>
         <DescBlock>            
           <div id="conditiontitle">주기</div>
-          <input id="conditionvalue" />
+            <WorkSelect>
+              <option>주간</option>
+              <option>2</option>
+              <option>3</option>
+           </WorkSelect>
         </DescBlock>
         <DescBlock>            
           <div id="conditiontitle">대상근무</div>
-          <input id="conditionvalue" />
+            <WorkSelect>
+              <option>N</option>
+              <option>2</option>
+              <option>3</option>
+           </WorkSelect>
         </DescBlock>
         <DescBlock>            
           <div id="conditiontitle">연산자</div>
-          <input id="conditionvalue" />
+            <WorkSelect>
+              <option>+</option>
+              <option>2</option>
+              <option>3</option>
+           </WorkSelect>
         </DescBlock>
         <DescBlock>            
           <div id="conditiontitle">값</div>
-          <input id="conditionvalue" />
+            <WorkSelect>
+              <option>1</option>
+              <option>2</option>
+              <option>3</option>
+           </WorkSelect>
         </DescBlock>
         <DescBlock className="button">        
           <SmallButton

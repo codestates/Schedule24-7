@@ -28,13 +28,17 @@ const Block = styled.nav`
   }
 `;
 
-const ThreeDot: FC = () => {
+interface Props {
+  id: string
+}
+
+const ThreeDot: FC<Props> = ({ id }) => {
   return (
     <Block id="ThreeDot">
       <a href="#">스케줄</a>
-      <a href="/group/member">멤버관리</a>
-      <a href="/group/info">기본정보</a>
-      <a href="#">근무조건</a>
+      <a href={`/group/${id}/member`}>멤버관리</a>
+      <a href={`/group/${id}/info`}>기본정보</a>
+      <a href={`/group/${id}/condition`}>근무조건</a>
     </Block>
   );
 };

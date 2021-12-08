@@ -4,7 +4,7 @@ namespace Group {
     groupDesc: string;
     groupEmoji: string;
     groupName: string;
-    id: string;
+    _id: string;
     conditions: any[];
     members: {
       memberId: string;
@@ -14,6 +14,13 @@ namespace Group {
     }[];
     schedule: any[];
     works: any[];
+  }
+
+  interface GroupMemberCreateReqDTO {
+    memberName: string;
+    memberPosition: string;
+    memberVacation: string[];
+    groupId: string;
   }
 
   interface GroupCreateReqDTO {

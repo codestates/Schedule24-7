@@ -68,8 +68,9 @@ interface Props {
   emoji: string;
   desc: string;
   name: string;
+  id: string;
 }
-const GroupListItem: FC<Props> = ({ emoji, desc, name }) => {
+const GroupListItem: FC<Props> = ({ emoji, desc, name, id }) => {
   const [openThreeDot, setOpenThreeDot] = useState(false);
   const handleOpenThreeDot = () => {
     setOpenThreeDot(true);
@@ -89,9 +90,9 @@ const GroupListItem: FC<Props> = ({ emoji, desc, name }) => {
             <div />
           </ToggleMenu>
         </SubDiv2>
-        {openThreeDot ? <ThreeDot /> : ""}
+        {openThreeDot ? <ThreeDot id={id}/> : ""}
       </Div1>
-      <Link to="/group/member">
+      <Link to={`/group/${id}/member`}>
         <Div2>{name}</Div2>
       </Link>
       <Div3>{desc}</Div3>

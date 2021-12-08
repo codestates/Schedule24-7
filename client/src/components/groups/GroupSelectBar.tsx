@@ -20,12 +20,16 @@ const Block = styled.div`
   }
 `;
 
-const GroupSelectBar: FC = () => {
+interface Props {
+  id: string;
+}
+
+const GroupSelectBar: FC<Props> = ({id}) => {
   return (
     <>
     <Block>      
       <a href="#">스케줄</a>
-      <a href="/group/member">멤버관리</a>
+      {/* <a href={`/group/${id}/member`}>멤버관리</a> */}
       <a href="/group/info">기본정보</a>
       <a href="/group/condition">근무조건</a>
     </Block>

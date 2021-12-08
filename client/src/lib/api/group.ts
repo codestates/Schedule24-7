@@ -12,3 +12,13 @@ export const createGroupApi = (
 ): Promise<ReturnApi<any>> => {
   return apiClient().post<any, ReturnApi<any>>("/group", payload);
 };
+
+export const createGroupMemberApi = (
+  payload: Group.GroupMemberCreateReqDTO
+): Promise<ReturnApi<any>> => {
+  const { groupId, ...payloads } = payload;
+  return apiClient().post<any, ReturnApi<any>>(
+    `/group/member/${groupId}`,
+    payloads
+  );
+};
