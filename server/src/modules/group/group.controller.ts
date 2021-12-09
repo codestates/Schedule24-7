@@ -10,15 +10,21 @@ import {
   HttpStatus,
   InternalServerErrorException,
   Body,
+  UseInterceptors,
+  UploadedFile,
 } from "@nestjs/common";
 import { InjectConnection } from "@nestjs/mongoose";
 import { Connection } from "mongoose";
+import { Response } from "express";
+import { FileInterceptor } from "@nestjs/platform-express";
+import { extname } from "path";
+import { diskStorage } from "multer";
+
 import { GroupService } from "./group.service";
 import { Group } from "src/entities/group.entity";
 import { GetGroup } from "src/commons/decorator.dto";
 import { CreateConditionDto } from "./dto/createCondition.dto";
 import { UpdateConditionDto } from "./dto/updateCondition.dto";
-import { Response } from "express";
 
 @Controller("group")
 export class GroupController {
@@ -283,4 +289,30 @@ export class GroupController {
       await session.endSession();
     }
   }
+
+  // 멤버 정보가 담긴 csv파일을 읽어서 디비에 저장하기
+  // @Post("member/upload/:groupId")
+  // @UseInterceptors(
+  //   FileInterceptor("csv", {
+  //     storage: diskStorage({
+  //       destination: "./csv",
+  //       filename: (req, file, cb) => {
+  //         const randomName = Array(32)
+  //           .fill(null)
+  //           .map(() => Math.round(Math.random() * 16).toString(16))
+  //           .join("");
+  //         cb(null, `${randomName}${extname(file.originalname)}`);
+  //       },
+  //     }),
+  //   }),
+  // )
+  // async pushToMemeber(
+  //   @Headers("Authorization") authorization: string,
+  //   @Param("groupId") groupId: string,
+  //   @UploadedFile() file: Express.Multer.File,
+  //   @Res() res: any,
+  // ) {
+  //   await this.groupService.pushToMember(file);
+  //   return res.send("OK");
+  // }
 }
