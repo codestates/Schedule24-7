@@ -69,6 +69,7 @@ export class GroupRepository {
       {
         $pullAll: { schedules: [scheduleId] },
       },
+      { new: true },
     );
   }
 
