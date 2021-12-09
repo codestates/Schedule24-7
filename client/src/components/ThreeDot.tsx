@@ -30,7 +30,7 @@ const Block = styled.nav`
 `;
 
 interface Props {
-  id: string
+  id: string;
 }
 
 const ThreeDot: FC<Props> = ({ id }) => {

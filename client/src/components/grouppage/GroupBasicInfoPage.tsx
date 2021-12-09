@@ -1,10 +1,16 @@
-import { FC,useState,useCallback } from "react";
+import { FC, useState, useCallback, useEffect } from "react";
 import Layout from "../Layout";
 import styled from "styled-components";
 import SmallButton from "../groups/SmallButton";
 import { useNavigate } from "react-router";
 import { BoxHeader, BoxSection } from "../../style/theme";
 import GroupSelectBar from "../groups/GroupSelectBar";
+import { useParams } from "react-router";
+import { deleteGroupApi } from "../../lib/api/group";
+import { useDispatch, useSelector } from "react-redux";
+import { getGroupsApi } from "../../lib/api/group";
+import { getGroups } from "../../redux/actions/Group";
+import { RootState } from "../../redux/reducers";
 
 export const AddGroupWrapper = styled.section`
   display: flex;
@@ -33,14 +39,13 @@ export const DivWrapper = styled.div`
   display: flex;
   flex-direction: column;
   margin: 0.5rem;
-  >.bold {
+  > .bold {
     font-style: normal;
     font-weight: bold;
     font-size: 20px;
-    line-height: 23px; 
+    line-height: 23px;
   }
 `;
-
 
 export const TitleHeader = styled.div`
   font-size: 22px;
@@ -120,67 +125,91 @@ const DescBlock = styled.div`
   margin-left: 20px;
 
   &.button {
-  margin-top: 30px;
-  margin-right: 20px;
-  justify-content: space-between
+    margin-top: 30px;
+    margin-right: 20px;
+    justify-content: space-between;
   }
-`
+`;
 
 const GroupBasicInfoPage: FC = () => {
-  const [isEdit, setIsEdit] = useState(false)
+  const [isEdit, setIsEdit] = useState(false);
   const handleButton = () => {
-    setIsEdit(true)
-  }
+    setIsEdit(true);
+  };
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const { groupId } = useParams();
+  const groups = useSelector((store: RootState) => store.group.groups);
+  const selectgroup = groups.filter((item) => item._id === groupId)[0];
+
   const handleEditButton = useCallback(() => {
-    navigate("/group/infoedit");
+    navigate(`/group/${groupId}/infoedit`);
   }, [navigate]);
-  
+
   const handleCancleEdit = useCallback(() => {
     navigate("/group/info");
   }, [navigate]);
-  
+
+  useEffect(() => {
+    getGroupsApi().then((res) => {
+      dispatch(getGroups(res.data));
+    });
+  }, [dispatch]);
+
+  const deleteGroup = async () => {
+    try {
+      await deleteGroupApi(groupId as string);
+      const response = await getGroupsApi();
+      dispatch(getGroups(response.data));
+      alert("그룹삭제 완료!");
+      navigate("/group");
+    } catch (err) {}
+  };
+
   return (
     <Layout title="기본정보">
-       <BoxSection>
+      <GroupSelectBar id={groupId ?? ""} />
+      <BoxSection>
         <BoxHeader>
-          <span>신규그룹생성</span>
+          <span>그룹기본정보</span>
         </BoxHeader>
-        < AddGroupWrapper>
+        <AddGroupWrapper>
           {/* <GroupSelectBar {id}/> */}
           <AddDiv>
             <DivWrapper>
-              <div>💥</div>
-              <div className="bold">당직 1팀</div>
-              <div>당직1팀 명단</div>
-            </DivWrapper>
-             <DivWrapper>
-              <div className="bold">근무 횟수</div>
-              <div>하루 3회</div>
+              <div>{selectgroup.groupEmoji}</div>
+              <div className="bold">{selectgroup.groupName}</div>
+              <div>{selectgroup.groupDesc}</div>
             </DivWrapper>
             <DivWrapper>
-              <div className="bold">근무 설정</div>
-              <div>1: D</div>
-              <div>2: E</div>
-              <div>3: N</div>
-            </DivWrapper>         
-            <DescBlock className="button">        
+              <div className="bold">하루 근무 교대 횟수</div>
+              <div>하루 {selectgroup.works.length}회</div>
+            </DivWrapper>
+            <DivWrapper>
+              <div className="bold">근무명 및 근무인원</div>
+              {selectgroup.works.map((item) => (
+                <div>
+                  {item.workName}: {item.limit}
+                </div>
+              )) ?? null}
+            </DivWrapper>
+            <DescBlock className="button">
               <SmallButton
-              title={"수정"}
-              onClick={handleEditButton}
-              color={"black"}
+                title={"수정"}
+                onClick={handleEditButton}
+                color={"black"}
               />
               <SmallButton
-              title={"그룹 삭제"}
-              onClick={handleButton}
-              color={"red"}
+                title={"그룹 삭제"}
+                onClick={deleteGroup}
+                color={"red"}
               />
-            </DescBlock>         
+            </DescBlock>
           </AddDiv>
-        </ AddGroupWrapper>
-      </BoxSection>    
-    </Layout >
-  )
+        </AddGroupWrapper>
+      </BoxSection>
+    </Layout>
+  );
 };
 
 export default GroupBasicInfoPage;

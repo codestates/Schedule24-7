@@ -5,18 +5,15 @@ import MemberListEditItem from "./MemberListEditItem";
 
 const Block = styled.div`
   width: 370px;
-  height: 70px;
   left: 10px;
   top: 160px;
   background: #ffffff;
   box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.25);
   border-radius: 15px;
   margin: 10px;
+  padding: 15px 0;
 
   div.name {
-    position: absolute;
-    margin-top: 17px;
-    margin-left: 35px;
     font-style: normal;
     font-weight: bold;
     font-size: 20px;
@@ -24,9 +21,7 @@ const Block = styled.div`
   }
 
   div.position {
-    position: absolute;
-    margin-top: 40px;
-    margin-left: 35px;
+    margin-top: 3px;
     font-style: normal;
     font-weight: 300;
     font-size: 12px;
@@ -35,10 +30,17 @@ const Block = styled.div`
 
   &.open {
     width: 370px;
-    height: 300px;
     background: #ffffff;
     box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.25);
     border-radius: 15px;
+  }
+
+  div.header {
+    padding: 0 40px;
+    padding-top: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
   }
 
   div.close {
@@ -47,9 +49,6 @@ const Block = styled.div`
 `;
 
 const VsibleWrapper = styled.div`
-  position: absolute;
-  margin-top: 30px;
-  margin-left: 315px;
   display: flex;
   align-items: center;
   cursor: pointer;
@@ -69,28 +68,36 @@ const VsibleWrapper = styled.div`
 interface Props {
   name: string;
   position: string;
-  vacation: any;
+  vacation: string[];
+  memberId: number;
 }
 
-const MemberListItem: FC<Props> = ({name, position, vacation}) => {
+const MemberListItem: FC<Props> = ({ name, position, vacation, memberId }) => {
   const [isOpen, setIsOpen] = useState(false);
   const toggleIsOpen = useCallback(() => {
     setIsOpen((prev) => !prev);
   }, []);
 
+  const vacationString = vacation.join("\n");
+
   return (
     <>
       <Block className={isOpen ? "open" : ""}>
-        <div className="name">{name}</div>
-        <div className="position">{position}</div>
-        <VsibleWrapper onClick={toggleIsOpen}>
-          <div className={isOpen ? "open" : ""} />
-        </VsibleWrapper>
+        <div className="header">
+          <div>
+            <div className="name">{name}</div>
+            <div className="position">{position}</div>
+          </div>
+          <VsibleWrapper onClick={toggleIsOpen}>
+            <div className={isOpen ? "open" : ""} />
+          </VsibleWrapper>
+        </div>
         <div className={isOpen ? "open" : "close"}>
           <MemberListEditItem
             name={name}
             position={position}
-            vacation={vacation}
+            vacation={vacationString}
+            memberId={memberId}
           />
         </div>
       </Block>

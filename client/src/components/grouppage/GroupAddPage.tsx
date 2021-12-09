@@ -282,7 +282,7 @@ const GropAddPage: FC = () => {
               />
             </DivWrapper>
             <DivWrapper>
-              <Title>일일근무일수</Title>
+              <Title>하루 근무 교대 횟수</Title>
               <TeamSelect onChange={changeWorkCount}>
                 <option value="1">1</option>
                 <option value="2">2</option>
