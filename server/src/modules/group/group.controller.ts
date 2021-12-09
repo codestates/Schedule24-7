@@ -291,28 +291,42 @@ export class GroupController {
   }
 
   // 멤버 정보가 담긴 csv파일을 읽어서 디비에 저장하기
-  // @Post("member/upload/:groupId")
-  // @UseInterceptors(
-  //   FileInterceptor("csv", {
-  //     storage: diskStorage({
-  //       destination: "./csv",
-  //       filename: (req, file, cb) => {
-  //         const randomName = Array(32)
-  //           .fill(null)
-  //           .map(() => Math.round(Math.random() * 16).toString(16))
-  //           .join("");
-  //         cb(null, `${randomName}${extname(file.originalname)}`);
-  //       },
-  //     }),
-  //   }),
-  // )
-  // async pushToMemeber(
-  //   @Headers("Authorization") authorization: string,
-  //   @Param("groupId") groupId: string,
-  //   @UploadedFile() file: Express.Multer.File,
-  //   @Res() res: any,
-  // ) {
-  //   await this.groupService.pushToMember(file);
-  //   return res.send("OK");
-  // }
+  @Post("member/upload/:groupId")
+  @UseInterceptors(
+    FileInterceptor("csv", {
+      storage: diskStorage({
+        destination: "./csv",
+        filename: (req, file, cb) => {
+          const randomName = Array(32)
+            .fill(null)
+            .map(() => Math.round(Math.random() * 16).toString(16))
+            .join("");
+          cb(null, `${randomName}${extname(file.originalname)}`);
+        },
+      }),
+    }),
+  )
+  async pushToMemeber(
+    @Headers("Authorization") authorization: string,
+    @Param("groupId") groupId: string,
+    @UploadedFile() file,
+    @Res() res: any,
+  ) {
+    const session = await this.mongoConnection.startSession();
+    session.startTransaction();
+    try {
+      const result: any = await this.groupService.pushToMember(
+        file,
+        authorization,
+        groupId,
+      );
+      await session.commitTransaction();
+      return res.status(HttpStatus.CREATED).send(result);
+    } catch (err) {
+      await session.abortTransaction();
+      return res.status(err.status).send(err);
+    } finally {
+      session.endSession();
+    }
+  }
 }

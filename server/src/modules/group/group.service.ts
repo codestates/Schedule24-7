@@ -7,8 +7,9 @@ import {
   InternalServerErrorException,
   UnauthorizedException,
 } from "@nestjs/common";
-import { HttpErrorByCode } from "@nestjs/common/utils/http-error-by-code.util";
+import * as csv from "csvtojson";
 import HttpError from "src/commons/httpError";
+import * as fs from "fs";
 
 import { Group } from "src/entities/group.entity";
 import { AuthRepository } from "src/repositories/auth.repository";
@@ -319,5 +320,56 @@ export class GroupService {
     } else {
       return "조건 추가가 완료되었습니다";
     }
+  }
+
+  // csv파일을 이용한 그룹에 멤버추가
+  // csv 파일 json 파일로 변환
+  async pushToMember(file: any, auth: string, groupId: string) {
+    // 유효성 검증
+    try {
+      this.authRepository.validateToken(auth);
+    } catch (err) {
+      throw new HttpError(401, err.message);
+    }
+    // 보내온 파일에 업로드 경로 읽어오기
+    const csvFilePath = process.cwd() + "/" + file.path;
+    // csv 파일 json 파일로 변경
+    const csvToJson = await csv({
+      noheader: true,
+      trim: true,
+      headers: ["memberName", "memberPosition", "memberVacation"],
+    }).fromFile(csvFilePath);
+    // 첫번째 행 삭제
+    csvToJson.shift();
+    // memberVacation의 문자열 값 => 배열로 변경
+    csvToJson.forEach((el) => {
+      const _memberVacation = el.memberVacation.replace(/ /g, "").split(",");
+      el.memberVacation = _memberVacation;
+    });
+    // 배열의 크기만큼 멤버추가
+    csvToJson.forEach(async (member) => {
+      const IdCount: any =
+        await this.groupRepository.increaseMemberIdCountByGroupId(groupId);
+      if (!IdCount) throw new HttpError(400, "groupId 값이 올바르지 않습니다.");
+
+      // memberIdCount 최시값으로 memberId 값 설정
+      const newMember: any = Object.assign(
+        {},
+        { memberId: IdCount.memberIdCount },
+        member,
+      );
+
+      // 그룹 아이디로 그룹 조회하여 멤버추가
+      const result = await this.groupRepository.addMemberToGroupByGroupId(
+        groupId,
+        newMember,
+      );
+      if (!result)
+        throw new HttpError(500, "업데이트가 정상적으로 완료되지 않았습니다.");
+    });
+
+    // csv 폴더 안에 파일 있을 경우 파일 삭제
+    if (fs.existsSync(csvFilePath)) fs.unlinkSync(csvFilePath);
+    return "멤버가 정상적으로 추가되었습니다.";
   }
 }
