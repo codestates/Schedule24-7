@@ -67,7 +67,7 @@ export class GroupRepository {
     await this.groupModel.updateOne(
       { _id: id },
       {
-        $pull: { schedules: { _id: scheduleId } },
+        $pullAll: { schedules: [scheduleId] },
       },
     );
   }

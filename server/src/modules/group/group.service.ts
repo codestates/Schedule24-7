@@ -91,6 +91,7 @@ export class GroupService {
       const { _id }: any = await this.authRepository.validateToken(auth);
       // 해당 유저가 갖고 있는 유저의 해당 그룹 아이디 정보 삭제
       await this.userRepository.removeGroupFromUser(_id, groupId);
+
       // 해당 그룹이 갖고 있는 스케쥴을 삭제하기 위해 그룹 도큐먼트에서 스켸쥴 아이디만 조회
       const { schedules }: any =
         await this.groupRepository.getScheduleIdFromGroup(groupId);

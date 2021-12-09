@@ -88,8 +88,9 @@ export class UserRepository {
     await this.userModel.updateOne(
       { _id },
       {
-        $pull: { groups: { _id: groupId } },
+        $pullAll: { groups: [groupId] },
       },
+      { new: true },
     );
   }
   // 유저의 비밀번호 가져오기 - 비밀번호 일치
