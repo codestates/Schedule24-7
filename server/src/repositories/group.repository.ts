@@ -42,6 +42,7 @@ export class GroupRepository {
     );
     console.log("update");
     console.log(updateGroupData);
+    return updateGroupData;
   }
 
   // 그룹 삭제

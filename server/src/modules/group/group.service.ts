@@ -77,7 +77,7 @@ export class GroupService {
       // 유저가 해당 그룹의 아이디를 가지고 있지 않다면.
       if (!flag) throw new UnauthorizedException("Unauthorized");
       // 있다면 그룹 데이터 업데이트
-      else await this.groupRepository.updateGroup(groupId, group);
+      else return await this.groupRepository.updateGroup(groupId, group);
     }
   }
 
