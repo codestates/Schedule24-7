@@ -59,9 +59,9 @@ export class AuthRepository {
    * @param authorization : "Authorization" 헤더 내용 전체
    * @returns 토큰 내 데이터 ObjectId
    */
-  validateToken(authorization: string): {} {
+  validateToken(authorization: string): any {
     const accessToken: string = authorization.split(" ")[1];
-    const tokenData: {} = this.jwtService.verify(accessToken);
+    const tokenData: any = this.jwtService.verify(accessToken);
     return tokenData;
   }
 

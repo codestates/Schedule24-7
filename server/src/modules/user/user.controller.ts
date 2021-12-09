@@ -35,11 +35,18 @@ import { CreateUserDto } from "./dto/request/create-user.dto";
 import { CreateUserResDto } from "./dto/response/create-user.dto";
 import { GetUserInfoResDto } from "./dto/response/select-user.dto";
 import { UpdateUserResDto } from "./dto/response/update-user.dto";
+import { Connection } from "mongoose";
+import { Response } from "express";
+import { InjectConnection } from "@nestjs/mongoose";
 
 @Controller("users")
 @ApiTags("User API")
 export class UserController {
-  constructor(private readonly userService: UserService) {}
+  constructor(
+    private readonly userService: UserService,
+    @InjectConnection()
+    private readonly mongoConnection: Connection,
+  ) {}
 
   @Post()
   @ApiOperation({ summary: "신규 회원가입", description: "회원 가입" })
@@ -127,5 +134,44 @@ export class UserController {
     const result: any = await this.userService.signOut(authorization);
     if (result)
       return res.status(HttpStatus.OK).send("회원탈퇴에 성공했습니다");
+  }
+
+  // ! 게스트 계정 생성
+  @Get("/guest")
+  async createGuest(@Res() res: Response) {
+    const session = await this.mongoConnection.startSession();
+    session.startTransaction();
+
+    try {
+      const accessToken = await this.userService.createGuest();
+      const result = Object.assign({}, accessToken, { test: true });
+      session.commitTransaction();
+      return res.send(result);
+    } catch (err) {
+      session.abortTransaction();
+      res.status(err.status).send(err);
+    } finally {
+      session.endSession();
+    }
+  }
+
+  @Delete("/guest")
+  async removeGuest(
+    @Headers("Authorization") authorization: string,
+    @Res() res: Response,
+  ) {
+    const session = await this.mongoConnection.startSession();
+    session.startTransaction();
+
+    try {
+      const result = await this.userService.removeGuest(authorization);
+      session.commitTransaction();
+      return res.send(result);
+    } catch (err) {
+      session.abortTransaction();
+      res.status(err.status).send(err);
+    } finally {
+      session.endSession();
+    }
   }
 }
