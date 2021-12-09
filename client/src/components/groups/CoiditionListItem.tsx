@@ -1,7 +1,12 @@
-import { FC, useState, useCallback } from "react";
+import { FC, useState, useCallback,useEffect } from "react";
 import styled from "styled-components";
 import { DefaultLayout, hideMobileCss, mediaQuery } from "../../GlobalStyle";
 import ConditionListEditItem from "./ConditionListEditItem";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../../redux/reducers";
+import { useParams } from "react-router";
+import { getGroups } from "../../redux/actions/Group";
+import { getGroupsApi } from "../../lib/api/group";
 
 const Block = styled.div`
   width: 370px;
@@ -67,29 +72,52 @@ const VsibleWrapper = styled.div`
 
 `;
 
+interface Props {
+  conditionName: string,
+  conditionDesc: string,
+  target: string,
+  cycle: string,
+  workId: number,
+  operation: string,
+  value: number
+  conditionId: number;
+}
 
 
-
-const CoiditionListItem: FC = () => {
+const CoiditionListItem: FC<Props> = (
+ {conditionName, conditionDesc, target, cycle, workId, operation, value, conditionId }
+) => {
   const [isOpen, setIsOpen] = useState(false)
   const toggleIsOpen = useCallback(() => {
     setIsOpen((prev) => !prev);
   }, [])
  
+  const groups = useSelector((store: RootState) => store.group.groups);
+  const { groupId } = useParams();
+  const selectGroup = groups.find((item) => item._id === groupId);
+  console.log(selectGroup, 1)
+  
   return (
     <>
       <Block
        className= {isOpen ? "open" : ""}
       >
-        <div className="name">주 연속 3번 N 불가</div>
-        <div className="position">1주에 한명이 연속으로 3번 나이트 근무 불가</div>
+        <div className="name">{conditionName}</div>
+        <div className="position">{conditionDesc}</div>
           <VsibleWrapper onClick={toggleIsOpen}>
           <div
            className= {isOpen ? "open" : ""}
           />
         </VsibleWrapper>
         <div className={isOpen ? "open" : "close"}>
-          <ConditionListEditItem />
+          <ConditionListEditItem
+            target={target}
+            cycle={cycle}
+            workId={workId}
+            operation={operation}
+            value={value}
+            conditionId={conditionId}
+          />
         </div>
       </Block>
     </>

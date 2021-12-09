@@ -147,7 +147,7 @@ const AddMemberList: FC = () => {
       alert("멤버 생성 완료!")
       
     } catch (err) {
-      // 생성 실패 에러처리
+      alert("멤버 생성 실패!")
     }
   };
   const dispatch = useDispatch();

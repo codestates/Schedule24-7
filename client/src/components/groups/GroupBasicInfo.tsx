@@ -15,9 +15,7 @@ const Block = styled.div`
     width: 229px;
     height: 50px;
   }
-
 `;
-
 
 const selectBoxOptions: SelectOption[] = [
   {
@@ -40,7 +38,7 @@ const selectBoxOptions: SelectOption[] = [
     text: "😷",
     value: "😷",
   },
-   {
+  {
     text: "💝",
     value: "💝",
   },
@@ -60,7 +58,7 @@ const selectBoxOptions: SelectOption[] = [
     text: "🤍",
     value: "🤍",
   },
-    {
+  {
     text: "💦",
     value: "💦",
   },
@@ -80,7 +78,7 @@ const selectBoxOptions: SelectOption[] = [
     text: "👀",
     value: "👀",
   },
-   {
+  {
     text: "🐭",
     value: "🐭",
   },
@@ -100,7 +98,7 @@ const selectBoxOptions: SelectOption[] = [
     text: "🥐",
     value: "🥐",
   },
-    {
+  {
     text: "🍭",
     value: "🍭",
   },
@@ -120,7 +118,7 @@ const selectBoxOptions: SelectOption[] = [
     text: "🌭",
     value: "🌭",
   },
-   {
+  {
     text: "💝",
     value: "💝",
   },
@@ -140,7 +138,7 @@ const selectBoxOptions: SelectOption[] = [
     text: "🧃",
     value: "🧃",
   },
-    {
+  {
     text: "🍰",
     value: "🍰",
   },
@@ -160,7 +158,7 @@ const selectBoxOptions: SelectOption[] = [
     text: "🍀",
     value: "🍀",
   },
-   {
+  {
     text: "🌸",
     value: "🌸",
   },

@@ -1,4 +1,4 @@
-import { FC, useCallback,useEffect } from "react";
+import { FC, useCallback, useEffect } from "react";
 import Layout from "../Layout";
 import styled from "styled-components";
 import { mediaQuery } from "../../GlobalStyle";
@@ -32,27 +32,17 @@ const BlockContainer = styled.div`
   }
 `;
 
-// {
-//   "memberId": ""
-//   "memberName": "김코딩",
-//   "memberPosition": "대리",
-//   "memberVacation": [
-//     "2021-12-01",
-//     "2021-12-02"
-//   ]
-// }
-
 const GroupMemberPage: FC = () => {
   const dispatch = useDispatch();
   const groups = useSelector((store: RootState) => store.group.groups);
   const { groupId } = useParams();
-  const selectgroup = groups.filter((item) => item._id === groupId)
+  const selectgroup = groups.find((item) => item._id === groupId);
   const navigate = useNavigate();
   const handler = useCallback(() => {
     navigate("/group");
   }, [navigate]);
-  
-   useEffect(() => {
+
+  useEffect(() => {
     getGroupsApi().then((res) => {
       dispatch(getGroups(res.data));
     });
@@ -60,14 +50,17 @@ const GroupMemberPage: FC = () => {
 
   return (
     <Layout title="그룹">
-      {/* <GroupSelectBar /> */}
-      {selectgroup[0].members ? selectgroup[0].members.map((item) => ( 
-      <MemberListItem
-          name={item.memberName}
-          position={item.memberPosition}
-          vacation={item.memberVacation}        
-      />
-      )): null}
+      <GroupSelectBar id={groupId ?? ""} />
+      {typeof selectgroup === "undefined"
+        ? null
+        : selectgroup.members.map((item) => (
+            <MemberListItem
+              name={item.memberName}
+              position={item.memberPosition}
+              vacation={item.memberVacation}
+              memberId={item.memberId}
+            />
+          ))}
       <AddListButton
         onClick={handler}
         iconSrc={
