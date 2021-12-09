@@ -42,24 +42,31 @@ export class ScheduleRepository {
     return result;
   }
 
-  // 스케쥴 인원 변경
-  async updateSchedule(scheduleId: string, contentId: number, schedule: any) {
-    const { team } = schedule;
-    const { workId } = team[0].work;
-    const { members } = team[0];
-    try {
-      const result: any = await this.scheduleModel.findOneAndUpdate(
+  // 스케쥴 인원 변경을 위한 데이터 조회
+  async getScheduleFromContentId(scheduleId: string, contentId: number) {
+    const result: any = await this.scheduleModel.findOne({
+      $and: [
+        { _id: scheduleId },
         {
-          _id: scheduleId,
-          contents: { $elemMatch: { contentId } },
+          contents: {
+            $elemMatch: {
+              contentId: contentId,
+            },
+          },
         },
-        { $set: { "team.$": team } },
-        { new: true, upsert: true, rawResult: true },
-      );
-      console.log(result);
-    } catch (err) {
-      console.log(err);
-    }
+      ],
+    });
+    const { contents } = result;
+    return contents;
+  }
+
+  // 스케쥴상 기존 근무자 변경
+  async updateSchedule(scheduleId: string, contentData: any) {
+    const result: any = await this.scheduleModel.updateOne(
+      { _id: scheduleId },
+      { $set: { contents: contentData } },
+    );
+    console.log(result);
   }
 
   // 스케줄 삭제

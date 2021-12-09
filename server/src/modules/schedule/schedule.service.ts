@@ -85,10 +85,6 @@ export class ScheduleService {
   ) {
     const session = await this.mongooseConnection.startSession();
     session.withTransaction(async () => {
-      // 요청 정보 확인
-      if (!auth || !groupId || !scheduleId || !Object.keys(schedule).length) {
-        throw new HttpError(400, "Bad Requst");
-      }
       // 토큰 복호화해서 정보 확인
       const { _id }: any = await this.authRepository.validateToken(auth);
       const userInfo: any = await this.userRepoSitory.getUserDataById(_id);
@@ -112,42 +108,58 @@ export class ScheduleService {
   async updateSchedule(
     auth: string,
     params: { groupId: string; scheduleId: string; contentId: number },
-    schedule: any,
+    team: any,
   ) {
     const { groupId, scheduleId, contentId } = params;
     const session = await this.mongooseConnection.startSession();
-    session.withTransaction(async () => {
-      // 요청 정보 확인
-      if (
-        !auth ||
-        !groupId ||
-        !scheduleId ||
-        !contentId ||
-        !Object.keys(schedule).length
-      ) {
-        throw new HttpError(400, "Bad Requst");
-      }
-      // 토큰 복호화해서 정보 확인
-      const { _id }: any = await this.authRepository.validateToken(auth);
-      const userInfo: any = await this.userRepoSitory.getUserDataById(_id);
-      if (!userInfo) throw new HttpError(401, "Unauthorized");
-      // 그룹 도큐먼트에 그룹아이디와 스케쥴 아이디가 있는지 확인
-      const groupInfo: any =
-        await this.groupRepository.checkScheduleIdFromGroup(
-          groupId,
-          scheduleId,
-        );
-      // 있으면 해당 스케쥴의 내용을 수정
-      if (!groupInfo) throw new HttpError(404, "Not Found");
+    session
+      .withTransaction(async () => {
+        // 토큰 복호화해서 정보 확인
+        try {
+          const { _id }: any = await this.authRepository.validateToken(auth);
+          const userInfo: any = await this.userRepoSitory.getUserDataById(_id);
+        } catch {
+          throw new HttpError(401, "Unauthorized");
+        }
+        // 그룹 도큐먼트에 그룹아이디와 스케쥴 아이디가 있는지 확인
+        const groupInfo: any =
+          await this.groupRepository.checkScheduleIdFromGroup(
+            groupId,
+            scheduleId,
+          );
+        if (!groupInfo) throw new HttpError(404, "Not Found");
+        // 있으면 해당내용을 가져오기
+        const contentData: any =
+          await this.scheduleRepository.getScheduleFromContentId(
+            scheduleId,
+            Number(contentId),
+          );
 
-      await this.scheduleRepository.updateSchedule(
-        scheduleId,
-        Number(contentId),
-        schedule,
-      );
-    });
+        // 가져온 콘텐츠 데이터의 조건이 맞는 데이터만 수정.
+        contentData.forEach((content) => {
+          // params로 받은 contentId와 조회결과에 있는 contentId가 같은 데이터를 찾는다.
+          if (content.contentId === Number(contentId)) {
+            // 동일한 값의 데이터를 찾았다면, 거기서 또 반복
+            content.team.forEach((teamData) => {
+              // team배열 중의 workId와 같은 아이디를 찾았다면
+              if (teamData.work.workId === Number(team[0].work.workId)) {
+                // team의 members의 배열만큼 요청한 멤버 데이터 값으로 할당해준다.
+                teamData.members.forEach((member, idx) => {
+                  member.memberId = team[0].members[idx].memberId;
+                  member.memberName = team[0].members[idx].memberName;
+                });
+                return false;
+              }
+            });
+          }
+        });
+        await this.scheduleRepository.updateSchedule(scheduleId, contentData);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+    return "스케쥴상 근무자(들)가 변경되었습니다.";
     session.endSession();
-    return "스케쥴상 인원이 변경되었습니다.";
   }
 
   // 스케쥴 삭제 부분
