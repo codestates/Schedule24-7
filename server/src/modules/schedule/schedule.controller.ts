@@ -37,25 +37,37 @@ export class ScheduleController {
     }
   }
 
+  // 스케쥴 수정: 기본 정보
   @Patch(":groupId/:scheduleId")
-  async updateSchedule(
+  async modifySchedule(
     @Headers("Authorization") authorization: string,
     @Param("groupId") groupId: string,
     @Param("scheduleId") scheduleId: string,
     @GetSchedule() schedule: Schedule,
     @Res() res: any,
   ) {
-    const result: any = await this.scheduleService.updateSchedule(
+    const result: any = await this.scheduleService.modifySchedule(
       authorization,
       groupId,
       scheduleId,
       schedule,
     );
-    if (result) {
-      return res.status(HttpStatus.OK).send("Update Schedule");
-    }
+    return res.status(HttpStatus.OK).send(result);
   }
 
+  // 스케쥴 배정 인원 수정
+  @Patch(":groupId/:scheduleId/:contentId")
+  async updateSchedule(
+    @Headers("Authorization") authorization: string,
+    @Param() params: { groupId: string; scheduleId: string; contentId: number },
+    @GetSchedule() schedule: Schedule,
+    @Res() res: any,
+  ) {
+    await this.scheduleService.updateSchedule(authorization, params, schedule);
+    return res.status(HttpStatus.OK).send();
+  }
+
+  // 스켸쥴 삭제
   @Delete(":groupId/:scheduleId")
   async removeSchedule(
     @Headers("Authorization") authorization: string,
@@ -71,6 +83,7 @@ export class ScheduleController {
     return res.status(HttpStatus.OK).send("OK");
   }
 
+  // 스케쥴 공유링크로 들어왔을때 해당하는 스케쥴 아이디의 정보 조회
   @Get("/share/:scheduleId")
   async shareSchedule(
     @Param("scheduleId") scheduleId: string,

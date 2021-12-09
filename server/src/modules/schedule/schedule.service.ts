@@ -3,6 +3,7 @@ import { InjectConnection } from "@nestjs/mongoose";
 import { Connection } from "mongoose";
 
 import HttpError from "src/commons/httpError";
+import { Schedule } from "src/entities/schedule.entity";
 import { AuthRepository } from "src/repositories/auth.repository";
 import { GroupRepository } from "src/repositories/group.repository";
 import { ScheduleRepository } from "src/repositories/schedule.repository";
@@ -75,8 +76,8 @@ export class ScheduleService {
     // 3. 조건을 넣어서 나온 스케줄 콘텐츠 뽑기
   }
 
-  // 스케쥴 멤버 변경 수정 부분
-  async updateSchedule(
+  // 스케쥴 기본정보 수정 부분
+  async modifySchedule(
     auth: string,
     groupId: string,
     scheduleId: string,
@@ -99,17 +100,54 @@ export class ScheduleService {
           scheduleId,
         );
       // 있으면 해당 스케쥴의 내용을 수정
-      if (!groupInfo) {
-        throw new HttpError(404, "Not Found");
-      } else {
-        const updateSchedule = await this.scheduleRepository.updateSchedule(
-          scheduleId,
-          schedule,
-        );
-        return updateSchedule;
-      }
+      if (!groupInfo) throw new HttpError(404, "Not Found");
+
+      await this.scheduleRepository.modifySchedule(scheduleId, schedule);
     });
     session.endSession();
+    return "스케쥴 기본정보가 변경되었습니다.";
+  }
+
+  // 스케쥴 인원 배정 수정
+  async updateSchedule(
+    auth: string,
+    params: { groupId: string; scheduleId: string; contentId: number },
+    schedule: any,
+  ) {
+    const { groupId, scheduleId, contentId } = params;
+    const session = await this.mongooseConnection.startSession();
+    session.withTransaction(async () => {
+      // 요청 정보 확인
+      if (
+        !auth ||
+        !groupId ||
+        !scheduleId ||
+        !contentId ||
+        !Object.keys(schedule).length
+      ) {
+        throw new HttpError(400, "Bad Requst");
+      }
+      // 토큰 복호화해서 정보 확인
+      const { _id }: any = await this.authRepository.validateToken(auth);
+      const userInfo: any = await this.userRepoSitory.getUserDataById(_id);
+      if (!userInfo) throw new HttpError(401, "Unauthorized");
+      // 그룹 도큐먼트에 그룹아이디와 스케쥴 아이디가 있는지 확인
+      const groupInfo: any =
+        await this.groupRepository.checkScheduleIdFromGroup(
+          groupId,
+          scheduleId,
+        );
+      // 있으면 해당 스케쥴의 내용을 수정
+      if (!groupInfo) throw new HttpError(404, "Not Found");
+
+      await this.scheduleRepository.updateSchedule(
+        scheduleId,
+        Number(contentId),
+        schedule,
+      );
+    });
+    session.endSession();
+    return "스케쥴상 인원이 변경되었습니다.";
   }
 
   // 스케쥴 삭제 부분

@@ -33,14 +33,35 @@ export class ScheduleRepository {
     }
   }
 
-  // 스케쥴 수정
-  async updateSchedule(scheduleId: string, schedule: any) {
+  // 스케쥴 기본 정보 수정
+  async modifySchedule(scheduleId: string, schedule: any) {
     const result = await this.scheduleModel.updateOne(
       { _id: scheduleId },
-      { $set: { contents: schedule.contents } },
+      { $set: schedule },
     );
     return result;
   }
+
+  // 스케쥴 인원 변경
+  async updateSchedule(scheduleId: string, contentId: number, schedule: any) {
+    const { team } = schedule;
+    const { workId } = team[0].work;
+    const { members } = team[0];
+    try {
+      const result: any = await this.scheduleModel.findOneAndUpdate(
+        {
+          _id: scheduleId,
+          contents: { $elemMatch: { contentId } },
+        },
+        { $set: { "team.$": team } },
+        { new: true, upsert: true, rawResult: true },
+      );
+      console.log(result);
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
   // 스케줄 삭제
   async removeSchedule(scheduleId: string) {
     await this.scheduleModel.deleteOne({ _id: scheduleId });
