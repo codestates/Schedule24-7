@@ -8,7 +8,15 @@ import * as bcrypt from "bcrypt";
 import { Connection } from "mongoose";
 
 import HttpError from "src/commons/httpError";
+import {
+  conditionInfoList,
+  guestGroupInfo,
+  guestUserInfo,
+  membersInfoList,
+} from "src/public/guestUserData";
 import { AuthRepository } from "src/repositories/auth.repository";
+import { GroupRepository } from "src/repositories/group.repository";
+import { ScheduleRepository } from "src/repositories/schedule.repository";
 import { UserRepository } from "src/repositories/user.repository";
 import { AuthService } from "../auth/auth.service";
 import { CreateUserDto } from "./dto/request/create-user.dto";
@@ -20,6 +28,8 @@ export class UserService {
     private readonly mongoConnection: Connection,
     private readonly userRepository: UserRepository,
     private readonly authRepository: AuthRepository,
+    private readonly groupRepository: GroupRepository,
+    private readonly scheduleRepository: ScheduleRepository,
   ) {}
 
   // 회원가입
@@ -74,5 +84,78 @@ export class UserService {
       else return result;
     });
     session.endSession();
+  }
+
+  /**
+   * * 게스트 계정 생성
+   * * POST /users/guest
+   * 서버 내 기록해둔 더미데이터로 게스트 계정 생성,
+   * 계정 생성 후, 사전 지정된 더미데이터로 멤버, 조건 등의 기본 데이터 업데이트
+   * 업데이트까지 완료 후 해당 게스트 계정의 엑세스 토큰 전달
+   * @returns
+   */
+  async createGuest() {
+    const userData = await this.userRepository.createUser(guestUserInfo);
+
+    const userOId = userData._id.toString();
+
+    const groupData = await this.groupRepository.createGroup(guestGroupInfo);
+
+    await this.userRepository.addGroupIdFromGroup(userOId, groupData);
+
+    const groupOId = groupData._id.toString();
+
+    membersInfoList.forEach(async (member) => {
+      const IdCount: any =
+        await this.groupRepository.increaseMemberIdCountByGroupId(groupOId);
+      const newMember = Object.assign(
+        {},
+        { memberId: IdCount.memberIdCount },
+        member,
+      );
+      await this.groupRepository.addMemberToGroupByGroupId(groupOId, newMember);
+    });
+
+    conditionInfoList.forEach(async (condition) => {
+      const IdCount: any =
+        await this.groupRepository.increaseConditionIdCountByGroupId(groupOId);
+      const newCondition = Object.assign(
+        {},
+        {
+          conditionId: IdCount.conditionIdCount,
+        },
+        condition,
+      );
+      await this.groupRepository.createConditionByGroupId(
+        groupOId,
+        newCondition,
+      );
+    });
+
+    const accessToken = this.authRepository.generateToken(userData);
+
+    return accessToken;
+  }
+
+  // 게스트 삭제
+  async removeGuest(authorization: string) {
+    const tokenData = this.authRepository.validateToken(authorization);
+    const userData = await this.userRepository.getUserDataById(tokenData._id);
+
+    userData.groups.forEach(async (group) => {
+      const groupOId = group.toString();
+      const { schedules }: any =
+        await this.groupRepository.getScheduleIdFromGroup(groupOId);
+
+      schedules.forEach(async (schedule: string) => {
+        const scheduleOId = schedule.toString();
+        await this.scheduleRepository.removeSchedule(scheduleOId);
+      });
+
+      await this.groupRepository.removeGroup(groupOId);
+    });
+
+    await this.userRepository.signOut(tokenData._id);
+    return "유저 정보가 정상적으로 삭제 되었습니다.";
   }
 }

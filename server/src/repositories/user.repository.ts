@@ -21,7 +21,7 @@ export class UserRepository {
       const createdUser: any = await newUser.save();
       return createdUser;
     } else {
-      throw new HttpError(409, "Conflic Email");
+      throw new HttpError(409, "Conflict Email");
     }
   }
   // 동일한 유저 아이디 체크
@@ -84,7 +84,7 @@ export class UserRepository {
   }
 
   // 그룹 삭제시 해당유저의 그룹아이디도 삭제
-  async removeGroupFromUser(_id: any, groupId: string): Promise<void> {
+  async removeGroupFromUser(_id: any, groupId: string) {
     await this.userModel.updateOne(
       { _id },
       {

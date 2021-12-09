@@ -78,7 +78,7 @@ export class GroupRepository {
   }
 
   // ? 그룹아이디를 통한 멤버 추가
-  async addMemberToGroupByGroupId(groupId: string, newMember: Group) {
+  async addMemberToGroupByGroupId(groupId: string, newMember: any) {
     return await this.groupModel.findByIdAndUpdate(
       groupId,
       {
