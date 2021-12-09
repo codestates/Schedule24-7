@@ -81,7 +81,7 @@ export class GroupController {
       );
       if (result) {
         await session.commitTransaction();
-        return res.status(HttpStatus.CREATED).send(result);
+        return res.status(HttpStatus.CREATED).send("Updated");
       }
     } catch (err) {
       await session.abortTransaction();
