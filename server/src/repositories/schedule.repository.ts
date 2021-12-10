@@ -66,13 +66,13 @@ export class ScheduleRepository {
       { _id: scheduleId },
       { $set: { contents: contentData } },
     );
-    console.log(result);
+    return result;
   }
 
   // 스케줄 삭제
   async removeSchedule(scheduleId: string) {
-    await this.scheduleModel.deleteOne({ _id: scheduleId });
-    return;
+    const result: any = await this.scheduleModel.deleteOne({ _id: scheduleId });
+    return result;
   }
 
   // 스케쥴 조회(공유)
