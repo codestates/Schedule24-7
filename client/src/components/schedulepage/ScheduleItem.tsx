@@ -36,7 +36,7 @@ export const WorkWrapper = styled.div`
 
 export const Work = styled.div`
   color: #444444;
-  width: 1rem;
+  /* width: 1rem; */
   font-size: 15px;
   margin-right: 0.1rem;
   margin-left: 0.1rem;
@@ -66,15 +66,22 @@ export const Worker = styled.div`
 `;
 
 export default function ScheduleItem({ DayNum, NewDummy }: any) {
-  // console.log(NewDummy[0]);
   let viewData: any;
   if (NewDummy !== undefined) {
     viewData = NewDummy[0].contents.filter((el: any) => {
-      return el.date === DayNum;
+      let tmp1 = el.date.split(",");
+      let tmp2 = tmp1[0].split("/");
+      if (tmp2[0] < 10) {
+        tmp2[0] = `0${tmp2[0]}`;
+      }
+      if (tmp2[1] < 10) {
+        tmp2[1] = `0${tmp2[1]}`;
+      }
+      let result = `${tmp2[2]}-${tmp2[0]}-${tmp2[1]}`;
+
+      return result === DayNum;
     });
   }
-
-  // console.log(viewData);
 
   return (
     <Box>

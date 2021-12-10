@@ -10,15 +10,20 @@ import {
 import styled from "styled-components";
 
 const Block = styled.div`
-  padding: 0px 6px;
-  border: 1px solid #d1d1d1;
-  border-radius: 10px;
-  position: relative;
+  border: 1px solid #a5a5a5;
   display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 49px;
+  height: 44px;
+  background-color: white;
+  position: relative;
 `;
 const VsibleWrapper = styled.div`
   display: flex;
   align-items: center;
+  justify-content: center;
+
   div:nth-child(2) {
     margin-left: 5px;
     width: 10px;

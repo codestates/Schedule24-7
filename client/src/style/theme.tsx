@@ -153,3 +153,14 @@ export const ErrMsg = styled.div`
     text-align: center;
   }
 `;
+
+export const NoSchedule = styled.div`
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  width: 90vw;
+  font-size: 14px;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  z-index: 1;
+`;

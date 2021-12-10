@@ -1,5 +1,13 @@
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router";
 import styled from "styled-components";
 import { mediaQuery } from "../../GlobalStyle";
+import {
+  addCurrentContentId,
+  addCurrentGroupId,
+  addCurrentView,
+  addCurrentWork,
+} from "../../redux/actions/scheduleActions";
 
 export const Box = styled.div`
   display: flex;
@@ -46,6 +54,7 @@ export const WorkWrapper = styled.div`
   margin: 0.5rem;
   justify-content: center;
   align-items: center;
+  cursor: pointer;
   ${mediaQuery.mobile} {
     margin: 0.2rem;
   }
@@ -53,10 +62,10 @@ export const WorkWrapper = styled.div`
 
 export const Work = styled.div`
   color: #444444;
-  width: 1rem;
+  /* width: 2rem; */
   font-size: 15px;
-  margin-right: 0.1rem;
-  margin-left: 0.1rem;
+  margin-right: 0.3rem;
+  margin-left: 0.3rem;
   ${mediaQuery.mobile} {
     font-size: 11px;
   }
@@ -70,7 +79,7 @@ export const Worker = styled.div`
   justify-content: center;
   align-items: center;
   padding: 0.2rem 0.5rem;
-  font-size: 13px;
+  font-size: 14px;
 
   &.a {
     background-color: #fdb137;
@@ -88,19 +97,46 @@ export const Worker = styled.div`
   }
 `;
 
+export const SingleWorker = styled.div`
+  margin: 0.2rem;
+`;
+
 export default function ScheduleItemColumn({ DayNum, NewDummy }: any) {
   // console.log(NewDummy[0]);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
   let viewData: any;
   if (NewDummy !== undefined) {
     viewData = NewDummy[0].contents.filter((el: any) => {
-      return el.date === DayNum;
+      let tmp1 = el.date.split(",");
+      let tmp2 = tmp1[0].split("/");
+      if (tmp2[0] < 10) {
+        tmp2[0] = `0${tmp2[0]}`;
+      }
+      if (tmp2[1] < 10) {
+        tmp2[1] = `0${tmp2[1]}`;
+      }
+
+      let result = `${tmp2[2]}-${tmp2[0]}-${tmp2[1]}`;
+      // console.log(result);
+
+      return result === DayNum;
     });
   }
-
   // console.log(viewData);
+
+  const handleOpenEdit = (data: any, id: string) => {
+    dispatch(addCurrentView(data));
+    dispatch(addCurrentGroupId(id));
+    navigate("/schedule/editworker");
+  };
 
   return (
     <Box>
+      {/* {console.log(NewDummy)} */}
+      {/* {console.log(viewData)} */}
+      {/* {console.log(DayNum)} */}
       <Day>{DayNum.split("-")[2]}</Day>
       {viewData !== undefined ? (
         viewData.length !== 0 ? (
@@ -109,10 +145,17 @@ export default function ScheduleItemColumn({ DayNum, NewDummy }: any) {
               let classes: string[] = ["a", "b", "c"];
               let className = classes[idx];
               return (
-                <WorkWrapper key={idx}>
+                <WorkWrapper
+                  onClick={() =>
+                    handleOpenEdit(viewData, NewDummy[0].group.groupId)
+                  }
+                  key={idx}
+                >
                   <Work>{el.work.workName}</Work>
                   <Worker className={className}>
-                    {el.members[0].memberName}
+                    {el.members.map((el: any) => {
+                      return <SingleWorker>{el.memberName}</SingleWorker>;
+                    })}
                   </Worker>
                 </WorkWrapper>
               );

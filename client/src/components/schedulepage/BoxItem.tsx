@@ -67,25 +67,39 @@ const ToggleMenu = styled.div`
   }
 `;
 
+export const BackGround = styled.div`
+  background-color: rgba(0, 0, 0, 0);
+  position: fixed;
+  top: 0%;
+  left: 0%;
+  bottom: 0%;
+  right: 0%;
+`;
+
 export default function BoxItem({ schedule }: any) {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [openThreeDot, setOpenThreeDot] = useState(false);
+
+  //드롭다운 여는 함수
   const handleOpenThreeDot = () => {
     setOpenThreeDot(true);
   };
+
+  //드롭다운 닫는 함수
   const handleCloseThreeDot = () => {
     return openThreeDot ? setOpenThreeDot(false) : null;
   };
 
-  const connectViewSchedule = (date: string): void => {
-    console.log(date);
-    dispatch(setFirstView(date));
+  //스케쥴 조회 함수
+  const connectViewSchedule = (data: any): void => {
+    dispatch(setFirstView(data));
     navigate("/schedule/view");
   };
 
   return (
-    <MainDiv onClick={handleCloseThreeDot}>
+    <MainDiv>
+      {/* {console.log(schedule)} */}
       <Div1>
         <SubDiv1>{schedule.scheduleEmoji}</SubDiv1>
         <SubDiv2>
@@ -95,16 +109,23 @@ export default function BoxItem({ schedule }: any) {
             <div />
           </ToggleMenu>
         </SubDiv2>
-        {openThreeDot ? <ScheduleThreeDot /> : ""}
+        {openThreeDot ? (
+          <>
+            <ScheduleThreeDot schedule={schedule} />
+            <BackGround onClick={handleCloseThreeDot}></BackGround>
+          </>
+        ) : (
+          ""
+        )}
       </Div1>
       <Div2
         onClick={() => {
-          connectViewSchedule(schedule.period);
+          connectViewSchedule(schedule);
         }}
       >
         {schedule.scheduleName}
       </Div2>
-      <Div3>{schedule.group.groupName}</Div3>
+      <Div3>{schedule.group ? schedule.group.groupName : ""}</Div3>
     </MainDiv>
   );
 }

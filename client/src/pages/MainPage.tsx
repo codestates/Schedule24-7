@@ -1,32 +1,24 @@
 import axios from "axios";
 import { useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Layout from "../components/Layout";
 import Main from "../components/mainpage/Main";
-import { addNewSchedule } from "../redux/actions/scheduleActions";
+import { addNewSchedule, saveSchedule } from "../redux/actions/scheduleActions";
+import { RootState } from "../redux/reducers";
 
 function MainPage() {
-  const dipactch = useDispatch();
+  const dispatch = useDispatch();
+  //스케쥴 업데이트
+  const groups = useSelector((store: RootState) => store.group.groups);
   useEffect(() => {
-    axios
-      .get("https://server.schedule24-7.link/group", {
-        headers: {
-          authorization: `Bearer ${window.localStorage.getItem("token")}`,
-        },
-      })
-      .then((res) => {
-        console.log(res.data.schedule);
-        let result: any[] = [];
-        if (res.data !== "") {
-          res.data.forEach((el: any) => {
-            el.schedule.forEach((item: any) => {
-              result.push(item);
-            });
-          });
-          dipactch(addNewSchedule(result));
-        }
-      });
-  }, []);
+    let schedules: any[] = [];
+    groups.forEach((el: any) => {
+      el.schedules.forEach((item: any) => schedules.push(item));
+    });
+    if (schedules.length !== 0 || schedules! === undefined) {
+      dispatch(saveSchedule(schedules));
+    }
+  }, [dispatch]);
 
   return (
     <Layout title="홈">
