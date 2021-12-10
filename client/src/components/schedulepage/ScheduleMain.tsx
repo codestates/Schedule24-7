@@ -1,10 +1,17 @@
 import styled from "styled-components";
-import { AddBtn, BoxHeader, BoxSection, BoxWrapper } from "../../style/theme";
+import {
+  AddBtn,
+  BoxHeader,
+  BoxSection,
+  BoxWrapper,
+  NoSchedule,
+} from "../../style/theme";
 import { Link } from "react-router-dom";
 import BoxItem from "./BoxItem";
-import { ScheduleDummy } from "./ScheduleDummy";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../redux/reducers";
+import { useEffect } from "react";
+import { saveSchedule } from "../../redux/actions/scheduleActions";
 // import AddScheduleBoxItem from "./AddScheduleBoxItem";
 
 export const MainWrapper = styled.div``;
@@ -21,9 +28,13 @@ export default function ScheduleMain() {
         </Link>
       </BoxHeader>
       <BoxWrapper>
-        {scheduleData.data.map((el, idx) => {
-          return <BoxItem key={idx} schedule={el} />;
-        })}
+        {scheduleData.data[0].id !== null ? (
+          scheduleData.data.map((el, idx) => {
+            return <BoxItem key={idx} schedule={el} />;
+          })
+        ) : (
+          <NoSchedule>등록된 스케쥴이 없습니다</NoSchedule>
+        )}
         {/* <AddScheduleBoxItem /> */}
       </BoxWrapper>
     </BoxSection>

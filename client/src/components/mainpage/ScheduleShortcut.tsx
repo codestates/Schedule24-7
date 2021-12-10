@@ -5,6 +5,7 @@ import {
   AddBtn,
   BoxHeader,
   BoxSection,
+  NoSchedule,
   SeeMore,
   SeeMoreWrapper,
   ShortcutBoxWrapper,
@@ -33,13 +34,21 @@ export default function ScheduleShortcut() {
       </BoxHeader>
       <ShortcutContainer>
         <ShortcutBoxWrapper className={showBoxes ? "showBoxes" : ""}>
-          {scheduleData.data.map((el, idx) => {
-            return <BoxItem key={idx} schedule={el} />;
-          })}
+          {scheduleData.data[0].id !== null ? (
+            scheduleData.data.map((el, idx) => {
+              return <BoxItem key={idx} schedule={el} />;
+            })
+          ) : (
+            <NoSchedule>등록된 스케쥴이 없습니다</NoSchedule>
+          )}
           {/* <AddScheduleBoxItem /> */}
         </ShortcutBoxWrapper>
         <SeeMoreWrapper>
-          <SeeMore onClick={handleShowBoxes}>더보기</SeeMore>
+          {scheduleData.data[0].id !== null ? (
+            <SeeMore onClick={handleShowBoxes}>더보기</SeeMore>
+          ) : (
+            ""
+          )}
         </SeeMoreWrapper>
       </ShortcutContainer>
     </BoxSection>

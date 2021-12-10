@@ -11,11 +11,14 @@ import { useEffect } from "react";
 import { loginChange } from "./redux/actions/loginActions";
 import FindIdPw from "./components/routes/FindIdPw";
 import MyRoutes from "./components/routes/MyRoutes";
+import { getGroupsApi } from "./lib/api/group";
+import { getGroups } from "./redux/actions/Group";
 
 function App() {
   const loginState = useSelector((state: RootState) => state.loginReducer);
   const dispatch = useDispatch();
 
+  //로그인 유지를 위한 함수
   const keepLogin = () => {
     if (
       window.localStorage.getItem("userId") &&
@@ -24,12 +27,18 @@ function App() {
       dispatch(loginChange());
     }
   };
-  //로그인 유지를 위한 함수
 
+  //최초렌더시 로그인 유지함수 실행
   useEffect(() => {
     keepLogin();
   }, []);
-  //최초렌더시 로그인 유지함수 실행
+
+  //그룹정보 업데이트
+  useEffect(() => {
+    getGroupsApi().then((res) => {
+      dispatch(getGroups(res.data));
+    });
+  }, [dispatch]);
 
   return (
     <Router>

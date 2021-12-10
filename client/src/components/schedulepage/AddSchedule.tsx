@@ -1,16 +1,23 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
-import { BoxHeader, BoxSection } from "../../style/theme";
+import { BoxHeader, BoxSection, ErrMsg } from "../../style/theme";
 import DatePicker from "react-datepicker";
 import "./react-datepicker.css";
 import { ko } from "date-fns/esm/locale";
 import { selectBoxOptions } from "./ScheduleDummy";
-import { addNewSchedule } from "../../redux/actions/scheduleActions";
+import {
+  addNewSchedule,
+  saveSchedule,
+} from "../../redux/actions/scheduleActions";
 import axios from "axios";
 import EmojiBox from "./EmojiBox";
 import { useEffect } from "react";
 import { useCallback } from "react";
+import { RootState } from "../../redux/reducers";
+import { getGroupsApi } from "../../lib/api/group";
+import { getGroups } from "../../redux/actions/Group";
+import { useNavigate } from "react-router";
 
 export const AddScheduleWrapper = styled.section`
   display: flex;
@@ -50,10 +57,13 @@ export const TitleHeader = styled.div`
 export const Title = styled.div`
   font-size: 18px;
   font-weight: bold;
+  &.sub {
+    padding-left: 3px;
+  }
 `;
 
 export const NameBox = styled.input`
-  width: 235px;
+  width: 230px;
   height: 42px;
   padding-left: 10px;
   border: 1px solid #a5a5a5;
@@ -83,124 +93,42 @@ export const AddBtn = styled.button`
   background-color: #5c5c5c;
 `;
 
-export default function AddSchedule() {
-  const tmpData = {
-    id: 'ObjectId("619f0e9722f97d6e8631291d")',
-    scheduleName: "22년 2월",
-    createdAt: "2021-12-01 01:01:01",
-    scheduleEmoji: "💬",
-    period: "2022-02-01",
-    group: {
-      groupId: 1,
-      groupName: "당직 1팀",
-    },
-    contents: [
-      {
-        contentId: 1,
-        date: "2022-02-04",
-        team: [
-          {
-            work: {
-              workId: 1,
-              workName: "D",
-            },
-            members: [
-              {
-                memberId: 1,
-                memberName: "김코딩 이코딩 박코딩",
-              },
-            ],
-          },
-          {
-            work: {
-              workId: 2,
-              workName: "E",
-            },
-            members: [
-              {
-                memberId: 1,
-                memberName: "김해커 이해커 박해커",
-              },
-            ],
-          },
-          {
-            work: {
-              workId: 3,
-              workName: "N",
-            },
-            members: [
-              {
-                memberId: 1,
-                memberName: "김자바 이자바 박자바",
-              },
-            ],
-          },
-        ],
-      },
-      {
-        contentId: 2,
-        date: "2022-02-05",
-        team: [
-          {
-            work: {
-              workId: 1,
-              workName: "D",
-            },
-            members: [
-              {
-                memberId: 1,
-                memberName: "김코딩 이코딩 박코딩",
-              },
-            ],
-          },
-          {
-            work: {
-              workId: 2,
-              workName: "E",
-            },
-            members: [
-              {
-                memberId: 1,
-                memberName: "김해커 이해커 박해커",
-              },
-            ],
-          },
-          {
-            work: {
-              workId: 3,
-              workName: "N",
-            },
-            members: [
-              {
-                memberId: 1,
-                memberName: "김자바 이자바 박자바",
-              },
-            ],
-          },
-        ],
-      },
-    ],
-  };
+export const Div1 = styled.div`
+  display: flex;
+  align-items: center;
+`;
 
+export default function AddSchedule() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  //데이트피커 날짜
   const [startDate, setStartDate] = useState<any>(new Date());
 
+  //스케쥴 입력 정보 상태
   const [scheduleInfo, setScheduleInfo] = useState({
     groupId: "",
     scheduleName: "",
-    scheduleEmoji: "",
     period: "",
   });
 
-  //스케쥴 생성 함수(만들예정)
+  //이모지 상태
+  const [scheduleEmoji, setScheduleEmoji] = useState("");
+
+  //에러메시지 상태
+  const [errMessage, setErrMessage] = useState<string>("");
+
+  //그룹정보조회
+  const groups = useSelector((store: RootState) => store.group.groups);
+
+  //스케쥴 생성 함수
   const handleNewSchedule = (): void => {
-    // console.log()
     axios
       .post(
         `https://server.schedule24-7.link/schedule/${scheduleInfo.groupId}`,
         {
           scheduleName: scheduleInfo.scheduleName,
-          scheduleEmoji: scheduleInfo.scheduleEmoji,
+          scheduleEmoji: scheduleEmoji,
           period: scheduleInfo.period,
         },
         {
@@ -209,8 +137,16 @@ export default function AddSchedule() {
           },
         }
       )
-      .then(() => alert("새스케쥴추가성공"));
-    // dispatch(addNewSchedule(tmpData));
+      .then(() => {
+        getGroupsApi().then((res) => {
+          dispatch(getGroups(res.data));
+        });
+        alert("새스케쥴추가성공");
+        navigate("/schedule");
+      })
+      .catch((err) => {
+        setErrMessage(err.message);
+      });
   };
 
   const handleSelectInfo =
@@ -223,9 +159,12 @@ export default function AddSchedule() {
       setScheduleInfo({ ...scheduleInfo, [key]: e.target.value });
     };
 
-  const handleEmoji = useCallback((emoji: string): void => {
-    setScheduleInfo({ ...scheduleInfo, scheduleEmoji: emoji });
-  }, []);
+  const handleEmoji = useCallback(
+    (emoji: string): void => {
+      setScheduleEmoji(emoji);
+    },
+    [scheduleEmoji]
+  );
 
   useEffect(() => {
     let newDate = new Date(startDate);
@@ -235,6 +174,8 @@ export default function AddSchedule() {
 
   return (
     <BoxSection>
+      {/* {console.log(scheduleInfo)}
+      {console.log(scheduleEmoji)} */}
       <BoxHeader>
         <span>신규스케쥴생성</span>
       </BoxHeader>
@@ -245,32 +186,36 @@ export default function AddSchedule() {
           </DivWrapper>
           <DivWrapper>
             <Title>이름설정</Title>
-            <div>
+            <Div1>
               <EmojiBox options={selectBoxOptions} handleEmoji={handleEmoji} />
               <NameBox
                 type="text"
                 onChange={handleTextInfo("scheduleName")}
                 placeholder="스케쥴 이름 입력"
               />
-            </div>
+            </Div1>
           </DivWrapper>
           <DivWrapper>
-            <Title>그룹선택</Title>
+            <Title className="sub">그룹선택</Title>
             <TeamSelect onChange={handleSelectInfo("groupId")}>
               <option>팀선택</option>
-              <option value={"당직1팀"}>당직1팀</option>
-              <option value={"당직2팀"}>당직2팀</option>
-              <option value={"당직3팀"}>당직3팀</option>
+              {groups.map((el, idx) => {
+                return (
+                  <option key={idx} value={el._id}>
+                    {el.groupName}
+                  </option>
+                );
+              })}
             </TeamSelect>
           </DivWrapper>
           <DivWrapper>
             <Title>날짜선택</Title>
             <DatePicker
               locale={ko}
+              // placeholder="날짜를 선택해주세요"
               selected={startDate}
               dateFormat="MM/yyyy"
               onChange={(date: any) => {
-                // console.log(result);
                 setStartDate(date);
               }}
               showMonthYearPicker
@@ -278,6 +223,7 @@ export default function AddSchedule() {
             />
           </DivWrapper>
           <AddBtn onClick={handleNewSchedule}>스케쥴생성</AddBtn>
+          <ErrMsg className="centered">{errMessage}</ErrMsg>
         </AddDiv>
       </AddScheduleWrapper>
     </BoxSection>
