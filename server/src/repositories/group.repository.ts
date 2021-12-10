@@ -64,13 +64,14 @@ export class GroupRepository {
   }
   // 스케쥴을 삭제시 그룹에서 스케쥴아이디 삭제
   async removeScheduleIdFromGroup(id: string, scheduleId: string) {
-    await this.groupModel.updateOne(
+    const result: any = await this.groupModel.updateOne(
       { _id: id },
       {
         $pullAll: { schedules: [scheduleId] },
       },
       { new: true },
     );
+    return result;
   }
 
   // ? 그룹아이디를 통한 그룹 조회
