@@ -224,7 +224,7 @@ export default function WorkersInfo() {
     for (let i = 0; i < editWorker.length; i++) {
       let tmpIdx = members[0].members[editWorker[i]].memberId;
       let tmpMemberName = members[0].members[editWorker[i]].memberName;
-      let tmpObj = { memberId: "", memberName: "" };
+      let tmpObj:any = { memberId: "", memberName: "" };
       tmpObj.memberId = tmpIdx;
       tmpObj.memberName = tmpMemberName;
       console.log(tmpObj);

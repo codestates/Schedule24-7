@@ -4,19 +4,18 @@ import styled from "styled-components";
 
 const Block = styled.div`
   text-align: center;
-  padding: 0px;
-  box-sizing: border-box;
-  background: #ffffff;
-  box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.25);
-  border-radius: 15px;
-  position: relative;
-  cursor: pointer;
-  width: 370px;
-  height: 70px;
+  min-width: 370px;
   left: 10px;
+  top: 160px;
+  background-color: #ffffff;
+  box-shadow: 3px rgba(0, 0, 0, 0.25);
+  border-radius: 0.5rem;
+  border: 0.01rem solid rgba(0, 0, 0, 0.15);
+  margin: 5px;
+  padding: 5px 0;
   img {
-    width: 70px;
-    height: 70px;
+    width: 45px;
+    height: 45px;
   }
 `;
 

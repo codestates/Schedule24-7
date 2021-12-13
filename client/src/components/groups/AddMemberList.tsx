@@ -15,7 +15,6 @@ import { useDispatch } from "react-redux";
 const DescBlock = styled.div`
   display: flex;
   justify-content: space-between;
-
   margin-top: 10px;
   margin-left: 20px;
   margin-right: 20px;
@@ -64,16 +63,15 @@ const DescBlock = styled.div`
 `;
 
 const EditBlock = styled.div`
-  position: absolute;
   width: 370px;
   min-height: 250px;
-  margin-top: 70px;
-  margin-left: 20px;
+  margin-left: 10px;
   display: flex;
   flex-direction: column;
-  background: #ffffff;
-  box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.25);
-  border-radius: 15px;
+  background-color: #ffffff;
+  box-shadow: 3px rgba(0, 0, 0, 0.25);
+  border-radius: 0.5rem;
+  border: 0.01rem solid rgba(0, 0, 0, 0.15);
   justify-content: center;
 `;
 
@@ -83,7 +81,10 @@ interface FormState {
   memberVacation: Date[];
 }
 
-const AddMemberList: FC = () => {
+interface Props {
+  handleAddCancle: () => void;
+}
+const AddMemberList: FC<Props> = ({handleAddCancle}) => {
   const { groupId } = useParams();
   const [form, setForm] = useState<FormState>({
     memberName: "",
@@ -145,7 +146,7 @@ const AddMemberList: FC = () => {
       const response = await getGroupsApi();
       dispatch(getGroups(response.data));
       alert("멤버 생성 완료!")
-      
+      handleAddCancle()
     } catch (err) {
       alert("멤버 생성 실패!")
     }
@@ -192,7 +193,7 @@ const AddMemberList: FC = () => {
             onClick={createGroupMember}
             color={"black"}
           />
-          <SmallButton title={"취소"} onClick={() => {}} color={"grey"} />
+          <SmallButton title={"취소"} onClick={handleAddCancle} color={"grey"} />
         </DescBlock>
       </EditBlock>
     </>

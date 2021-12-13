@@ -26,7 +26,7 @@ export const AddDiv = styled.div`
   justify-content: center;
   align-items: center;
   background-color: #f9f9f9;
-  width: 450px;
+  min-width: 390px;
   height: 450px;
   margin-top: 1rem;
   padding: 1rem;

@@ -17,9 +17,10 @@ const Block = styled.div`
     height: 45px;
     left: 24px;
     top: 10.5px;
-    background: #ffffff;
-    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-    border-radius: 5px;
+    background-color: #ffffff;
+    box-shadow: 3px rgba(0, 0, 0, 0.25);
+    border-radius: 0.5rem;
+    border: 0.01rem solid rgba(0, 0, 0, 0.15);
     justify-content: center;
     align-items: center;
     line-height: 50px;
