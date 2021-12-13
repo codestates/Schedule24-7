@@ -8,6 +8,7 @@ import {
   Res,
   InternalServerErrorException,
   Query,
+  Req,
 } from "@nestjs/common";
 import { InjectConnection } from "@nestjs/mongoose";
 import {
@@ -24,8 +25,9 @@ import {
   ApiTags,
   ApiUnauthorizedResponse,
 } from "@nestjs/swagger";
-import { Response } from "express";
+import { Request, Response } from "express";
 import { Connection } from "mongoose";
+import { Cookies } from "src/commons/cookies";
 import {
   BadRequestErr,
   ConflictErr,
@@ -328,8 +330,10 @@ export class AuthController {
   })
   async googleAuth(@Res() res: Response) {
     const GOOGLE_AUTH_URL = "https://accounts.google.com/o/oauth2/v2/auth";
+    // const GOOGLE_AUTH_REDIRECT_URL =
+    //   "https://server.schedule24-7.link/auth/google/callback";
     const GOOGLE_AUTH_REDIRECT_URL =
-      "https://server.schedule24-7.link/auth/google/callback";
+      "https://localhost:8000/auth/google/callback";
     try {
       return res.redirect(
         `${GOOGLE_AUTH_URL}?client_id=${process.env.GOOGLE_AUTH_CLIENT_ID}&redirect_uri=${GOOGLE_AUTH_REDIRECT_URL}&response_type=code&include_granted_scopes=true&scope=https://www.googleapis.com/auth/userinfo.email`,
@@ -366,7 +370,17 @@ export class AuthController {
           httpOnly: true,
           sameSite: true,
         })
-        .redirect("http://schedule24-7.link/");
+        .redirect("http://localhost:3000");
+    } catch (err) {
+      return res.status(err.status).send(err);
+    }
+  }
+
+  @Post("/google/check")
+  async googleTokenCheck(@Req() req: Request, @Res() res: Response) {
+    try {
+      const result = await this.authService.googleTokenCheck(req.cookies);
+      return res.send(result);
     } catch (err) {
       return res.status(err.status).send(err);
     }
