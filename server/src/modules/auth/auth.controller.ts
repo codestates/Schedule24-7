@@ -330,10 +330,10 @@ export class AuthController {
   })
   async googleAuth(@Res() res: Response) {
     const GOOGLE_AUTH_URL = "https://accounts.google.com/o/oauth2/v2/auth";
-    // const GOOGLE_AUTH_REDIRECT_URL =
-    //   "https://server.schedule24-7.link/auth/google/callback";
     const GOOGLE_AUTH_REDIRECT_URL =
-      "https://localhost:8000/auth/google/callback";
+      "https://server.schedule24-7.link/auth/google/callback";
+    // const GOOGLE_AUTH_REDIRECT_URL =
+    //   "https://localhost:8000/auth/google/callback";
     try {
       return res.redirect(
         `${GOOGLE_AUTH_URL}?client_id=${process.env.GOOGLE_AUTH_CLIENT_ID}&redirect_uri=${GOOGLE_AUTH_REDIRECT_URL}&response_type=code&include_granted_scopes=true&scope=https://www.googleapis.com/auth/userinfo.email`,

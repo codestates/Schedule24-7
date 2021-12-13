@@ -252,10 +252,10 @@ export class AuthService {
 
   async googleCallback(code: string) {
     const GOOGLE_AUTH_TOKEN_URL = "https://oauth2.googleapis.com/token";
+    const GOOGLE_AUTH_REDIRECT_URL =
+      "https://server.schedule24-7.link/auth/google/callback";
     // const GOOGLE_AUTH_REDIRECT_URL =
     //   "https://server.schedule24-7.link/auth/google/callback";
-    const GOOGLE_AUTH_REDIRECT_URL =
-      "http://localhost:8000/auth/google/callback";
 
     const { data }: any = await lastValueFrom(
       this.httpService.request({
