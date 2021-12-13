@@ -364,12 +364,15 @@ export class AuthController {
   async googleCallback(@Query("code") code: string, @Res() res: Response) {
     try {
       const accessToken = await this.authService.googleCallback(code);
-      return res
-        .cookie("accessToken", accessToken, {
-          domain: "schedule24-7.link",
-          sameSite: true,
-        })
-        .redirect("http://localhost:3000");
+      return (
+        res
+          .cookie("accessToken", accessToken, {
+            domain: "schedule24-7.link",
+            sameSite: true,
+          })
+          // .redirect("http://localhost:3000");
+          .redirect("https://schedule24-7.link")
+      );
     } catch (err) {
       return res.status(err.status).send(err);
     }
