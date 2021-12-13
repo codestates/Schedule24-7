@@ -1,14 +1,16 @@
 import axios from "axios";
-import { MouseEvent, useEffect } from "react";
+import { useEffect } from "react";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useParams } from "react-router";
+import { useNavigate } from "react-router";
 import styled from "styled-components";
 import { getGroupsApi } from "../../lib/api/group";
 import { getGroups } from "../../redux/actions/Group";
-import { addCurrentView } from "../../redux/actions/scheduleActions";
 import { RootState } from "../../redux/reducers";
 import { BoxHeader, BoxSection } from "../../style/theme";
 import Layout from "../Layout";
+import { ScheduleDummy } from "./ScheduleDummy";
 
 export const EditScheduleWrapper = styled.section`
   display: flex;
@@ -84,8 +86,9 @@ export const Worker = styled.div`
 
 export const WorkerNameWrapper = styled.div`
   display: flex;
+  padding-left: 7px;
   :hover {
-    background-color: #f0f0f0;
+    background-color: #ecf6ff;
   }
 `;
 
@@ -115,7 +118,8 @@ export const EditBtn = styled.button`
 export const DeleteBtn = styled.button`
   /* display: none; */
   border: none;
-  background-color: white;
+  background-color: transparent !important;
+  background-image: none !important;
   margin-left: 0px;
   margin-right: 5px;
   margin-top: 13px;
@@ -124,7 +128,7 @@ export const DeleteBtn = styled.button`
   cursor: pointer;
   :hover {
     background-color: #f0f0f0;
-    color: black;
+    color: #464646;
   }
 `;
 
@@ -141,6 +145,8 @@ export const SelectBoxWrapper = styled.div`
 `;
 
 export const EditList = styled.div`
+  display: flex;
+  align-items: center;
   font-size: 14px;
   display: flex;
   > div {
@@ -155,17 +161,43 @@ export const EditMemberList = styled.div`
 
 export default function WorkersInfo() {
   const dispatch = useDispatch();
-
-  useEffect(() => {
-    getGroupsApi().then((res) => {
-      dispatch(getGroups(res.data));
-      // dispatch(addCurrentView(scheduleData));
-    });
-  }, []);
+  const navigate = useNavigate();
+  const params = useParams();
 
   //스토어에서 데이터 불러오기
   const groups = useSelector((store: RootState) => store.group.groups);
-  const scheduleData = useSelector((state: RootState) => state.scheduleReducer);
+
+  //현재 그룹 필터링
+  const currentGroup: any = groups.filter((el: any) => {
+    return el._id === params.groupId;
+  });
+
+  //각종아이디 모음
+  const groupId = params.groupId;
+  const scheduleId = params.scheduleId;
+  const contentId = params.contentId;
+
+  //그룹에 존재하는 모든 멤버 불러오는 함수
+  let members = groups.filter((el: any) => {
+    return el._id === groupId;
+  });
+
+  //화면렌더링시 업데이트
+  useEffect(() => {
+    getGroupsApi().then((res) => {
+      dispatch(getGroups(res.data));
+    });
+  }, [dispatch, navigate, params]);
+
+  //현재 스케쥴만 필터링
+  let currentSchedule: any;
+  if (currentGroup.length !== 0) {
+    currentSchedule = currentGroup[0].schedules.filter((el: any) => {
+      return el._id === params.scheduleId;
+    });
+  } else {
+    currentSchedule = ScheduleDummy;
+  }
 
   //수정버튼 눌렀을 때 상태관리
   const [openEditBox, setOpenEditBox] = useState(false);
@@ -174,29 +206,17 @@ export default function WorkersInfo() {
   const [editWorker, setEditWorker] = useState<any[]>([]);
   const [editWorkerList, setEditWorkerList] = useState<any[]>([]);
 
-  //최종적으로 추가할 멤버 리스트 정리된 것
-  const [addWorkerlist, setAddWorkerList] = useState<any>(undefined);
-
   //멤버를 추가할 근무상태관리
   const [currentWork, setCurrentWork] = useState<any>(undefined);
 
   //원래 근무자들 명단
-  const workers: any[] = scheduleData.currentView[0].team;
-
-  //각종아이디 모음
-  const groupId = scheduleData.groupId;
-  const scheduleId = scheduleData.firstView.id;
-  const contentId = scheduleData.currentView[0].contentId;
-
-  //그룹에 존재하는 모든 멤버 불러오는 함수
-  const members = groups.filter((el: any) => {
-    return el._id === groupId;
-  });
-
-  //현재조회한 스케쥴 -> 수정할 맴버로 전송
-  const [sendMember, setSendMember] = useState<any>(
-    scheduleData.currentView[0]
-  );
+  const workerArr = currentSchedule[0].contents[Number(params.contentId) - 1];
+  let workers: any[];
+  if (workerArr) {
+    workers = workerArr.team;
+  } else {
+    workers = [{ team: undefined }];
+  }
 
   //수정버튼 눌렀을 때 수정창 활성화 함수
   const handleWorkerEdit = () => {
@@ -210,25 +230,47 @@ export default function WorkersInfo() {
   //추가할 명단 생성 함수
   const handleEditWorkerList = (e: React.ChangeEvent<HTMLSelectElement>) => {
     let tmp = [...editWorker];
-    // if (e.target.value !== undefined) {
-    //   tmp.push(e.target.value);
-    //   setEditWorker(tmp);
-    // }
-
     tmp.push(e.target.value);
     setEditWorker(tmp);
-    // console.log(tmp);
   };
 
+  interface tmpobj {
+    memberId: number | string;
+    memberName: string;
+  }
+
+  //근무자 선택하는 함수
   const handleWorkerSelect = () => {
-    for (let i = 0; i < editWorker.length; i++) {
-      let tmpIdx = members[0].members[editWorker[i]].memberId;
-      let tmpMemberName = members[0].members[editWorker[i]].memberName;
-      let tmpObj = { memberId: "", memberName: "" };
-      tmpObj.memberId = tmpIdx;
-      tmpObj.memberName = tmpMemberName;
-      console.log(tmpObj);
-      setEditWorkerList([...editWorkerList, tmpObj]);
+    let filteredEditWorker = editWorker.filter((el: string) => {
+      return el !== "추가할근무자";
+    });
+
+    if (
+      currentWork &&
+      filteredEditWorker.length !== 0 &&
+      currentWork !== "근무유형선택"
+    ) {
+      for (let i = 0; i < filteredEditWorker.length; i++) {
+        let tmpIdx = members[0].members[filteredEditWorker[i]].memberId;
+        let tmpMemberName =
+          members[0].members[filteredEditWorker[i]].memberName;
+        let tmpObj: tmpobj = { memberId: "", memberName: "" };
+        tmpObj.memberId = tmpIdx;
+        tmpObj.memberName = tmpMemberName;
+
+        let checkIdExist: boolean = false;
+        editWorkerList.forEach((el: any) => {
+          if (el.memberId === tmpObj.memberId) {
+            checkIdExist = true;
+          }
+        });
+
+        if (!checkIdExist) {
+          setEditWorkerList([...editWorkerList, tmpObj]);
+        }
+      }
+    } else {
+      alert("근무유형 또는 근무자가 선택되었는지 확인해주세요");
     }
   };
 
@@ -245,6 +287,7 @@ export default function WorkersInfo() {
     let deleteMember = tmp.members.filter((el: any) => {
       return el.memberId === memberId;
     });
+
     let result = tmp.members.filter((el: any) => {
       return el.memberId !== deleteMember[0].memberId;
     });
@@ -252,12 +295,10 @@ export default function WorkersInfo() {
     let final = workers;
     final[workidx].members = result;
 
-    setSendMember({ ...sendMember, team: final });
-
     axios
       .patch(
         `https://server.schedule24-7.link/schedule/${groupId}/${scheduleId}/${contentId}`,
-        { team: sendMember.team },
+        { team: [final[workidx]] },
         {
           headers: {
             authorization: `Bearer ${window.localStorage.getItem("token")}`,
@@ -265,9 +306,7 @@ export default function WorkersInfo() {
         }
       )
       .then(() => {
-        getGroupsApi().then((res) => {
-          dispatch(getGroups(res.data));
-        });
+        navigate(`/schedule/editworker/${groupId}/${scheduleId}/${contentId}`);
         alert("수정완료");
       });
   };
@@ -276,101 +315,117 @@ export default function WorkersInfo() {
   const handleScheduleEdit = (): void => {
     if (currentWork && editWorkerList.length !== 0) {
       let tmp = workers[currentWork].members;
-      // console.log(tmp);
       editWorkerList.forEach((el: any) => {
-        // let test = false;
-        // for (let item of tmp) {
-        //   if (item.workId === el.id) {
-        //     test = true;
-        //   }
-        // }
-        // if (!test) {
-        //   tmp.push(el);
-        //   test = false;
-        // }
-        tmp.push(el);
-      });
+        let test = false;
 
-      console.log(tmp);
-      setAddWorkerList(tmp);
-      setSendMember({ ...sendMember, members: addWorkerlist });
-
-      axios
-        .patch(
-          `https://server.schedule24-7.link/schedule/${groupId}/${scheduleId}/${contentId}`,
-          { team: sendMember.team },
-          {
-            headers: {
-              authorization: `Bearer ${window.localStorage.getItem("token")}`,
-            },
+        for (let item of tmp) {
+          console.log(item);
+          console.log(el);
+          if (item.memberId === el.memberId) {
+            test = true;
           }
-        )
-        .then(() => {
-          getGroupsApi().then((res) => {
-            dispatch(getGroups(res.data));
-          });
-          alert("수정완료");
+        }
+
+        if (!test) {
+          tmp.push(el);
+          test = false;
+
+          let final = workers;
+          final[currentWork].members = tmp;
+
+          axios
+            .patch(
+              `https://server.schedule24-7.link/schedule/${groupId}/${scheduleId}/${contentId}`,
+              { team: [final[currentWork]] },
+              {
+                headers: {
+                  authorization: `Bearer ${window.localStorage.getItem(
+                    "token"
+                  )}`,
+                },
+              }
+            )
+            .then(() => {
+              navigate(
+                `/schedule/editworker/${groupId}/${scheduleId}/${contentId}`
+              );
+              getGroupsApi().then((res) => {
+                dispatch(getGroups(res.data));
+              });
+              setEditWorkerList([]);
+              alert("수정완료");
+            });
+        } else {
           setEditWorkerList([]);
-        });
+          alert("이미 존재하는 근무자입니다");
+        }
+      });
     }
   };
 
+  //현재 날짜 상단 표시할 함수
+  let currentDate: string[];
+  if (
+    (currentDate = currentSchedule[0].contents[Number(params.contentId) - 1])
+  ) {
+    currentDate = currentSchedule[0].contents[Number(params.contentId) - 1].date
+      .split(",")[0]
+      .split("/");
+  } else {
+    currentDate = ["데이터를 불러오는 중입니다"];
+  }
+
+  let viewDate: string;
+  if (currentDate.length > 1) {
+    viewDate = `${currentDate[2]}년 ${currentDate[0]}월 ${currentDate[1]}일`;
+  } else {
+    viewDate = currentDate[0];
+  }
+
   return (
-    <Layout>
+    <Layout title="스케쥴">
       <BoxSection>
         <BoxHeader>
           <span>스케쥴명단수정</span>
         </BoxHeader>
-        {/* {console.log(groups)} */}
-        {/* {console.log(scheduleData)} */}
-        {/* {console.log(workers)} */}
-        {/* {console.log(members)} */}
-        {/* {console.log(groupId)} */}
-        {/* {console.log(scheduleId)} */}
-        {/* {console.log(contentId)} */}
-        {console.log(editWorker)}
-        {/* {console.log(result)} */}
-        {/* {console.log(members[0].members)} */}
-        {/* {console.log(editWorkerList)} */}
-        {/* {console.log(result)} */}
-        {/* {console.log(test)} */}
-        {/* {console.log(currentWork)} */}
-        {/* {console.log(list)} */}
-        {/* {console.log(sendMember)} */}
         <EditScheduleWrapper>
           <ListDiv>
             <Wrapper>
-              <TitleHeader>{sendMember.date.split(",")[0]}</TitleHeader>
+              <TitleHeader>{viewDate}</TitleHeader>
               <TitleHeader>근무자명단</TitleHeader>
             </Wrapper>
             <Wrapper>
               <WorkNameWrapper>
-                {workers.map((el: any) => {
-                  return <WorkName>{el.work.workName}</WorkName>;
-                })}
+                {workers[0].work !== undefined
+                  ? workers.map((el: any) => {
+                      return <WorkName>{el.work.workName}</WorkName>;
+                    })
+                  : "데이터를 불러오는 중입니다"}
               </WorkNameWrapper>
               <WorkerWrapper>
-                {workers.map((el: any, testIdx) => {
-                  return (
-                    <Worker>
-                      {el.members.map((item: any) => {
-                        return (
-                          <WorkerNameWrapper>
-                            <WorkerName>{item.memberName}</WorkerName>
-                            <DeleteBtn
-                              value={item.memberId}
-                              onClick={() =>
-                                handleMemberDelete(testIdx, item.memberId)
-                              }
-                            >
-                              X
-                            </DeleteBtn>
-                          </WorkerNameWrapper>
-                        );
-                      })}
-                    </Worker>
-                  );
-                })}
+                {workers[0].work !== undefined
+                  ? workers.map((el: any, testIdx) => {
+                      return (
+                        <Worker>
+                          {el.members.map((item: any) => {
+                            return (
+                              <WorkerNameWrapper>
+                                <WorkerName>{item.memberName}</WorkerName>
+                                <DeleteBtn
+                                  value={item.memberId}
+                                  onClick={() =>
+                                    handleMemberDelete(testIdx, item.memberId)
+                                  }
+                                >
+                                  X
+                                </DeleteBtn>
+                              </WorkerNameWrapper>
+                            );
+                          })}
+                        </Worker>
+                      );
+                    })
+                  : "데이터를 불러오는 중입니다"}
               </WorkerWrapper>
             </Wrapper>
             <EditBtn onClick={handleWorkerEdit}>수정</EditBtn>
@@ -403,25 +458,23 @@ export default function WorkersInfo() {
                 </SelectBoxWrapper>
                 <EditList>
                   <div>추가할명단</div>
-                  {/* {editWorker} */}
                   {editWorkerList.length !== 0
                     ? editWorkerList.map((el: any) => {
                         return <EditMemberList>{el.memberName}</EditMemberList>;
                       })
                     : ""}
-                  <button onClick={handleScheduleEdit}>확인</button>
+                  <EditBtn className="confirm" onClick={handleScheduleEdit}>
+                    확인
+                  </EditBtn>
                 </EditList>
               </>
             ) : (
               ""
             )}
+            <EditBtn onClick={() => navigate(-1)}>뒤로</EditBtn>
           </ListDiv>
         </EditScheduleWrapper>
       </BoxSection>
     </Layout>
   );
 }
-
-// const currentSchedule = scheduleData.data.filter((el: any) => {
-//   return (el.id = scheduleData.firstView.id);
-// });

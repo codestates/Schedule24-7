@@ -59,6 +59,7 @@ export const ShortcutContainer = styled.div`
 `;
 
 export const ShortcutBoxWrapper = styled.div`
+  /* position: relative; */
   max-height: 20rem;
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(135px, auto));
@@ -66,6 +67,7 @@ export const ShortcutBoxWrapper = styled.div`
   margin-right: 0.5rem;
   overflow: hidden;
   grid-column-gap: 10px;
+  /* transform: inherit; */
   &.showBoxes {
     max-height: 100rem;
   }
@@ -157,10 +159,16 @@ export const ErrMsg = styled.div`
 export const NoSchedule = styled.div`
   display: flex;
   justify-content: center;
-  text-align: center;
-  width: 90vw;
+  border: 1px dotted #696969;
+  border-radius: 0.5rem;
+  padding: 0.3rem;
+  background-color: #ececec;
   font-size: 14px;
-  margin-top: 1rem;
-  margin-bottom: 1rem;
   z-index: 1;
+  /* min-height: 100px; */
+  /* position: absolute; */
+
+  &.main {
+    border: none;
+  }
 `;

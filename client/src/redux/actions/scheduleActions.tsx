@@ -5,6 +5,7 @@ export const CURRENT_WORK = "CURRENT_WORK" as const;
 export const CURRENT_GROUP = "CURRENT_GROUP" as const;
 export const CURRENT_CONTENT = "CURRENT_CONTENT" as const;
 export const CURRENT_VIEW = "CURRENT_VIEW" as const;
+export const CURRENT_DATA = "CURRENT_DATA" as const;
 
 export const setFirstView = (payload: any) => ({
   type: SET_FIRST,
@@ -38,5 +39,10 @@ export const addCurrentContentId = (payload: any) => ({
 
 export const addCurrentView = (payload: any) => ({
   type: CURRENT_VIEW,
+  payload,
+});
+
+export const addCurrentData = (payload: any) => ({
+  type: CURRENT_DATA,
   payload,
 });

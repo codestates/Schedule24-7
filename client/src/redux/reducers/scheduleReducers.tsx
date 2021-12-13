@@ -1,11 +1,13 @@
 import {
   addCurrentContentId,
+  addCurrentData,
   addCurrentGroupId,
   addCurrentView,
   addCurrentWork,
   addNewSchedule,
   ADD_SCHEDULE,
   CURRENT_CONTENT,
+  CURRENT_DATA,
   CURRENT_GROUP,
   CURRENT_VIEW,
   CURRENT_WORK,
@@ -23,7 +25,8 @@ type scheduleAction =
   | ReturnType<typeof saveSchedule>
   | ReturnType<typeof addCurrentGroupId>
   | ReturnType<typeof addCurrentContentId>
-  | ReturnType<typeof addCurrentView>;
+  | ReturnType<typeof addCurrentView>
+  | ReturnType<typeof addCurrentData>;
 
 const scheduleReducer = (
   state = scheduleInitialState,
@@ -69,6 +72,12 @@ const scheduleReducer = (
     case CURRENT_VIEW: {
       return Object.assign({}, state, {
         currentView: action.payload,
+      });
+    }
+
+    case CURRENT_DATA: {
+      return Object.assign({}, state, {
+        currentData: action.payload,
       });
     }
 

@@ -7,15 +7,19 @@ import {
   useRef,
   useState,
 } from "react";
+import { useSelector } from "react-redux";
+import { useParams } from "react-router";
 import styled from "styled-components";
+import { RootState } from "../../redux/reducers";
+import { ScheduleDummy, selectBoxOptions } from "./ScheduleDummy";
 
 const Block = styled.div`
   border: 1px solid #a5a5a5;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 49px;
-  height: 44px;
+  width: 50px;
+  height: 43px;
   background-color: white;
   position: relative;
 `;
@@ -67,17 +71,33 @@ interface Props {
   onChange?: (data: string) => void;
 }
 
-const EmojiBox: FC<Props> = ({
-  options,
-  value,
-  columnCount = 5,
-  handleEmoji,
-}) => {
+const EmojiBox: FC<Props> = ({ value, columnCount = 5, handleEmoji }) => {
   const [isVisible, setIsVisible] = useState<boolean>(false);
   const [widthSize, setWidthSize] = useState<number | null>(null);
   const [selectValue, setSelectValue] = useState<SelectOption | null>(null);
   const ref = useRef<HTMLDivElement>(null);
-  const defaultValue = options[0];
+  const options = selectBoxOptions;
+  const params = useParams();
+
+  //스토리지에서 데이터 호출
+  const groups = useSelector((store: RootState) => store.group.groups);
+
+  //현재 그룹 필터링
+  const currentGroup: any = groups.filter((el: any) => {
+    return el._id === params.groupId;
+  });
+
+  //현재 스케쥴만 필터링
+  let currentSchedule: any;
+  if (currentGroup.length !== 0) {
+    currentSchedule = currentGroup[0].schedules.filter((el: any) => {
+      return el._id === params.scheduleId;
+    });
+  } else {
+    currentSchedule = ScheduleDummy;
+  }
+
+  const defaultValue = currentSchedule[0].scheduleEmoji;
   const viewSelectValue =
     options.find((option) => option.value === value) ?? selectValue;
 
@@ -108,8 +128,9 @@ const EmojiBox: FC<Props> = ({
   }, []);
 
   const renderOption = useMemo(() => {
-    return options.map((option) => (
+    return options.map((option, idx) => (
       <div
+        key={idx}
         onClick={() => {
           setSelectValue(option);
           setIsVisible(false);
@@ -142,7 +163,7 @@ const EmojiBox: FC<Props> = ({
   return (
     <Block ref={ref}>
       <VsibleWrapper ref={myRef} onClick={toggleIsVisible}>
-        <span>{viewSelectValue?.text ?? defaultValue.text}</span>
+        <span>{viewSelectValue?.text ?? defaultValue}</span>
         <div />
       </VsibleWrapper>
       {isVisible ? (

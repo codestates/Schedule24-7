@@ -1,13 +1,13 @@
 export const ScheduleDummy = [
   {
     id: 'ObjectId("619f0e9722f97d6e8631291d")',
-    scheduleName: "21년 11월",
+    scheduleName: "데이터를 불러오는 중입니다",
     createdAt: "2021-12-01 01:01:01",
     scheduleEmoji: "💡",
-    period: "2021-11-01",
+    period: "2021-12-01",
     group: {
       groupId: 1,
-      groupName: "당직 1팀",
+      groupName: "",
     },
     contents: [
       {
