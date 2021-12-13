@@ -367,7 +367,6 @@ export class AuthController {
       return res
         .cookie("accessToken", accessToken, {
           domain: "schedule24-7.link",
-          httpOnly: true,
           sameSite: true,
         })
         .redirect("http://localhost:3000");
