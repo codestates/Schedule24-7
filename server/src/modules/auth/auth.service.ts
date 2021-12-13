@@ -32,7 +32,6 @@ export class AuthService {
       authLoginDto.userId,
     );
     // 사용자 정보 확인하여 전달된 userId 검증
-    console.log(userInfo);
     if (!userInfo) {
       throw new HttpError(401, "userId와 일치하는 계정이 존재하지 않습니다");
     }
