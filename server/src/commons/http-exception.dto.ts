@@ -7,14 +7,11 @@ export class BadRequestErr extends HttpException {
   statusCode: number;
 
   @ApiProperty({
-    example: "잘못된 요청입니다.",
-    description: "잘못된 요청입니다.",
+    example: "Bad Request",
+    description: "Bad Request",
     required: true,
   })
   message: string;
-
-  @ApiProperty({ example: "Bad Request" })
-  error: string;
 }
 
 // 권한 오류
@@ -26,15 +23,11 @@ export class UnauthorizeErr extends HttpException {
   })
   statusCode: number;
   @ApiProperty({
-    example: "권한이 만료되었습니다",
-    description: "권한 만료",
+    example: "Unauthorized",
+    description: "Unauthorized",
     required: true,
   })
   message: string;
-  @ApiProperty({
-    example: "Unauthorized",
-  })
-  error: string;
 }
 
 // 파일을 찾을 수 없어요
@@ -46,15 +39,11 @@ export class NotFoundErr extends HttpException {
   })
   statusCode: number;
   @ApiProperty({
-    example: "일치하는 데이터가 없습니다.",
-    description: "데이터를 찾을 수 없습니다.",
+    example: "Not Found",
+    description: "Not Found",
     required: true,
   })
   message: string;
-  @ApiProperty({
-    example: "File Not Found",
-  })
-  error: string;
 }
 
 // 중복된 데이터
@@ -66,15 +55,11 @@ export class ConflictErr extends HttpException {
   })
   statusCode: number;
   @ApiProperty({
-    example: "이미 존재하는 데이터입니다",
-    description: "동일한 데이터가 존재합니다.",
+    example: "Conflict",
+    description: "Confilict",
     required: true,
   })
   message: string;
-  @ApiProperty({
-    example: "Conflict File",
-  })
-  error: string;
 }
 // 서버 에러
 export class InternalSeverErr extends HttpException {
@@ -85,13 +70,9 @@ export class InternalSeverErr extends HttpException {
   })
   statusCode: number;
   @ApiProperty({
-    example: "서버에러가 발생하였습니다.",
-    description: "서버 에러",
+    example: "Internal server error",
+    description: "server err",
     required: true,
   })
   message: string;
-  @ApiProperty({
-    example: "Internal Server Error",
-  })
-  error: string;
 }

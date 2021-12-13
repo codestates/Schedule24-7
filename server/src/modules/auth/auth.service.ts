@@ -1,15 +1,17 @@
 import { Injectable } from "@nestjs/common";
-import { AuthRepository } from "../../repositories/auth.repository";
 import { JwtService } from "@nestjs/jwt";
-import { AuthLoginDto } from "./dto/auth-login.dto";
 import * as bcrypt from "bcrypt";
-import { UserRepository } from "src/repositories/user.repository";
-import { AuthNumberDto } from "./dto/authNumber.dto";
-import { AuthCheckUserIdLossDto } from "./dto/auth-checkUserIdLoss.dto";
-import { AuthCheckPasswordLossDto } from "./dto/auth-checkPasswordLoss.dto";
-import HttpError from "src/commons/httpError";
 import { HttpService } from "@nestjs/axios";
 import { lastValueFrom } from "rxjs";
+
+import { AuthRepository } from "../../repositories/auth.repository";
+import { UserRepository } from "src/repositories/user.repository";
+import { AuthLoginDto } from "./dto/request/auth-login.dto";
+import { AuthNumberDto } from "./dto/request/authNumber.dto";
+import { AuthCheckUserIdLossDto } from "./dto/request/auth-checkUserIdLoss.dto";
+import { AuthCheckPasswordLossDto } from "./dto/request/auth-checkPasswordLoss.dto";
+import HttpError from "src/commons/httpError";
+
 @Injectable()
 export class AuthService {
   constructor(
@@ -250,7 +252,6 @@ export class AuthService {
   }
 
   async googleCallback(code: string) {
-    const GOOGLE_AUTH_URL = "https://accounts.google.com/o/oauth2/v2/auth";
     const GOOGLE_AUTH_TOKEN_URL = "https://oauth2.googleapis.com/token";
     const GOOGLE_AUTH_REDIRECT_URL = "http://schedule24-7.link";
 

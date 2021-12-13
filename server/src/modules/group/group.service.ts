@@ -1,23 +1,20 @@
-import {
-  BadRequestException,
-  forwardRef,
-  HttpCode,
-  Inject,
-  Injectable,
-  InternalServerErrorException,
-  UnauthorizedException,
-} from "@nestjs/common";
+import { forwardRef, Inject, Injectable } from "@nestjs/common";
 import * as csv from "csvtojson";
 import HttpError from "src/commons/httpError";
 import * as fs from "fs";
+import { InjectConnection } from "@nestjs/mongoose";
+import { Connection } from "mongoose";
 
 import { Group } from "src/entities/group.entity";
 import { AuthRepository } from "src/repositories/auth.repository";
 import { GroupRepository } from "src/repositories/group.repository";
 import { ScheduleRepository } from "src/repositories/schedule.repository";
 import { UserRepository } from "src/repositories/user.repository";
-import { CreateConditionDto } from "./dto/createCondition.dto";
-import { UpdateConditionDto } from "./dto/updateCondition.dto";
+import { CreateConditionDto } from "./dto/request/createCondition.dto";
+import { UpdateConditionDto } from "./dto/request/updateCondition.dto";
+import { CreateGroupReqDto } from "./dto/request/createGroup.dto";
+import { UpdateGroupReqDto } from "./dto/request/updateGroup.dto";
+import { CreateMemberReqDto } from "./dto/request/createMember.dto";
 
 @Injectable()
 export class GroupService {
@@ -27,69 +24,96 @@ export class GroupService {
     private readonly groupRepository: GroupRepository,
     private readonly authRepository: AuthRepository,
     private readonly userRepository: UserRepository,
+    @InjectConnection()
+    private readonly mongoConnection: Connection,
   ) {}
 
   // 신규 그룹 추가
-  async createGroup(auth: string, group: Group) {
+  async createGroup(auth: string, group: CreateGroupReqDto) {
     // 요청된 그룹데이터를 받아서 그룹도큐먼트에 저장
+    let authInfo: any;
     try {
-      const { _id }: any = await this.authRepository.validateToken(auth);
-      // 토큰의 오브젝트아이디정보가 제대로 들어있는가?
-      if (!_id) throw new UnauthorizedException("Unauthorized");
-      const createdGroup: any = await this.groupRepository.createGroup(group);
-      if (createdGroup) {
-        // 성공시 user에 그룹 아이디 추가
-        const result: any = await this.userRepository.addGroupIdFromGroup(
-          _id,
-          createdGroup,
-        );
-        return result;
-      }
-    } catch (err) {
-      throw new InternalServerErrorException("Not Created");
+      // 제대로 된 토큰인가?
+      authInfo = this.authRepository.validateToken(auth);
+    } catch {
+      throw new HttpError(401, "Unauthorized");
+    }
+    const { _id } = authInfo;
+    // 그룹 생성
+    const createdGroup: any = await this.groupRepository.createGroup(group);
+    // 그룹 생성 성공시
+    if (createdGroup) {
+      // user에 그룹스 필드에 그룹 아이디 추가
+      await this.userRepository.addGroupIdFromGroup(_id, createdGroup);
     }
   }
 
   // 그룹 정보 조회
   async getGroup(auth: string) {
-    const { _id }: any = await this.authRepository.validateToken(auth);
-    // 토큰의 오브젝트아이디정보가 제대로 들어있는가?
-    if (!_id) throw new UnauthorizedException("Unauthorized");
-
+    let authInfo: any;
+    try {
+      // 토큰 정보 확인
+      authInfo = this.authRepository.validateToken(auth);
+    } catch {
+      throw new HttpError(401, "Unauthorized");
+    }
+    const { _id } = authInfo;
+    // user의 오브젝트 아이디로 유저의 그룹, 스케쥴 정보 가져오기
     const { groups }: any = await this.userRepository.getGroup(_id);
     if (!groups.length) return null;
     return groups;
   }
 
   // 그룹 정보 수정
-  async updateGroup(auth: string, groupId: string, group: Group) {
-    if (!auth.length || !groupId.length || !Object.keys(group).length) {
-      throw new BadRequestException("Bad Requst");
-    } else {
+  async updateGroup(auth: string, groupId: string, group: UpdateGroupReqDto) {
+    let authInfo: any;
+    try {
       // 요청이 제대로 왔다면
-      const { _id }: any = await this.authRepository.validateToken(auth);
+      authInfo = await this.authRepository.validateToken(auth);
+    } catch {
+      throw new HttpError(401, "Unauthorized");
+    }
+    const { _id } = authInfo;
 
+    const session = await this.mongoConnection.startSession();
+    session.withTransaction(async () => {
       // 해당 그룹의 소유자인 유저인가?
       const flag: boolean = await this.userRepository.getUserGroupId(
         _id,
         groupId,
       );
-      console.log(flag);
-      // 유저가 해당 그룹의 아이디를 가지고 있지 않다면.
-      if (!flag) throw new UnauthorizedException("Unauthorized");
-      // 있다면 그룹 데이터 업데이트
-      else return await this.groupRepository.updateGroup(groupId, group);
-    }
+
+      // 있다면
+      if (flag) await this.groupRepository.updateGroup(groupId, group);
+      // 없다면
+      else throw new HttpError(401, "Unauthorized");
+    });
+    session.endSession();
   }
 
-  // 그룹 삭제
+  /**
+   *
+   * @param auth
+   * @param groupId
+   *
+   * - 해당 그룹을 삭제한다는 것은
+   * 그 그룹을 소유한 유저의 그룹아이디 정보를 삭제하고
+   * 해당 그룹이 가지고 있는 스케쥴 데이터도 삭제한다는 것.
+   *   - user의 groups의 해당 그룹 아이디 삭제
+   *   - 해당하는 schedule 정보 삭제.
+   *   - 그룹 정보 삭제
+   */
   async removeGroup(auth: string, groupId: string) {
-    // 요청 정보 확인
-    if (!auth.length || !groupId.length) {
-      throw new BadRequestException("Bad Requst");
-    } else {
-      // 토큰 정보 복호화
-      const { _id }: any = await this.authRepository.validateToken(auth);
+    let authInfo: any;
+    try {
+      // 토큰 정보 확인
+      authInfo = await this.authRepository.validateToken(auth);
+    } catch {
+      throw new HttpError(401, "Unauthorized");
+    }
+    const { _id } = authInfo;
+    const session = await this.mongoConnection.startSession();
+    session.withTransaction(async () => {
       // 해당 유저가 갖고 있는 유저의 해당 그룹 아이디 정보 삭제
       await this.userRepository.removeGroupFromUser(_id, groupId);
 
@@ -102,7 +126,8 @@ export class GroupService {
       });
       // 해당 그룹 삭제
       await this.groupRepository.removeGroup(groupId);
-    }
+    });
+    session.endSession();
   }
 
   // ! 멤버 정보 초기화
@@ -113,7 +138,11 @@ export class GroupService {
 
   // ? 새로운 멤버 추가
   // * POST "/member/:groupId" 연결
-  async createMember(authorization: string, member: Group, groupId: string) {
+  async createMember(
+    authorization: string,
+    member: CreateMemberReqDto,
+    groupId: string,
+  ) {
     // * 토큰 유효성 검사
     try {
       this.authRepository.validateToken(authorization);
@@ -128,7 +157,7 @@ export class GroupService {
     if (!IdCount) throw new HttpError(400, "groupId 값이 올바르지 않습니다");
 
     // * memberIdCount 최신 값으로 memberId 값 설정
-    const newMember: Group = Object.assign(
+    const newMember: any = Object.assign(
       {},
       { memberId: IdCount.memberIdCount },
       member,
@@ -316,9 +345,9 @@ export class GroupService {
       );
 
     if (!result) {
-      throw new HttpError(500, "조건 추가가 정상적으로 이루어지지 않았습니다");
+      throw new HttpError(500, "조건 삭제가 정상적으로 이루어지지 않았습니다");
     } else {
-      return "조건 추가가 완료되었습니다";
+      return "조건 삭제가 완료되었습니다";
     }
   }
 
@@ -365,7 +394,7 @@ export class GroupService {
         newMember,
       );
       if (!result)
-        throw new HttpError(500, "업데이트가 정상적으로 완료되지 않았습니다.");
+        throw new HttpError(500, "멥버가 정상적으로 추가되지 않았습니다.");
     });
 
     // csv 폴더 안에 파일 있을 경우 파일 삭제

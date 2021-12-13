@@ -19,7 +19,7 @@ export class CreateScheduleDto {
   @IsString({ message: "시작일의 타입이 올바르지 않습니다." })
   @IsNotEmpty({ message: "시작일은 필수값입니다." })
   @ApiProperty({
-    example: "2011-11-01",
+    example: "2021-11-01",
     description: "시작일",
     required: true,
   })

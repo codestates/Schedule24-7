@@ -29,6 +29,17 @@ async function bootstrap() {
     .setTitle("Schedule 24/7 APIs")
     .setDescription("이곳은 Schedule 24/7의 API문서입니다.")
     .setVersion("0.1a")
+    .addBearerAuth(
+      {
+        type: "http",
+        scheme: "bearer",
+        bearerFormat: "JWT",
+        in: "header",
+        name: "Autorization",
+        description: "Bearer+accessToken",
+      },
+      "JWT",
+    )
     .build();
   const document = SwaggerModule.createDocument(app, apiConfig);
   SwaggerModule.setup("api-doc", app, document);

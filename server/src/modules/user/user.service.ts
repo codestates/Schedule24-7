@@ -1,8 +1,4 @@
-import {
-  BadRequestException,
-  Injectable,
-  UnauthorizedException,
-} from "@nestjs/common";
+import { Injectable } from "@nestjs/common";
 import { InjectConnection } from "@nestjs/mongoose";
 import * as bcrypt from "bcrypt";
 import { Connection } from "mongoose";
@@ -18,7 +14,6 @@ import { AuthRepository } from "src/repositories/auth.repository";
 import { GroupRepository } from "src/repositories/group.repository";
 import { ScheduleRepository } from "src/repositories/schedule.repository";
 import { UserRepository } from "src/repositories/user.repository";
-import { AuthService } from "../auth/auth.service";
 import { CreateUserDto } from "./dto/request/create-user.dto";
 
 @Injectable()
@@ -56,14 +51,15 @@ export class UserService {
 
   // 비밀번호 변경
   async updatePassword(auth: string, new_password: string) {
-    const session = await this.mongoConnection.startSession();
+    let _id;
+    try {
+      _id = this.authRepository.validateToken(auth);
+    } catch {
+      throw new HttpError(401, "Unauthorized");
+    }
 
+    const session = await this.mongoConnection.startSession();
     await session.withTransaction(async () => {
-      if (!auth || !new_password) {
-        throw new HttpError(400, "Bad Request");
-      }
-      const { _id }: any = await this.authRepository.validateToken(auth);
-      if (!_id) throw new HttpError(401, "Unauthorized");
       const salt: string = await bcrypt.genSalt(10);
       const password: string = await bcrypt.hash(new_password, salt);
       return await this.userRepository.updateUserPassword(_id, password);
@@ -75,7 +71,6 @@ export class UserService {
   async signOut(auth: string) {
     const session = await this.mongoConnection.startSession();
     await session.withTransaction(async () => {
-      if (!auth) throw new HttpError(400, "Bad Request");
       const data: any = await this.authRepository.validateToken(auth);
       const { _id } = data;
       if (!_id) throw new HttpError(401, "Unauthorized");
