@@ -89,7 +89,7 @@ const ScheduleThreeDot: FC<Props> = ({ schedule }) => {
 
   return (
     <Block id="ThreeDot">
-      {console.log(schedule)}
+      {/* {console.log(schedule)} */}
       <div onClick={() => handleSetViewId(schedule)}>스케줄정보</div>
       <div
         onClick={() => {

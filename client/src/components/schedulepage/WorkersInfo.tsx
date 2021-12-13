@@ -397,8 +397,8 @@ export default function WorkersInfo() {
             <Wrapper>
               <WorkNameWrapper>
                 {workers[0].work !== undefined
-                  ? workers.map((el: any) => {
-                      return <WorkName>{el.work.workName}</WorkName>;
+                  ? workers.map((el: any, idx) => {
+                      return <WorkName key={idx}>{el.work.workName}</WorkName>;
                     })
                   : "데이터를 불러오는 중입니다"}
               </WorkNameWrapper>
@@ -407,9 +407,9 @@ export default function WorkersInfo() {
                   ? workers.map((el: any, testIdx) => {
                       return (
                         <Worker>
-                          {el.members.map((item: any) => {
+                          {el.members.map((item: any, idx: any) => {
                             return (
-                              <WorkerNameWrapper>
+                              <WorkerNameWrapper key={idx}>
                                 <WorkerName>{item.memberName}</WorkerName>
                                 <DeleteBtn
                                   value={item.memberId}
