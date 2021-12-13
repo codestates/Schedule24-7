@@ -4,11 +4,11 @@ import styled from "styled-components";
 
 const Block = styled.div`
   display: flex;
-  width: 135px;
+  width: 100px;
   height: 30px;
   background-color: ${(props) => props.color};
   border: 1px solid #000000;
-  border-radius: 12px;
+  border-radius: 0.5rem;
   cursor: pointer;
   align-items: center;
   justify-content: center;

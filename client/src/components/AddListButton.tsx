@@ -4,7 +4,7 @@ import styled from "styled-components";
 
 const Block = styled.div`
   text-align: center;
-  min-width: 370px;
+  width: 310px;
   left: 10px;
   top: 160px;
   background-color: #ffffff;

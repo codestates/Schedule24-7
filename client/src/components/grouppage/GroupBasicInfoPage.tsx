@@ -170,10 +170,7 @@ const GroupBasicInfoPage: FC = () => {
     <Layout title="기본정보">
       <GroupSelectBar id={groupId ?? ""} />
       <BoxSection>
-        <BoxHeader>
-          <span>그룹기본정보</span>
-        </BoxHeader>
-        <AddGroupWrapper>
+         <AddGroupWrapper>
           {/* <GroupSelectBar {id}/> */}
           <AddDiv>
             <DivWrapper>

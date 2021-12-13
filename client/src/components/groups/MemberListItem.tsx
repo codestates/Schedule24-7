@@ -4,7 +4,7 @@ import { DefaultLayout, hideMobileCss, mediaQuery } from "../../GlobalStyle";
 import MemberListEditItem from "./MemberListEditItem";
 
 const Block = styled.div`
-  min-width: 370px;
+  width: 310px;
   left: 10px;
   top: 160px;
   background-color: #ffffff;
@@ -30,7 +30,7 @@ const Block = styled.div`
   }
 
   &.open {
-    width: 370px;
+    width: 310px;
     background: #ffffff;
     box-shadow: 3px rgba(0, 0, 0, 0.25);
     border-radius: 0.5rem;

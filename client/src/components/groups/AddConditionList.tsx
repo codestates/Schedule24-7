@@ -12,14 +12,14 @@ import { getGroups } from "../../redux/actions/Group";
 const DescBlock = styled.div`
   display: flex;
   margin-top: 10px;
-  margin-left: 20px;
-  margin-right: 20px;
+  margin-left: 10px;
+  margin-right: 10px;
   border-bottom: 1px solid rgba(170, 170, 170, 0.21);
   padding: 1px;
 
   > #conditiontitle {
   display: flex;
-  font-size: 16px;
+  font-size: 14px;
   line-height: 20px;
   justify-content: flex-end;
   align-items: flex-end;
@@ -78,9 +78,9 @@ const WorkInput = styled.div`
 `;
 
 const EditBlock = styled.div`
-  width: 370px;
+  width: 310px;
   min-height: 250px;
-  margin-left: 10px;
+  margin-left: 5px;
   display: flex;
   flex-direction: column;
   background-color: #ffffff;

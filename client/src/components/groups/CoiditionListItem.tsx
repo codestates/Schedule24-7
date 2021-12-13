@@ -9,14 +9,14 @@ import { getGroups } from "../../redux/actions/Group";
 import { getGroupsApi } from "../../lib/api/group";
 
 const Block = styled.div`
-  width: 370px;
+  width: 310px;
   left: 10px;
   top: 160px;
   background-color: #ffffff;
   box-shadow: 3px rgba(0, 0, 0, 0.25);
   border-radius: 0.5rem;
   border: 0.01rem solid rgba(0, 0, 0, 0.15);
-  margin: 10px;
+  margin: 5px;
   padding: 5px 0;
 
   div.name {
@@ -35,7 +35,7 @@ const Block = styled.div`
   }
 
   &.open {
-  width: 370px;
+  width: 310px;
   background: #FFFFFF;
   border-radius: 0.5rem;
   box-shadow: 3px rgba(0, 0, 0, 0.25);
