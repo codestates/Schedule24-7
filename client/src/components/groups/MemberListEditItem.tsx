@@ -13,9 +13,9 @@ import "react-day-picker/lib/style.css";
 import { updateGroupMemberApi } from "../../lib/api/group";
 
 const Block = styled.div`
-  width: 330px;
+  width: 310px;
   min-height: 190px;
-  margin-left: 20px;
+  margin-left: 5px;
   display: flex;
   flex-direction: column;
 
@@ -28,7 +28,7 @@ const DescBlock = styled.div`
   display: flex;
   margin-top: 20px;
   align-items: center;
-  margin-left: 20px;
+  margin-left: 10px;
 
   > #membertitle {
     font-size: 12px;
@@ -45,7 +45,6 @@ const DescBlock = styled.div`
     font-style: bold;
     width: 200px;
   }
-
   &.button {
     margin-top: 30px;
     margin-right: 20px;
@@ -54,11 +53,12 @@ const DescBlock = styled.div`
 `;
 
 const EditBlock = styled.div`
-  width: 330px;
+  width: 300px;
   min-height: 190px;
-  margin-left: 20px;
+  margin-left: 5px;
   display: flex;
   flex-direction: column;
+  margin-right: 10px;
 
   &.edit {
     display: none !important;
@@ -209,6 +209,7 @@ const MemberListEditItem: FC<Props> = ({
         <DescBlock>
           <div id="membertitle">이름</div>
           <input
+            className="inputbox"
             onChange={changeHandler}
             name="memberName"
             id="membervalue"

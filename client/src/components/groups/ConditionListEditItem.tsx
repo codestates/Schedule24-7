@@ -11,9 +11,9 @@ import { RootState } from "../../redux/reducers";
 import { updateGroupConditionApi } from "../../lib/api/group";
 
 const Block = styled.div`
-  width: 330px;
+  width: 300px;
   min-height: 190px;
-  margin-left: 20px;
+  margin-left: 10px;
   display: flex;
   flex-direction: column;
 
@@ -90,9 +90,9 @@ const WorkInput = styled.div`
 `;
 
 const EditBlock = styled.div`
-  width: 330px;
+  width: 310px;
   min-height: 350px;
-  margin-left: 20px;
+  margin-left: 5px;
   display: flex;
   flex-direction: column;
 

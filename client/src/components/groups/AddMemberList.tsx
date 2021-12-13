@@ -63,9 +63,10 @@ const DescBlock = styled.div`
 `;
 
 const EditBlock = styled.div`
-  width: 370px;
+  width: 310px;
   min-height: 250px;
-  margin-left: 10px;
+  margin-left: 5px;
+  margin-right: 5px;
   display: flex;
   flex-direction: column;
   background-color: #ffffff;
