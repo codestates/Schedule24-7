@@ -362,7 +362,7 @@ export class AuthController {
       const accessToken = await this.authService.googleCallback(code);
       return res
         .cookie("accessToken", accessToken, {
-          domain: "localhost",
+          domain: "schedule24-7.link",
           httpOnly: true,
           sameSite: true,
         })
