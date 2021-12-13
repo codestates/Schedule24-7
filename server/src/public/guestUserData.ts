@@ -1,12 +1,20 @@
 import { nanoid } from "nanoid";
 
-export const guestUserInfo = {
-  userId: nanoid(),
-  userName: "guest",
-  password: nanoid(),
-  test: true,
-  email: nanoid(30),
-};
+export function generateGuestUserInfo(): {
+  userId: string;
+  userName: string;
+  password: string;
+  test: boolean;
+  email: string;
+} {
+  return {
+    userId: nanoid(),
+    userName: "guest",
+    password: nanoid(),
+    test: true,
+    email: nanoid(30),
+  };
+}
 
 export const guestGroupInfo = {
   groupName: "당직1팀",

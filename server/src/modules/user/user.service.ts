@@ -6,8 +6,8 @@ import { Connection } from "mongoose";
 import HttpError from "src/commons/httpError";
 import {
   conditionInfoList,
+  generateGuestUserInfo,
   guestGroupInfo,
-  guestUserInfo,
   membersInfoList,
 } from "src/public/guestUserData";
 import { AuthRepository } from "src/repositories/auth.repository";
@@ -90,7 +90,9 @@ export class UserService {
    * @returns
    */
   async createGuest() {
-    const userData = await this.userRepository.createUser(guestUserInfo);
+    const userData = await this.userRepository.createUser(
+      generateGuestUserInfo(),
+    );
 
     const userOId = userData._id.toString();
 
@@ -128,6 +130,10 @@ export class UserService {
     });
 
     const accessToken = this.authRepository.generateToken(userData);
+    setTimeout(
+      () => this.removeGuest(`Bearer ${accessToken.accessToken}`),
+      1000 * 60 * 2,
+    );
 
     return accessToken;
   }
