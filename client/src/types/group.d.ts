@@ -21,16 +21,16 @@ namespace Group {
       memberPosition: string;
       memberVacation: any[];
     }[];
-    schedule: any[];
+    schedules: any[];
     works: {
       workName: string;
       limit: number;
       workId: number;
     }[];
-      memberId: number;
-      memberName: string;
-      memberPosition: string;
-      memberVacation: any[];
+    memberId: number;
+    memberName: string;
+    memberPosition: string;
+    memberVacation: any[];
   }
 
   interface GroupMemberCreateReqDTO {
@@ -39,36 +39,36 @@ namespace Group {
     memberVacation: string[];
     groupId: string;
   }
-  
+
   interface GroupMemberUpdateReqDTO {
     memberName: string;
     memberPosition: string;
     memberVacation: string[];
     groupId: string;
     memberId: number;
-   }
-  
+  }
+
   interface GroupConditionCreateReqDTO {
     groupId: string | undefined;
-    conditionName: string,
-    conditionDesc: string,
-    target: string,
-    cycle: string,
-    workId: number,
-    operation: string,
-    value: number    
+    conditionName: string;
+    conditionDesc: string;
+    target: string;
+    cycle: string;
+    workId: number;
+    operation: string;
+    value: number;
   }
-  
+
   interface GroupConditionUpdateReqDTO {
     groupId: string | undefined;
-    conditionName: string,
-    conditionDesc: string,
-    target: string,
-    cycle: string,
-    workId: number,
-    operation: string,
-    value: number,
-    conditionId: number,
+    conditionName: string;
+    conditionDesc: string;
+    target: string;
+    cycle: string;
+    workId: number;
+    operation: string;
+    value: number;
+    conditionId: number;
   }
 
   interface GroupDeleteReqDTO {
@@ -79,8 +79,7 @@ namespace Group {
     groupId: string;
     memberId: number;
   }
-  
-  
+
   interface GroupConditionDeleteReqDTO {
     groupId: string;
     conditionId: number;
@@ -96,9 +95,9 @@ namespace Group {
       limit: number;
     }[];
   }
-  
+
   interface GroupUpdateReqDTO {
-    groupId: string|undefined;
+    groupId: string | undefined;
     groupName: string;
     groupDesc: string;
     groupEmoji: string;
@@ -108,5 +107,4 @@ namespace Group {
       limit: number;
     }[];
   }
-    
 }

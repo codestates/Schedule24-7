@@ -11,11 +11,16 @@ const ScheduleRoutes: FC = () => {
     <Routes>
       <Route path="/" element={<SchedulePage />} />
       <Route path="/add" element={<AddScheduleMain />} />
-      <Route path="/view" element={<ViewScheduleMain />} />
-      <Route path="/info" element={<ScheduleInfoMain />} />
-      <Route path="/editworker" element={<WorkersInfo />} />
+      <Route path="/view/:groupId/:scheduleId" element={<ViewScheduleMain />} />
+      <Route path="/info/:groupId/:scheduleId" element={<ScheduleInfoMain />} />
+      <Route
+        path="/editworker/:groupId/:scheduleId/:contentId"
+        element={<WorkersInfo />}
+      />
     </Routes>
   );
 };
 
 export default ScheduleRoutes;
+
+// /:groupId/:scheduleId/view

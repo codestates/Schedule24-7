@@ -8,16 +8,34 @@ import {
 } from "../../style/theme";
 import { Link } from "react-router-dom";
 import BoxItem from "./BoxItem";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { RootState } from "../../redux/reducers";
-import { useEffect } from "react";
-import { saveSchedule } from "../../redux/actions/scheduleActions";
+import { useEffect, useState } from "react";
 // import AddScheduleBoxItem from "./AddScheduleBoxItem";
 
 export const MainWrapper = styled.div``;
 
 export default function ScheduleMain() {
-  const scheduleData = useSelector((state: RootState) => state.scheduleReducer);
+  const groups = useSelector((store: RootState) => store.group.groups);
+
+  //스케쥴 존재여부 상태
+  const [scheduleExist, setScheduleExist] = useState<boolean>(false);
+
+  //페이지 렌더링시 스케쥴 존재여부 업데이트
+  useEffect(() => {
+    checkSchedule();
+  }, [groups]);
+
+  //스케쥴 상태 업데이트 함수
+  const checkSchedule = () => {
+    let tmpBoolean: boolean = false;
+    for (let i = 0; i < groups.length; i++) {
+      if (groups[i].schedules.length !== 0) {
+        tmpBoolean = true;
+      }
+    }
+    setScheduleExist(tmpBoolean);
+  };
 
   return (
     <BoxSection>
@@ -27,16 +45,20 @@ export default function ScheduleMain() {
           <AddBtn>새스케줄추가</AddBtn>
         </Link>
       </BoxHeader>
-      <BoxWrapper>
-        {scheduleData.data[0].id !== null ? (
-          scheduleData.data.map((el, idx) => {
-            return <BoxItem key={idx} schedule={el} />;
-          })
-        ) : (
-          <NoSchedule>등록된 스케쥴이 없습니다</NoSchedule>
-        )}
-        {/* <AddScheduleBoxItem /> */}
-      </BoxWrapper>
+      {/* <BoxWrapper> */}
+      {scheduleExist ? (
+        <BoxWrapper>
+          {groups.map((el: any) => {
+            return el.schedules.map((item: any, idx: any) => {
+              return <BoxItem key={idx} schedule={item} />;
+            });
+          })}
+        </BoxWrapper>
+      ) : (
+        <NoSchedule>등록된 스케쥴이 없습니다</NoSchedule>
+      )}
+      {/* <AddScheduleBoxItem /> */}
+      {/* </BoxWrapper> */}
     </BoxSection>
   );
 }

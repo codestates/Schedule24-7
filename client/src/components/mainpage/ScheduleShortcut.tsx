@@ -1,5 +1,7 @@
+import { useEffect } from "react";
 import { useState } from "react";
 import { useSelector } from "react-redux";
+import { useNavigate } from "react-router";
 import { RootState } from "../../redux/reducers";
 import {
   AddBtn,
@@ -12,11 +14,19 @@ import {
   ShortcutContainer,
 } from "../../style/theme";
 // import AddScheduleBoxItem from "../schedulepage/AddScheduleBoxItem";
-import BoxItem from "../schedulepage/BoxItem";
-// import { ScheduleDummy } from "../schedulepage/ScheduleDummy";
+import MainBoxItem from "./MainBoxItem";
 
 export default function ScheduleShortcut() {
+  const navigate = useNavigate();
+  const groups = useSelector((store: RootState) => store.group.groups);
+
+  //스케쥴 존재여부 상태
+  const [scheduleExist, setScheduleExist] = useState<boolean>(false);
+
+  //더보기 상태
   const [showBoxes, setShowBoxes] = useState(false);
+
+  //더보기 함수
   const handleShowBoxes = () => {
     if (showBoxes) {
       setShowBoxes(false);
@@ -24,27 +34,50 @@ export default function ScheduleShortcut() {
       setShowBoxes(true);
     }
   };
-  const scheduleData = useSelector((state: RootState) => state.scheduleReducer);
+
+  //페이지 렌더링시 스케쥴 존재여부 업데이트
+  useEffect(() => {
+    checkSchedule();
+  }, [groups]);
+
+  //스케쥴 상태 업데이트 함수
+  const checkSchedule = () => {
+    let tmpBoolean: boolean = false;
+    for (let i = 0; i < groups.length; i++) {
+      if (groups[i].schedules.length !== 0) {
+        tmpBoolean = true;
+      }
+    }
+    setScheduleExist(tmpBoolean);
+  };
 
   return (
     <BoxSection>
       <BoxHeader>
         <span>스케쥴</span>
-        <AddBtn>새스케줄추가</AddBtn>
+        <AddBtn
+          onClick={() => {
+            navigate("/schedule/add");
+          }}
+        >
+          새스케줄추가
+        </AddBtn>
       </BoxHeader>
       <ShortcutContainer>
-        <ShortcutBoxWrapper className={showBoxes ? "showBoxes" : ""}>
-          {scheduleData.data[0].id !== null ? (
-            scheduleData.data.map((el, idx) => {
-              return <BoxItem key={idx} schedule={el} />;
-            })
-          ) : (
-            <NoSchedule>등록된 스케쥴이 없습니다</NoSchedule>
-          )}
-          {/* <AddScheduleBoxItem /> */}
-        </ShortcutBoxWrapper>
+        {scheduleExist ? (
+          <ShortcutBoxWrapper className={showBoxes ? "showBoxes" : ""}>
+            {groups.map((el: any) => {
+              return el.schedules.map((item: any, idx: any) => {
+                return <MainBoxItem key={idx} schedule={item} />;
+              });
+            })}
+          </ShortcutBoxWrapper>
+        ) : (
+          <NoSchedule className="main">등록된 스케쥴이 없습니다</NoSchedule>
+        )}
+        {/* <AddScheduleBoxItem /> */}
         <SeeMoreWrapper>
-          {scheduleData.data[0].id !== null ? (
+          {scheduleExist ? (
             <SeeMore onClick={handleShowBoxes}>더보기</SeeMore>
           ) : (
             ""

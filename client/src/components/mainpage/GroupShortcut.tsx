@@ -10,7 +10,6 @@ import {
   ShortcutContainer,
 } from "../../style/theme";
 import GroupListItem from "../groups/GroupListItem";
-import BoxSample from "./BoxSample";
 import { useSelector } from "react-redux";
 import { RootState } from "../../redux/reducers";
 
@@ -34,16 +33,17 @@ export default function GroupShortcut() {
       </BoxHeader>
       <ShortcutContainer>
         <ShortcutBoxWrapper className={showBoxes ? "showBoxes" : ""}>
-          {groups ?    
-            groups.map((group) => (
-            <GroupListItem
-              id={group._id}
-              desc={group.groupDesc}
-              emoji={group.groupEmoji}
-              name={group.groupName}
-              key={group._id}
-            />
-          )): null}
+          {groups
+            ? groups.map((group) => (
+                <GroupListItem
+                  id={group._id}
+                  desc={group.groupDesc}
+                  emoji={group.groupEmoji}
+                  name={group.groupName}
+                  key={group._id}
+                />
+              ))
+            : null}
         </ShortcutBoxWrapper>
         <SeeMoreWrapper>
           <SeeMore onClick={handleShowBoxes}>더보기</SeeMore>

@@ -35,7 +35,7 @@ export const AddDiv = styled.div`
 export const DivWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  margin: 7.5px;
+  margin: 0.5rem;
 `;
 
 export const TitleHeader = styled.div`
@@ -50,8 +50,8 @@ export const Title = styled.div`
 `;
 
 export const NameBox = styled.input`
-  width: 233px;
-  height: 42px;
+  width: 231px;
+  height: 41px;
   padding-left: 10px;
   border: 1px solid #a5a5a5;
   box-shadow: 0.05rem 0.05rem 0.05rem #6969692d;
@@ -104,11 +104,7 @@ export default function ScheduleInfoEdit({
   handleEmoji,
   setScheduleInfo,
 }: any) {
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
   const [startDate, setStartDate] = useState<any>(new Date());
-
-  const scheduleData = useSelector((state: RootState) => state.scheduleReducer);
   const groups = useSelector((store: RootState) => store.group.groups);
 
   //에러메시지 상태

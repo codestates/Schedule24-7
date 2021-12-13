@@ -9,6 +9,40 @@ export const scheduleInitialState = {
   worker: [],
   groupId: "",
   currentView: [{ contentId: 0, date: "", team: [] }],
+  currentData: [
+    {
+      id: null,
+      scheduleName: "",
+      scheduleEmoji: "",
+      createdAt: "",
+      scheduleData: "",
+      period: "",
+      group: {
+        groupId: 0,
+        groupName: "",
+      },
+      contents: [
+        {
+          contentId: 0,
+          date: "",
+          team: [
+            {
+              work: {
+                workId: 0,
+                workName: "",
+              },
+              members: [
+                {
+                  memberId: 0,
+                  memberName: "",
+                },
+              ],
+            },
+          ],
+        },
+      ],
+    },
+  ],
   contentId: 0,
   data: [
     {
