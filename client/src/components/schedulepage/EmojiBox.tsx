@@ -19,7 +19,7 @@ const Block = styled.div`
   align-items: center;
   justify-content: center;
   width: 50px;
-  height: 43px;
+  height: 42px;
   background-color: white;
   position: relative;
 `;
@@ -27,6 +27,7 @@ const VsibleWrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  padding-bottom: 2px;
 
   div:nth-child(2) {
     margin-left: 5px;

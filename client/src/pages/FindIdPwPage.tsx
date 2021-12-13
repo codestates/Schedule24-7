@@ -6,6 +6,7 @@ import { MainLogo, MainWrapper } from "../style/theme";
 import Footer from "../components/Footer";
 import FindId from "../components/findidpw/FindId";
 import FindPw from "../components/findidpw/FindPw";
+import { mediaQuery } from "../GlobalStyle";
 
 export const BoxWrapper = styled.div`
   display: flex;
@@ -38,6 +39,9 @@ export const ChangeBtn = styled.button`
 
   &:focus {
     background-color: #5c5c5c;
+  }
+  ${mediaQuery.mobile} {
+    max-width: 133px;
   }
 `;
 

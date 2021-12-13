@@ -1,7 +1,14 @@
 import axios from "axios";
 import { useState } from "react";
 import { useNavigate } from "react-router";
+import styled from "styled-components";
 import { ErrMsg, NormalBox, NormalBtn } from "../../style/theme";
+
+export const MainWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
 
 export default function FindId() {
   const navigate = useNavigate();
@@ -36,7 +43,7 @@ export default function FindId() {
   };
 
   return (
-    <>
+    <MainWrapper>
       <NormalBox
         type="text"
         placeholder="이름을 입력하세요"
@@ -55,6 +62,6 @@ export default function FindId() {
       ) : (
         ""
       )}
-    </>
+    </MainWrapper>
   );
 }

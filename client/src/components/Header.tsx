@@ -1,4 +1,6 @@
-import { FC, useCallback, useState } from "react";
+import axios from "axios";
+import { FC, useCallback, useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { DefaultLayout, hideMobileCss, mediaQuery } from "../GlobalStyle";
@@ -19,14 +21,14 @@ const HeaderLeft = styled.div`
   width: 270px;
   padding-left: 1rem;
   ${mediaQuery.mobile} {
-    width: 155px;
+    width: 140px;
     padding-left: 5px;
   }
 `;
 const HeaderRight = styled.div`
   display: flex;
   justify-content: right;
-  width: 130px;
+  width: 115px;
   padding-right: 1rem;
   ${mediaQuery.mobile} {
     padding-right: 5px;
@@ -40,6 +42,7 @@ const PageTitle = styled.div`
 
   ${mediaQuery.mobile} {
     margin-left: 0;
+    font-size: 15px;
   }
 `;
 
@@ -122,6 +125,8 @@ interface Props {
 }
 
 const Header: FC<Props> = ({ title }) => {
+  const dispatch = useDispatch();
+
   const [openDropdown, setOpenDropdown] = useState(false);
   const handleOpenDropdown = () => {
     setOpenDropdown(true);
@@ -129,6 +134,32 @@ const Header: FC<Props> = ({ title }) => {
   const handleCloseDropdown = () => {
     return openDropdown ? setOpenDropdown(false) : null;
   };
+
+  //불러온 유저정보 저장
+  // const [userInfo, setUserInfo] = useState({
+  //   userId: "",
+  //   userName: "",
+  //   email: "",
+  // });
+
+  //유저정보 불러옴
+  // useEffect(() => {
+  //   axios
+  //     .get("https://server.schedule24-7.link/users", {
+  //       headers: {
+  //         authorization: `Bearer ${window.localStorage.getItem("token")}`,
+  //       },
+  //     })
+  //     .then((res) => {
+  //       console.log(res.data);
+  //       setUserInfo({
+  //         ...userInfo,
+  //         userId: res.data.user.userId,
+  //         userName: res.data.user.userName,
+  //         email: res.data.user.email,
+  //       });
+  //     });
+  // }, [dispatch]);
 
   const toggleSideBar = useCallback(() => {
     const sideBar = document.getElementById("sidebar");
@@ -150,11 +181,12 @@ const Header: FC<Props> = ({ title }) => {
       <HeaderRight>
         <UserInfoWrap>
           <img
+            onClick={handleOpenDropdown}
             alt="user-img"
             src="https://cdn-icons-png.flaticon.com/512/906/906361.png"
           />
           <UserId onClick={handleOpenDropdown}>
-            {window.localStorage.getItem("userId")}
+            {window.localStorage.getItem("id")}
           </UserId>
           {openDropdown ? (
             <>

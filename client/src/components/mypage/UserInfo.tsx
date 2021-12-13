@@ -5,6 +5,7 @@ import { NormalBox, NormalBtn, MainLogo, ErrMsg } from "../../style/theme";
 import { useNavigate } from "react-router";
 import styled from "styled-components";
 import { useEffect } from "react";
+import { mediaQuery } from "../../GlobalStyle";
 
 axios.defaults.withCredentials = true;
 
@@ -28,6 +29,12 @@ export const UserInfoDiv = styled.div`
   border-radius: 0.5rem;
   border: 1px solid #cacacac0;
   box-shadow: 1px 1px 1px #cacaca57;
+
+  ${mediaQuery.mobile} {
+    max-width: 290px;
+    padding: 15px;
+    border-radius: 5px;
+  }
 `;
 
 export const UserInfoWrapper = styled.div`
@@ -65,6 +72,9 @@ export const InfoBox = styled.div`
   margin-bottom: 0.4rem;
   align-items: center;
   background-color: white;
+  ${mediaQuery.mobile} {
+    max-width: 260px;
+  }
 `;
 
 function UserInfo() {
@@ -86,7 +96,11 @@ function UserInfo() {
   const [errorCheck, setError] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string>("");
   const [errorMessageCheck, setErrorMessageCheck] = useState<boolean>(false);
-  const [userInfo, setUserInfo] = useState({ userName: "", email: "" });
+  const [userInfo, setUserInfo] = useState({
+    userId: "",
+    userName: "",
+    email: "",
+  });
 
   //화면최초렌더링시 유저정보 불러옴
   useEffect(() => {
@@ -97,10 +111,12 @@ function UserInfo() {
         },
       })
       .then((res) => {
+        console.log(res.data);
         setUserInfo({
           ...userInfo,
-          userName: res.data.userName,
-          email: res.data.email,
+          userId: res.data.user.userId,
+          userName: res.data.user.userName,
+          email: res.data.user.email,
         });
       });
   }, []);
@@ -169,7 +185,7 @@ function UserInfo() {
           <UserInfoWrapper>
             <UserInfoItems>
               <InfoHeader>아이디</InfoHeader>
-              <InfoBox>{window.localStorage.getItem("userId")}</InfoBox>
+              <InfoBox>{userInfo.userId}</InfoBox>
             </UserInfoItems>
             <UserInfoItems>
               <InfoHeader>사용자이름</InfoHeader>

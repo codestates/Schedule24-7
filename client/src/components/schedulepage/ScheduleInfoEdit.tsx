@@ -1,13 +1,11 @@
 import { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import styled from "styled-components";
 import { selectBoxOptions } from "./ScheduleDummy";
 import EmojiBox from "./EmojiBox";
 import { useEffect } from "react";
 import { RootState } from "../../redux/reducers";
-import { getGroupsApi } from "../../lib/api/group";
-import { getGroups } from "../../redux/actions/Group";
-import { useNavigate } from "react-router";
+import { mediaQuery } from "../../GlobalStyle";
 
 export const AddScheduleWrapper = styled.section`
   display: flex;
@@ -51,12 +49,16 @@ export const Title = styled.div`
 
 export const NameBox = styled.input`
   width: 231px;
-  height: 41px;
+  height: 40px;
   padding-left: 10px;
   border: 1px solid #a5a5a5;
   box-shadow: 0.05rem 0.05rem 0.05rem #6969692d;
   margin-left: 2px;
   background-color: white;
+
+  ${mediaQuery.mobile} {
+    max-width: 201px;
+  }
 `;
 
 export const TeamSelect = styled.select`

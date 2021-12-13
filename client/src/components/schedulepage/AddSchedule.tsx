@@ -18,6 +18,7 @@ import { RootState } from "../../redux/reducers";
 import { getGroupsApi } from "../../lib/api/group";
 import { getGroups } from "../../redux/actions/Group";
 import { useNavigate } from "react-router";
+import { mediaQuery } from "../../GlobalStyle";
 
 export const AddScheduleWrapper = styled.section`
   display: flex;
@@ -40,12 +41,18 @@ export const AddDiv = styled.div`
   border-radius: 0.5rem;
   border: 1px solid #cacacac0;
   box-shadow: 1px 1px 1px #cacaca57;
+  ${mediaQuery.mobile} {
+    max-width: 290px;
+    padding: 15px;
+    border-radius: 5px;
+  }
 `;
 
 export const DivWrapper = styled.div`
   display: flex;
   flex-direction: column;
   margin: 0.5rem;
+  /* align-items: center; */
 `;
 
 export const TitleHeader = styled.div`
@@ -60,6 +67,9 @@ export const Title = styled.div`
   &.sub {
     padding-left: 3px;
   }
+  &.padding {
+    padding-left: 20px;
+  }
 `;
 
 export const NameBox = styled.input`
@@ -70,6 +80,9 @@ export const NameBox = styled.input`
   box-shadow: 0.05rem 0.05rem 0.05rem #6969692d;
   margin: 0.2rem;
   background-color: white;
+  ${mediaQuery.mobile} {
+    max-width: 190px;
+  }
 `;
 
 export const TeamSelect = styled.select`
@@ -80,6 +93,9 @@ export const TeamSelect = styled.select`
   box-shadow: 0.05rem 0.05rem 0.05rem #6969692d;
   margin: 0.2rem;
   background-color: white;
+  ${mediaQuery.mobile} {
+    max-width: 260px;
+  }
 `;
 
 export const AddBtn = styled.button`
@@ -91,11 +107,15 @@ export const AddBtn = styled.button`
   cursor: pointer;
   margin: 0.5rem;
   background-color: #5c5c5c;
+  ${mediaQuery.mobile} {
+    max-width: 260px;
+  }
 `;
 
 export const Div1 = styled.div`
   display: flex;
   align-items: center;
+  justify-content: center;
 `;
 
 export default function AddSchedule() {
@@ -209,18 +229,20 @@ export default function AddSchedule() {
             </TeamSelect>
           </DivWrapper>
           <DivWrapper>
-            <Title>날짜선택</Title>
-            <DatePicker
-              locale={ko}
-              // placeholder="날짜를 선택해주세요"
-              selected={startDate}
-              dateFormat="MM/yyyy"
-              onChange={(date: any) => {
-                setStartDate(date);
-              }}
-              showMonthYearPicker
-              showFullMonthYearPicker
-            />
+            <Title className="padding">날짜선택</Title>
+            <Div1>
+              <DatePicker
+                locale={ko}
+                // placeholder="날짜를 선택해주세요"
+                selected={startDate}
+                dateFormat="MM/yyyy"
+                onChange={(date: any) => {
+                  setStartDate(date);
+                }}
+                showMonthYearPicker
+                showFullMonthYearPicker
+              />
+            </Div1>
           </DivWrapper>
           <AddBtn onClick={handleNewSchedule}>스케쥴생성</AddBtn>
           <ErrMsg className="centered">{errMessage}</ErrMsg>

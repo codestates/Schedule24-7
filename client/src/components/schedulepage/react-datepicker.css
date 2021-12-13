@@ -21,6 +21,19 @@
   background-color: white;
 }
 
+@media screen and (max-width: 480px) {
+  .react-datepicker__input-container > input {
+    max-width: 256px;
+    height: 40px;
+    margin-left: 20px;
+    padding-left: 10px;
+    border: 1px solid #a5a5a5;
+    box-shadow: 0.05rem 0.05rem 0.05rem #6969692d;
+    margin-top: 0.2rem;
+    background-color: white;
+  }
+}
+
 .react-datepicker__header {
   font-weight: bold;
 }

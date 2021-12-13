@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { mediaQuery } from "../../GlobalStyle";
 
 export const DivWrapper = styled.div`
   display: flex;
@@ -34,6 +35,10 @@ export const Div2 = styled.div`
 
   &.sub {
     width: 233px;
+  }
+
+  ${mediaQuery.mobile} {
+    max-width: 203px;
   }
 `;
 

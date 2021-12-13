@@ -1,7 +1,14 @@
 import axios from "axios";
 import { useState } from "react";
 import { useNavigate } from "react-router";
+import styled from "styled-components";
 import { ErrMsg, NormalBox, NormalBtn } from "../../style/theme";
+
+export const MainWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
 
 export default function FindPw() {
   const navigate = useNavigate();
@@ -38,7 +45,7 @@ export default function FindPw() {
   };
 
   return (
-    <>
+    <MainWrapper>
       <NormalBox
         type="text"
         placeholder="아이디를 입력하세요"
@@ -62,6 +69,6 @@ export default function FindPw() {
       ) : (
         ""
       )}
-    </>
+    </MainWrapper>
   );
 }

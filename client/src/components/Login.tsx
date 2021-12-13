@@ -1,10 +1,11 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import styled from "styled-components";
 import { loginChange } from "../redux/actions/loginActions";
 import { ErrMsg } from "../style/theme";
+// import GoogleLogin from "react-google-login";
 
 export const LoginItems = styled.div`
   display: flex;
@@ -57,8 +58,15 @@ export const LoginText = styled.div`
   margin-top: 0.1rem;
   font-size: 15px;
   margin-bottom: 0.15rem;
+  color: #3d3d3d;
   &:hover {
     color: #131db3;
+  }
+  a {
+    text-decoration: none;
+  }
+  a:visitied {
+    text-decoration: none;
   }
 `;
 
@@ -87,8 +95,7 @@ export default function Login() {
 
   //일반 로그인 요청 함수
   const handleLogin = () => {
-    window.localStorage.setItem("userId", loginInfo.userId);
-    window.localStorage.setItem("password", loginInfo.password);
+    window.localStorage.setItem("id", loginInfo.userId);
     axios
       .post("https://server.schedule24-7.link/auth/login", {
         userId: loginInfo.userId,
@@ -108,7 +115,12 @@ export default function Login() {
   //ouath 로그인 요청 함수
   const socialLoginHandler = () => {
     window.location.assign("https://server.schedule24-7.link/auth/google");
-    window.localStorage.setItem("token", document.cookie);
+
+    let newCookie = document.cookie;
+    let newCookieArr = newCookie.split(";");
+    console.log(newCookieArr[0]);
+
+    window.localStorage.setItem("token", newCookieArr[0]);
     dispatch(loginChange());
     // .accessToken
     // console.log(document.cookie);
@@ -116,7 +128,7 @@ export default function Login() {
 
   return (
     <div>
-      {/* {console.log(document.cookie)} */}
+      {console.log(document.cookie)}
       <form onSubmit={(e) => e.preventDefault()}>
         <LoginItems>
           <LoginBox
