@@ -3,13 +3,12 @@ import { InjectConnection } from "@nestjs/mongoose";
 import { Connection } from "mongoose";
 
 import HttpError from "src/commons/httpError";
-import { Schedule } from "src/entities/schedule.entity";
 import { AuthRepository } from "src/repositories/auth.repository";
 import { GroupRepository } from "src/repositories/group.repository";
 import { ScheduleRepository } from "src/repositories/schedule.repository";
 import { UserRepository } from "src/repositories/user.repository";
-import { CreateScheduleDto } from "./dto/create-schedule.dto";
-import { UpdateScheduleDto } from "./dto/update-schedule.dto";
+import { CreateScheduleDto } from "./dto/request/create-schedule.dto";
+import { UpdateScheduleDto } from "./dto/request/update-schedule.dto";
 
 @Injectable()
 export class ScheduleService {
@@ -28,10 +27,6 @@ export class ScheduleService {
     groupId: string,
     scheduleDto: CreateScheduleDto,
   ) {
-    // 요청 정보 확인
-    if (!auth || !groupId || !Object.keys(scheduleDto).length) {
-      throw new HttpError(400, "Bad Requst");
-    }
     // 토큰 복호화해서 정보 확인
     const { _id }: any = await this.authRepository.validateToken(auth);
     const userInfo: any = await this.userRepoSitory.getUserDataById(_id);
@@ -85,7 +80,7 @@ export class ScheduleService {
   ) {
     // 토큰 복호화해서 정보 확인
     try {
-      await this.authRepository.validateToken(auth);
+      this.authRepository.validateToken(auth);
     } catch {
       throw new HttpError(401, "Unauthorized");
     }
@@ -194,7 +189,7 @@ export class ScheduleService {
   async removeSchedule(auth: string, groupId: string, scheduleId: string) {
     try {
       // 토큰 정보 복호화
-      const { _id }: any = await this.authRepository.validateToken(auth);
+      const { _id }: any = this.authRepository.validateToken(auth);
       await this.userRepoSitory.getUserDataById(_id);
     } catch {
       throw new HttpError(401, "Unauthorized!");
@@ -209,7 +204,7 @@ export class ScheduleService {
     session.endSession();
   }
 
-  // 스케쥴 조회 부분
+  // 스케쥴 정보 공유를 위한 스케쥴 조회 부분
   async shareSchedule(scheduleId: string) {
     return await this.scheduleRepository.shareSchedule(scheduleId);
   }

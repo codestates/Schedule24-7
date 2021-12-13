@@ -4,7 +4,7 @@ import { Model } from "mongoose";
 import HttpError from "src/commons/httpError";
 
 import { Schedule } from "src/entities/schedule.entity";
-import { CreateScheduleDto } from "src/modules/schedule/dto/create-schedule.dto";
+import { CreateScheduleDto } from "src/modules/schedule/dto/request/create-schedule.dto";
 
 export class ScheduleRepository {
   constructor(
@@ -42,7 +42,7 @@ export class ScheduleRepository {
     return result;
   }
 
-  // 스케쥴 인원 변경을 위한 데이터 조회
+  // 스케쥴 기존 근무자 변경을 위한 데이터 조회
   async getScheduleFromContentId(scheduleId: string, contentId: number) {
     const result: any = await this.scheduleModel.findOne({
       $and: [
@@ -60,7 +60,7 @@ export class ScheduleRepository {
     return contents;
   }
 
-  // 스케쥴상 기존 근무자 변경
+  // 스케쥴상 기존 근무자에서 수정된 데이터를 적용하는 부분
   async updateSchedule(scheduleId: string, contentData: any) {
     const result: any = await this.scheduleModel.updateOne(
       { _id: scheduleId },

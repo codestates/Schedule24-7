@@ -1,16 +1,12 @@
 import { InjectModel } from "@nestjs/mongoose";
 import { Model } from "mongoose";
 
-import {
-  InternalServerErrorException,
-  NotFoundException,
-} from "@nestjs/common";
-
 import { Group } from "../entities/group.entity";
-import { User } from "src/entities/user.entity";
-import { CreateConditionDto } from "src/modules/group/dto/createCondition.dto";
-import { UpdateConditionDto } from "src/modules/group/dto/updateCondition.dto";
+import { CreateGroupReqDto } from "src/modules/group/dto/request/createGroup.dto";
+import { CreateConditionDto } from "src/modules/group/dto/request/createCondition.dto";
+import { UpdateConditionDto } from "src/modules/group/dto/request/updateCondition.dto";
 import HttpError from "src/commons/httpError";
+import { UpdateGroupReqDto } from "src/modules/group/dto/request/updateGroup.dto";
 
 export class GroupRepository {
   constructor(
@@ -18,30 +14,24 @@ export class GroupRepository {
     private readonly groupModel: Model<Group>,
   ) {}
   // 그룹생성
-  async createGroup(group: any) {
+  async createGroup(group: CreateGroupReqDto) {
     const newGroup: any = new this.groupModel({
       groupName: group.groupName,
       groupDesc: group.groupDesc,
       groupEmoji: group.groupEmoji,
       works: group.works,
     });
-    try {
-      const createdGroup: any = await newGroup.save();
-      return createdGroup;
-    } catch (err) {
-      throw new InternalServerErrorException(err);
-    }
+
+    const createdGroup: any = await newGroup.save();
+    return createdGroup;
   }
 
   // 그룹데이터 업데이트
-  async updateGroup(groupId: string, group: Group) {
-    const { groupName, groupDesc, groupEmoji, createdAt, works } = group;
+  async updateGroup(groupId: string, group: UpdateGroupReqDto) {
     const updateGroupData = await this.groupModel.updateOne(
       { _id: groupId },
       group,
     );
-    console.log("update");
-    console.log(updateGroupData);
     return updateGroupData;
   }
 
@@ -81,13 +71,9 @@ export class GroupRepository {
 
   // ? 그룹아이디를 통한 멤버 추가
   async addMemberToGroupByGroupId(groupId: string, newMember: any) {
-    return await this.groupModel.findByIdAndUpdate(
-      groupId,
-      {
-        $push: { members: newMember },
-      },
-      {},
-    );
+    return await this.groupModel.findByIdAndUpdate(groupId, {
+      $push: { members: newMember },
+    });
   }
 
   // ? 그룹아이디를 통한 그룹 내 memberIdCount 필드 값 +1 증가
@@ -249,7 +235,6 @@ export class GroupRepository {
         $push: { schedules: { _id: scheduleId } },
       },
     );
-    if (!updateGroup) throw new NotFoundException("Not Found");
     return updateGroup;
   }
 }
