@@ -118,9 +118,12 @@ export default function Login() {
 
     let newCookie = document.cookie;
     let newCookieArr = newCookie.split(";");
-    console.log(newCookieArr[0]);
+    // console.log(newCookieArr[0]);
+    let finalCookie = newCookieArr[0].split("%22")[3];
 
-    window.localStorage.setItem("token", newCookieArr[0]);
+    console.log(finalCookie);
+
+    window.localStorage.setItem("token", finalCookie);
     dispatch(loginChange());
     // .accessToken
     // console.log(document.cookie);

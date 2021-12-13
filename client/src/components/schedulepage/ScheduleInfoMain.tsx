@@ -2,16 +2,9 @@ import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import { BoxHeader, BoxSection, ErrMsg } from "../../style/theme";
-import DatePicker from "react-datepicker";
 import "./react-datepicker.css";
-import { ko } from "date-fns/esm/locale";
-import { ScheduleDummy, selectBoxOptions } from "./ScheduleDummy";
-import {
-  addNewSchedule,
-  saveSchedule,
-} from "../../redux/actions/scheduleActions";
+import { ScheduleDummy } from "./ScheduleDummy";
 import axios from "axios";
-import EmojiBox from "./EmojiBox";
 import { useEffect } from "react";
 import { useCallback } from "react";
 import { RootState } from "../../redux/reducers";
@@ -92,7 +85,7 @@ export const TeamSelect = styled.select`
   background-color: white;
 `;
 
-export const AddBtnWrapper = styled.button`
+export const AddBtnWrapper = styled.div`
   display: flex;
   border: none;
   background-color: #f9f9f9;
