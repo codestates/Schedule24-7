@@ -73,16 +73,19 @@ export default function Login() {
   const [isError, setIsError] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
 
+  //로그인할 아이디 비밀번호 상태
   const [loginInfo, setLoginInfo] = useState({
     userId: "",
     password: "",
   });
 
+  //로그인할 아이디 비밀번호 저장함수
   const handleLoginInfo =
     (key: string) => (e: React.ChangeEvent<HTMLInputElement>) => {
       setLoginInfo({ ...loginInfo, [key]: e.target.value });
     };
 
+  //일반 로그인 요청 함수
   const handleLogin = () => {
     window.localStorage.setItem("userId", loginInfo.userId);
     window.localStorage.setItem("password", loginInfo.password);
@@ -102,16 +105,18 @@ export default function Login() {
       });
   };
 
-  const socialLoginHandler = () => {
-    // window.location.assign("https://server.webmarker.link/users/auth/google");
-    // window.localStorage.setItem("token", document.cookie.accessToken);
-    // dispatch(loginChange());
-    return;
-  };
   //ouath 로그인 요청 함수
+  const socialLoginHandler = () => {
+    window.location.assign("https://server.schedule24-7.link/auth/google");
+    window.localStorage.setItem("token", document.cookie);
+    dispatch(loginChange());
+    // .accessToken
+    // console.log(document.cookie);
+  };
 
   return (
     <div>
+      {/* {console.log(document.cookie)} */}
       <form onSubmit={(e) => e.preventDefault()}>
         <LoginItems>
           <LoginBox

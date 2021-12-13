@@ -27,6 +27,9 @@ const NavBar = styled.nav`
 const MainDiv = styled.main`
   grid-area: main;
   padding: 0.25rem;
+  ${mediaQuery.mobile} {
+    padding: 0;
+  }
 `;
 
 const Side = styled.div`

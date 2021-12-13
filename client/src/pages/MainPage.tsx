@@ -17,10 +17,11 @@ function MainPage() {
     getGroupsApi().then((res) => {
       dispatch(getGroups(res.data));
     });
-  }, [groups]);
+  }, [dispatch]);
 
   return (
     <Layout title="홈">
+      {console.log(document.cookie)}
       <Main />
     </Layout>
   );

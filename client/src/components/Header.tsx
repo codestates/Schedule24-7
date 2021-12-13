@@ -18,12 +18,19 @@ const Block = styled.header`
 const HeaderLeft = styled.div`
   width: 270px;
   padding-left: 1rem;
+  ${mediaQuery.mobile} {
+    width: 155px;
+    padding-left: 5px;
+  }
 `;
 const HeaderRight = styled.div`
   display: flex;
   justify-content: right;
-  width: 150px;
+  width: 130px;
   padding-right: 1rem;
+  ${mediaQuery.mobile} {
+    padding-right: 5px;
+  }
 `;
 const HeaderCenter = styled.div``;
 const PageTitle = styled.div`
@@ -38,7 +45,12 @@ const PageTitle = styled.div`
 
 const HeaderLogo = styled.img`
   width: 10rem;
-  /* ${hideMobileCss(true)} */
+  ${hideMobileCss(true)}
+`;
+
+const MobileLogo = styled.img`
+  width: 95px;
+  ${hideMobileCss(false)}
 `;
 
 const PageName = styled.span`
@@ -70,8 +82,6 @@ const UserInfoWrap = styled.div`
 const LogoWrapper = styled.div`
   width: 64px;
   height: 42px;
-  background-color: #fff;
-
   ${hideMobileCss(false)}
 `;
 
@@ -131,7 +141,7 @@ const Header: FC<Props> = ({ title }) => {
       <HeaderLeft>
         <Link to="/">
           <HeaderLogo src="https://media.discordapp.net/attachments/907157959333785630/916227740267581440/S247_Logoheadertitle.png" />
-          {/* <LogoWrapper /> */}
+          <MobileLogo src="https://media.discordapp.net/attachments/907157959333785630/919775103275892747/S247_Logomobiletitle.png" />
         </Link>
       </HeaderLeft>
       <HeaderCenter>
