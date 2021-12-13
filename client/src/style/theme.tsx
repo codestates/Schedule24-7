@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { mediaQuery } from "../GlobalStyle";
 
 export const MainWrapper = styled.div`
   height: 100vh;
@@ -14,9 +15,6 @@ export const MainLogo = styled.img`
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  @media screen and (max-width: 600px) {
-    width: 200px;
-  }
 `;
 
 export const BoxSection = styled.section`
@@ -113,6 +111,9 @@ export const NormalBox = styled.input`
   box-shadow: 0.05rem 0.05rem 0.05rem #6969692d;
   margin: 0.2rem;
   background-color: white;
+  ${mediaQuery.mobile} {
+    max-width: 260px;
+  }
 `;
 
 export const NormalBtn = styled.button`
@@ -133,6 +134,10 @@ export const NormalBtn = styled.button`
   }
   &.out {
     background-color: #b90000;
+  }
+
+  ${mediaQuery.mobile} {
+    max-width: 273px;
   }
 `;
 

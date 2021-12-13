@@ -22,6 +22,7 @@ import Layout from "../Layout";
 import ScheduleInfoView from "./ScheduleInfoView";
 import ScheduleInfoEdit from "./ScheduleInfoEdit";
 import { useParams } from "react-router";
+import { mediaQuery } from "../../GlobalStyle";
 
 export const AddScheduleWrapper = styled.section`
   display: flex;
@@ -44,6 +45,11 @@ export const AddDiv = styled.div`
   border-radius: 0.5rem;
   border: 1px solid #cacacac0;
   box-shadow: 1px 1px 1px #cacaca57;
+  ${mediaQuery.mobile} {
+    max-width: 290px;
+    padding: 15px;
+    border-radius: 5px;
+  }
 `;
 
 export const DivWrapper = styled.div`
@@ -108,6 +114,9 @@ export const AddBtn = styled.button`
   &.edit {
     width: 300px;
   }
+  ${mediaQuery.mobile} {
+    max-width: 127px;
+  }
 `;
 
 export const Div2 = styled.div`
@@ -122,6 +131,10 @@ export const Div2 = styled.div`
 
   &.sub {
     width: 240px;
+  }
+
+  ${mediaQuery.mobile} {
+    max-width: 260px;
   }
 `;
 
