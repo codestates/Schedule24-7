@@ -4,14 +4,15 @@ import { DefaultLayout, hideMobileCss, mediaQuery } from "../../GlobalStyle";
 import MemberListEditItem from "./MemberListEditItem";
 
 const Block = styled.div`
-  width: 370px;
+  min-width: 370px;
   left: 10px;
   top: 160px;
-  background: #ffffff;
-  box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.25);
-  border-radius: 15px;
-  margin: 10px;
-  padding: 15px 0;
+  background-color: #ffffff;
+  box-shadow: 3px rgba(0, 0, 0, 0.25);
+  border-radius: 0.5rem;
+  border: 0.01rem solid rgba(0, 0, 0, 0.15);
+  margin: 5px;
+  padding: 5px 0;
 
   div.name {
     font-style: normal;
@@ -31,13 +32,13 @@ const Block = styled.div`
   &.open {
     width: 370px;
     background: #ffffff;
-    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.25);
-    border-radius: 15px;
+    box-shadow: 3px rgba(0, 0, 0, 0.25);
+    border-radius: 0.5rem;
   }
 
   div.header {
     padding: 0 40px;
-    padding-top: 20px;
+    padding-top: 10px;
     display: flex;
     align-items: center;
     justify-content: space-between;

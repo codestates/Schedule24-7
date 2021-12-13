@@ -1,4 +1,4 @@
-import { FC, useState, useCallback, ChangeEvent,useEffect } from "react";
+import { FC, useState, useCallback, ChangeEvent } from "react";
 import styled from "styled-components";
 import { DefaultLayout, hideMobileCss, mediaQuery } from "../../GlobalStyle";
 import SmallButton from "./SmallButton";
@@ -125,6 +125,8 @@ const MemberListEditItem: FC<Props> = ({ target, cycle, workId, operation, value
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { groupId } = useParams();
+  const groups = useSelector((store: RootState) => store.group.groups);
+  const selectGroup = (groups ? (groups.find((item) => item._id === groupId)) : (null))
     const [formState, setFromState] = useState<ConditionAddState>({
     conditionName: "조건명",
     conditionDesc: "조건설명을 적어주세요",
@@ -134,28 +136,6 @@ const MemberListEditItem: FC<Props> = ({ target, cycle, workId, operation, value
     operation: "<",
     value: 1,  
     });
-  const groups = useSelector((store: RootState) => store.group.groups);
-  const selectGroup = (groups ? (groups.find((item) => item._id === groupId)) : (null))
-  
-    useEffect(() => {
-    getGroupsApi().then((res) => {
-      const selectgroup = res.data.find((item) => item._id === groupId);
-      if (selectgroup === undefined) return;
-
-      const { conditionName, conditionDesc, target, cycle, workId, operation, value} = selectgroup;
-
-      setFromState({
-        conditionName,
-        conditionDesc,
-        target,
-        cycle,
-        workId,
-        operation,
-        value,  
-      });
-    });
-    }, [groupId]);
-  
   const [isEdit, setIsEdit] = useState(false);
   const handleButton = () => {
     setIsEdit(true)

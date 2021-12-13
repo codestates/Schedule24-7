@@ -78,16 +78,17 @@ const WorkInput = styled.div`
 `;
 
 const EditBlock = styled.div`
-  position: absolute;
   width: 370px;
-  height: 250px;
-  margin-top: 70px;
-  margin-left: 20px;
+  min-height: 250px;
+  margin-left: 10px;
   display: flex;
   flex-direction: column;
-   background: #FFFFFF;
-  box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.25);
-  border-radius: 15px;
+  background-color: #ffffff;
+  box-shadow: 3px rgba(0, 0, 0, 0.25);
+  border-radius: 0.5rem;
+  border: 0.01rem solid rgba(0, 0, 0, 0.15);
+  padding-top: 10px;
+  padding-bottom: 10px;
 `;
 
 interface ConditionAddState {
@@ -102,12 +103,12 @@ interface ConditionAddState {
 
 interface Props {
   groupId: string | undefined;
+  handleAddCancle: () => void;
 }
 
-const AddConditionList: FC<Props> = ({groupId}) => {
+const AddConditionList: FC<Props> = ({groupId, handleAddCancle}) => {
   const groups = useSelector((store: RootState) => store.group.groups);
   const selectGroup = groups.find((item) => item._id === groupId);
-
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [formState, setFromState] = useState<ConditionAddState>({
@@ -119,6 +120,9 @@ const AddConditionList: FC<Props> = ({groupId}) => {
     operation: "<",
     value: 1    
   });
+  const selectWork = selectGroup?.works.find((item) => item.workId === formState.workId)
+  console.log(selectWork, 1)
+  console.log(selectGroup, 2)
   
    const changeInputHandler = useCallback((e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -144,7 +148,11 @@ const AddConditionList: FC<Props> = ({groupId}) => {
     setIsEdit(false)
    }
   
-    const createCondition = async () => {
+  const createCondition = async () => {
+    setFromState((prev) => ({
+      ...prev,
+      conditionName: `모든인원 ${formState.cycle === "monthly" ? "월간" : "주간"} 연속 ${formState.value}회 ${formState.workId} 불가`
+    }))
     const { conditionName, conditionDesc, target, cycle,  workId, operation, value , } = formState;
     try {
       await createGroupConditionApi({
@@ -161,8 +169,9 @@ const AddConditionList: FC<Props> = ({groupId}) => {
       dispatch(getGroups(response.data));
       alert("조건생성 완료!");
       navigate(`/group/${groupId}/condition`);
+      handleAddCancle()
     } catch (err) {
-      // TODO 그룹 생성 실패 에러 처리.
+      alert("조건 생성 실패!")
     }
   };
 
@@ -248,8 +257,8 @@ const AddConditionList: FC<Props> = ({groupId}) => {
           color={"black"}
           />
           <SmallButton
-          title={"삭제"}
-          onClick={handleCancleButton}
+          title={"취소"}
+          onClick={handleAddCancle}
           color={"grey"}
           />
         </DescBlock>          

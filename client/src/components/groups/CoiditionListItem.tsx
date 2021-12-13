@@ -10,18 +10,16 @@ import { getGroupsApi } from "../../lib/api/group";
 
 const Block = styled.div`
   width: 370px;
-  height: 70px;
   left: 10px;
   top: 160px;
-  background: #FFFFFF;
-  box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.25);
-  border-radius: 15px;
+  background-color: #ffffff;
+  box-shadow: 3px rgba(0, 0, 0, 0.25);
+  border-radius: 0.5rem;
+  border: 0.01rem solid rgba(0, 0, 0, 0.15);
   margin: 10px;
+  padding: 5px 0;
 
   div.name {
-  position: absolute;
-  margin-top: 17px;
-  margin-left: 35px;
   font-style: normal;
   font-weight: bold;
   font-size: 20px;
@@ -29,9 +27,7 @@ const Block = styled.div`
   }
 
   div.position {
-  position: absolute;
-  margin-top: 40px;
-  margin-left: 35px;
+  margin-top: 3px;
   font-style: normal;
   font-weight: 300;
   font-size: 12px;
@@ -40,21 +36,26 @@ const Block = styled.div`
 
   &.open {
   width: 370px;
-  height: 300px;
   background: #FFFFFF;
-  box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.25);
-  border-radius: 15px;  
+  border-radius: 0.5rem;
+  box-shadow: 3px rgba(0, 0, 0, 0.25);
+  }
+
+
+  div.header {
+    padding: 0 40px;
+    padding-top: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
   }
   
   div.close {
-  display: none
+   display: none;
   }
 `;
 
 const VsibleWrapper = styled.div`
-  position: absolute;
-  margin-top: 30px;
-  margin-left: 315px;
   display: flex;
   align-items: center;
   cursor: pointer;
@@ -81,11 +82,12 @@ interface Props {
   operation: string,
   value: number
   conditionId: number;
+  workName: string;
 }
 
 
 const CoiditionListItem: FC<Props> = (
- {conditionName, conditionDesc, target, cycle, workId, operation, value, conditionId }
+ {conditionName, conditionDesc, target, cycle, workId, operation, value, conditionId, workName }
 ) => {
   const [isOpen, setIsOpen] = useState(false)
   const toggleIsOpen = useCallback(() => {
@@ -95,20 +97,19 @@ const CoiditionListItem: FC<Props> = (
   const groups = useSelector((store: RootState) => store.group.groups);
   const { groupId } = useParams();
   const selectGroup = groups.find((item) => item._id === groupId);
-  console.log(selectGroup, 1)
   
   return (
     <>
-      <Block
-       className= {isOpen ? "open" : ""}
-      >
-        <div className="name">{conditionName}</div>
-        <div className="position">{conditionDesc}</div>
+      <Block className={isOpen ? "open" : ""}>
+        <div className="header">
+          <div>
+           <div className="name">{conditionName}</div>
+           <div className="position">{conditionDesc}</div>
+          </div>
           <VsibleWrapper onClick={toggleIsOpen}>
-          <div
-           className= {isOpen ? "open" : ""}
-          />
-        </VsibleWrapper>
+          <div className= {isOpen ? "open" : ""}/>
+          </VsibleWrapper>
+        </div>
         <div className={isOpen ? "open" : "close"}>
           <ConditionListEditItem
             target={target}
@@ -117,6 +118,7 @@ const CoiditionListItem: FC<Props> = (
             operation={operation}
             value={value}
             conditionId={conditionId}
+            workName={workName}
           />
         </div>
       </Block>

@@ -13,7 +13,8 @@ namespace Group {
       workId: number;
       value: number;
       operation: string;
-      conditionId: number;
+      conditionId: number;      
+      workName: string;
     }[];
     members: {
       memberId: number;
@@ -27,10 +28,19 @@ namespace Group {
       limit: number;
       workId: number;
     }[];
-    memberId: number;
-    memberName: string;
-    memberPosition: string;
-    memberVacation: any[];
+      memberId: number;
+      memberName: string;
+      memberPosition: string;
+      memberVacation: any[];
+      conditionName: string;
+      conditionDesc: string;
+      target: string;
+      cycle: string;
+      workId: number;
+      value: number;
+      operation: string;
+      conditionId: number;      
+      workName: string;
   }
 
   interface GroupMemberCreateReqDTO {
