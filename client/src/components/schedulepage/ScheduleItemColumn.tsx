@@ -3,10 +3,8 @@ import { useNavigate } from "react-router";
 import styled from "styled-components";
 import { mediaQuery } from "../../GlobalStyle";
 import {
-  addCurrentContentId,
   addCurrentGroupId,
   addCurrentView,
-  addCurrentWork,
 } from "../../redux/actions/scheduleActions";
 
 export const Box = styled.div`
@@ -102,13 +100,12 @@ export const SingleWorker = styled.div`
 `;
 
 export default function ScheduleItemColumn({ DayNum, NewDummy }: any) {
-  // console.log(NewDummy[0]);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
   let viewData: any;
   if (NewDummy !== undefined) {
-    viewData = NewDummy[0].contents.filter((el: any) => {
+    viewData = NewDummy.contents.filter((el: any) => {
       let tmp1 = el.date.split(",");
       let tmp2 = tmp1[0].split("/");
       if (tmp2[0] < 10) {
@@ -119,24 +116,21 @@ export default function ScheduleItemColumn({ DayNum, NewDummy }: any) {
       }
 
       let result = `${tmp2[2]}-${tmp2[0]}-${tmp2[1]}`;
-      // console.log(result);
 
       return result === DayNum;
     });
   }
-  // console.log(viewData);
 
   const handleOpenEdit = (data: any, id: string) => {
     dispatch(addCurrentView(data));
     dispatch(addCurrentGroupId(id));
-    navigate("/schedule/editworker");
+    navigate(
+      `/schedule/editworker/${NewDummy.group.groupId}/${NewDummy._id}/${viewData[0].contentId}`
+    );
   };
 
   return (
     <Box>
-      {/* {console.log(NewDummy)} */}
-      {/* {console.log(viewData)} */}
-      {/* {console.log(DayNum)} */}
       <Day>{DayNum.split("-")[2]}</Day>
       {viewData !== undefined ? (
         viewData.length !== 0 ? (
@@ -147,7 +141,7 @@ export default function ScheduleItemColumn({ DayNum, NewDummy }: any) {
               return (
                 <WorkWrapper
                   onClick={() =>
-                    handleOpenEdit(viewData, NewDummy[0].group.groupId)
+                    handleOpenEdit(viewData, NewDummy.group.groupId)
                   }
                   key={idx}
                 >

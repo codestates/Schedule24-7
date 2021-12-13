@@ -51,7 +51,7 @@ interface Props {
   schedule: any;
 }
 
-const ScheduleThreeDot: FC<Props> = ({ schedule }) => {
+const MainScheduleThreeDot: FC<Props> = ({ schedule }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -70,7 +70,7 @@ const ScheduleThreeDot: FC<Props> = ({ schedule }) => {
         getGroupsApi().then((res) => {
           dispatch(getGroups(res.data));
         });
-        navigate("/schedule");
+        navigate("/");
         alert("스케쥴이 삭제되었습니다");
       });
   };
@@ -89,7 +89,6 @@ const ScheduleThreeDot: FC<Props> = ({ schedule }) => {
 
   return (
     <Block id="ThreeDot">
-      {console.log(schedule)}
       <div onClick={() => handleSetViewId(schedule)}>스케줄정보</div>
       <div
         onClick={() => {
@@ -103,4 +102,4 @@ const ScheduleThreeDot: FC<Props> = ({ schedule }) => {
   );
 };
 
-export default ScheduleThreeDot;
+export default MainScheduleThreeDot;

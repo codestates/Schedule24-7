@@ -6,7 +6,7 @@ import {
   addCurrentData,
   setFirstView,
 } from "../../redux/actions/scheduleActions";
-import ScheduleThreeDot from "./ScheduleThreeDot";
+import MainScheduleThreeDot from "./MainScheduleThreeDot";
 
 export const MainDiv = styled.div`
   display: flex;
@@ -80,7 +80,7 @@ export const BackGround = styled.div`
   right: 0%;
 `;
 
-export default function BoxItem({ schedule }: any) {
+export default function MainBoxItem({ schedule }: any) {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [openThreeDot, setOpenThreeDot] = useState(false);
@@ -97,16 +97,13 @@ export default function BoxItem({ schedule }: any) {
 
   //스케쥴 조회 함수
   const connectViewSchedule = (data: any): void => {
-    // console.log(data);
     dispatch(setFirstView(data));
     dispatch(addCurrentData(data));
-    // window.localStorage.setItem("data", data);
     navigate(`/schedule/view/${schedule.group.groupId}/${schedule._id}`);
   };
 
   return (
     <MainDiv>
-      {/* {console.log(schedule)} */}
       <Div1>
         <SubDiv1>{schedule.scheduleEmoji}</SubDiv1>
         <SubDiv2>
@@ -118,7 +115,7 @@ export default function BoxItem({ schedule }: any) {
         </SubDiv2>
         {openThreeDot ? (
           <>
-            <ScheduleThreeDot schedule={schedule} />
+            <MainScheduleThreeDot schedule={schedule} />
             <BackGround onClick={handleCloseThreeDot}></BackGround>
           </>
         ) : (

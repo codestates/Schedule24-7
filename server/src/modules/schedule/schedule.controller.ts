@@ -45,24 +45,27 @@ export class ScheduleController {
     @Param("groupId") groupId: string,
     @Param("scheduleId") scheduleId: string,
     @GetSchedule() schedule: Schedule,
-    @Res() res: any,
   ) {
     // 요청 정보 확인
     if (
       !authorization ||
       !groupId ||
       !scheduleId ||
+      !schedule ||
       !Object.keys(schedule).length
     ) {
       throw new HttpError(400, "Bad Requst");
     }
-    const result: any = await this.scheduleService.modifySchedule(
+    await this.scheduleService.modifySchedule(
       authorization,
       groupId,
       scheduleId,
       schedule,
     );
-    if (result) return res.status(HttpStatus.OK).send(result);
+    return {
+      status: 200,
+      memssage: "OK",
+    };
   }
 
   // 스케쥴 배정 인원 수정
@@ -71,27 +74,25 @@ export class ScheduleController {
     @Headers("Authorization") authorization: string,
     @Param() params: { groupId: string; scheduleId: string; contentId: number },
     @GetSchedule() schedule: any,
-    @Res() res: any,
   ) {
-    const { team } = schedule;
-
     // 요청 정보 확인
     if (
       !authorization ||
       !params.groupId ||
       !params.scheduleId ||
       !params.contentId ||
-      !Object.keys(team).length ||
-      team[0].members.length < 3
+      !schedule ||
+      !Object.keys(schedule).length
     ) {
       throw new HttpError(400, "Bad Requst");
     }
-    const result: any = await this.scheduleService.updateSchedule(
-      authorization,
-      params,
-      team,
-    );
-    if (result) return res.status(HttpStatus.OK).send(result);
+    const { team } = schedule;
+    await this.scheduleService.updateSchedule(authorization, params, team);
+
+    return {
+      status: 200,
+      message: "OK",
+    };
   }
 
   // 스켸쥴 삭제
@@ -100,14 +101,20 @@ export class ScheduleController {
     @Headers("Authorization") authorization: string,
     @Param("groupId") groupId: string,
     @Param("scheduleId") scheduleId: string,
-    @Res() res: any,
   ) {
+    // 요청 정보 확인
+    if (!authorization || !groupId || !scheduleId) {
+      throw new HttpError(400, "Bad Requst");
+    }
     await this.scheduleService.removeSchedule(
       authorization,
       groupId,
       scheduleId,
     );
-    return res.status(HttpStatus.OK).send("OK");
+    return {
+      status: 200,
+      message: "OK",
+    };
   }
 
   // 스케쥴 공유링크로 들어왔을때 해당하는 스케쥴 아이디의 정보 조회

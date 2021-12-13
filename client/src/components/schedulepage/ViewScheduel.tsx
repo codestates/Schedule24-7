@@ -5,9 +5,14 @@ import { dayArr, ScheduleDummy } from "./ScheduleDummy";
 import ScheduleItem from "./ScheduleItem";
 import TableHeader from "./TableHeader";
 import { useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../redux/reducers";
 import ScheduleItemColumn from "./ScheduleItemColumn";
+import moment from "moment";
+import { Navigate, useNavigate, useParams } from "react-router";
+import { getGroupsApi } from "../../lib/api/group";
+import { getGroups } from "../../redux/actions/Group";
+import { Link } from "react-router-dom";
 
 export const ViewScheduleWrapper = styled.div`
   display: flex;
@@ -43,6 +48,14 @@ export const TableTitle = styled.div`
   font-weight: bold;
   margin: 5px;
   text-align: cneter;
+  a {
+    color: black;
+    text-decoration: none;
+  }
+  a:visited {
+    color: black;
+    text-decoration: none;
+  }
 `;
 
 export const SubTextWrapper = styled.div`
@@ -77,15 +90,42 @@ export const ScheduleColumnTable = styled.div`
 `;
 
 export default function ViewSchedule() {
-  const scheduleData = useSelector((state: RootState) => state.scheduleReducer);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const params = useParams();
 
-  const [currentDate, setCurrentDate] = useState(
-    () => scheduleData.firstView.date
-  );
-  const [currentData, setCurrentData] = useState<any[] | undefined>(undefined);
-  const [currentId, setCurrentId] = useState<string | undefined>(
-    scheduleData.firstView.id
-  );
+  //스토리지에서 데이터 호출
+  const groups = useSelector((store: RootState) => store.group.groups);
+
+  //현재 그룹 필터링
+  const currentGroup: any = groups.filter((el: any) => {
+    return el._id === params.groupId;
+  });
+
+  //현재 스케쥴만 필터링
+  let currentSchedule: any;
+  if (currentGroup.length !== 0) {
+    currentSchedule = currentGroup[0].schedules.filter((el: any) => {
+      return el._id === params.scheduleId;
+    });
+  } else {
+    currentSchedule = ScheduleDummy;
+  }
+
+  //페이지 첫 렌더링 또는 새로고침시 실행
+  useEffect(() => {
+    getGroupsApi().then((res) => {
+      dispatch(getGroups(res.data));
+    });
+    handleFirstRender(currentSchedule[0].period);
+  }, [dispatch, params]);
+
+  useEffect(() => {
+    handleFirstRender(currentSchedule[0].period);
+  }, [groups]);
+
+  //현재 날짜
+  const [currentDate, setCurrentDate] = useState(moment().format("YYYY-MM-DD"));
 
   //보기모드 변경 상태
   const [viewMode, setViewMode] = useState(true);
@@ -95,67 +135,55 @@ export default function ViewSchedule() {
     setViewMode(value);
   };
 
-  //최초렌더링시 실행
-  useEffect(() => {
-    setCurrentId(scheduleData.firstView.id);
-    setCurrentDate(scheduleData.firstView.date);
-    handleFirstRender(scheduleData.firstView.date);
-  }, []);
-
-  let newDummy: any[];
-  let newArr: string[] = Calendar(currentDate);
-
   //드롭다운 바뀔때 캘린더 렌더하는 함수
+  let newArr: string[] = Calendar(currentDate);
   const handleCurrentDate = (e: React.ChangeEvent<HTMLSelectElement>): void => {
-    let tmp = scheduleData.data.filter((el: any) => {
-      return el._id === e.target.value;
-    });
-
-    let newDate = tmp[0].period;
-
-    setCurrentDate(newDate);
-    newArr = Calendar(newDate);
-    newDummy = scheduleData.data.filter((el: any) => {
-      return el._id === e.target.value;
-    });
-    // console.log(newDummy);
-    setCurrentData(newDummy);
+    let url = e.target.value.split(",");
+    navigate(`/schedule/view/${url[0]}/${url[1]}`);
   };
 
   //최초렌더링시 캘린더 렌더링 함수
   const handleFirstRender = (date: string): void => {
     setCurrentDate(date);
     newArr = Calendar(date);
-    newDummy = scheduleData.data.filter((el: any) => {
-      return el._id === currentId;
-    });
-    setCurrentData(newDummy);
   };
 
-  let table = scheduleData.data.filter((el: any) => {
-    return el._id === scheduleData.firstView.id;
+  //목록형 캘린더 만드는 함수
+  let columnArr = newArr.filter((el: any) => {
+    let tmp: string;
+    if (Number(currentDate.split("-")[1]) < 10) {
+      tmp = `0${currentDate.split("-")[1]}`;
+    } else {
+      tmp = currentDate.split("-")[1];
+    }
+    return el.split("-")[1] === tmp;
   });
-  let tableName: string = table[0].scheduleName;
-  let tableTeam: string = table[0].group.groupName;
+
+  //스케쥴 이름 및 팀이름
+  let tableName: string = currentSchedule[0].scheduleName;
+  let tableTeam: string = currentSchedule[0].group.groupName;
 
   return (
     <ViewScheduleWrapper>
-      {/* {console.log(currentId)} */}
-      {/* {console.log(newDummy)} */}
-      {/* {console.log(scheduleData)} */}
-      {/* {console.log(table)} */}
       <TableTopWrapper>
         <SelectBox onChange={handleCurrentDate}>
-          {scheduleData.data.map((el: any, idx) => {
-            return (
-              <option key={idx} value={el._id}>
-                {el.scheduleName}
-              </option>
-            );
+          {groups.map((el: any, idx: any) => {
+            return el.schedules.map((item: any, idx: any) => {
+              return (
+                <option key={idx} value={[el._id, item._id]}>
+                  {item.scheduleName}
+                </option>
+              );
+            });
           })}
         </SelectBox>
         <DateWrapper>
-          <TableTitle>{tableName}</TableTitle>
+          <TableTitle>
+            <Link to={`/schedule/info/${params.groupId}/${params.scheduleId}`}>
+              {tableName}
+            </Link>
+          </TableTitle>
+
           <SubTextWrapper>
             <SubText>
               {currentDate.split("-")[0]}년 {currentDate.split("-")[1]}월
@@ -170,12 +198,12 @@ export default function ViewSchedule() {
       </TableTopWrapper>
       {viewMode ? (
         <ScheduleColumnTable>
-          {newArr.map((el, idx) => {
+          {columnArr.map((el, idx) => {
             return (
               <ScheduleItemColumn
                 key={idx}
                 DayNum={el}
-                NewDummy={currentData}
+                NewDummy={currentSchedule[0]}
               />
             );
           })}
@@ -187,7 +215,11 @@ export default function ViewSchedule() {
           })}
           {newArr.map((el, idx) => {
             return (
-              <ScheduleItem key={idx} DayNum={el} NewDummy={currentData} />
+              <ScheduleItem
+                key={idx}
+                DayNum={el}
+                NewDummy={currentSchedule[0]}
+              />
             );
           })}
         </ScheduleTable>

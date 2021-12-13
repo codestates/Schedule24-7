@@ -142,7 +142,7 @@ export default function AddSchedule() {
           dispatch(getGroups(res.data));
         });
         alert("새스케쥴추가성공");
-        navigate("/schedule");
+        navigate(-1);
       })
       .catch((err) => {
         setErrMessage(err.message);

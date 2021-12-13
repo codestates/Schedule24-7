@@ -1,24 +1,23 @@
-import axios from "axios";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Layout from "../components/Layout";
 import Main from "../components/mainpage/Main";
-import { addNewSchedule, saveSchedule } from "../redux/actions/scheduleActions";
+import { getGroupsApi } from "../lib/api/group";
+import { getGroups } from "../redux/actions/Group";
 import { RootState } from "../redux/reducers";
 
 function MainPage() {
   const dispatch = useDispatch();
-  //스케쥴 업데이트
+
+  // 스토리지에서 데이터 호출
   const groups = useSelector((store: RootState) => store.group.groups);
+
+  //페이지 첫 렌더링 또는 새로고침시 실행
   useEffect(() => {
-    let schedules: any[] = [];
-    groups.forEach((el: any) => {
-      el.schedules.forEach((item: any) => schedules.push(item));
+    getGroupsApi().then((res) => {
+      dispatch(getGroups(res.data));
     });
-    if (schedules.length !== 0 || schedules! === undefined) {
-      dispatch(saveSchedule(schedules));
-    }
-  }, [dispatch]);
+  }, [groups]);
 
   return (
     <Layout title="홈">

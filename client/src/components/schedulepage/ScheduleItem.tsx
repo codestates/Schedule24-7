@@ -1,4 +1,11 @@
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router";
 import styled from "styled-components";
+import { mediaQuery } from "../../GlobalStyle";
+import {
+  addCurrentGroupId,
+  addCurrentView,
+} from "../../redux/actions/scheduleActions";
 
 export const Box = styled.div`
   min-width: 5rem;
@@ -32,23 +39,24 @@ export const WorkWrapper = styled.div`
   margin: 0.1rem;
   justify-content: center;
   align-items: center;
+  cursor: pointer;
 `;
 
 export const Work = styled.div`
   color: #444444;
   /* width: 1rem; */
   font-size: 15px;
-  margin-right: 0.1rem;
+  margin-right: 0.3rem;
   margin-left: 0.1rem;
 `;
 
 export const Worker = styled.div`
   display: flex;
   border-radius: 1rem;
-  max-width: 8rem;
-  max-height: 1.8rem;
+  max-width: 10rem;
+  height: 13px;
   color: #ffffff;
-  justify-content: center;
+  justify-content: left;
   /* align-items: center; */
   padding: 0.2rem 0.5rem;
   font-size: 13px;
@@ -63,12 +71,26 @@ export const Worker = styled.div`
   &.c {
     background-color: #4152a4;
   }
+
+  /* ${mediaQuery.mobile} {
+    width: 45px;
+  } */
+`;
+
+export const SingleWorker = styled.div`
+  margin-right: 5px;
+  /* ${mediaQuery.mobile} {
+    width: 45px;
+  } */
 `;
 
 export default function ScheduleItem({ DayNum, NewDummy }: any) {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
   let viewData: any;
   if (NewDummy !== undefined) {
-    viewData = NewDummy[0].contents.filter((el: any) => {
+    viewData = NewDummy.contents.filter((el: any) => {
       let tmp1 = el.date.split(",");
       let tmp2 = tmp1[0].split("/");
       if (tmp2[0] < 10) {
@@ -78,10 +100,17 @@ export default function ScheduleItem({ DayNum, NewDummy }: any) {
         tmp2[1] = `0${tmp2[1]}`;
       }
       let result = `${tmp2[2]}-${tmp2[0]}-${tmp2[1]}`;
-
       return result === DayNum;
     });
   }
+
+  const handleOpenEdit = (data: any, id: string) => {
+    dispatch(addCurrentView(data));
+    dispatch(addCurrentGroupId(id));
+    navigate(
+      `/schedule/editworker/${NewDummy.group.groupId}/${NewDummy._id}/${viewData[0].contentId}`
+    );
+  };
 
   return (
     <Box>
@@ -93,10 +122,17 @@ export default function ScheduleItem({ DayNum, NewDummy }: any) {
               let classes: string[] = ["a", "b", "c"];
               let className = classes[idx];
               return (
-                <WorkWrapper key={idx}>
+                <WorkWrapper
+                  onClick={() =>
+                    handleOpenEdit(viewData, NewDummy.group.groupId)
+                  }
+                  key={idx}
+                >
                   <Work>{el.work.workName}</Work>
                   <Worker className={className}>
-                    {el.members[0].memberName}
+                    {el.members.map((el: any) => {
+                      return <SingleWorker>{el.memberName}</SingleWorker>;
+                    })}
                   </Worker>
                 </WorkWrapper>
               );
@@ -110,4 +146,10 @@ export default function ScheduleItem({ DayNum, NewDummy }: any) {
       )}
     </Box>
   );
+}
+
+{
+  /* <Worker className={className}>
+{el.members[0].memberName}
+</Worker> */
 }

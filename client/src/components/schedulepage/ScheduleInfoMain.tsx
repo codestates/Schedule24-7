@@ -5,7 +5,7 @@ import { BoxHeader, BoxSection, ErrMsg } from "../../style/theme";
 import DatePicker from "react-datepicker";
 import "./react-datepicker.css";
 import { ko } from "date-fns/esm/locale";
-import { selectBoxOptions } from "./ScheduleDummy";
+import { ScheduleDummy, selectBoxOptions } from "./ScheduleDummy";
 import {
   addNewSchedule,
   saveSchedule,
@@ -21,6 +21,7 @@ import { useNavigate } from "react-router";
 import Layout from "../Layout";
 import ScheduleInfoView from "./ScheduleInfoView";
 import ScheduleInfoEdit from "./ScheduleInfoEdit";
+import { useParams } from "react-router";
 
 export const AddScheduleWrapper = styled.section`
   display: flex;
@@ -127,18 +128,31 @@ export const Div2 = styled.div`
 export default function ScheduleInfoMain() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const params = useParams();
 
-  // useEffect(() => {
-  //   getGroupsApi().then((res) => {
-  //     dispatch(getGroups(res.data));
-  //   });
-  // }, [dispatch]);
+  useEffect(() => {
+    getGroupsApi().then((res) => {
+      dispatch(getGroups(res.data));
+    });
+  }, [dispatch]);
 
-  // const groups = useSelector((store: RootState) => store.group.groups);
-  const scheduleData = useSelector((state: RootState) => state.scheduleReducer);
-  const currentSchedule = scheduleData.data.filter((el: any) => {
-    return (el.id = scheduleData.firstView.id);
+  //스토리지에서 데이터 호출
+  const groups = useSelector((store: RootState) => store.group.groups);
+
+  //현재 그룹 필터링
+  const currentGroup: any = groups.filter((el: any) => {
+    return el._id === params.groupId;
   });
+
+  //현재 스케쥴만 필터링
+  let currentSchedule: any;
+  if (currentGroup.length !== 0) {
+    currentSchedule = currentGroup[0].schedules.filter((el: any) => {
+      return el._id === params.scheduleId;
+    });
+  } else {
+    currentSchedule = ScheduleDummy;
+  }
 
   //스케쥴정보상태
   const [scheduleInfo, setScheduleInfo] = useState({
@@ -181,34 +195,38 @@ export default function ScheduleInfoMain() {
 
   //수정요청함수
   const handleScheduleEdit = () => {
-    axios
-      .patch(
-        `https://server.schedule24-7.link/schedule/${currentSchedule[0].group.groupId}/${currentSchedule[0].id}`,
-        {
-          scheduleName: scheduleInfo.scheduleName,
-          scheduleEmoji: scheduleEmoji,
-        },
-        {
-          headers: {
-            authorization: `Bearer ${window.localStorage.getItem("token")}`,
+    if (scheduleInfo.scheduleName !== "") {
+      axios
+        .patch(
+          `https://server.schedule24-7.link/schedule/${currentSchedule[0].group.groupId}/${currentSchedule[0]._id}`,
+          {
+            scheduleName: scheduleInfo.scheduleName,
+            scheduleEmoji: scheduleEmoji,
           },
-        }
-      )
-      .then(() => {
-        getGroupsApi().then((res) => {
-          dispatch(getGroups(res.data));
+          {
+            headers: {
+              authorization: `Bearer ${window.localStorage.getItem("token")}`,
+            },
+          }
+        )
+        .then(() => {
+          getGroupsApi().then((res) => {
+            dispatch(getGroups(res.data));
+          });
+          alert("수정완료");
+          navigate("/schedule");
+          setIsEditMode(false);
         });
-        alert("수정완료");
-        navigate("/schedule");
-        setIsEditMode(false);
-      });
+    } else {
+      alert("스케쥴이름을 입력해주세요");
+    }
   };
 
   //스케쥴 삭제 함수
   const handleDeleteSchedule = () => {
     axios
       .delete(
-        `https://server.schedule24-7.link/schedule/${currentSchedule[0].group.groupId}/${currentSchedule[0].id}`,
+        `https://server.schedule24-7.link/schedule/${currentSchedule[0].group.groupId}/${currentSchedule[0]._id}`,
         {
           headers: {
             authorization: `Bearer ${window.localStorage.getItem("token")}`,
@@ -226,10 +244,6 @@ export default function ScheduleInfoMain() {
 
   return (
     <Layout title="스케쥴">
-      {/* {console.log(scheduleData)} */}
-      {/* {console.log(currentSchedule[0])} */}
-      {/* {console.log(scheduleInfo)} */}
-      {/* {console.log(scheduleEmoji)} */}
       <BoxSection>
         <BoxHeader>
           <span>스케쥴정보</span>
@@ -257,8 +271,9 @@ export default function ScheduleInfoMain() {
             </DivWrapper>
             {isEditMode ? (
               <AddBtnWrapper>
-                <AddBtn className="edit" onClick={handleScheduleEdit}>
-                  수정완료
+                <AddBtn onClick={handleScheduleEdit}>수정완료</AddBtn>
+                <AddBtn className="delete" onClick={handleEditMode}>
+                  취소
                 </AddBtn>
               </AddBtnWrapper>
             ) : (
