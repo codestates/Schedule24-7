@@ -12,9 +12,9 @@ export const Box = styled.div`
   min-width: 5rem;
   min-height: 40px;
   background-color: #ffffff;
-  border-radius: 0.5rem;
+  border-radius: 5px;
   box-shadow: 3px rgba(0, 0, 0, 0.25);
-  border: 0.01rem solid rgba(0, 0, 0, 0.15);
+  border: 1px solid rgba(0, 0, 0, 0.15);
   margin: 0.1rem;
   align-items: center;
 `;
@@ -27,18 +27,18 @@ export const Worksdiv = styled.div`
   justify-content: center;
   margin-bottom: 0.1rem;
   flex: 1 1 auto;
+  ${mediaQuery.mobile} {
+    flex-direction: column;
+    padding: 3px;
+  }
 `;
 
 export const Day = styled.span`
   font-size: 14px;
   font-weight: bold;
   width: 30px;
-  /* height: 20px;
-  padding-top: 5px;
-  border-radius: 50%; */
   color: #494949;
   margin-left: 0.3rem;
-  /* background-color: #494949; */
   text-align: center;
   ${mediaQuery.mobile} {
     font-size: 11px;
@@ -48,31 +48,29 @@ export const Day = styled.span`
 
 export const WorkWrapper = styled.div`
   display: flex;
-  /* width: 100%; */
   margin: 0.5rem;
   justify-content: center;
   align-items: center;
   cursor: pointer;
   ${mediaQuery.mobile} {
-    margin: 0.2rem;
+    margin: 2px;
   }
 `;
 
 export const Work = styled.div`
   color: #444444;
-  /* width: 2rem; */
   font-size: 15px;
   margin-right: 0.3rem;
   margin-left: 0.3rem;
   ${mediaQuery.mobile} {
-    font-size: 11px;
+    font-size: 13px;
+    /* margin: 0.1rem; */
   }
 `;
 
 export const Worker = styled.div`
   display: flex;
-  border-radius: 1rem;
-  /* max-width: 10rem; */
+  border-radius: 5px;
   color: #ffffff;
   justify-content: center;
   align-items: center;
@@ -90,8 +88,10 @@ export const Worker = styled.div`
   }
 
   ${mediaQuery.mobile} {
-    font-size: 11px;
-    max-width: 6rem;
+    font-size: 13px;
+    max-width: 300px;
+    border-radius: 5px;
+    /* flex-direction: column; */
   }
 `;
 

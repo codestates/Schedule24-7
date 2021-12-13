@@ -13,6 +13,7 @@ import { Navigate, useNavigate, useParams } from "react-router";
 import { getGroupsApi } from "../../lib/api/group";
 import { getGroups } from "../../redux/actions/Group";
 import { Link } from "react-router-dom";
+import { mediaQuery } from "../../GlobalStyle";
 
 export const ViewScheduleWrapper = styled.div`
   display: flex;
@@ -56,6 +57,11 @@ export const TableTitle = styled.div`
     color: black;
     text-decoration: none;
   }
+
+  ${mediaQuery.mobile} {
+    font-size: 17px;
+    margin: 3px;
+  }
 `;
 
 export const SubTextWrapper = styled.div`
@@ -67,6 +73,9 @@ export const SubText = styled.div`
   margin-left: 5px;
   margin-right: 5px;
   text-align: cneter;
+  ${mediaQuery.mobile} {
+    font-size: 14px;
+  }
 `;
 
 export const ViewSelect = styled.div`
@@ -82,6 +91,9 @@ export const ScheduleTable = styled.div`
   margin: 1.5rem;
   grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
   grid-template-rows: 0.2fr 1fr 1fr 1fr 1fr 1fr 1fr;
+  ${mediaQuery.mobile} {
+    margin: 0;
+  }
 `;
 
 export const ScheduleColumnTable = styled.div`
@@ -183,7 +195,6 @@ export default function ViewSchedule() {
               {tableName}
             </Link>
           </TableTitle>
-
           <SubTextWrapper>
             <SubText>
               {currentDate.split("-")[0]}년 {currentDate.split("-")[1]}월

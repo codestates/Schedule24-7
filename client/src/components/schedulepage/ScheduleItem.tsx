@@ -10,12 +10,19 @@ import {
 export const Box = styled.div`
   min-width: 5rem;
   background-color: #ffffff;
-  border-radius: 0.5rem;
-  box-shadow: 0.05rem 0.05rem 0.1rem rgba(0, 0, 0, 0.25);
-  border: 0.01rem solid rgba(0, 0, 0, 0.15);
+  border-radius: 5px;
+  box-shadow: 0.05rem 0.05rem 0.1rem rgba(0, 0, 0, 0.151);
+  border: 1px solid rgba(0, 0, 0, 0.199);
   margin: 0.1rem;
   align-items: center;
   justify-content: center;
+  ${mediaQuery.mobile} {
+    min-width: 5px;
+    max-width: 50px;
+    margin: 0;
+    box-shadow: none;
+    border-radius: 3px;
+  }
 `;
 
 export const Worksdiv = styled.div`
@@ -44,20 +51,22 @@ export const WorkWrapper = styled.div`
 
 export const Work = styled.div`
   color: #444444;
-  /* width: 1rem; */
   font-size: 15px;
   margin-right: 0.3rem;
   margin-left: 0.1rem;
+  ${mediaQuery.mobile} {
+    font-size: 11px;
+    margin-right: 1px;
+  }
 `;
 
 export const Worker = styled.div`
   display: flex;
-  border-radius: 1rem;
+  border-radius: 5px;
   max-width: 10rem;
   height: 13px;
   color: #ffffff;
   justify-content: left;
-  /* align-items: center; */
   padding: 0.2rem 0.5rem;
   font-size: 13px;
   overflow: hidden;
@@ -72,16 +81,21 @@ export const Worker = styled.div`
     background-color: #4152a4;
   }
 
-  /* ${mediaQuery.mobile} {
-    width: 45px;
-  } */
+  ${mediaQuery.mobile} {
+    height: 10px;
+    font-size: 11px;
+    border-radius: 3px;
+    padding: 2px;
+  }
 `;
 
 export const SingleWorker = styled.div`
   margin-right: 5px;
-  /* ${mediaQuery.mobile} {
-    width: 45px;
-  } */
+
+  ${mediaQuery.mobile} {
+    width: 3px;
+    margin-right: 1px;
+  }
 `;
 
 export default function ScheduleItem({ DayNum, NewDummy }: any) {
@@ -129,11 +143,11 @@ export default function ScheduleItem({ DayNum, NewDummy }: any) {
                   key={idx}
                 >
                   <Work>{el.work.workName}</Work>
-                  <Worker className={className}>
-                    {el.members.map((el: any) => {
-                      return <SingleWorker>{el.memberName}</SingleWorker>;
-                    })}
-                  </Worker>
+                  {
+                    <Worker className={className}>
+                      {el.members[0].memberName}
+                    </Worker>
+                  }
                 </WorkWrapper>
               );
             })}
@@ -151,5 +165,13 @@ export default function ScheduleItem({ DayNum, NewDummy }: any) {
 {
   /* <Worker className={className}>
 {el.members[0].memberName}
+</Worker> */
+}
+
+{
+  /* <Worker className={className}>
+{el.members.map((el: any) => {
+  return <SingleWorker>{el.memberName}</SingleWorker>;
+})}
 </Worker> */
 }
