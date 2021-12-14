@@ -5,8 +5,8 @@ import styled from "styled-components";
 import { ErrMsg, MainLogo, MainWrapper } from "../style/theme";
 import Footer from "../components/Footer";
 import swal from "sweetalert";
-// import ReCAPTCHA from "react-google-recaptcha";
 import moment from "moment";
+import ReCAPTCHA from "react-google-recaptcha";
 
 axios.defaults.withCredentials = true;
 
@@ -117,6 +117,9 @@ function SignUpPage() {
   //메세지 렌더링 상태
   const [messageRender, setMessageRender] = useState(false);
 
+  //타이머 렌더링 상태
+  const [viewTimer, setViewTimer] = useState<boolean>(false);
+
   //타이머
   const [timer, setTimer] = useState<string>("");
 
@@ -216,6 +219,7 @@ function SignUpPage() {
           emailValidCheck: false,
         });
         setAuthId(res.data._id);
+        setViewTimer(true);
         startTimer(300);
       })
       .catch(() => {
@@ -231,9 +235,10 @@ function SignUpPage() {
         _id: authId,
       })
       .then(() => {
-        stopTimer(1);
+        // stopTimer(1);
         // setTimer("");
         // startTimer(0);
+        setViewTimer(false);
         setErrors({ ...errors, permitSignUpBtn: true, authCodeErr: false });
       })
       .catch(() => {
@@ -300,22 +305,22 @@ function SignUpPage() {
     });
   };
 
-  const stopTimer = (setTime: number): void => {
-    // let countDownDate = moment().add(setTime, "seconds");
-    // setInterval(function () {
-    //   let diff = countDownDate.diff(moment());
-    //   if (diff <= 0) {
-    //     setErrors({ ...errors, permitSignUpBtn: false });
-    //     return false;
-    //   } else {
-    //     setTimer(moment.utc(diff).format("mm:ss"));
-    //   }
-    // });
-    // console.log(setTimeId);
-    // clearInterval(setTimeId);
-    // setTimeId = null;
-    console.log("타이머끝");
-  };
+  // const stopTimer = (setTime: number): void => {
+  // let countDownDate = moment().add(setTime, "seconds");
+  // setInterval(function () {
+  //   let diff = countDownDate.diff(moment());
+  //   if (diff <= 0) {
+  //     setErrors({ ...errors, permitSignUpBtn: false });
+  //     return false;
+  //   } else {
+  //     setTimer(moment.utc(diff).format("mm:ss"));
+  //   }
+  // });
+  // console.log(setTimeId);
+  // clearInterval(setTimeId);
+  // setTimeId = null;
+  //   console.log("타이머끝");
+  // };
 
   return (
     <MainWrapper>
@@ -412,13 +417,17 @@ function SignUpPage() {
                   이메일인증
                 </SignUpBtn>
               </SignUpSubItem>
-              <SignUpSubItem className="timer">{timer}</SignUpSubItem>
-              {/* <SignUpItems>
+              {viewTimer ? (
+                <SignUpSubItem className="timer">{timer}</SignUpSubItem>
+              ) : (
+                ""
+              )}
+              <SignUpItems>
                 <ReCAPTCHA
                   sitekey="6LfebJ8dAAAAAM7VL3z0RwncwAA2czDI4bMLVZJc"
                   onChange={handleRecaptcha}
                 />
-              </SignUpItems> */}
+              </SignUpItems>
               {errors.authCodeErr ? (
                 <ErrMsg className="err">잘못된 인증번호 입니다</ErrMsg>
               ) : (
@@ -428,7 +437,7 @@ function SignUpPage() {
           ) : (
             ""
           )}
-          {errors.permitSignUpBtn ? (
+          {errors.permitSignUpBtn && errors.recaptcha ? (
             <SignUpItems>
               <SignUpBtn className="a" onClick={handleSignUp}>
                 회원가입
@@ -447,6 +456,16 @@ function SignUpPage() {
 export default SignUpPage;
 
 // {errors.permitSignUpBtn && errors.recaptcha ? (
+//   <SignUpItems>
+//     <SignUpBtn className="a" onClick={handleSignUp}>
+//       회원가입
+//     </SignUpBtn>
+//   </SignUpItems>
+// ) : (
+//   ""
+// )}
+
+// {errors.permitSignUpBtn ? (
 //   <SignUpItems>
 //     <SignUpBtn className="a" onClick={handleSignUp}>
 //       회원가입
