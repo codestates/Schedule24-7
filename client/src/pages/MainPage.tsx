@@ -16,6 +16,7 @@ function MainPage() {
   //페이지 첫 렌더링 또는 새로고침시 실행
   useEffect(() => {
     getGroupsApi().then((res) => {
+      console.log(res);
       dispatch(getGroups(res.data));
     });
   }, [dispatch]);
