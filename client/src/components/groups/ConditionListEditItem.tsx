@@ -121,6 +121,7 @@ interface ConditionAddState {
   workId: number;
   operation: string;
   value: number;
+  workName: string;
 }
 
 const MemberListEditItem: FC<Props> = ({
@@ -143,6 +144,7 @@ const MemberListEditItem: FC<Props> = ({
     workId: 1,
     operation: "<",
     value: 1,
+    workName: "",
   });
   const groups = useSelector((store: RootState) => store.group.groups);
   const selectGroup = groups.find((item) => item._id === groupId) ?? null;
@@ -176,8 +178,8 @@ const MemberListEditItem: FC<Props> = ({
       });
       const response = await getGroupsApi();
       dispatch(getGroups(response.data));
+      handleCancleButton()
       alert("조건삭제 완료!");
-      navigate(`/group/${groupId}/condition`);
     } catch (err) {
       alert("실패!");
     }
@@ -221,7 +223,9 @@ const MemberListEditItem: FC<Props> = ({
     try {
       await updateGroupConditionApi({
         groupId,
-        conditionName,
+        conditionName: `${
+          formState.cycle === "monthly" ? "월간" : "주간"
+        } 연속 ${formState.value}회 ${formState.workName} 불가`,
         conditionDesc,
         target,
         cycle,
@@ -345,7 +349,7 @@ const MemberListEditItem: FC<Props> = ({
         </DescBlock>
         <DescBlock className="button">
           <SmallButton
-            title={"수정"}
+            title={"저장"}
             onClick={updateCondition}
             color={"black"}
           />
