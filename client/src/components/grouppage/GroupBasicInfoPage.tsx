@@ -140,7 +140,7 @@ const GroupBasicInfoPage: FC = () => {
   const dispatch = useDispatch();
   const { groupId } = useParams();
   const groups = useSelector((store: RootState) => store.group.groups);
-  const selectgroup = groups.filter((item) => item._id === groupId)[0];
+  const selectgroup = groups.filter((item) => item._id === groupId)[0] ?? null;
 
   const handleEditButton = useCallback(() => {
     navigate(`/group/${groupId}/infoedit`);
@@ -168,10 +168,9 @@ const GroupBasicInfoPage: FC = () => {
 
   return (
     <Layout title="기본정보">
-      <GroupSelectBar id={groupId ?? ""} />
+      <GroupSelectBar id={groupId ?? ""} activeIdx={2} />
       <BoxSection>
-         <AddGroupWrapper>
-          {/* <GroupSelectBar {id}/> */}
+        <AddGroupWrapper>
           <AddDiv>
             <DivWrapper>
               <div>{selectgroup.groupEmoji}</div>

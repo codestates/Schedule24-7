@@ -13,6 +13,7 @@ import FindIdPw from "./components/routes/FindIdPw";
 import MyRoutes from "./components/routes/MyRoutes";
 import { getGroupsApi } from "./lib/api/group";
 import { getGroups } from "./redux/actions/Group";
+import "./lib/confirm/index.css";
 
 function App() {
   const loginState = useSelector((state: RootState) => state.loginReducer);
