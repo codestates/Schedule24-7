@@ -8,7 +8,7 @@ export interface GroupStore {
 const initialState: GroupStore = {
   groups: [],
   members: [],
-}
+};
 
 const groupReducer: Reducer<GroupStore, GroupAction> = (
   state = initialState,
@@ -16,9 +16,22 @@ const groupReducer: Reducer<GroupStore, GroupAction> = (
 ) => {
   switch (action.type) {
     case GET_GORUPS: {
+      const groups = (action.payload as Group.GroupListItemResDTO[]).map(
+        (group) => ({
+          ...group,
+          conditions: group.conditions.map((condition) => {
+            return {
+              ...condition,
+              workName:
+                group.works.find((work) => work.workId === condition.workId)
+                  ?.workName ?? "",
+            };
+          }),
+        })
+      );
       return {
         ...state,
-        groups: action.payload as Group.GroupListItemResDTO[],
+        groups,
       };
     }
     default: {

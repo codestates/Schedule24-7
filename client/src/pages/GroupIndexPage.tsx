@@ -33,16 +33,17 @@ const GroupIndexPage: FC = () => {
         <AddBtn onClick={handleClickLink}>새그룹추가</AddBtn>
       </BoxHeader>
       <BoxWrapper>
-        {groups ?    
-          groups.map((group) => (
-          <GroupListItem
-            id={group._id}
-            desc={group.groupDesc}
-            emoji={group.groupEmoji}
-            name={group.groupName}
-            key={group._id}
-          />
-        )): null}
+        {groups
+          ? groups.map((group) => (
+              <GroupListItem
+                id={group._id}
+                desc={group.groupDesc}
+                emoji={group.groupEmoji}
+                name={group.groupName}
+                key={group._id}
+              />
+            ))
+          : null}
 
         {/* <AddButton
           onClick={handleClickLink}
