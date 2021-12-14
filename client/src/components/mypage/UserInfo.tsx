@@ -254,6 +254,7 @@ function UserInfo() {
                   onChange={handlePassword("password")}
                 />
                 <NormalBtn onClick={checkPassword}>계정확인</NormalBtn>
+                <NormalBtn onClick={handleLogout}>로그아웃</NormalBtn>
               </UserInfoItems>
             </UserInfoWrapper>
           </form>
@@ -271,7 +272,6 @@ function UserInfo() {
           ) : (
             ""
           )}
-          <NormalBtn onClick={handleLogout}>로그아웃</NormalBtn>
         </UserInfoDiv>
       ) : (
         <UserInfoDiv>
@@ -302,8 +302,8 @@ function UserInfo() {
                 ) : (
                   ""
                 )}
+                <NormalBtn onClick={handleLogout}>로그아웃</NormalBtn>
               </UserInfoItems>
-              <NormalBtn onClick={handleLogout}>로그아웃</NormalBtn>
             </UserInfoWrapper>
           </form>
           {errorMessageCheck ? (
