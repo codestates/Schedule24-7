@@ -5,7 +5,7 @@ import styled from "styled-components";
 import { ErrMsg, MainLogo, MainWrapper } from "../style/theme";
 import Footer from "../components/Footer";
 import swal from "sweetalert";
-import ReCAPTCHA from "react-google-recaptcha";
+// import ReCAPTCHA from "react-google-recaptcha";
 import moment from "moment";
 
 axios.defaults.withCredentials = true;
@@ -413,12 +413,12 @@ function SignUpPage() {
                 </SignUpBtn>
               </SignUpSubItem>
               <SignUpSubItem className="timer">{timer}</SignUpSubItem>
-              <SignUpItems>
+              {/* <SignUpItems>
                 <ReCAPTCHA
                   sitekey="6LfebJ8dAAAAAM7VL3z0RwncwAA2czDI4bMLVZJc"
                   onChange={handleRecaptcha}
                 />
-              </SignUpItems>
+              </SignUpItems> */}
               {errors.authCodeErr ? (
                 <ErrMsg className="err">잘못된 인증번호 입니다</ErrMsg>
               ) : (
@@ -428,7 +428,7 @@ function SignUpPage() {
           ) : (
             ""
           )}
-          {errors.permitSignUpBtn && errors.recaptcha ? (
+          {errors.permitSignUpBtn ? (
             <SignUpItems>
               <SignUpBtn className="a" onClick={handleSignUp}>
                 회원가입
@@ -445,3 +445,13 @@ function SignUpPage() {
 }
 
 export default SignUpPage;
+
+// {errors.permitSignUpBtn && errors.recaptcha ? (
+//   <SignUpItems>
+//     <SignUpBtn className="a" onClick={handleSignUp}>
+//       회원가입
+//     </SignUpBtn>
+//   </SignUpItems>
+// ) : (
+//   ""
+// )}
