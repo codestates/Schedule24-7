@@ -101,16 +101,16 @@ export class AuthController {
     description: "Internal server error",
     type: InternalSeverErr,
   })
-  async sendAuthMail(@Param("email") email: string) {
+  async sendAuthMail(@Param("email") email: string, @Res() res: Response) {
     const session = await this.mongoConnection.startSession();
     session.startTransaction();
     try {
       const result = await this.authService.sendAuthMail(email);
       await session.commitTransaction();
-      return result;
+      return res.status(200).send(result);
     } catch (err) {
       await session.abortTransaction();
-      return err;
+      return res.status(err.status).send();
     } finally {
       session.endSession();
     }
