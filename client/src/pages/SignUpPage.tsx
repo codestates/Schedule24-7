@@ -5,7 +5,8 @@ import styled from "styled-components";
 import { ErrMsg, MainLogo, MainWrapper } from "../style/theme";
 import Footer from "../components/Footer";
 import swal from "sweetalert";
-// import Timer from "../components/Timer";
+// import ReCAPTCHA from "react-google-recaptcha";
+import moment from "moment";
 
 axios.defaults.withCredentials = true;
 
@@ -21,13 +22,17 @@ export const SignUpItems = styled.div`
 
 export const SignUpSubItem = styled.div`
   display: flex;
+  &.timer {
+    margin-top: 5px;
+    font-size: 14px;
+    color: #c40000;
+  }
 `;
 
 export const SignUpBox = styled.input`
   width: 300px;
   height: 40px;
   padding-left: 10px;
-  /* border-radius: 0.3rem; */
   border: 1px solid #a5a5a5;
   box-shadow: 0.05rem 0.05rem 0.05rem #6969692d;
   margin-bottom: 0.25rem;
@@ -106,10 +111,14 @@ function SignUpPage() {
     emailValidCheck: false,
     permitAuthNumBox: false,
     authCodeErr: false,
+    recaptcha: false,
   });
 
   //메세지 렌더링 상태
   const [messageRender, setMessageRender] = useState(false);
+
+  //타이머
+  const [timer, setTimer] = useState<string>("");
 
   //회원가입 정보를 변경하는 함수
   const handleSignUpValue =
@@ -207,6 +216,7 @@ function SignUpPage() {
           emailValidCheck: false,
         });
         setAuthId(res.data._id);
+        startTimer(300);
       })
       .catch(() => {
         setErrors({ ...errors, emailValidCheck: true });
@@ -220,9 +230,12 @@ function SignUpPage() {
         authNumber: Number(authNumber.authNumber),
         _id: authId,
       })
-      .then(() =>
-        setErrors({ ...errors, permitSignUpBtn: true, authCodeErr: false })
-      )
+      .then(() => {
+        stopTimer(1);
+        // setTimer("");
+        // startTimer(0);
+        setErrors({ ...errors, permitSignUpBtn: true, authCodeErr: false });
+      })
       .catch(() => {
         setErrors({ ...errors, authCodeErr: true });
       });
@@ -262,8 +275,51 @@ function SignUpPage() {
     // })
   };
 
+  //리캡차생성함수
+  const handleRecaptcha = () => {
+    setErrors({ ...errors, recaptcha: true });
+  };
+
+  //타이머 생성 함수
+  let setTimeId: any;
+  const startTimer = (setTime: number): void => {
+    // 타이머 중복 실행 방지로 기존 시작된 타이머를 리셋하여 점점 빨라지는 오류를 방지
+    clearInterval(setTimeId);
+    let countDownDate = moment().add(setTime, "seconds");
+    setTimeId = setInterval(function () {
+      let diff = countDownDate.diff(moment());
+      if (diff <= 0) {
+        clearInterval(setTimeId);
+        // console.log("시간이초과 되었습니다. 다시 시도해주세요.");
+        setErrors({ ...errors, permitSignUpBtn: false });
+        return false;
+      } else {
+        // console.log(moment.utc(diff).format("mm:ss") + " 남았습니다.");
+        setTimer(moment.utc(diff).format("mm:ss"));
+      }
+    });
+  };
+
+  const stopTimer = (setTime: number): void => {
+    // let countDownDate = moment().add(setTime, "seconds");
+    // setInterval(function () {
+    //   let diff = countDownDate.diff(moment());
+    //   if (diff <= 0) {
+    //     setErrors({ ...errors, permitSignUpBtn: false });
+    //     return false;
+    //   } else {
+    //     setTimer(moment.utc(diff).format("mm:ss"));
+    //   }
+    // });
+    // console.log(setTimeId);
+    // clearInterval(setTimeId);
+    // setTimeId = null;
+    console.log("타이머끝");
+  };
+
   return (
     <MainWrapper>
+      {/* {console.log(setTimeId)} */}
       <SignUpWrapper>
         <MainLogo
           onClick={() => navigate("/")}
@@ -356,12 +412,18 @@ function SignUpPage() {
                   이메일인증
                 </SignUpBtn>
               </SignUpSubItem>
+              <SignUpSubItem className="timer">{timer}</SignUpSubItem>
+              {/* <SignUpItems>
+                <ReCAPTCHA
+                  sitekey="6LfebJ8dAAAAAM7VL3z0RwncwAA2czDI4bMLVZJc"
+                  onChange={handleRecaptcha}
+                />
+              </SignUpItems> */}
               {errors.authCodeErr ? (
                 <ErrMsg className="err">잘못된 인증번호 입니다</ErrMsg>
               ) : (
                 ""
               )}
-              {/* <Timer /> */}
             </SignUpItems>
           ) : (
             ""
@@ -383,3 +445,13 @@ function SignUpPage() {
 }
 
 export default SignUpPage;
+
+// {errors.permitSignUpBtn && errors.recaptcha ? (
+//   <SignUpItems>
+//     <SignUpBtn className="a" onClick={handleSignUp}>
+//       회원가입
+//     </SignUpBtn>
+//   </SignUpItems>
+// ) : (
+//   ""
+// )}
