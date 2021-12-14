@@ -21,11 +21,15 @@ export const BoxSection = styled.section`
   display: flex;
   flex-direction: column;
   margin-bottom: 1rem;
+  /* &.group {
+    margin-top: 2px;
+  } */
 `;
 
 export const BoxHeader = styled.div`
   display: flex;
   justify-content: space-between;
+  align-items: center;
   border-width: 0px 0px 1px 0px;
   border-style: solid;
   border-color: #696969;
@@ -33,11 +37,14 @@ export const BoxHeader = styled.div`
   font-weight: bold;
   margin-bottom: 0.3rem;
   padding-bottom: 0.1rem;
+  &.group {
+    margin-top: 3px;
+  }
 `;
 
 export const BoxWrapper = styled.div`
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(9rem, auto));
+  grid-template-columns: repeat(auto-fill, minmax(137px, auto));
   border: 1px dotted #696969;
   border-radius: 0.5rem;
   padding: 0.3rem;
@@ -78,7 +85,7 @@ export const SeeMoreWrapper = styled.div`
 
 export const SeeMore = styled.div`
   padding-top: 5px;
-  width: 100px;
+  width: 90px;
   height: 22px;
   border: 1px solid #cfcdcd;
   text-align: center;
@@ -86,19 +93,30 @@ export const SeeMore = styled.div`
   border-radius: 5px;
   cursor: grab;
   margin-bottom: 3px;
+  font-size: 13px;
+  :hover {
+    background-color: #bebebe;
+  }
 `;
 
 export const AddBtn = styled.button`
   width: 100px;
   height: 30px;
-  /* background-color: white;
-  border: 1px solid #a8a8a8;
-  border-radius: 5px;
-  color: #3d3d3d;
+  background-color: white;
+  border: 1px solid #535353;
+  border-radius: 3px;
+  color: #1b1b1b;
+  font-weight: 500;
   margin-bottom: 3px;
+  cursor: pointer;
+  box-shadow: 0 0 1px black;
   :hover {
     background-color: #e9e9e9;
     color: #161616;
+  }
+  /* 
+  &.schedule {
+    margin-bottom: 4px;
   } */
 `;
 

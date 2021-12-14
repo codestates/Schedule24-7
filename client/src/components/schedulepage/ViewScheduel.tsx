@@ -9,7 +9,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../redux/reducers";
 import ScheduleItemColumn from "./ScheduleItemColumn";
 import moment from "moment";
-import { Navigate, useNavigate, useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import { getGroupsApi } from "../../lib/api/group";
 import { getGroups } from "../../redux/actions/Group";
 import { Link } from "react-router-dom";
@@ -25,6 +25,10 @@ export const TableTopWrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  margin-bottom: 10px;
+  ${mediaQuery.mobile} {
+    margin-bottom: 8px;
+  }
 `;
 
 export const DateWrapper = styled.div`
@@ -42,6 +46,10 @@ export const SelectBox = styled.select`
   color: #3b3b3b;
   border: 0.1px solid #858585;
   cursor: grab;
+  /* margin-left: 26px; */
+  ${mediaQuery.mobile} {
+    margin-left: 0px;
+  }
 `;
 
 export const TableTitle = styled.div`
@@ -79,16 +87,18 @@ export const SubText = styled.div`
 `;
 
 export const ViewSelect = styled.div`
-  width: 140px;
+  width: 135px;
   display: flex;
   justify-content: right;
+  ${mediaQuery.mobile} {
+    justify-content: right;
+  }
 `;
 
 export const ScheduleTable = styled.div`
   display: grid;
   height: 80vh;
   justify-content: center;
-  margin: 1.5rem;
   grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
   grid-template-rows: 0.2fr 1fr 1fr 1fr 1fr 1fr 1fr;
   ${mediaQuery.mobile} {
@@ -99,6 +109,31 @@ export const ScheduleTable = styled.div`
 export const ScheduleColumnTable = styled.div`
   display: flex;
   flex-direction: column;
+`;
+
+export const SelectBtn = styled.button`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 28px;
+  height: 28px;
+  background-color: #797979;
+  /* box-shadow: 0 0 1px #d4d4d4; */
+  border: 1px solid #797979;
+  border-radius: 3px;
+  margin-left: 2px;
+  cursor: pointer;
+  &.list {
+    /* margin-left: 1px; */
+  }
+`;
+
+export const TableIcon = styled.img`
+  width: 14px;
+
+  &.list {
+    height: 17px;
+  }
 `;
 
 export default function ViewSchedule() {
@@ -150,8 +185,10 @@ export default function ViewSchedule() {
   //드롭다운 바뀔때 캘린더 렌더하는 함수
   let newArr: string[] = Calendar(currentDate);
   const handleCurrentDate = (e: React.ChangeEvent<HTMLSelectElement>): void => {
-    let url = e.target.value.split(",");
-    navigate(`/schedule/view/${url[0]}/${url[1]}`);
+    if (e.target.value !== "스케쥴선택") {
+      let url = e.target.value.split(",");
+      navigate(`/schedule/view/${url[0]}/${url[1]}`);
+    }
   };
 
   //최초렌더링시 캘린더 렌더링 함수
@@ -179,6 +216,7 @@ export default function ViewSchedule() {
     <ViewScheduleWrapper>
       <TableTopWrapper>
         <SelectBox onChange={handleCurrentDate}>
+          <option>스케쥴선택</option>
           {groups.map((el: any, idx: any) => {
             return el.schedules.map((item: any, idx: any) => {
               return (
@@ -203,8 +241,15 @@ export default function ViewSchedule() {
           </SubTextWrapper>
         </DateWrapper>
         <ViewSelect>
-          <button onClick={() => handleViewChange(true)}>목록</button>
-          <button onClick={() => handleViewChange(false)}>표</button>
+          <SelectBtn className="list" onClick={() => handleViewChange(true)}>
+            <TableIcon
+              className="list"
+              src="https://media.discordapp.net/attachments/907157959333785630/920132429044387890/listwhite.png"
+            />
+          </SelectBtn>
+          <SelectBtn onClick={() => handleViewChange(false)}>
+            <TableIcon src="https://media.discordapp.net/attachments/907157959333785630/920129010980225034/gridwhite.png" />
+          </SelectBtn>
         </ViewSelect>
       </TableTopWrapper>
       {viewMode ? (

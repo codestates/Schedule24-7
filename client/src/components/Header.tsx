@@ -120,6 +120,10 @@ export const BackGround = styled.div`
   right: 0%;
 `;
 
+export const UserImg = styled.img`
+  cursor: pointer;
+`;
+
 interface Props {
   title?: string;
 }
@@ -136,7 +140,7 @@ const Header: FC<Props> = ({ title }) => {
   };
 
   //불러온 유저정보 저장
-  // const [userInfo, setUserInfo] = useState({
+  // const [userInfo, setUserInfo] = useState<any>({
   //   userId: "",
   //   userName: "",
   //   email: "",
@@ -151,13 +155,13 @@ const Header: FC<Props> = ({ title }) => {
   //       },
   //     })
   //     .then((res) => {
-  //       console.log(res.data);
   //       setUserInfo({
   //         ...userInfo,
   //         userId: res.data.user.userId,
   //         userName: res.data.user.userName,
   //         email: res.data.user.email,
   //       });
+  //       window.localStorage.setItem("id", userInfo.userId);
   //     });
   // }, [dispatch]);
 
@@ -180,14 +184,14 @@ const Header: FC<Props> = ({ title }) => {
       </HeaderCenter>
       <HeaderRight>
         <UserInfoWrap>
-          <img
+          <UserImg
             onClick={handleOpenDropdown}
             alt="user-img"
-            src="https://cdn-icons-png.flaticon.com/512/906/906361.png"
+            src="https://media.discordapp.net/attachments/907157959333785630/920107206064611358/noun-user-4433438_1.png"
           />
-          <UserId onClick={handleOpenDropdown}>
+          {/* <UserId onClick={handleOpenDropdown}>
             {window.localStorage.getItem("id")}
-          </UserId>
+          </UserId> */}
           {openDropdown ? (
             <>
               <HeaderDropdown />

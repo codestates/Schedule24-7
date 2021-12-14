@@ -7,6 +7,8 @@ import { loginChange } from "../redux/actions/loginActions";
 import { ErrMsg } from "../style/theme";
 // import GoogleLogin from "react-google-login";
 
+axios.defaults.withCredentials = true;
+
 export const LoginItems = styled.div`
   display: flex;
   flex-direction: column;
@@ -74,8 +76,6 @@ export const GoogleLogo = styled.img`
   width: 23px;
 `;
 
-axios.defaults.withCredentials = true;
-
 export default function Login() {
   const dispatch = useDispatch();
   const [isError, setIsError] = useState(false);
@@ -95,7 +95,6 @@ export default function Login() {
 
   //일반 로그인 요청 함수
   const handleLogin = () => {
-    window.localStorage.setItem("id", loginInfo.userId);
     axios
       .post("https://server.schedule24-7.link/auth/login", {
         userId: loginInfo.userId,
@@ -103,6 +102,7 @@ export default function Login() {
       })
       .then((res) => {
         // console.log(res.data);
+        // window.localStorage.setItem("id", loginInfo.userId);
         window.localStorage.setItem("token", res.data.accessToken);
         dispatch(loginChange());
       })
@@ -118,15 +118,10 @@ export default function Login() {
 
     let newCookie = document.cookie;
     let newCookieArr = newCookie.split(";");
-    // console.log(newCookieArr[0]);
     let finalCookie = newCookieArr[0].split("%22")[3];
-
-    console.log(finalCookie);
 
     window.localStorage.setItem("token", finalCookie);
     dispatch(loginChange());
-    // .accessToken
-    // console.log(document.cookie);
   };
 
   return (

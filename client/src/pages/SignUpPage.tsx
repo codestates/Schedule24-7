@@ -4,7 +4,10 @@ import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { ErrMsg, MainLogo, MainWrapper } from "../style/theme";
 import Footer from "../components/Footer";
+import swal from "sweetalert";
 // import Timer from "../components/Timer";
+
+axios.defaults.withCredentials = true;
 
 export const SignUpItems = styled.div`
   margin: 0.8rem 0.8rem 0.8rem 0.8rem;
@@ -75,15 +78,8 @@ export const SignUpWrapper = styled.div`
   height: 90vh;
 `;
 
-axios.defaults.withCredentials = true;
-
 function SignUpPage() {
   let navigate = useNavigate();
-
-  //루트페이지로 이동시키는 함수
-  function comeBackHome() {
-    navigate("/");
-  }
 
   //회원가입을 정보
   const [signUpInfo, setSignUpInfo] = useState({
@@ -254,8 +250,11 @@ function SignUpPage() {
           email: signUpInfo.email,
         })
         .then(() => {
-          alert("회원가입 성공!");
-          comeBackHome();
+          swal({
+            title: "회원가입 성공!",
+            icon: "success",
+          });
+          navigate("/");
         });
     }
     //  .catch(() => {
@@ -267,7 +266,7 @@ function SignUpPage() {
     <MainWrapper>
       <SignUpWrapper>
         <MainLogo
-          onClick={comeBackHome}
+          onClick={() => navigate("/")}
           src="https://media.discordapp.net/attachments/907157959333785630/914705380070785064/s725_logopng.png"
         />
         <form onSubmit={(e) => e.preventDefault()}>

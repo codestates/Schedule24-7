@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import Favorite from "./Favorite";
+// import Favorite from "./Favorite";
 import GroupShortcut from "./GroupShortcut";
 import ScheduleShortcut from "./ScheduleShortcut";
 
@@ -8,7 +8,7 @@ export const MainWrapper = styled.div``;
 export default function Main() {
   return (
     <MainWrapper>
-      <Favorite />
+      {/* <Favorite /> */}
       <GroupShortcut />
       <ScheduleShortcut />
     </MainWrapper>

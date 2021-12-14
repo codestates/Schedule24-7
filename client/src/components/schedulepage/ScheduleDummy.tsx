@@ -3,7 +3,7 @@ export const ScheduleDummy = [
     id: 'ObjectId("619f0e9722f97d6e8631291d")',
     scheduleName: "데이터를 불러오는 중입니다",
     createdAt: "2021-12-01 01:01:01",
-    scheduleEmoji: "💡",
+    scheduleEmoji: "",
     period: "2021-12-01",
     group: {
       groupId: 1,

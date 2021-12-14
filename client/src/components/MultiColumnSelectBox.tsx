@@ -1,4 +1,3 @@
- 
 import {
   FC,
   useCallback,
@@ -11,15 +10,21 @@ import {
 import styled from "styled-components";
 
 const Block = styled.div`
-  padding: 0px 6px;
-  border: 1px solid #d1d1d1;
-  border-radius: 10px;
-  position: relative;
+  border: 1px solid #a5a5a5;
   display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 50px;
+  height: 42px;
+  background-color: white;
+  position: relative;
 `;
 const VsibleWrapper = styled.div`
   display: flex;
   align-items: center;
+  justify-content: center;
+  padding-bottom: 2px;
+
   div:nth-child(2) {
     margin-left: 5px;
     width: 10px;
@@ -119,25 +124,24 @@ const MultiColumnSelectBox: FC<Props> = ({
     if (selectValue === null || typeof onChange === "undefined") return;
     onChange(selectValue.value);
   }, [selectValue, onChange]);
-  
-  const myRef = useRef<HTMLDivElement>(null)
-  
+
+  const myRef = useRef<HTMLDivElement>(null);
+
   useEffect(() => {
     function handleClickOutside(e: MouseEvent): void {
-        if (myRef.current && !myRef.current.contains(e.target as Node)) {
-            setIsVisible(false);
-        }
+      if (myRef.current && !myRef.current.contains(e.target as Node)) {
+        setIsVisible(false);
+      }
     }
-    window.addEventListener('click', handleClickOutside);
+    window.addEventListener("click", handleClickOutside);
     return () => {
-      window.removeEventListener('click', handleClickOutside);
+      window.removeEventListener("click", handleClickOutside);
     };
   }, [myRef]);
 
-
   return (
     <Block ref={ref}>
-      <VsibleWrapper ref={myRef} onClick={toggleIsVisible} >
+      <VsibleWrapper ref={myRef} onClick={toggleIsVisible}>
         <span>{viewSelectValue?.text ?? defaultValue.text}</span>
         <div />
       </VsibleWrapper>

@@ -71,7 +71,6 @@ const ScheduleThreeDot: FC<Props> = ({ schedule }) => {
           dispatch(getGroups(res.data));
         });
         navigate("/schedule");
-        alert("스케쥴이 삭제되었습니다");
       });
   };
 

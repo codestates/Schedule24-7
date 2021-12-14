@@ -27,7 +27,7 @@ export default function GroupShortcut() {
 
   return (
     <BoxSection>
-      <BoxHeader>
+      <BoxHeader className="group">
         <span>그룹</span>
         <AddBtn>새그룹추가</AddBtn>
       </BoxHeader>

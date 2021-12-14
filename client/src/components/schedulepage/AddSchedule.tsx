@@ -6,10 +6,6 @@ import DatePicker from "react-datepicker";
 import "./react-datepicker.css";
 import { ko } from "date-fns/esm/locale";
 import { selectBoxOptions } from "./ScheduleDummy";
-import {
-  addNewSchedule,
-  saveSchedule,
-} from "../../redux/actions/scheduleActions";
 import axios from "axios";
 import EmojiBox from "./EmojiBox";
 import { useEffect } from "react";
@@ -19,6 +15,7 @@ import { getGroupsApi } from "../../lib/api/group";
 import { getGroups } from "../../redux/actions/Group";
 import { useNavigate } from "react-router";
 import { mediaQuery } from "../../GlobalStyle";
+import swal from "sweetalert";
 
 export const AddScheduleWrapper = styled.section`
   display: flex;
@@ -74,7 +71,7 @@ export const Title = styled.div`
 
 export const NameBox = styled.input`
   width: 230px;
-  height: 42px;
+  height: 40px;
   padding-left: 10px;
   border: 1px solid #a5a5a5;
   box-shadow: 0.05rem 0.05rem 0.05rem #6969692d;
@@ -116,6 +113,26 @@ export const Div1 = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+`;
+
+export const Div2 = styled.div`
+  width: 288px;
+  height: 29px;
+  padding-top: 13px;
+  padding-left: 10px;
+  border: 1px solid #a5a5a5;
+  box-shadow: 0.05rem 0.05rem 0.05rem #6969692d;
+  margin: 0.2rem;
+  background-color: white;
+  font-size: 13px;
+
+  &.sub {
+    width: 240px;
+  }
+
+  ${mediaQuery.mobile} {
+    max-width: 260px;
+  }
 `;
 
 export default function AddSchedule() {
@@ -161,14 +178,24 @@ export default function AddSchedule() {
         getGroupsApi().then((res) => {
           dispatch(getGroups(res.data));
         });
-        alert("새스케쥴추가성공");
+        // swal({
+        //   title: "새스케쥴이 추가 되었습니다",
+        //   icon: "success",
+        // });
         navigate(-1);
       })
       .catch((err) => {
-        setErrMessage(err.message);
+        if (scheduleEmoji === "") {
+          setErrMessage("이모지를 선택해주세요");
+        } else if (scheduleInfo.scheduleName === "") {
+          setErrMessage("스케쥴 이름을 입력해주세요");
+        } else if (scheduleInfo.groupId === "") {
+          setErrMessage("그룹을 선택해주세요");
+        }
       });
   };
 
+  //신규스케쥴 정보 저장 함수
   const handleSelectInfo =
     (key: string) => (e: React.ChangeEvent<HTMLSelectElement>) => {
       setScheduleInfo({ ...scheduleInfo, [key]: e.target.value });
@@ -194,8 +221,6 @@ export default function AddSchedule() {
 
   return (
     <BoxSection>
-      {/* {console.log(scheduleInfo)}
-      {console.log(scheduleEmoji)} */}
       <BoxHeader>
         <span>신규스케쥴생성</span>
       </BoxHeader>
@@ -229,11 +254,10 @@ export default function AddSchedule() {
             </TeamSelect>
           </DivWrapper>
           <DivWrapper>
-            <Title className="padding">날짜선택</Title>
+            <Title>날짜선택</Title>
             <Div1>
               <DatePicker
                 locale={ko}
-                // placeholder="날짜를 선택해주세요"
                 selected={startDate}
                 dateFormat="MM/yyyy"
                 onChange={(date: any) => {

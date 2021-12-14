@@ -6,6 +6,9 @@ import { useNavigate } from "react-router";
 import styled from "styled-components";
 import { useEffect } from "react";
 import { mediaQuery } from "../../GlobalStyle";
+import ConfirmModal from "./ConfirmModal";
+import { useDispatch } from "react-redux";
+import { logoutChange } from "../../redux/actions/loginActions";
 
 axios.defaults.withCredentials = true;
 
@@ -71,14 +74,15 @@ export const InfoBox = styled.div`
   box-shadow: 0.05rem 0.05rem 0.05rem #6969692d;
   margin-bottom: 0.4rem;
   align-items: center;
-  background-color: white;
+  background-color: #e2e2e2;
   ${mediaQuery.mobile} {
     max-width: 260px;
   }
 `;
 
 function UserInfo() {
-  let navigate = useNavigate();
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   //루트페이지로 이동시키는 함수
   function comeBackHome() {
@@ -101,6 +105,7 @@ function UserInfo() {
     userName: "",
     email: "",
   });
+  const [tokenType, setTokenType] = useState<boolean>(true);
 
   //화면최초렌더링시 유저정보 불러옴
   useEffect(() => {
@@ -118,6 +123,11 @@ function UserInfo() {
           userName: res.data.user.userName,
           email: res.data.user.email,
         });
+        if (res.data.user.tokenType === "jwt") {
+          setTokenType(true);
+        } else {
+          setTokenType(false);
+        }
       });
   }, []);
 
@@ -174,56 +184,135 @@ function UserInfo() {
     }
   };
 
+  const [openModal, setOpenModal] = useState<boolean>(false);
+
+  //모달창 여는 함수
+  const handleOpenModal = (): void => {
+    setOpenModal(true);
+  };
+
+  //모달창 닫는 함수
+  const handleCloseModal = (): void => {
+    setOpenModal(false);
+  };
+
+  //회원탈퇴 함수
+  const deleteConfirm = (): void => {
+    axios
+      .delete("https://server.schedule24-7.link/users", {
+        headers: {
+          Authorization: `Bearer ${window.localStorage.getItem("token")}`,
+        },
+      })
+      .then(() => {
+        dispatch(logoutChange());
+        window.localStorage.removeItem("token");
+        window.localStorage.removeItem("id");
+        alert("계정삭제가 정상적으로 처리되었습니다");
+        navigate("/");
+      });
+  };
+
+  //로그아웃 실행함수
+  const handleLogout = () => {
+    window.localStorage.removeItem("token");
+    window.localStorage.removeItem("id");
+    dispatch(logoutChange());
+    navigate("/");
+  };
+
   return (
     <UserInfoSection>
-      <UserInfoDiv>
-        <MainLogo
-          onClick={comeBackHome}
-          src="https://media.discordapp.net/attachments/907157959333785630/914705380070785064/s725_logopng.png"
-        />
-        <form onSubmit={(e) => e.preventDefault()}>
-          <UserInfoWrapper>
-            <UserInfoItems>
-              <InfoHeader>아이디</InfoHeader>
-              <InfoBox>{userInfo.userId}</InfoBox>
-            </UserInfoItems>
-            <UserInfoItems>
-              <InfoHeader>사용자이름</InfoHeader>
-              <InfoBox>{userInfo.userName}</InfoBox>
-            </UserInfoItems>
-            <UserInfoItems>
-              <InfoHeader>이메일</InfoHeader>
-              <InfoBox>{userInfo.email}</InfoBox>
-            </UserInfoItems>
-            <UserInfoItems>
-              <InfoHeader className="pwd">비밀번호변경 및 탈퇴</InfoHeader>
-              <InfoHeader className="sub">
-                * 계정정보확인 후 가능합니다
-              </InfoHeader>
-              <NormalBox
-                type="password"
-                placeholder="비밀번호"
-                onChange={handlePassword("password")}
-              />
-              <NormalBtn onClick={checkPassword}>계정확인</NormalBtn>
-            </UserInfoItems>
-          </UserInfoWrapper>
-        </form>
-        {errorCheck ? (
-          <EditUser
-            newPassword={newPassword}
-            handlePassword={handlePassword}
-            handleChangePassowrd={handleChangePassowrd}
+      {tokenType ? (
+        <UserInfoDiv>
+          <MainLogo
+            onClick={comeBackHome}
+            src="https://media.discordapp.net/attachments/907157959333785630/914705380070785064/s725_logopng.png"
           />
-        ) : (
-          ""
-        )}
-        {errorMessageCheck ? (
-          <ErrMsg className="err">{errorMessage}</ErrMsg>
-        ) : (
-          ""
-        )}
-      </UserInfoDiv>
+          <form onSubmit={(e) => e.preventDefault()}>
+            <UserInfoWrapper>
+              <UserInfoItems>
+                <InfoHeader>아이디</InfoHeader>
+                <InfoBox>{userInfo.userId}</InfoBox>
+              </UserInfoItems>
+              <UserInfoItems>
+                <InfoHeader>사용자이름</InfoHeader>
+                <InfoBox>{userInfo.userName}</InfoBox>
+              </UserInfoItems>
+              <UserInfoItems>
+                <InfoHeader>이메일</InfoHeader>
+                <InfoBox>{userInfo.email}</InfoBox>
+              </UserInfoItems>
+              <UserInfoItems>
+                <InfoHeader className="pwd">비밀번호변경 및 탈퇴</InfoHeader>
+                <InfoHeader className="sub">
+                  * 계정정보확인 후 가능합니다
+                </InfoHeader>
+                <NormalBox
+                  type="password"
+                  placeholder="비밀번호"
+                  onChange={handlePassword("password")}
+                />
+                <NormalBtn onClick={checkPassword}>계정확인</NormalBtn>
+              </UserInfoItems>
+            </UserInfoWrapper>
+          </form>
+          {errorCheck ? (
+            <EditUser
+              newPassword={newPassword}
+              handlePassword={handlePassword}
+              handleChangePassowrd={handleChangePassowrd}
+            />
+          ) : (
+            ""
+          )}
+          {errorMessageCheck ? (
+            <ErrMsg className="err">{errorMessage}</ErrMsg>
+          ) : (
+            ""
+          )}
+          <NormalBtn onClick={handleLogout}>로그아웃</NormalBtn>
+        </UserInfoDiv>
+      ) : (
+        <UserInfoDiv>
+          <MainLogo
+            onClick={comeBackHome}
+            src="https://media.discordapp.net/attachments/907157959333785630/914705380070785064/s725_logopng.png"
+          />
+          <form onSubmit={(e) => e.preventDefault()}>
+            <UserInfoWrapper>
+              <UserInfoItems>
+                <InfoHeader>아이디</InfoHeader>
+                <InfoBox>{userInfo.userName}</InfoBox>
+              </UserInfoItems>
+              <UserInfoItems>
+                <InfoHeader>이메일</InfoHeader>
+                <InfoBox>{userInfo.email}</InfoBox>
+              </UserInfoItems>
+              <UserInfoItems>
+                <InfoHeader className="pwd">회원탈퇴</InfoHeader>
+                <NormalBtn className="out" onClick={handleOpenModal}>
+                  회원탈퇴
+                </NormalBtn>
+                {openModal ? (
+                  <ConfirmModal
+                    handleCloseModal={handleCloseModal}
+                    deleteConfirm={deleteConfirm}
+                  />
+                ) : (
+                  ""
+                )}
+              </UserInfoItems>
+              <NormalBtn onClick={handleLogout}>로그아웃</NormalBtn>
+            </UserInfoWrapper>
+          </form>
+          {errorMessageCheck ? (
+            <ErrMsg className="err">{errorMessage}</ErrMsg>
+          ) : (
+            ""
+          )}
+        </UserInfoDiv>
+      )}
     </UserInfoSection>
   );
 }

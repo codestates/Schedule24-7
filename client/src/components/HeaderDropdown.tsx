@@ -1,4 +1,5 @@
-import { FC } from "react";
+import axios from "axios";
+import { FC, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
@@ -23,7 +24,7 @@ const Block = styled.nav`
     padding: 10px;
     text-decoration: none;
     text-align: center;
-    border-top: 1px solid rgb(212, 212, 212);
+    border-bottom: 1px solid rgb(212, 212, 212);
   }
 
   > a:hover {
@@ -38,27 +39,57 @@ export const MenuText = styled.div`
   text-align: center;
   padding: 10px;
   cursor: pointer;
+  border-bottom: 1px solid rgb(212, 212, 212);
 
   :hover {
     background-color: #e0e0e0;
   }
 `;
 
-const HeaderDropdown: FC = () => {
+const HeaderDropdown: FC = ({}: any) => {
   const navigate = useNavigate();
-  const dipatch = useDispatch();
+  const dispatch = useDispatch();
+
+  //불러온 유저정보 저장
+  const [userInfo, setUserInfo] = useState<any>({
+    userId: "",
+    userName: "",
+    email: "",
+    tokenType: "",
+  });
+
+  //유저정보 불러옴
+  useEffect(() => {
+    axios
+      .get("https://server.schedule24-7.link/users", {
+        headers: {
+          authorization: `Bearer ${window.localStorage.getItem("token")}`,
+        },
+      })
+      .then((res) => {
+        setUserInfo({
+          ...userInfo,
+          userId: res.data.user.userId,
+          userName: res.data.user.userName,
+          email: res.data.user.email,
+        });
+        window.localStorage.setItem("id", userInfo.userId);
+      });
+  }, [dispatch]);
+
+  //로그아웃 실행함수
   const handleLogout = () => {
     window.localStorage.removeItem("token");
-    window.localStorage.removeItem("userId");
-    window.localStorage.removeItem("password");
-    dipatch(logoutChange());
+    window.localStorage.removeItem("id");
+    dispatch(logoutChange());
     navigate("/");
   };
 
   return (
     <Block id="ThreeDot">
-      <MenuText onClick={handleLogout}>로그아웃</MenuText>
+      <Link to="/">{userInfo.userId}</Link>
       <Link to="/mypage">마이페이지</Link>
+      <MenuText onClick={handleLogout}>로그아웃</MenuText>
     </Block>
   );
 };
