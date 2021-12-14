@@ -52,14 +52,6 @@ export class UpdateGroupReqDto {
   @IsNotEmpty({ message: "groupEmoji는 필수값입니다." })
   readonly groupEmoji: string;
 
-  @IsString()
-  @ApiProperty({
-    example: "2021-12-01 01:01:01",
-    description: "날짜",
-    required: true,
-  })
-  readonly createdAt: string;
-
   @ApiProperty({
     type: () => [Work],
   })
