@@ -15,6 +15,7 @@ import { useNavigate } from "react-router";
 import { createGroupApi, getGroupsApi } from "../../lib/api/group";
 import { useDispatch } from "react-redux";
 import { getGroups } from "../../redux/actions/Group";
+import Confirm from "../../lib/confirm";
 
 export const AddGroupWrapper = styled.section`
   display: flex;
@@ -185,7 +186,7 @@ const GropAddPage: FC = () => {
             value={work.workName}
             onChange={changeHandler(targetIdx, workNameHandler)}
             type="text"
-            placeholder="근무명을 입력해주세요"
+            placeholder="2글자 이하로 근무명을 입력해주세요"
           />
         </div>
         <div>

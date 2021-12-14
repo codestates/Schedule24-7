@@ -254,6 +254,8 @@ export class AuthService {
     const GOOGLE_AUTH_TOKEN_URL = "https://oauth2.googleapis.com/token";
     const GOOGLE_AUTH_REDIRECT_URL =
       "https://server.schedule24-7.link/auth/google/callback";
+    // const GOOGLE_AUTH_REDIRECT_URL =
+    //   "https://server.schedule24-7.link/auth/google/callback";
 
     const { data }: any = await lastValueFrom(
       this.httpService.request({
@@ -299,5 +301,9 @@ export class AuthService {
       accessToken = this.authRepository.generateToken(signUpGoogle);
     }
     return accessToken;
+  }
+
+  async googleTokenCheck(cookies: any) {
+    return cookies;
   }
 }

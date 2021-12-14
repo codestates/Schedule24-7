@@ -51,8 +51,6 @@ export class UpdateGroupReqDto {
   @IsString({ message: "groupEmoji의 타입이 올바르지 않습니다." })
   @IsNotEmpty({ message: "groupEmoji는 필수값입니다." })
   readonly groupEmoji: string;
-  @IsString()
-  readonly createdAt: string;
 
   @ApiProperty({
     type: () => [Work],

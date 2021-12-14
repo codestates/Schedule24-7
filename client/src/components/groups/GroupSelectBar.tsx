@@ -26,20 +26,41 @@ const Block = styled.div`
     line-height: 50px;
     text-decoration: none;
   }
+  a.active {
+    background-color: #e9f8fb;
+  }
 `;
 
 interface Props {
   id: string;
+  activeIdx: number;
 }
 
-const GroupSelectBar: FC<Props> = ({ id }) => {
+const GroupSelectBar: FC<Props> = ({ id, activeIdx }) => {
   return (
     <>
       <Block>
-        <Link to="#">스케줄</Link>
-        <Link to={`/group/${id}/member`}>멤버관리</Link>
-        <Link to={`/group/${id}/info`}>기본정보</Link>
-        <Link to={`/group/${id}/condition`}>근무조건</Link>
+        <Link className={activeIdx === 0 ? "active" : ""} to="#">
+          스케줄
+        </Link>
+        <Link
+          className={activeIdx === 1 ? "active" : ""}
+          to={`/group/${id}/member`}
+        >
+          멤버관리
+        </Link>
+        <Link
+          className={activeIdx === 2 ? "active" : ""}
+          to={`/group/${id}/info`}
+        >
+          기본정보
+        </Link>
+        <Link
+          className={activeIdx === 3 ? "active" : ""}
+          to={`/group/${id}/condition`}
+        >
+          근무조건
+        </Link>
       </Block>
     </>
   );

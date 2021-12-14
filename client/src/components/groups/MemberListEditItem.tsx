@@ -11,6 +11,7 @@ import { RootState } from "../../redux/reducers";
 import DayPicker from "react-day-picker";
 import "react-day-picker/lib/style.css";
 import { updateGroupMemberApi } from "../../lib/api/group";
+import Confirm from "../../lib/confirm";
 
 const Block = styled.div`
   width: 310px;

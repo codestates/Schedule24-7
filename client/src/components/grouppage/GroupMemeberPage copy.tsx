@@ -17,12 +17,13 @@ import { getGroups } from "../../redux/actions/Group";
 import { setSyntheticLeadingComments } from "typescript";
 
 const Box = styled.div`
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(19rem, auto));
   border: 1px dotted #696969;
   border-radius: 0.5rem;
   padding: 0.3rem;
   background-color: #ececec;
+  grid-column-gap: 10px;
 
   ${mediaQuery.mobile} {
     flex-direction: column;

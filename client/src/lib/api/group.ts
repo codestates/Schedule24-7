@@ -24,8 +24,6 @@ export const updateGroupApi = (
   return apiClient().patch<any, ReturnApi<any>>(`/group/${groupId}`, payloads);
 };
 
-
-
 export const deleteMemberApi = (
   payload: Group.GroupMemberDeleteReqDTO
 ): Promise<ReturnApi<any>> => {

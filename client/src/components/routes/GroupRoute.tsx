@@ -6,6 +6,7 @@ import GroupMemberPage from "../grouppage/GroupMemeberPage";
 import GroupBasicInfoPage from "../grouppage/GroupBasicInfoPage";
 import GroupWorkConditionPage from "../grouppage/GroupWorkConditionPage";
 import GroupBasicInfoEditPage from "../grouppage/GroupBasicInfoEditPage";
+import GroupSelectBar from "../groups/GroupSelectBar";
 
 const GroupRoutes: FC = () => {
   return (
@@ -13,9 +14,9 @@ const GroupRoutes: FC = () => {
       <Route path="/" element={<GroupIndexPage />} />
       <Route path="/add" element={<GroupAddPage />} />
       <Route path="/:groupId/member" element={<GroupMemberPage />} />
-      <Route path="/:groupId/info" element={<GroupBasicInfoPage />} />
       <Route path="/:groupId/condition" element={<GroupWorkConditionPage />} />
-      <Route path="/:groupId/infoedit" element={<GroupBasicInfoEditPage />} />
+      <Route path="/:groupId/info" element={<GroupBasicInfoPage />} />
+      <Route path="/:groupId/infoedit" element={<GroupBasicInfoEditPage/>}/>
     </Routes>
   );
 };
