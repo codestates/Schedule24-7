@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { mediaQuery } from "../GlobalStyle";
 
 export const FooterDiv = styled.div`
   align-items: center;
@@ -6,6 +7,9 @@ export const FooterDiv = styled.div`
   padding: 0.7rem;
   font-size: 15px;
   color: #3b3b3b;
+  ${mediaQuery.mobile} {
+    font-size: 12px;
+  }
 `;
 
 export default function Footer() {

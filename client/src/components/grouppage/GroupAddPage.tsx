@@ -57,8 +57,8 @@ export const Title = styled.div`
 `;
 
 export const NameBox = styled.input`
-  width: 235px;
-  height: 42px;
+  width: 230px;
+  height: 40px;
   padding-left: 10px;
   border: 1px solid #a5a5a5;
   box-shadow: 0.05rem 0.05rem 0.05rem #6969692d;
@@ -115,6 +115,13 @@ export const AddBtn = styled.button`
   cursor: pointer;
   margin: 0.5rem;
   background-color: #5c5c5c;
+`;
+
+export const Div1 = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-left: 3px;
 `;
 
 interface GroupAddState {
@@ -259,7 +266,7 @@ const GropAddPage: FC = () => {
             </DivWrapper>
             <DivWrapper>
               <Title>그룹기본설정</Title>
-              <div>
+              <Div1>
                 <MultiColumnSelectBox
                   onChange={emojiHandler}
                   value={formState.groupEmoji}
@@ -272,7 +279,7 @@ const GropAddPage: FC = () => {
                   value={formState.groupName}
                   placeholder="그룹 이름 입력"
                 />
-              </div>
+              </Div1>
               <DescBox
                 name="groupDesc"
                 onChange={changeInputHandler}

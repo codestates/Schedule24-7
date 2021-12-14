@@ -11,7 +11,6 @@ import BoxItem from "./BoxItem";
 import { useSelector } from "react-redux";
 import { RootState } from "../../redux/reducers";
 import { useEffect, useState } from "react";
-// import AddScheduleBoxItem from "./AddScheduleBoxItem";
 
 export const MainWrapper = styled.div``;
 
@@ -38,14 +37,13 @@ export default function ScheduleMain() {
   };
 
   return (
-    <BoxSection>
+    <BoxSection className="schedule">
       <BoxHeader>
         <span>스케쥴</span>
         <Link to="/schedule/add">
-          <AddBtn>새스케줄추가</AddBtn>
+          <AddBtn className="schedule">새스케줄추가</AddBtn>
         </Link>
       </BoxHeader>
-      {/* <BoxWrapper> */}
       {scheduleExist ? (
         <BoxWrapper>
           {groups.map((el: any) => {
@@ -57,8 +55,6 @@ export default function ScheduleMain() {
       ) : (
         <NoSchedule>등록된 스케쥴이 없습니다</NoSchedule>
       )}
-      {/* <AddScheduleBoxItem /> */}
-      {/* </BoxWrapper> */}
     </BoxSection>
   );
 }

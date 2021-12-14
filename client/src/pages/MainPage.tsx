@@ -1,4 +1,5 @@
-import { useEffect } from "react";
+import axios from "axios";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Layout from "../components/Layout";
 import Main from "../components/mainpage/Main";
@@ -21,7 +22,6 @@ function MainPage() {
 
   return (
     <Layout title="홈">
-      {console.log(document.cookie)}
       <Main />
     </Layout>
   );

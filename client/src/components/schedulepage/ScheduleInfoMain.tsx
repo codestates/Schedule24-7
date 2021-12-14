@@ -16,6 +16,7 @@ import ScheduleInfoView from "./ScheduleInfoView";
 import ScheduleInfoEdit from "./ScheduleInfoEdit";
 import { useParams } from "react-router";
 import { mediaQuery } from "../../GlobalStyle";
+import swal from "sweetalert";
 
 export const AddScheduleWrapper = styled.section`
   display: flex;
@@ -219,12 +220,18 @@ export default function ScheduleInfoMain() {
           getGroupsApi().then((res) => {
             dispatch(getGroups(res.data));
           });
-          alert("수정완료");
+          swal({
+            title: "수정완료",
+            icon: "success",
+          });
           navigate("/schedule");
           setIsEditMode(false);
         });
     } else {
-      alert("스케쥴이름을 입력해주세요");
+      swal({
+        title: "스케쥴이름을 입력해주세요",
+        icon: "error",
+      });
     }
   };
 
@@ -244,7 +251,6 @@ export default function ScheduleInfoMain() {
           dispatch(getGroups(res.data));
         });
         navigate("/schedule");
-        alert("스케쥴이 삭제되었습니다");
       });
   };
 

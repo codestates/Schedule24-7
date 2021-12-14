@@ -1,14 +1,16 @@
 import axios from "axios";
-import { useEffect } from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router";
 import { useNavigate } from "react-router";
 import styled from "styled-components";
+import swal from "sweetalert";
+import { mediaQuery } from "../../GlobalStyle";
 import { getGroupsApi } from "../../lib/api/group";
 import { getGroups } from "../../redux/actions/Group";
 import { RootState } from "../../redux/reducers";
-import { BoxHeader, BoxSection } from "../../style/theme";
+import { BoxHeader, BoxSection, ErrMsg } from "../../style/theme";
 import Layout from "../Layout";
 import { ScheduleDummy } from "./ScheduleDummy";
 
@@ -33,12 +35,19 @@ export const ListDiv = styled.div`
   border-radius: 0.5rem;
   border: 1px solid #cacacac0;
   box-shadow: 1px 1px 1px #cacaca57;
+
+  ${mediaQuery.mobile} {
+    width: 290px;
+  }
 `;
 
 export const TitleHeader = styled.div`
   font-size: 22px;
   font-weight: bold;
   margin: 0.5rem;
+  ${mediaQuery.mobile} {
+    font-size: 19px;
+  }
 `;
 
 export const Wrapper = styled.div`
@@ -55,8 +64,6 @@ export const WorkName = styled.div`
   width: 40px;
   height: 31px;
   padding-top: 13px;
-  /* padding-left: 10px; */
-  /* border: 1px solid #a5a5a5; */
   box-shadow: 0.05rem 0.05rem 0.05rem #6969692d;
   margin: 0.2rem;
   background-color: #595959;
@@ -82,21 +89,30 @@ export const Worker = styled.div`
   background-color: white;
   justify-content: center;
   font-size: 14px;
+
+  ${mediaQuery.mobile} {
+    width: 250px;
+  }
 `;
 
 export const WorkerNameWrapper = styled.div`
   display: flex;
   padding-left: 7px;
+  /* justify-content: left; */
   :hover {
     background-color: #ecf6ff;
+  }
+  ${mediaQuery.mobile} {
+    font-size: 12px;
+    padding-left: 0px;
   }
 `;
 
 export const WorkerName = styled.div`
-  margin-left: 5px;
-  margin-right: 5px;
-  margin-top: 13px;
-  margin-bottom: 13px;
+  margin: 13px 4px 13px 4px;
+  ${mediaQuery.mobile} {
+    margin: 13px 2px 13px 1px;
+  }
 `;
 
 export const EditBtn = styled.button`
@@ -120,15 +136,20 @@ export const DeleteBtn = styled.button`
   border: none;
   background-color: transparent !important;
   background-image: none !important;
-  margin-left: 0px;
-  margin-right: 5px;
+  /* margin-left: 0px; */
+  margin-right: 4px;
   margin-top: 13px;
   margin-bottom: 13px;
   color: white;
   cursor: pointer;
+  padding: 0px;
   :hover {
     background-color: #f0f0f0;
     color: #464646;
+  }
+  ${mediaQuery.mobile} {
+    margin-right: 2px;
+    font-size: 11px;
   }
 `;
 
@@ -209,6 +230,9 @@ export default function WorkersInfo() {
   //멤버를 추가할 근무상태관리
   const [currentWork, setCurrentWork] = useState<any>(undefined);
 
+  //에러메시지 상태
+  const [isErr, setIsErr] = useState<boolean>(false);
+
   //원래 근무자들 명단
   const workerArr = currentSchedule[0].contents[Number(params.contentId) - 1];
   let workers: any[];
@@ -270,7 +294,10 @@ export default function WorkersInfo() {
         }
       }
     } else {
-      alert("근무유형 또는 근무자가 선택되었는지 확인해주세요");
+      swal({
+        title: "근무유형 또는 근무자가 선택되었는지 확인해주세요",
+        icon: "error",
+      });
     }
   };
 
@@ -307,7 +334,13 @@ export default function WorkersInfo() {
       )
       .then(() => {
         navigate(`/schedule/editworker/${groupId}/${scheduleId}/${contentId}`);
-        alert("수정완료");
+        getGroupsApi().then((res) => {
+          dispatch(getGroups(res.data));
+        });
+        swal({
+          title: "수정성공",
+          icon: "success",
+        });
       });
   };
 
@@ -353,14 +386,26 @@ export default function WorkersInfo() {
                 dispatch(getGroups(res.data));
               });
               setEditWorkerList([]);
-              alert("수정완료");
+              swal({
+                title: "수정성공",
+                icon: "success",
+              });
             });
         } else {
           setEditWorkerList([]);
-          alert("이미 존재하는 근무자입니다");
+          // setIsErr(true);
+          swal({ title: "이미 존재하는 근무자입니다", icon: "error" });
         }
       });
     }
+  };
+
+  //대기열 명단 삭제 함수
+  const handleAddMemberDelete = (member: any) => {
+    let tmp = editWorkerList.filter((el: any) => {
+      return el.memberName !== member;
+    });
+    setEditWorkerList(tmp);
   };
 
   //현재 날짜 상단 표시할 함수
@@ -384,6 +429,7 @@ export default function WorkersInfo() {
 
   return (
     <Layout title="스케쥴">
+      {console.log(editWorkerList)}
       <BoxSection>
         <BoxHeader>
           <span>스케쥴명단수정</span>
@@ -460,12 +506,28 @@ export default function WorkersInfo() {
                   <div>추가할명단</div>
                   {editWorkerList.length !== 0
                     ? editWorkerList.map((el: any) => {
-                        return <EditMemberList>{el.memberName}</EditMemberList>;
+                        return (
+                          <>
+                            <EditMemberList>{el.memberName}</EditMemberList>
+                            <DeleteBtn
+                              onClick={() =>
+                                handleAddMemberDelete(el.memberName)
+                              }
+                            >
+                              X
+                            </DeleteBtn>
+                          </>
+                        );
                       })
                     : ""}
                   <EditBtn className="confirm" onClick={handleScheduleEdit}>
                     확인
                   </EditBtn>
+                  {/* {isErr ? (
+                    <ErrMsg className="err">이미존재하는 근무자입니다</ErrMsg>
+                  ) : (
+                    ""
+                  )} */}
                 </EditList>
               </>
             ) : (

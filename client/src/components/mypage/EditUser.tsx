@@ -7,6 +7,8 @@ import { ErrMsg, NormalBox, NormalBtn } from "../../style/theme";
 import { logoutChange } from "../../redux/actions/loginActions";
 import { useNavigate } from "react-router";
 
+axios.defaults.withCredentials = true;
+
 export const EditWrapper = styled.div`
   margin-top: 0.5rem;
   display: flex;
@@ -14,8 +16,6 @@ export const EditWrapper = styled.div`
   justify-content: center;
   align-items: center;
 `;
-
-axios.defaults.withCredentials = true;
 
 export default function EditUser({
   handlePassword,
