@@ -199,7 +199,7 @@ const GroupBasicInfoEditPage: FC = () => {
             value={work.workName}
             onChange={changeHandler(targetIdx, workNameHandler)}
             type="text"
-            placeholder="근무명을 입력해주세요"
+            placeholder="2글자 이하로 근무명을 입력해주세요"
           />
         </div>
         <div>
@@ -264,13 +264,13 @@ const GroupBasicInfoEditPage: FC = () => {
       alert("그룹수정 완료!");
       navigate(`/group/${groupId}/info`);
     } catch (err) {
-      alert("그룹수정 실패")
+      alert("그룹수정 실패");
     }
   };
 
   return (
     <Layout title="그룹생성">
-     <GroupSelectBar id={groupId ?? ""} />
+      <GroupSelectBar id={groupId ?? ""} activeIdx={2} />
       <BoxSection>
         <BoxHeader>
           <span>그룹 수정</span>
