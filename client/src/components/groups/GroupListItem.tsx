@@ -92,7 +92,7 @@ const GroupListItem: FC<Props> = ({ emoji, desc, name, id }) => {
         </SubDiv2>
         {openThreeDot ? <ThreeDot id={id} /> : ""}
       </Div1>
-      <Link to={`/group/${id}/member`}>
+      <Link to={`/group/${id}/schedule`}>
         <Div2>{name}</Div2>
       </Link>
       <Div3>{desc}</Div3>

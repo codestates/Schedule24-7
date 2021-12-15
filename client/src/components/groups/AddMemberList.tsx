@@ -11,6 +11,7 @@ import { addListener } from "process";
 import { getGroups } from "../../redux/actions/Group";
 import { getGroupsApi } from "../../lib/api/group";
 import { useDispatch } from "react-redux";
+import swal from "sweetalert";
 
 const DescBlock = styled.div`
   display: flex;
@@ -146,10 +147,16 @@ const AddMemberList: FC<Props> = ({handleAddCancle}) => {
       });
       const response = await getGroupsApi();
       dispatch(getGroups(response.data));
-      alert("멤버 생성 완료!")
+      swal({
+        title: "멤버 생성 완료",
+        icon: "success",
+      });      
       handleAddCancle()
     } catch (err) {
-      alert("멤버 생성 실패!")
+      swal({
+        title: "모든항목을 입력해주세요",
+        icon: "error",
+      });
     }
   };
   const dispatch = useDispatch();
@@ -192,9 +199,9 @@ const AddMemberList: FC<Props> = ({handleAddCancle}) => {
           <SmallButton
             title={"저장"}
             onClick={createGroupMember}
-            color={"black"}
+            color={"#5c5c5c"}
           />
-          <SmallButton title={"취소"} onClick={handleAddCancle} color={"grey"} />
+          <SmallButton title={"취소"} onClick={handleAddCancle} color={"#b60000"} />
         </DescBlock>
       </EditBlock>
     </>

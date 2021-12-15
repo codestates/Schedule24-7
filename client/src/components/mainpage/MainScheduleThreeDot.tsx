@@ -6,6 +6,7 @@ import styled from "styled-components";
 import { getGroupsApi } from "../../lib/api/group";
 import { getGroups } from "../../redux/actions/Group";
 import { setFirstView } from "../../redux/actions/scheduleActions";
+import swal from "sweetalert";
 
 const Block = styled.nav`
   width: 100px;
@@ -71,7 +72,10 @@ const MainScheduleThreeDot: FC<Props> = ({ schedule }) => {
           dispatch(getGroups(res.data));
         });
         navigate("/");
-        alert("스케쥴이 삭제되었습니다");
+        swal({
+        title: "스케쥴이 삭제되었습니다",
+        icon: "success",
+        });
       });
   };
 

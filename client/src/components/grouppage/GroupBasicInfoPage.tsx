@@ -1,9 +1,8 @@
 import { FC, useState, useCallback, useEffect } from "react";
 import Layout from "../Layout";
 import styled from "styled-components";
-import SmallButton from "../groups/SmallButton";
 import { useNavigate } from "react-router";
-import { BoxHeader, BoxSection } from "../../style/theme";
+import { BoxSection } from "../../style/theme";
 import GroupSelectBar from "../groups/GroupSelectBar";
 import { useParams } from "react-router";
 import { deleteGroupApi } from "../../lib/api/group";
@@ -12,6 +11,7 @@ import { getGroupsApi } from "../../lib/api/group";
 import { getGroups } from "../../redux/actions/Group";
 import { RootState } from "../../redux/reducers";
 import { mediaQuery } from "../../GlobalStyle";
+import swal from "sweetalert";
 
 export const AddGroupWrapper = styled.section`
   display: flex;
@@ -208,7 +208,10 @@ const GroupBasicInfoPage: FC = () => {
   const deleteGroup = async () => {
     try {
       await deleteGroupApi(groupId as string);
-      alert("그룹삭제 완료!");
+      swal({
+        title: "그룹삭제 완료",
+        icon: "success",
+      });
       navigate("/group");
       const response = await getGroupsApi();
       dispatch(getGroups(response.data));
@@ -252,7 +255,7 @@ const GroupBasicInfoPage: FC = () => {
                 onClick={deleteGroup}
                 className="delete"
             >그룹삭제</AddBtn>
-            </AddBtnWrapper>            
+            </AddBtnWrapper>          
           </AddDiv>
         </AddGroupWrapper>
       </BoxSection>

@@ -19,6 +19,7 @@ import { RootState } from "../../redux/reducers";
 import { updateGroupApi } from "../../lib/api/group";
 import GroupSelectBar from "../groups/GroupSelectBar";
 import { mediaQuery } from "../../GlobalStyle";
+import swal from "sweetalert";
 
 export const AddGroupWrapper = styled.section`
   display: flex;
@@ -35,7 +36,7 @@ export const AddDiv = styled.div`
   align-items: center;
   background-color: #f9f9f9;
   width: 450px;
-  min-height: 700px;
+  min-height: 500px;
   margin-top: 1rem;
   padding: 1rem;
   border-radius: 0.5rem;
@@ -117,7 +118,7 @@ export const WorkSelect = styled.select`
 `;
 
 export const AddBtn = styled.button`
-  width: 300px;
+  width: 142px;
   height: 40px;
   color: white;
   box-shadow: 0.05rem 0.05rem 0.05rem #696969;
@@ -125,6 +126,12 @@ export const AddBtn = styled.button`
   cursor: pointer;
   margin: 0.5rem;
   background-color: #5c5c5c;
+`;
+
+const AddBtnWrapper = styled.div`
+  display: flex;
+  border: none;
+  background-color: #f9f9f9;
 `;
 
 interface GroupAddState {
@@ -268,10 +275,16 @@ const GroupBasicInfoEditPage: FC = () => {
       });
       const response = await getGroupsApi();
       dispatch(getGroups(response.data));
-      alert("그룹수정 완료!");
+      swal({
+        title: "그룹수정 완료",
+        icon: "success",
+      });
       navigate(`/group/${groupId}/info`);
     } catch (err) {
-      alert("그룹수정 실패");
+      swal({
+        title: "모든항목을 입력해주세요",
+        icon: "error",
+      });
     }
   };
 
@@ -320,10 +333,12 @@ const GroupBasicInfoEditPage: FC = () => {
               <Title>근무명 및 근무인원</Title>
               {renderWorkingForm()}
             </DivWrapper>
-            <AddBtn onClick={updateGroup}>그룹수정</AddBtn>
-            <AddBtn onClick={handleClickLink}>그룹수정취소</AddBtn>
-          </AddDiv>
-        </AddGroupWrapper>
+            <AddBtnWrapper>
+              <AddBtn onClick={updateGroup}>그룹수정</AddBtn>
+              <AddBtn onClick={handleClickLink}>그룹수정취소</AddBtn>
+            </AddBtnWrapper>
+           </AddDiv>
+          </AddGroupWrapper>
       </BoxSection>
     </Layout>
   );

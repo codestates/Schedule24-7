@@ -6,6 +6,7 @@ import ConfirmModal from "./ConfirmModal";
 import { ErrMsg, NormalBox, NormalBtn } from "../../style/theme";
 import { logoutChange } from "../../redux/actions/loginActions";
 import { useNavigate } from "react-router";
+import swal from "sweetalert";
 
 axios.defaults.withCredentials = true;
 
@@ -50,7 +51,11 @@ export default function EditUser({
         window.localStorage.removeItem("token");
         window.localStorage.removeItem("userId");
         window.localStorage.removeItem("password");
-        alert("계정삭제가 정상적으로 처리되었습니다");
+        swal({
+          title: "계정삭제가 정상적으로 처리되었습니다",
+          icon: "success",
+        });
+        
         navigate("/");
       });
   };

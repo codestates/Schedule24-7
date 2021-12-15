@@ -4,8 +4,6 @@ import {
   useState,
   useCallback,
   ChangeEvent,
-  useMemo,
-  useEffect,
 } from "react";
 import styled from "styled-components";
 import { BoxHeader, BoxSection } from "../../style/theme";
@@ -15,7 +13,7 @@ import { useNavigate } from "react-router";
 import { createGroupApi, getGroupsApi } from "../../lib/api/group";
 import { useDispatch } from "react-redux";
 import { getGroups } from "../../redux/actions/Group";
-import Confirm from "../../lib/confirm";
+import swal from "sweetalert";
 
 export const AddGroupWrapper = styled.section`
   display: flex;
@@ -108,7 +106,7 @@ export const WorkSelect = styled.select`
 `;
 
 export const AddBtn = styled.button`
-  width: 300px;
+  width: 142px;
   height: 40px;
   color: white;
   box-shadow: 0.05rem 0.05rem 0.05rem #696969;
@@ -116,6 +114,13 @@ export const AddBtn = styled.button`
   cursor: pointer;
   margin: 0.5rem;
   background-color: #5c5c5c;
+`;
+
+
+const AddBtnWrapper = styled.div`
+  display: flex;
+  border: none;
+  background-color: #f9f9f9;
 `;
 
 export const Div1 = styled.div`
@@ -247,10 +252,16 @@ const GropAddPage: FC = () => {
       });
       const response = await getGroupsApi();
       dispatch(getGroups(response.data));
-      alert("그룹생성 완료!");
+      swal({
+        title: "그룹생성 완료",
+        icon: "success",
+        });
       navigate("/group");
     } catch (err) {
-      // TODO 그룹 생성 실패 에러 처리.
+      swal({
+        title: "모든항목을 입력해주세요",
+        icon: "error",
+      });
     }
   };
 
@@ -301,8 +312,10 @@ const GropAddPage: FC = () => {
               <Title>근무명 및 근무인원</Title>
               {renderWorkingForm()}
             </DivWrapper>
+            <AddBtnWrapper>
             <AddBtn onClick={createGroup}>그룹생성</AddBtn>
             <AddBtn onClick={handleClickLink}>그룹생성취소</AddBtn>
+            </AddBtnWrapper>
           </AddDiv>
         </AddGroupWrapper>
       </BoxSection>

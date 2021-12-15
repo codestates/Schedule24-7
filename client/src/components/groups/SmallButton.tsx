@@ -7,12 +7,14 @@ const Block = styled.div`
   width: 100px;
   height: 30px;
   background-color: ${(props) => props.color};
-  border: 1px solid #000000;
-  border-radius: 0.5rem;
+  color: white;
+  box-shadow: 0.05rem 0.05rem 0.05rem #696969;
+  border: 0px solid #a5a5a5;
   cursor: pointer;
+  margin: 0.5rem;
   align-items: center;
   justify-content: center;
-  color: white;
+  text-align: center;
 `;
 
 interface Props {

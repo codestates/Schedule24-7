@@ -9,6 +9,7 @@ import { useParams } from "react-router";
 import { RootState } from "../../redux/reducers";
 import { getGroups } from "../../redux/actions/Group";
 import { WorkName } from "../schedulepage/WorkersInfo";
+import swal from "sweetalert";
 
 const DescBlock = styled.div`
   display: flex;
@@ -193,11 +194,17 @@ const AddConditionList: FC<Props> = ({ groupId, handleAddCancle }) => {
       });
       const response = await getGroupsApi();
       dispatch(getGroups(response.data));
-      alert("조건생성 완료!");
+      swal({
+        title: "근무조건 생성완료",
+        icon: "success",
+        });
       navigate(`/group/${groupId}/condition`);
       handleAddCancle();
     } catch (err) {
-      alert("모든 항목을 입력해 주세요");
+      swal({
+        title: "모든 항목을 입력해 주세요",
+        icon: "error",
+      });
     }
   };
 
@@ -286,12 +293,12 @@ const AddConditionList: FC<Props> = ({ groupId, handleAddCancle }) => {
           <SmallButton
             title={"생성"}
             onClick={createCondition}
-            color={"black"}
+            color={"#5c5c5c"}
           />
           <SmallButton
             title={"취소"}
             onClick={handleAddCancle}
-            color={"grey"}
+            color={"#b60000"}
           />
         </DescBlock>
       </EditBlock>
