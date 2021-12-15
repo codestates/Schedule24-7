@@ -40,7 +40,7 @@ const GroupSelectBar: FC<Props> = ({ id, activeIdx }) => {
   return (
     <>
       <Block>
-        <Link className={activeIdx === 0 ? "active" : ""} to="#">
+        <Link className={activeIdx === 0 ? "active" : ""} to={`/group/${id}/schedule`}>
           스케줄
         </Link>
         <Link

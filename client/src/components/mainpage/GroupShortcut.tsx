@@ -12,8 +12,10 @@ import {
 import GroupListItem from "../groups/GroupListItem";
 import { useSelector } from "react-redux";
 import { RootState } from "../../redux/reducers";
+import { useNavigate } from "react-router";
 
 export default function GroupShortcut() {
+  const navigate = useNavigate();
   const [showBoxes, setShowBoxes] = useState(false);
   const groups = useSelector((store: RootState) => store.group.groups);
 
@@ -29,7 +31,11 @@ export default function GroupShortcut() {
     <BoxSection>
       <BoxHeader className="group">
         <span>그룹</span>
-        <AddBtn>새그룹추가</AddBtn>
+        <AddBtn
+          onClick={() => {
+            navigate("/group/add");
+          }}
+        >새그룹추가</AddBtn>
       </BoxHeader>
       <ShortcutContainer>
         <ShortcutBoxWrapper className={showBoxes ? "showBoxes" : ""}>

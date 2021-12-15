@@ -7,6 +7,7 @@ import GroupBasicInfoPage from "../grouppage/GroupBasicInfoPage";
 import GroupWorkConditionPage from "../grouppage/GroupWorkConditionPage";
 import GroupBasicInfoEditPage from "../grouppage/GroupBasicInfoEditPage";
 import LandingPage from "../landingPage/LandingPage";
+import GroupSchedulePage from "../grouppage/GroupSchedulePage";
 
 const GroupRoutes: FC = () => {
   return (
@@ -17,7 +18,8 @@ const GroupRoutes: FC = () => {
       <Route path="/:groupId/condition" element={<GroupWorkConditionPage />} />
       <Route path="/:groupId/info" element={<GroupBasicInfoPage />} />
       <Route path="/:groupId/infoedit" element={<GroupBasicInfoEditPage />} />
-      <Route path="/landing" element={<LandingPage/>} />      
+      <Route path="/landing" element={<LandingPage />} />
+      <Route path="/:groupId/schedule" element={<GroupSchedulePage />} />      
     </Routes>
   );
 };

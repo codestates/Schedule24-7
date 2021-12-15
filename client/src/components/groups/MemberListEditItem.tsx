@@ -11,7 +11,7 @@ import { RootState } from "../../redux/reducers";
 import DayPicker from "react-day-picker";
 import "react-day-picker/lib/style.css";
 import { updateGroupMemberApi } from "../../lib/api/group";
-import Confirm from "../../lib/confirm";
+import swal from "sweetalert";
 
 const Block = styled.div`
   width: 310px;
@@ -147,10 +147,16 @@ const MemberListEditItem: FC<Props> = ({
       });
       const response = await getGroupsApi();
       dispatch(getGroups(response.data));
-      alert("멤버 수정 완료!")
+      swal({
+        title: "멤버수정 완료",
+        icon: "success",
+      });
       setIsEdit(false);
     } catch (err) {
-      alert("멤버 수정 실패!")
+      swal({
+        title: "모든항목을 입력해주세요",
+        icon: "error",
+      });
     }
   };
   const dispatch = useDispatch();
@@ -180,9 +186,18 @@ const MemberListEditItem: FC<Props> = ({
       });
       const response = await getGroupsApi();
       dispatch(getGroups(response.data));
-      alert("멤버삭제 완료!");
+      swal({
+        title: "멤버삭제 완료",
+        icon: "success",
+      });
       navigate(`/group/${groupId}/member`);
-    } catch (err) {}
+    } catch (err) {
+      swal({
+        title: "멤버삭제 실패",
+        icon: "error",
+      });
+    
+    }
   };
 
   return (
@@ -202,8 +217,8 @@ const MemberListEditItem: FC<Props> = ({
           {/* {memberId} */}
         </DescBlock>
         <DescBlock className="button">
-          <SmallButton title={"수정"} onClick={handleButton} color={"black"} />
-          <SmallButton title={"삭제"} onClick={deleteMember} color={"red"} />
+          <SmallButton title={"수정"} onClick={handleButton} color={"#5c5c5c"} />
+          <SmallButton title={"삭제"} onClick={deleteMember} color={"#b60000"} />
         </DescBlock>
       </Block>
       <EditBlock className={isEdit ? "" : "edit"}>
@@ -238,12 +253,12 @@ const MemberListEditItem: FC<Props> = ({
           <SmallButton
             title={"수정 완료"}
             onClick={updateGroupMember}
-            color={"black"}
+            color={"#5c5c5c"}
           />
           <SmallButton
             title={"수정 취소"}
             onClick={handleCancleButton}
-            color={"grey"}
+            color={"#b60000"}
           />
         </DescBlock>
       </EditBlock>

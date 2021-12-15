@@ -9,6 +9,7 @@ import { mediaQuery } from "../../GlobalStyle";
 import ConfirmModal from "./ConfirmModal";
 import { useDispatch } from "react-redux";
 import { logoutChange } from "../../redux/actions/loginActions";
+import swal from "sweetalert";
 
 axios.defaults.withCredentials = true;
 
@@ -208,6 +209,11 @@ function UserInfo() {
         window.localStorage.removeItem("token");
         window.localStorage.removeItem("id");
         // alert("계정삭제가 정상적으로 처리되었습니다");
+        swal({
+          title: "계정삭제가 정상적으로 처리되었습니다",
+          icon: "success",
+        });
+        
         navigate("/");
       });
   };
