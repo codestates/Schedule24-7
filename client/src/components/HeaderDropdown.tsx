@@ -3,6 +3,7 @@ import { FC, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import swal from "sweetalert";
 import { logoutChange } from "../redux/actions/loginActions";
 
 const Block = styled.nav`
@@ -51,12 +52,7 @@ const HeaderDropdown: FC = ({}: any) => {
   const dispatch = useDispatch();
 
   //불러온 유저정보 저장
-  const [userInfo, setUserInfo] = useState<any>({
-    userId: "",
-    userName: "",
-    email: "",
-    tokenType: "",
-  });
+  const [userInfo, setUserInfo] = useState<string>("");
 
   //유저정보 불러옴
   useEffect(() => {
@@ -67,13 +63,16 @@ const HeaderDropdown: FC = ({}: any) => {
         },
       })
       .then((res) => {
-        setUserInfo({
-          ...userInfo,
-          userId: res.data.user.userId,
-          userName: res.data.user.userName,
-          email: res.data.user.email,
-        });
-        window.localStorage.setItem("id", userInfo.userId);
+        if (
+          window.localStorage.getItem("test") !== "true" &&
+          res.data.user.tokenType === "jwt"
+        ) {
+          setUserInfo(res.data.user.userId);
+        } else {
+          setUserInfo(res.data.user.userName);
+        }
+
+        // window.localStorage.setItem("id", userInfo.userId);
       });
   }, [dispatch]);
 
@@ -81,14 +80,27 @@ const HeaderDropdown: FC = ({}: any) => {
   const handleLogout = () => {
     window.localStorage.removeItem("token");
     window.localStorage.removeItem("id");
+    window.localStorage.removeItem("test");
     dispatch(logoutChange());
     navigate("/");
   };
 
+  //마이페이지 진입 시 필터링
+  const goMyPage = () => {
+    if (window.localStorage.getItem("test") === "true") {
+      swal({
+        text: "체험계정은 마이페이지를 조회할 수 없습니다. \n\n회원가입 후 이용해주세요!",
+        icon: "error",
+      });
+    } else {
+      navigate("/mypage");
+    }
+  };
+
   return (
     <Block id="ThreeDot">
-      <Link to="/">{userInfo.userId}</Link>
-      <Link to="/mypage">마이페이지</Link>
+      <Link to="/">{userInfo}</Link>
+      <MenuText onClick={goMyPage}>마이페이지</MenuText>
       <MenuText onClick={handleLogout}>로그아웃</MenuText>
     </Block>
   );
