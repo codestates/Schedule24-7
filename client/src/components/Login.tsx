@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
-import { Link } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import styled from "styled-components";
 import { loginChange } from "../redux/actions/loginActions";
@@ -78,6 +78,7 @@ export const GoogleLogo = styled.img`
 
 export default function Login() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [isError, setIsError] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
 
@@ -105,6 +106,7 @@ export default function Login() {
         // window.localStorage.setItem("id", loginInfo.userId);
         window.localStorage.setItem("token", res.data.accessToken);
         dispatch(loginChange());
+        navigate("/");
       })
       .catch(() => {
         setIsError(true);

@@ -5,10 +5,16 @@ interface Idx {
 }
 
 export const AllLandingContainer = styled.div`
-  background: linear-gradient(0deg, #fbfafc, #fbfafc);
+  /* background: linear-gradient(0deg, #fbfafc, #fbfafc); */
+  /* background-color: #2f5fd7; */
+  background-image: url("https://cdn.discordapp.com/attachments/907157959333785630/920545172113207307/LandingBackground_1.jpg");
   display: flex;
   flex-direction: column;
   width: 100%;
+  /* height: 100%; */
+  /* background-position: center; */
+  background-repeat: no-repeat;
+  background-size: cover;
   justify-content: center;
   align-items: center;
   font-family: "Gmarket Sans TTF";
@@ -21,13 +27,76 @@ export const AllLandingContainer = styled.div`
   }
 `;
 
+export const LandingHeader = styled.div`
+  display: flex;
+  /* position: fixed; */
+  /* top: 0px; */
+  z-index: 50;
+  width: 100%;
+  height: 65px;
+  align-items: center;
+
+  a {
+    text-decoration: none;
+    /* color: white; */
+  }
+  a:visited {
+    text-decoration: none;
+    /* color: white; */
+  }
+
+  :hover {
+    /* border-bottom: 1px dashed #ffffff80; */
+    /* background-color: #ebfffe50; */
+  }
+`;
+
+export const HeaderLeft = styled.div`
+  flex: 1 0 auto;
+  padding-left: 5%;
+`;
+
+export const HeaderLogo = styled.img`
+  width: 280px;
+  @media screen and (max-width: 420px) {
+    width: 150px;
+  }
+`;
+
+export const HeaderRight = styled.div`
+  display: flex;
+  justify-content: right;
+  flex: 1 0 auto;
+  padding-right: 5%;
+`;
+
+export const HeaderItem = styled.div`
+  width: 100px;
+  height: 20px;
+  padding-top: 5px;
+  border: 1px solid #ffffff;
+  text-align: center;
+  border-radius: 5px;
+  margin: 3px;
+  color: white;
+  :hover {
+    background-color: #ffffff20;
+    box-shadow: 0 0 5px #ffffff20;
+  }
+  @media screen and (max-width: 420px) {
+    width: 50px;
+    font-size: 12px;
+  }
+`;
+
 export const BodyContainer = styled.main`
   width: 100%;
   max-width: 78.75rem;
   padding: 0 30px 0 30px;
-  background: linear-gradient(0deg, #fbfafc, #fbfafc);
+  /* background: linear-gradient(0deg, #fbfafc, #fbfafc); */
   @media screen and (max-width: 1000px) {
     padding: 0;
+    height: 400px;
   }
 `;
 
@@ -35,7 +104,7 @@ export const BodyOutContainer = styled.main`
   width: 100%;
   display: flex;
   justify-content: center;
-  background: linear-gradient(0deg, #fbfafc, #fbfafc);
+  /* background: linear-gradient(0deg, #fbfafc, #fbfafc); */
 `;
 
 export const FirstLandingContainer = styled.div`
@@ -43,11 +112,10 @@ export const FirstLandingContainer = styled.div`
   height: 51.313rem;
   display: flex;
   align-items: center;
-  background: linear-gradient(0deg, #fbfafc, #fbfafc);
   transition: 0.5s all;
   position: relative;
   @media screen and (max-width: 1000px) {
-    margin: 70px 0 70px 0;
+    margin: 10px 0 0 0;
     height: auto;
     position: static;
     display: flex;
@@ -55,6 +123,46 @@ export const FirstLandingContainer = styled.div`
     width: 100%;
     justify-content: center;
     transition: 0.5s all;
+  }
+  @media screen and (max-width: 420px) {
+    /* flex-direction: column; */
+    /* height: 300px; */
+  }
+`;
+export const FirstImageContainer = styled.div`
+  position: absolute;
+  display: flex;
+  align-items: center;
+  height: 100%;
+  transition: 0.5s all;
+  z-index: 1;
+  right: 100;
+  flex: 1 0 auto;
+  img {
+    width: 700px;
+    box-shadow: 3px 3px 3px #1a1a1a70;
+  }
+  @media screen and (max-width: 1000px) {
+    position: static;
+    width: 100%;
+    flex-direction: column;
+    align-items: center;
+    /* justify-content: flex-start; */
+    /* margin-bottom: 0px; */
+    img {
+      width: 500px;
+    }
+  }
+  @media screen and (max-width: 37.5rem) {
+    margin-bottom: 0;
+    img {
+      width: 310px;
+    }
+  }
+  @media screen and (max-width: 420px) {
+    img {
+      width: 260px;
+    }
   }
 `;
 
@@ -66,75 +174,92 @@ export const FirstTextContainer = styled.div`
   transition: 0.5s all;
   z-index: 2;
   position: absolute;
+  right: 0;
+  flex: 1 0 auto;
   @media screen and (max-width: 1000px) {
     position: static;
+    /* bottom: 100; */
     margin-top: 20px;
     transition: 0.5s all;
-    justify-content: flex-end;
+    /* justify-content: flex-end; */
     align-items: center;
     text-align: center;
     width: 100%;
-    height: 313px;
+    /* height: 313px; */
   }
   @media screen and (max-width: 420px) {
-    margin-top: 0;
-    height: 250px;
+    margin-top: 20px;
+    /* height: 250px; */
   }
-`;
 
-export const FirstImageContainer = styled.div`
-  position: absolute;
-  display: flex;
-  align-items: center;
-  height: 100%;
-  transition: 0.5s all;
-  z-index: 1;
-  right: 0;
-  img {
-    width: 700px;
-  }
-  @media screen and (max-width: 1000px) {
-    position: static;
-    width: 100%;
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-start;
-    margin-bottom: 0px;
-    img {
-      width: 500px;
-    }
-  }
-  @media screen and (max-width: 37.5rem) {
-    margin-bottom: 0;
-    img {
-      width: 317px;
-    }
-  }
-  @media screen and (max-width: 420px) {
-    img {
-      width: 287px;
-    }
+  a {
+    display: flex;
+    justify-content: center;
+    text-decoration: none;
   }
 `;
 
 export const FirstText = styled.div`
-  font-weight: 100;
+  font-weight: 400;
   font-size: 1.5rem;
   transition: 0.5s all;
+  color: white;
+  /* padding-left: 50px; */
+
   span {
     margin-bottom: 0.813rem;
   }
+
+  div {
+    margin: 12px 0px 12px 0px;
+  }
+
+  div:nth-child(1) {
+    font-size: 28px;
+    font-weight: bold;
+  }
+
+  div:nth-child(n + 2) {
+    font-size: 20px;
+  }
+
   @media screen and (max-width: 1000px) {
     div {
       margin-bottom: 4px;
     }
   }
   @media screen and (max-width: 37.5rem) {
-    font-size: 18px;
+    font-size: 16px;
     transition: 0.5s all;
+    /* color: #303030; */
+    div {
+      margin: 5px 0px 5px 0px;
+    }
+
+    div:nth-child(1) {
+      font-size: 20px;
+      font-weight: bold;
+    }
+
+    div:nth-child(n + 2) {
+      font-size: 10px;
+    }
   }
   @media screen and (max-width: 420px) {
-    font-size: 14px;
+    /* font-size: 12px; */
+    transition: 0.5s all;
+    div {
+      margin: 5px 0px 5px 0px;
+    }
+
+    div:nth-child(1) {
+      font-size: 20px;
+      font-weight: bold;
+    }
+
+    div:nth-child(n + 2) {
+      font-size: 10px;
+    }
   }
 `;
 
@@ -160,29 +285,46 @@ export const FirstSecondText = styled.div`
 `;
 
 export const GotoMainButton = styled.button`
-  font-weight: 100;
-  width: 18rem;
-  height: 4rem;
-  background: #c9e5e4;
+  font-weight: 400;
+  width: 15rem;
+  height: 3rem;
+  background-color: #f0f4ff;
+  color: #393939;
   border-radius: 4px;
   box-sizing: border-box;
+  box-shadow: 2px 2px 2px #49494950;
   cursor: pointer;
-  font-size: 1.5rem;
-  color: #ffffff;
+  font-size: 17px;
   border: none;
   transition: 0.5s all;
+  margin-top: 15px;
+
+  :hover {
+    background-color: #e4e4e4;
+  }
   :active {
-    background: #3f3f3f;
+    background-color: #e4e4e4;
+    box-shadow: inset 1px 1px 1px gray;
   }
   @media screen and (max-width: 37.5rem) {
+    margin-top: 10px;
     width: 180px;
-    height: 45px;
-    font-size: 16px;
+    height: 40px;
+    font-size: 14px;
     transition: 0.5s all;
+    &.last {
+      background-color: #f0f4ff;
+      color: #393939;
+    }
   }
   @media screen and (max-width: 420px) {
     width: 150px;
-    height: 40px;
+    height: 20px;
+    font-size: 12px;
+  }
+  &.last {
+    background-color: #2f5fd7;
+    color: #ffffff;
   }
 `;
 
@@ -197,12 +339,13 @@ export const ThirLandingContainer = styled.div<Idx>`
   height: 51.313rem;
   position: relative;
   @media screen and (max-width: 1000px) {
-    flex-direction: column;
+    flex-direction: row;
     height: 70rem;
   }
   @media screen and (max-width: 37.5rem) {
-    margin-top: 50px;
-    height: 431px;
+    margin-top: 0px;
+    margin-bottom: 10px;
+    height: 230px;
   }
 `;
 
@@ -211,7 +354,11 @@ export const ThirTextContainer = styled.div<Idx>`
   display: flex;
   flex-direction: column;
   transition: 0.5s all;
+  justify-content: center;
+  align-items: center;
   z-index: 2;
+  margin-left: ${(props) => (props.idx % 2 === 0 ? "200px" : "none")};
+  margin-right: ${(props) => (props.idx % 2 === 0 ? "none" : "200px")};
   left: ${(props) => (props.idx % 2 === 0 ? "0" : "none")};
   right: ${(props) => (props.idx % 2 === 0 ? "none" : "0")};
   @media screen and (max-width: 1000px) {
@@ -219,15 +366,17 @@ export const ThirTextContainer = styled.div<Idx>`
     left: none;
     right: none;
     top: 0;
+    margin: 30px 0 0 0;
   }
 `;
 
 export const TitleContainer = styled.div`
-  font-size: 30px;
-  font-weight: 300;
+  font-size: 23px;
+  font-weight: 500;
   z-index: 2;
   transition: 0.5s all;
   text-shadow: 2px 2px #fff, 2px -2px #fff, -2px 2px #fff, -2px -2px #fff;
+  /* padding-left: 70px; */
   div {
     margin-bottom: 13px;
     transition: 0.5s all;
@@ -236,7 +385,7 @@ export const TitleContainer = styled.div`
     text-shadow: none;
   }
   @media screen and (max-width: 37.5rem) {
-    font-size: 17px;
+    font-size: 15px;
     transition: 0.5s all;
     div {
       margin-bottom: 9px;
@@ -244,7 +393,7 @@ export const TitleContainer = styled.div`
     }
   }
   @media screen and (max-width: 420px) {
-    font-size: 14px;
+    font-size: 11px;
   }
 `;
 
@@ -288,6 +437,7 @@ export const ThirImageContainer = styled.div<Idx>`
   img {
     width: 700px;
     transition: 0.5s all;
+    box-shadow: 3px 3px 3px #1a1a1a70;
   }
   @media screen and (max-width: 1000px) {
     left: none;
@@ -299,8 +449,12 @@ export const ThirImageContainer = styled.div<Idx>`
   }
   @media screen and (max-width: 37.5rem) {
     img {
-      width: 266px;
-      height: 238px;
+      margin-left: ${(props) => (props.idx % 2 === 0 ? "30px" : "0px")};
+      margin-right: ${(props) => (props.idx % 2 === 0 ? "0px" : "30px")};
+      /* left: ${(props) => (props.idx % 2 === 0 ? "none" : "0px")};
+      right: ${(props) => (props.idx % 2 === 0 ? "0px" : "none")}; */
+      width: 200px;
+      /* height: 238px; */
       transition: 0.5s all;
     }
   }
@@ -332,7 +486,7 @@ export const AllContainer = styled.div<Idx>`
   align-items: center;
   transition: 0.5s all;
   @media screen and (max-width: 1000px) {
-    flex-direction: column;
+    flex-direction: ${(props) => (props.idx % 2 === 0 ? "row" : "row-reverse")};
   }
 `;
 
@@ -342,7 +496,7 @@ export const ThirdBodyContainer = styled.main`
   width: 100%;
   max-width: 78.75rem;
   padding: 0 27px 0 27px;
-  background: linear-gradient(0deg, #fbfafc, #fbfafc);
+  /* background: linear-gradient(0deg, #fbfafc, #fbfafc); */
   @media screen and (max-width: 1000px) {
     padding: 0;
   }
@@ -352,13 +506,13 @@ export const ThirdBodyOutContainer = styled.main`
   width: 100%;
   display: flex;
   justify-content: center;
-  background: linear-gradient(0deg, #fbfafc, #fbfafc);
+  /* background: linear-gradient(0deg, #fbfafc, #fbfafc); */
 `;
 export const GoTopContainer = styled.div`
   position: fixed;
   cursor: pointer;
-  top: 83%;
-  left: 85%;
+  top: 92vh;
+  left: 92vw;
   z-index: 99;
   img {
     opacity: 0.2;

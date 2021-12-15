@@ -14,6 +14,7 @@ import MyRoutes from "./components/routes/MyRoutes";
 import { getGroupsApi } from "./lib/api/group";
 import { getGroups } from "./redux/actions/Group";
 import "./lib/confirm/index.css";
+import LandingPage from "./pages/landingPage/LandingPage";
 
 function App() {
   const loginState = useSelector((state: RootState) => state.loginReducer);
@@ -52,7 +53,8 @@ function App() {
         </Routes>
       ) : (
         <Routes>
-          <Route path="/" element={<LoginPage />} />
+          <Route path="/" element={<LandingPage />} />
+          <Route path="/login" element={<LoginPage />} />
           <Route path="/signup" element={<SignUpPage />} />
           <Route path="/findidpw/*" element={<FindIdPw />} />
         </Routes>
