@@ -4,7 +4,15 @@ import apiClient from "../client";
 export const getGroupsApi = (): Promise<
   ReturnApi<Group.GroupListItemResDTO[]>
 > => {
-  return apiClient().get<any, ReturnApi<Group.GroupListItemResDTO[]>>("/group");
+  return apiClient()
+    .get<any, ReturnApi<Group.GroupListItemResDTO[]>>("/group")
+    .then((response) => {
+      if (response.data instanceof Array) {
+        return response;
+      }
+
+      return { ...response, data: [] };
+    });
 };
 
 export const deleteGroupApi = (groudId: string): Promise<ReturnApi<any>> => {

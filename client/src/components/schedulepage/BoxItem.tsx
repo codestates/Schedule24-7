@@ -97,16 +97,13 @@ export default function BoxItem({ schedule }: any) {
 
   //스케쥴 조회 함수
   const connectViewSchedule = (data: any): void => {
-    // console.log(data);
     dispatch(setFirstView(data));
     dispatch(addCurrentData(data));
-    // window.localStorage.setItem("data", data);
     navigate(`/schedule/view/${schedule.group.groupId}/${schedule._id}`);
   };
 
   return (
     <MainDiv>
-      {/* {console.log(schedule)} */}
       <Div1>
         <SubDiv1>{schedule.scheduleEmoji}</SubDiv1>
         <SubDiv2>

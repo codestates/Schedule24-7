@@ -19,6 +19,7 @@ import { setSyntheticLeadingComments } from "typescript";
 const Box = styled.div`
   display: flex;
   flex-wrap: wrap;
+  align-items:flex-start;
   border: 1px dotted #696969;
   border-radius: 0.5rem;
   padding: 0.3rem;

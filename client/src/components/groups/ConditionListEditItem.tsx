@@ -178,7 +178,7 @@ const MemberListEditItem: FC<Props> = ({
       });
       const response = await getGroupsApi();
       dispatch(getGroups(response.data));
-      handleCancleButton()
+      handleCancleButton();
       alert("조건삭제 완료!");
     } catch (err) {
       alert("실패!");

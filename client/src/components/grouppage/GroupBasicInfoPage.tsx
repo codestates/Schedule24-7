@@ -11,6 +11,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { getGroupsApi } from "../../lib/api/group";
 import { getGroups } from "../../redux/actions/Group";
 import { RootState } from "../../redux/reducers";
+import { mediaQuery } from "../../GlobalStyle";
 
 export const AddGroupWrapper = styled.section`
   display: flex;
@@ -26,25 +27,24 @@ export const AddDiv = styled.div`
   justify-content: center;
   align-items: center;
   background-color: #f9f9f9;
-  min-width: 390px;
-  height: 450px;
+  width: 450px;
+  min-height: 550px;
   margin-top: 1rem;
   padding: 1rem;
   border-radius: 0.5rem;
   border: 1px solid #cacacac0;
   box-shadow: 1px 1px 1px #cacaca57;
+  ${mediaQuery.mobile} {
+    max-width: 290px;
+    padding: 15px;
+    border-radius: 5px;
+  }
 `;
 
 export const DivWrapper = styled.div`
   display: flex;
   flex-direction: column;
   margin: 0.5rem;
-  > .bold {
-    font-style: normal;
-    font-weight: bold;
-    font-size: 20px;
-    line-height: 23px;
-  }
 `;
 
 export const TitleHeader = styled.div`
@@ -109,7 +109,7 @@ export const WorkSelect = styled.select`
 `;
 
 export const AddBtn = styled.button`
-  width: 300px;
+  width: 142px;
   height: 40px;
   color: white;
   box-shadow: 0.05rem 0.05rem 0.05rem #696969;
@@ -117,20 +117,69 @@ export const AddBtn = styled.button`
   cursor: pointer;
   margin: 0.5rem;
   background-color: #5c5c5c;
+  &.delete {
+      background-color: #b60000;
+    }
 `;
 
-const DescBlock = styled.div`
+const AddBtnWrapper = styled.div`
   display: flex;
-  margin-top: 20px;
-  margin-left: 20px;
+  border: none;
+  background-color: #f9f9f9;
+`;
 
-  &.button {
-    margin-top: 30px;
-    margin-right: 20px;
-    justify-content: space-between;
+const EmojiDiv = styled.div`
+  width: 46px;
+  height: 35px;
+  padding-top: 7px;
+  text-align: center;
+  border: 1px solid #a5a5a5;
+  box-shadow: 0.05rem 0.05rem 0.05rem #6969692d;
+  background-color: white;
+`;
+
+export const Div1 = styled.div`
+  display: flex;
+  align-items: center;
+`;
+
+const Div2 = styled.div`
+  width: 288px;
+  height: 29px;
+  padding-top: 13px;
+  padding-left: 10px;
+  border: 1px solid #a5a5a5;
+  box-shadow: 0.05rem 0.05rem 0.05rem #6969692d;
+  margin: 0.2rem;
+  background-color: white;
+
+  &.sub {
+    width: 240px;
+  }
+
+  ${mediaQuery.mobile} {
+    max-width: 260px;
   }
 `;
 
+const Div3 = styled.div`
+  width: 288px !important;
+  height: 29px;
+  padding-top: 13px;
+  padding-left: 10px;
+  border: 1px solid #a5a5a5;
+  box-shadow: 0.05rem 0.05rem 0.05rem #6969692d;
+  margin: 0.2rem;
+  background-color: white;
+
+  &.sub {
+    width: 240px;
+  }
+
+  ${mediaQuery.mobile} {
+    max-width: 288px;
+  }
+`;
 const GroupBasicInfoPage: FC = () => {
   const [isEdit, setIsEdit] = useState(false);
   const handleButton = () => {
@@ -159,10 +208,10 @@ const GroupBasicInfoPage: FC = () => {
   const deleteGroup = async () => {
     try {
       await deleteGroupApi(groupId as string);
-      const response = await getGroupsApi();
-      dispatch(getGroups(response.data));
       alert("그룹삭제 완료!");
       navigate("/group");
+      const response = await getGroupsApi();
+      dispatch(getGroups(response.data));
     } catch (err) {}
   };
 
@@ -173,34 +222,37 @@ const GroupBasicInfoPage: FC = () => {
         <AddGroupWrapper>
           <AddDiv>
             <DivWrapper>
-              <div>{selectgroup.groupEmoji}</div>
-              <div className="bold">{selectgroup.groupName}</div>
-              <div>{selectgroup.groupDesc}</div>
+            <TitleHeader>기본정보</TitleHeader>
+            </DivWrapper>
+              <DivWrapper>
+                <Title>그룹이름</Title>
+                <Div1>
+                  <EmojiDiv>{selectgroup.groupEmoji}</EmojiDiv>
+                  <Div2 className="sub">{selectgroup.groupName}</Div2>
+                </Div1>
+                  <Div3 className="sub">{selectgroup.groupDesc}</Div3>
             </DivWrapper>
             <DivWrapper>
-              <div className="bold">하루 근무 교대 횟수</div>
-              <div>하루 {selectgroup.works.length}회</div>
+              <Title className="sub">하루 근무 교대 횟수</Title>
+              <Div2>하루 {selectgroup.works.length}회</Div2>
             </DivWrapper>
             <DivWrapper>
-              <div className="bold">근무명 및 근무인원</div>
+              <Title className="bold">근무명 및 근무인원</Title>
               {selectgroup.works.map((item) => (
-                <div>
+                <Div2>
                   {item.workName}: {item.limit}
-                </div>
+                </Div2>
               )) ?? null}
             </DivWrapper>
-            <DescBlock className="button">
-              <SmallButton
-                title={"수정"}
+            <AddBtnWrapper>
+              <AddBtn
                 onClick={handleEditButton}
-                color={"black"}
-              />
-              <SmallButton
-                title={"그룹 삭제"}
+              >수정</AddBtn>
+              <AddBtn
                 onClick={deleteGroup}
-                color={"red"}
-              />
-            </DescBlock>
+                className="delete"
+            >그룹삭제</AddBtn>
+            </AddBtnWrapper>            
           </AddDiv>
         </AddGroupWrapper>
       </BoxSection>
