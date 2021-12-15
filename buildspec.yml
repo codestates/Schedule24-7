@@ -26,7 +26,7 @@ phases:
       - cd server
       - echo Build started on `date`
       - echo Building the Docker image...
-      - docker build --build-arg MONGO_HOST=$MONGO_HOST \ --build-arg MONGO_DATABASE=$MONGO_DATABASE \ --build-arg MONGO_USER=$MONGO_USER \ --build-arg MONGO_PASSWORD=$MONGO_PASSWORD -t schedule247-server .
+      - docker build --build-arg MONGO_HOST=$MONGO_HOST --build-arg MONGO_DATABASE=$MONGO_DATABASE --build-arg MONGO_USER=$MONGO_USER --build-arg MONGO_PASSWORD=$MONGO_PASSWORD -t schedule247-server .
       - docker tag schedule247-server:latest 460523577299.dkr.ecr.ap-northeast-2.amazonaws.com/schedule247-server:latest
   post_build:
     commands:
