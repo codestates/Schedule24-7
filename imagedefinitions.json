@@ -1,0 +1,6 @@
+[
+  {
+    "name": "web1",
+    "imageUri": "460523577299.dkr.ecr.ap-northeast-2.amazonaws.com/schedule247-server:latest"
+  }
+]
