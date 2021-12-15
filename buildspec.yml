@@ -1,6 +1,6 @@
 version: 0.2
 env:
-  shell: bash
+  shell: /bin/sh
   parameter-store:
     MONGO_HOST: "MONGO_HOST"
     MONGO_PASSWORD: "MONGO_PASSWORD"
