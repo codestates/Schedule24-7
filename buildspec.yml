@@ -19,6 +19,7 @@ phases:
   pre_build:
     commands:
       - echo Loggin in to Amazon ECR...
+      - echo $MONGO_DATABASE
       - $(aws ecr get-login --no-include-email --region $AWS_DEFAULT_REGION)
   build:
     commands:
