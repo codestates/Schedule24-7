@@ -7,7 +7,7 @@ RUN npm install
 #RUN apt-get update -y
 #RUN apt-get install -y authbind
 COPY . .
-EXPOSE 8080
+EXPOSE 80
 RUN npm run build
 CMD ["node","dist/main.js"]
 
