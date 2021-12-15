@@ -21,6 +21,7 @@ ENV MONGO_HOST=${MONGO_BASE} \
 
 
 COPY . .
+RUN echo ${MONGO_DATABASE}
 EXPOSE 80
 RUN npm run build
 CMD ["node","dist/main.js"]
