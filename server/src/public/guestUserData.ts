@@ -38,30 +38,37 @@ export const membersInfoList = [
   {
     memberName: "김대리",
     memberPosition: "대리",
+    memberVacation: [],
   },
   {
     memberName: "최과장",
     memberPosition: "과장",
+    memberVacation: [],
   },
   {
     memberName: "이사원",
     memberPosition: "사원",
+    memberVacation: [],
   },
   {
     memberName: "박사원",
     memberPosition: "사원",
+    memberVacation: [],
   },
   {
     memberName: "최팀장",
     memberPosition: "팀장",
+    memberVacation: [],
   },
   {
     memberName: "심대리",
     memberPosition: "대리",
+    memberVacation: [],
   },
   {
     memberName: "허사원",
     memberPosition: "사원",
+    memberVacation: [],
   },
 ];
 
