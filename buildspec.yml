@@ -1,0 +1,20 @@
+version: 0.2
+
+phases:
+  pre_build:
+    commands:
+      - echo Loggin in to Amazon ECR...
+      - $(aws ecr get-login --no-include-email --region $AWS_DEFAULT_REGION)
+  build:
+    commands:
+      - echo Changing path
+      - cd server
+      - echo Build started on `date`
+      - echo Building the Docker image...
+      - docker build -t schedule247-server .
+      - docker tag schedule247-server:latest 460523577299.dkr.ecr.ap-northeast-2.amazonaws.com/schedule247-server:latest
+  post_build:
+    commands:
+      - echo Build completed on `date`
+      - echo Pushing the Docker image...
+      - docker push 460523577299.dkr.ecr.ap-northeast-2.amazonaws.com/schedule247-server:latest
