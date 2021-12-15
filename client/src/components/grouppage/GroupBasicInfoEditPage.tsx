@@ -4,7 +4,6 @@ import {
   useState,
   useCallback,
   ChangeEvent,
-  useMemo,
   useEffect,
 } from "react";
 import styled from "styled-components";
@@ -19,6 +18,8 @@ import { useParams } from "react-router";
 import { RootState } from "../../redux/reducers";
 import { updateGroupApi } from "../../lib/api/group";
 import GroupSelectBar from "../groups/GroupSelectBar";
+import { mediaQuery } from "../../GlobalStyle";
+
 export const AddGroupWrapper = styled.section`
   display: flex;
   flex-direction: column;
@@ -34,12 +35,18 @@ export const AddDiv = styled.div`
   align-items: center;
   background-color: #f9f9f9;
   width: 450px;
-  height: 700px;
+  min-height: 700px;
   margin-top: 1rem;
   padding: 1rem;
   border-radius: 0.5rem;
   border: 1px solid #cacacac0;
   box-shadow: 1px 1px 1px #cacaca57;
+
+  ${mediaQuery.mobile} {
+    max-width: 290px;
+    padding: 15px;
+    border-radius: 5px;
+  }
 `;
 
 export const DivWrapper = styled.div`
@@ -272,13 +279,10 @@ const GroupBasicInfoEditPage: FC = () => {
     <Layout title="그룹생성">
       <GroupSelectBar id={groupId ?? ""} activeIdx={2} />
       <BoxSection>
-        <BoxHeader>
-          <span>그룹 수정</span>
-        </BoxHeader>
         <AddGroupWrapper>
           <AddDiv>
             <DivWrapper>
-              <TitleHeader> 기본 설정</TitleHeader>
+              <TitleHeader>기본정보</TitleHeader>
             </DivWrapper>
             <DivWrapper>
               <Title>그룹기본설정</Title>

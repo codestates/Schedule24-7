@@ -90,7 +90,7 @@ const GroupListItem: FC<Props> = ({ emoji, desc, name, id }) => {
             <div />
           </ToggleMenu>
         </SubDiv2>
-        {openThreeDot ? <ThreeDot id={id}/> : ""}
+        {openThreeDot ? <ThreeDot id={id} /> : ""}
       </Div1>
       <Link to={`/group/${id}/member`}>
         <Div2>{name}</Div2>

@@ -116,7 +116,7 @@ function UserInfo() {
         },
       })
       .then((res) => {
-        // console.log(res.data);
+        // (res.data);
         setUserInfo({
           ...userInfo,
           userId: res.data.user.userId,
@@ -135,7 +135,6 @@ function UserInfo() {
   const handlePassword =
     (key: string) => (e: React.ChangeEvent<HTMLInputElement>) => {
       setPassword({ ...newPassword, [key]: e.target.value });
-      // console.log(newPassword.newPassword);
     };
 
   //패스워드 일치여부 확인 함수

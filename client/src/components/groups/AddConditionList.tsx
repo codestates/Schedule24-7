@@ -8,6 +8,7 @@ import { getGroupsApi, createGroupConditionApi } from "../../lib/api/group";
 import { useParams } from "react-router";
 import { RootState } from "../../redux/reducers";
 import { getGroups } from "../../redux/actions/Group";
+import { WorkName } from "../schedulepage/WorkersInfo";
 
 const DescBlock = styled.div`
   display: flex;
@@ -111,7 +112,7 @@ interface Props {
 
 const AddConditionList: FC<Props> = ({ groupId, handleAddCancle }) => {
   const groups = useSelector((store: RootState) => store.group.groups);
-  const selectGroup = groups.find((item) => item._id === groupId);
+  const selectGroup = groups.find((item) => item._id === groupId) ?? null;
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [formState, setFromState] = useState<ConditionAddState>({
@@ -161,6 +162,19 @@ const AddConditionList: FC<Props> = ({ groupId, handleAddCancle }) => {
     setIsEdit(false);
   };
 
+  const workNameHandler = (e: ChangeEvent<HTMLSelectElement>) => {
+    if (selectGroup === null) return;
+
+    const selectWork = selectGroup.works.find(
+      (work) => work.workId === Number(e.target.value)
+    );
+
+    if (selectWork === undefined) return;
+    const { workName, workId } = selectWork;
+
+    setFromState({ ...formState, workName, workId });
+  };
+
   const createCondition = async () => {
     const { conditionDesc, target, cycle, workId, operation, value } =
       formState;
@@ -186,6 +200,15 @@ const AddConditionList: FC<Props> = ({ groupId, handleAddCancle }) => {
       alert("모든 항목을 입력해 주세요");
     }
   };
+
+  useEffect(() => {
+    if (selectGroup === null) return;
+
+    setFromState((prev) => ({
+      ...prev,
+      workName: selectGroup.works[0].workName,
+    }));
+  }, [selectGroup]);
 
   return (
     <>
@@ -227,14 +250,14 @@ const AddConditionList: FC<Props> = ({ groupId, handleAddCancle }) => {
           <div id="conditiontitle">대상근무</div>
           <WorkSelect
             name="workId"
-            onChange={changeNumInputHandler}
+            onChange={workNameHandler}
             value={formState.workId}
           >
-            {typeof selectGroup === "undefined"
+            {selectGroup === null
               ? null
               : selectGroup.works.map((item) => (
                   <option value={item.workId}>{item.workName}</option>
-              ))}
+                ))}
           </WorkSelect>
         </DescBlock>
         <DescBlock>

@@ -101,8 +101,6 @@ export default function Login() {
         password: loginInfo.password,
       })
       .then((res) => {
-        // console.log(res.data);
-        // window.localStorage.setItem("id", loginInfo.userId);
         window.localStorage.setItem("token", res.data.accessToken);
         dispatch(loginChange());
       })
@@ -126,7 +124,6 @@ export default function Login() {
 
   return (
     <div>
-      {console.log(document.cookie)}
       <form onSubmit={(e) => e.preventDefault()}>
         <LoginItems>
           <LoginBox
