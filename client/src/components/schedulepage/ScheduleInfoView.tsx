@@ -55,7 +55,6 @@ export const EmojiDiv = styled.div`
 export default function ScheduleInfoView({ currentSchedule }: any) {
   return (
     <>
-      {/* {console.log(currentSchedule)} */}
       <DivWrapper>
         <TitleHeader>스케쥴정보</TitleHeader>
       </DivWrapper>

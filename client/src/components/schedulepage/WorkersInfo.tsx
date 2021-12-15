@@ -352,8 +352,6 @@ export default function WorkersInfo() {
         let test = false;
 
         for (let item of tmp) {
-          console.log(item);
-          console.log(el);
           if (item.memberId === el.memberId) {
             test = true;
           }
@@ -429,7 +427,6 @@ export default function WorkersInfo() {
 
   return (
     <Layout title="스케쥴">
-      {console.log(editWorkerList)}
       <BoxSection>
         <BoxHeader>
           <span>스케쥴명단수정</span>

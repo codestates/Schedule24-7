@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { DefaultLayout, hideMobileCss, mediaQuery } from "../GlobalStyle";
 import HeaderDropdown from "./HeaderDropdown";
+import moment from "moment";
 
 const Block = styled.header`
   background-color: #272727;
@@ -34,7 +35,16 @@ const HeaderRight = styled.div`
     padding-right: 5px;
   }
 `;
-const HeaderCenter = styled.div``;
+const HeaderCenter = styled.div`
+    color: white;
+  ${hideMobileCss(true)}
+`;
+
+const MobileHeaderCenter = styled.div`
+    color: white;
+  ${hideMobileCss(false)}
+`;
+
 const PageTitle = styled.div`
   color: #fff;
   font-size: 18px;
@@ -130,7 +140,7 @@ interface Props {
 
 const Header: FC<Props> = ({ title }) => {
   const dispatch = useDispatch();
-
+  const [isEdit, setIsEdit] = useState(true);
   const [openDropdown, setOpenDropdown] = useState(false);
   const handleOpenDropdown = () => {
     setOpenDropdown(true);
@@ -180,8 +190,14 @@ const Header: FC<Props> = ({ title }) => {
         </Link>
       </HeaderLeft>
       <HeaderCenter>
-        {title === undefined ? null : <PageTitle>{title}</PageTitle>}
+        {isEdit
+          ?
+          `오늘은 ${moment().format('YYYY')}년 ${moment().format('MM')}월 ${moment().format('DD')}일 입니다`
+          : (title === undefined ? null : <PageTitle>{title}</PageTitle>)}
       </HeaderCenter>
+      <MobileHeaderCenter>
+        {`${moment().format('YY')}년 ${moment().format('MM')}월 ${moment().format('DD')}일`}
+      </MobileHeaderCenter>
       <HeaderRight>
         <UserInfoWrap>
           <UserImg

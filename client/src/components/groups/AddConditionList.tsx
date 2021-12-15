@@ -8,6 +8,8 @@ import { getGroupsApi, createGroupConditionApi } from "../../lib/api/group";
 import { useParams } from "react-router";
 import { RootState } from "../../redux/reducers";
 import { getGroups } from "../../redux/actions/Group";
+import { WorkName } from "../schedulepage/WorkersInfo";
+import swal from "sweetalert";
 
 const DescBlock = styled.div`
   display: flex;
@@ -111,7 +113,7 @@ interface Props {
 
 const AddConditionList: FC<Props> = ({ groupId, handleAddCancle }) => {
   const groups = useSelector((store: RootState) => store.group.groups);
-  const selectGroup = groups.find((item) => item._id === groupId);
+  const selectGroup = groups.find((item) => item._id === groupId) ?? null;
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [formState, setFromState] = useState<ConditionAddState>({
@@ -161,6 +163,19 @@ const AddConditionList: FC<Props> = ({ groupId, handleAddCancle }) => {
     setIsEdit(false);
   };
 
+  const workNameHandler = (e: ChangeEvent<HTMLSelectElement>) => {
+    if (selectGroup === null) return;
+
+    const selectWork = selectGroup.works.find(
+      (work) => work.workId === Number(e.target.value)
+    );
+
+    if (selectWork === undefined) return;
+    const { workName, workId } = selectWork;
+
+    setFromState({ ...formState, workName, workId });
+  };
+
   const createCondition = async () => {
     const { conditionDesc, target, cycle, workId, operation, value } =
       formState;
@@ -179,13 +194,28 @@ const AddConditionList: FC<Props> = ({ groupId, handleAddCancle }) => {
       });
       const response = await getGroupsApi();
       dispatch(getGroups(response.data));
-      alert("조건생성 완료!");
+      swal({
+        title: "근무조건 생성완료",
+        icon: "success",
+        });
       navigate(`/group/${groupId}/condition`);
       handleAddCancle();
     } catch (err) {
-      alert("모든 항목을 입력해 주세요");
+      swal({
+        title: "모든 항목을 입력해 주세요",
+        icon: "error",
+      });
     }
   };
+
+  useEffect(() => {
+    if (selectGroup === null) return;
+
+    setFromState((prev) => ({
+      ...prev,
+      workName: selectGroup.works[0].workName,
+    }));
+  }, [selectGroup]);
 
   return (
     <>
@@ -227,14 +257,14 @@ const AddConditionList: FC<Props> = ({ groupId, handleAddCancle }) => {
           <div id="conditiontitle">대상근무</div>
           <WorkSelect
             name="workId"
-            onChange={changeNumInputHandler}
+            onChange={workNameHandler}
             value={formState.workId}
           >
-            {typeof selectGroup === "undefined"
+            {selectGroup === null
               ? null
               : selectGroup.works.map((item) => (
                   <option value={item.workId}>{item.workName}</option>
-              ))}
+                ))}
           </WorkSelect>
         </DescBlock>
         <DescBlock>
@@ -263,12 +293,12 @@ const AddConditionList: FC<Props> = ({ groupId, handleAddCancle }) => {
           <SmallButton
             title={"생성"}
             onClick={createCondition}
-            color={"black"}
+            color={"#5c5c5c"}
           />
           <SmallButton
             title={"취소"}
             onClick={handleAddCancle}
-            color={"grey"}
+            color={"#b60000"}
           />
         </DescBlock>
       </EditBlock>

@@ -14,8 +14,9 @@ import { useSelector } from "react-redux";
 import { RootState } from "../../redux/reducers";
 
 const Box = styled.div`
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(19rem, auto));
+  display: flex;
+  flex-wrap: wrap;
+  align-items:flex-start;
   border: 1px dotted #696969;
   border-radius: 0.5rem;
   padding: 0.3rem;
