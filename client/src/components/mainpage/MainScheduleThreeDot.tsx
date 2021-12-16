@@ -73,7 +73,7 @@ const MainScheduleThreeDot: FC<Props> = ({ schedule }) => {
         });
         navigate("/");
         swal({
-          title: "스케쥴이 삭제되었습니다",
+          title: "스케줄이 삭제되었습니다",
           icon: "success",
         });
       });

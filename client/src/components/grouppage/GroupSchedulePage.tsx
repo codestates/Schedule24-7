@@ -19,7 +19,6 @@ export const MainWrapper = styled.div``;
 
 const BoxHeader = styled.div`
   display: flex;
-  justify-content: space-between;
   align-items: center;
   border-width: 0px 0px 0px 0px;
   border-style: solid;
@@ -64,7 +63,7 @@ const GroupSchedulePage: FC =() => {
         <BoxHeader>
           <span></span>
         <Link to="/schedule/add">
-          <AddBtn className="schedule">새스케줄추가</AddBtn>
+          <AddBtn className="schedule">스케줄 생성</AddBtn>
         </Link>
       </BoxHeader>
       {scheduleExist ? (

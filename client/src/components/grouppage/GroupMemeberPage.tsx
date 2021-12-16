@@ -14,12 +14,13 @@ import { useParams } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
 import { getGroupsApi } from "../../lib/api/group";
 import { getGroups } from "../../redux/actions/Group";
-import { setSyntheticLeadingComments } from "typescript";
+import { Link } from "react-router-dom";
 
 const Box = styled.div`
   display: flex;
   flex-wrap: wrap;
   align-items:flex-start;
+  item-alins: center;
   border: 1px dotted #696969;
   border-radius: 0.5rem;
   padding: 0.3rem;
@@ -27,11 +28,45 @@ const Box = styled.div`
 
   ${mediaQuery.mobile} {
     flex-direction: column;
-    background-color: white;
-    border: none;
+    max-width: 320px;
   }
 `;
-const BoxWrapper = styled.div``;
+
+const BoxHeader = styled.div`
+  display: flex;
+  align-items: center;
+  border-width: 0px 0px 0px 0px;
+  border-style: solid;
+  border-color: #696969;
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 0.3rem;
+  padding-bottom: 0.1rem;
+  &.group {
+    margin-top: 3px;
+  }
+`;
+
+const AddBtn = styled.button`
+  width: 100px;
+  height: 30px;
+  background-color: white;
+  border: 1px solid #535353;
+  border-radius: 3px;
+  color: #1b1b1b;
+  font-weight: 500;
+  margin-bottom: 3px;
+  cursor: pointer;
+  box-shadow: 0 0 1px black;
+  :hover {
+    background-color: #e9e9e9;
+    color: #161616;
+  }
+  /* 
+  &.schedule {
+    margin-bottom: 4px;
+  } */
+`;
 
 const GroupMemberPage: FC = () => {
   const dispatch = useDispatch();
@@ -57,7 +92,13 @@ const GroupMemberPage: FC = () => {
   return (
     <Layout title="그룹">
       <GroupSelectBar activeIdx={1} id={groupId ?? ""} />
-
+        <BoxHeader>
+          <span></span>
+        <AddBtn
+          className="schedule"
+          onClick={handler}        
+        >멤버 생성</AddBtn>
+      </BoxHeader>
       <Box>
         {typeof selectgroup === "undefined"
           ? null

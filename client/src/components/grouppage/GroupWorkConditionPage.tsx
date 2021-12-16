@@ -23,11 +23,45 @@ const Box = styled.div`
   background-color: #ececec;
   grid-column-gap: 10px;
 
-  ${mediaQuery.mobile} {
+   ${mediaQuery.mobile} {
     flex-direction: column;
-    background-color: white;
-    border: none;
+    max-width: 320px;
   }
+`;
+const BoxHeader = styled.div`
+  display: flex;
+  align-items: center;
+  border-width: 0px 0px 0px 0px;
+  border-style: solid;
+  border-color: #696969;
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 0.3rem;
+  padding-bottom: 0.1rem;
+  &.group {
+    margin-top: 3px;
+  }
+`;
+
+const AddBtn = styled.button`
+  width: 100px;
+  height: 30px;
+  background-color: white;
+  border: 1px solid #535353;
+  border-radius: 3px;
+  color: #1b1b1b;
+  font-weight: 500;
+  margin-bottom: 3px;
+  cursor: pointer;
+  box-shadow: 0 0 1px black;
+  :hover {
+    background-color: #e9e9e9;
+    color: #161616;
+  }
+  /* 
+  &.schedule {
+    margin-bottom: 4px;
+  } */
 `;
 
 const GroupWorkConditionPage: FC = () => {
@@ -46,6 +80,13 @@ const GroupWorkConditionPage: FC = () => {
   return (
     <Layout title="그룹">
       <GroupSelectBar id={groupId ?? ""} activeIdx={3} />
+        <BoxHeader>
+          <span></span>
+        <AddBtn
+          className="schedule"
+          onClick={handler}        
+        >조건 생성</AddBtn>
+      </BoxHeader>
       <Box>
         {selectGroup
           ? selectGroup.conditions.map((item) => (
