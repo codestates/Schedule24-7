@@ -13,6 +13,14 @@ import "react-day-picker/lib/style.css";
 import { updateGroupMemberApi } from "../../lib/api/group";
 import swal from "sweetalert";
 
+const DescBlock2 = styled.div`
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+  margin-left: 10px;
+  margin-right: 20px;
+`
+
 const Block = styled.div`
   width: 310px;
   min-height: 190px;
@@ -29,23 +37,52 @@ const DescBlock = styled.div`
   display: flex;
   margin-top: 20px;
   align-items: center;
+  margin-top: 10px;
   margin-left: 10px;
+  margin-right: 20px;
+  margin-bottom: 10px;
 
   > #membertitle {
-    font-size: 12px;
+    display: flex;
+    font-size: 16px;
+    margin-right: 0px;
+    line-height: 20px;
+    justify-content: flex-end;
+    align-items: flex-end;
     font-style: bold;
-    width: 60px;
+    width: 100px;
   }
   > #membervalue {
-    margin-left: 50px;
+    margin-left: 30px;
     display: flex;
-    font-size: 22px;
-    white-space: pre-wrap;
+    font-size: 20px;
     justify-content: flex-start;
     align-items: flex-end;
     font-style: bold;
-    width: 200px;
+    width: 165px;
   }
+
+ > .membertitle {
+    display: flex;
+    font-size: 16px;
+    margin-right: 0px;
+    line-height: 20px;
+    justify-content: flex-end;
+    align-items: flex-end;
+    font-style: bold;
+    width: 70px;
+  }
+
+  > .membervalue {
+    margin-left: 40px;
+    display: flex;
+    font-size: 16px;
+    justify-content: flex-start;
+    align-items: flex-end;
+    font-style: bold;
+    width: 160px;
+  }
+
   &.button {
     margin-top: 30px;
     margin-right: 20px;
@@ -223,7 +260,7 @@ const MemberListEditItem: FC<Props> = ({
       </Block>
       <EditBlock className={isEdit ? "" : "edit"}>
         <DescBlock>
-          <div id="membertitle">이름</div>
+          <div className="membertitle">이름</div>
           <input
             className="inputbox"
             onChange={changeHandler}
@@ -233,7 +270,7 @@ const MemberListEditItem: FC<Props> = ({
           />
         </DescBlock>
         <DescBlock>
-          <div id="membertitle">직급</div>
+          <div className="membertitle">직급</div>
           <input
             name="memberPosition"
             onChange={changeHandler}
@@ -241,8 +278,10 @@ const MemberListEditItem: FC<Props> = ({
             placeholder="직급을 입력해주세요"
           />
         </DescBlock>
-        <DescBlock>
-          <div id="membertitle">휴가예정일</div>
+        <DescBlock2>
+          <div className="membertitle">휴가예정일</div>
+        </DescBlock2>       
+          <DescBlock>
           <DayPicker
             onDayClick={changeSelectDay}
             selectedDays={form.memberVacation}

@@ -76,7 +76,7 @@ const GroupSchedulePage: FC =() => {
               ))}
         </BoxWrapper>
       ) : (
-        <NoSchedule>등록된 스케쥴이 없습니다</NoSchedule>
+        <NoSchedule>등록된 스케줄이 없습니다</NoSchedule>
       )}
       </BoxSection>
       </Layout>

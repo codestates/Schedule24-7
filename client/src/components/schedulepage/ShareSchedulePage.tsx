@@ -151,6 +151,7 @@ export const SelectHome = styled.button`
   }
 `;
 
+
 export const TableIcon = styled.img`
   width: 14px;
 
@@ -159,6 +160,39 @@ export const TableIcon = styled.img`
   }
 `;
 
+export const SelectBtn2 = styled.button`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 28px;
+  height: 28px;
+  background-color: white;
+  /* box-shadow: 0 0 1px #d4d4d4; */
+  border: 1px solid white;
+  border-radius: 3px;
+  margin-left: 2px;
+  cursor: pointer;
+  &.list {
+    /* margin-left: 1px; */
+  }
+`;
+export const TableIcon2 = styled.img`
+  width: 28px;
+
+  &.list {
+    height: 16px;
+  }
+`;
+
+export const TableIcon3 = styled.img`
+  width: 20px;
+
+  &.list {
+    height: 16px;
+  }
+`;
+
+
 export const TableHome = styled.img`
   width: 120px;
 
@@ -166,6 +200,9 @@ export const TableHome = styled.img`
     height: 28px;
   }
 `;
+// interface Window {
+// Kakao: any
+// }
 
 const ShareSchedulePage: FC = () => {
   const navigate = useNavigate();
@@ -200,8 +237,35 @@ const ShareSchedulePage: FC = () => {
     });
   }, [getShareSchedule]);
 
-
+  const Kakao = (window as any).Kakao
+  useEffect(() => {  
+   Kakao.init(`8dede5bcf0c58e058f94673fc4bc25f8`)
+  console.log(Kakao.isInitialized())    
+  }, [])
   
+  const shareKaKao = () => {
+    Kakao.Link.sendDefault({
+      objectType: `feed`,
+      content: {
+        title: `Schedule24/7 스케줄`,
+        description: `자동완성 스케줄러 Schedule24/7로 생성된 스케줄표입니다.`,
+        imageUrl: `https://media.discordapp.net/attachments/907157959333785630/914705380070785064/s725_logopng.png`,
+        link: {
+          webUrl: `https://schedule24-7.link/schedule/view/share/${scheduleId}`,
+          mobileWebUrl: `https://schedule24-7.link/schedule/view/share/${scheduleId}`
+        },
+      },
+      buttons: [
+        {
+          title: 'Schedule24/7',
+          link: {
+            webUrl: `https://schedule24-7.link/schedule/view/share/${scheduleId}`,
+            mobileWebUrl: `https://schedule24-7.link/schedule/view/share/${scheduleId}`,          
+          }
+        }
+      ]
+    })
+  }
   
   if (result === null) return <></>;
 
@@ -212,26 +276,7 @@ const ShareSchedulePage: FC = () => {
 
   const [year, month] = result.period.split("-");
   
-  const Kakao = (window as any).Kakao
-  
-  function shareKakao() {
-    Kakao.init(`8dede5bcf0c58e058f94673fc4bc25f8`)    
-      // 카카오링크 버튼 생성
-    Kakao.Link.createDefaultButton({
-    container: '#btnKakao', // 카카오공유버튼ID
-    objectType: 'feed',
-    content: {
-      title: "Schedule24/7", // 보여질 제목
-      description: "Schedule24/7의 생성스케줄입니다.", // 보여질 설명
-      imageUrl: "https://schedule24-7.link/", // 콘텐츠 URL
-      link: {
-         mobileWebUrl: "https://schedule24-7.link/",
-         webUrl: "https://schedule24-7.link/"
-      }
-    }
-  });
-  }
-  
+
   const handleCopyClipBoard = async (text: string) => {
     try {
       await navigator.clipboard.writeText(text);
@@ -267,11 +312,11 @@ const ShareSchedulePage: FC = () => {
         </DateWrapper>
         <ViewSelect>
           <SelectBtn onClick={()=>handleCopyClipBoard(`https://schedule24-7.link/schedule/view/share/${scheduleId}`)}>
-            <TableIcon src="https://cdn.discordapp.com/attachments/876977982760165416/920911715028308009/pngaaa.com-1385850.png" />
+            <TableIcon3 src="https://media.discordapp.net/attachments/876977982760165416/921049999289245756/link.png" />
           </SelectBtn>
-           <SelectBtn onClick={()=>shareKakao()}>
-            <TableIcon src="https://cdn.discordapp.com/attachments/876977982760165416/920912192554041354/kakao.png" />
-          </SelectBtn>
+           <SelectBtn2 onClick={()=>shareKaKao()}>
+            <TableIcon2 src="https://cdn.discordapp.com/attachments/876977982760165416/921047924580970497/kakaotalk.png" />
+          </SelectBtn2>
           <SelectBtn className="list" onClick={() => setViewMode(true)}>
             <TableIcon
               className="list"
