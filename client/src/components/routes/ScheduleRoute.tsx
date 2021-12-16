@@ -3,6 +3,7 @@ import { Routes, Route } from "react-router-dom";
 import SchedulePage from "../../pages/SchedulePage";
 import AddScheduleMain from "../schedulepage/AddScheduleMain";
 import ScheduleInfoMain from "../schedulepage/ScheduleInfoMain";
+import ShareSchedulePage from "../schedulepage/ShareSchedulePage";
 import ViewScheduleMain from "../schedulepage/ViewScheduleMain";
 import WorkersInfo from "../schedulepage/WorkersInfo";
 
@@ -17,6 +18,7 @@ const ScheduleRoutes: FC = () => {
         path="/editworker/:groupId/:scheduleId/:contentId"
         element={<WorkersInfo />}
       />
+      <Route path="/view/share/:scheduleId" element={<ShareSchedulePage />} />
     </Routes>
   );
 };

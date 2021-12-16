@@ -4,8 +4,9 @@ import styled from "styled-components";
 import { mediaQuery } from "../GlobalStyle";
 import GroupListItem from "../components/groups/GroupListItem";
 import { useNavigate } from "react-router";
-import { BoxSection, BoxWrapper, NoSchedule } from "../style/theme";
-import { AddBtn, BoxHeader } from "../style/theme";
+
+import { BoxSection, BoxWrapper } from "../style/theme";
+import { AddBtn, BoxHeader,NoSchedule } from "../style/theme";
 import { getGroupsApi } from "../lib/api/group";
 import { useDispatch, useSelector } from "react-redux";
 import { getGroups } from "../redux/actions/Group";
@@ -37,6 +38,7 @@ const GroupIndexPage: FC = () => {
           <HeaderText>그룹</HeaderText>
           <AddBtn onClick={handleClickLink}>새그룹추가</AddBtn>
         </BoxHeader>
+
         {groups.length !== 0 ? (
           <BoxWrapper>
             {groups.map((group) => (
@@ -52,6 +54,7 @@ const GroupIndexPage: FC = () => {
         ) : (
           <NoSchedule>등록된 그룹이 없습니다</NoSchedule>
         )}
+
       </BoxSection>
     </Layout>
   );

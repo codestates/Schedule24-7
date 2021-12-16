@@ -1,5 +1,6 @@
 namespace Group {
   interface GroupListItemResDTO {
+    map: any;
     createdAt: string;
     groupDesc: string;
     groupEmoji: string;

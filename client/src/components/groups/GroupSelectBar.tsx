@@ -13,8 +13,8 @@ const Block = styled.div`
     display: block;
     color: #303030;
     text-align: center;
-    width: 80px;
-    height: 45px;
+    width: 70px;
+    height: 40px;
     left: 24px;
     top: 10.5px;
     background-color: #ffffff;
@@ -23,11 +23,12 @@ const Block = styled.div`
     border: 0.01rem solid rgba(0, 0, 0, 0.15);
     justify-content: center;
     align-items: center;
-    line-height: 50px;
     text-decoration: none;
+    line-height: 42px;
+    margin : 1px;
   }
   a.active {
-    background-color: #e9f8fb;
+    background-color: #ddeef8;
   }
 `;
 
