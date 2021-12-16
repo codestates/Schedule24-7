@@ -5,7 +5,6 @@ import { useDispatch } from "react-redux";
 import styled from "styled-components";
 import { loginChange } from "../redux/actions/loginActions";
 import { ErrMsg } from "../style/theme";
-// import GoogleLogin from "react-google-login";
 
 axios.defaults.withCredentials = true;
 
@@ -111,6 +110,7 @@ export default function Login() {
         password: loginInfo.password,
       })
       .then((res) => {
+        console.log(res.data);
         window.localStorage.setItem("token", res.data.accessToken);
         dispatch(loginChange());
         navigate("/");
@@ -139,12 +139,15 @@ export default function Login() {
   const kakaoLoginHandler = () => {
     window.location.assign("https://server.schedule24-7.link/auth/kakao");
 
-    let newCookie = document.cookie;
-    let newCookieArr = newCookie.split(";");
-    let finalCookie = newCookieArr[0].split("%22")[3];
+    // let newCookie2 = document.cookie;
+    // let newCookieArr2 = newCookie2.split(";");
+    // let finalCookie2 = newCookieArr2[0].split("%22")[3];
 
-    window.localStorage.setItem("token", finalCookie);
-    if (finalCookie !== undefined) {
+    let newCookie2 = document.cookie;
+    let finalCookie2 = newCookie2.split("%22")[3];
+
+    window.localStorage.setItem("token", finalCookie2);
+    if (finalCookie2 !== undefined) {
       dispatch(loginChange());
     }
   };
