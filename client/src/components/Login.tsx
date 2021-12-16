@@ -45,13 +45,17 @@ export const LoginBtn = styled.button`
   border: 0.1px solid #a5a5a575;
   border-radius: 0.1rem;
   cursor: pointer;
-  margin-bottom: 0.25rem;
+  margin-bottom: 0.3rem;
 
   &.a {
     background-color: #5c5c5c;
   }
   &.b {
     background-color: #e7e7e7;
+    color: black;
+  }
+  &.c {
+    background-color: #fee500;
     color: black;
   }
 `;
@@ -73,7 +77,12 @@ export const LoginText = styled.div`
 `;
 
 export const GoogleLogo = styled.img`
-  width: 23px;
+  width: 20px;
+`;
+
+export const KakaoLogo = styled.img`
+  width: 18px;
+  margin-right: 2px;
 `;
 
 export default function Login() {
@@ -112,7 +121,7 @@ export default function Login() {
       });
   };
 
-  //ouath 로그인 요청 함수
+  //구글 ouath 로그인 요청 함수
   const socialLoginHandler = () => {
     window.location.assign("https://server.schedule24-7.link/auth/google");
 
@@ -121,7 +130,23 @@ export default function Login() {
     let finalCookie = newCookieArr[0].split("%22")[3];
 
     window.localStorage.setItem("token", finalCookie);
-    dispatch(loginChange());
+    if (finalCookie !== undefined) {
+      dispatch(loginChange());
+    }
+  };
+
+  //카카오 ouath 로그인 요청 함수
+  const kakaoLoginHandler = () => {
+    window.location.assign("https://server.schedule24-7.link/auth/kakao");
+
+    let newCookie = document.cookie;
+    let newCookieArr = newCookie.split(";");
+    let finalCookie = newCookieArr[0].split("%22")[3];
+
+    window.localStorage.setItem("token", finalCookie);
+    if (finalCookie !== undefined) {
+      dispatch(loginChange());
+    }
   };
 
   return (
@@ -146,7 +171,11 @@ export default function Login() {
           {isError ? <ErrMsg className="loginErr">{errorMessage}</ErrMsg> : ""}
           <LoginBtn className="b" onClick={socialLoginHandler}>
             <GoogleLogo src="https://media.discordapp.net/attachments/907157959333785630/910685960612765786/google_logo.png" />
-            구글아이디로 로그인
+            구글계정으로 로그인
+          </LoginBtn>
+          <LoginBtn className="c" onClick={kakaoLoginHandler}>
+            <KakaoLogo src="https://cdn.discordapp.com/attachments/907157959333785630/920856818115280897/kakao_symbol.png" />
+            카카오계정으로 로그인
           </LoginBtn>
         </LoginItems>
       </form>
