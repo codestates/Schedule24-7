@@ -196,6 +196,10 @@ export default function ViewSchedule() {
     setCurrentDate(date);
     newArr = Calendar(date);
   };
+  
+  const handleSharePage = () => {
+    navigate(`/schedule/view/share/${params.scheduleId}`)
+  }
 
   //목록형 캘린더 만드는 함수
   let columnArr = newArr.filter((el: any) => {
@@ -241,6 +245,9 @@ export default function ViewSchedule() {
           </SubTextWrapper>
         </DateWrapper>
         <ViewSelect>
+          <SelectBtn onClick={()=>handleSharePage()}>
+            <TableIcon src="https://cdn.discordapp.com/attachments/876977982760165416/920911715028308009/pngaaa.com-1385850.png" />
+          </SelectBtn>
           <SelectBtn className="list" onClick={() => handleViewChange(true)}>
             <TableIcon
               className="list"

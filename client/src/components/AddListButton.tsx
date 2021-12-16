@@ -3,6 +3,7 @@ import { useNavigate } from "react-router";
 import styled from "styled-components";
 
 const Block = styled.div`
+  display: none;
   text-align: center;
   width: 310px;
   left: 10px;

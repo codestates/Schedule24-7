@@ -36,7 +36,7 @@ export default function GroupShortcut() {
             navigate("/group/add");
           }}
         >
-          새그룹추가
+          그룹 생성
         </AddBtn>
       </BoxHeader>
       <ShortcutContainer>

@@ -41,7 +41,7 @@ export default function ScheduleMain() {
       <BoxHeader>
         <span>스케줄</span>
         <Link to="/schedule/add">
-          <AddBtn className="schedule">새스케줄 추가</AddBtn>
+          <AddBtn className="schedule">스케줄 생성</AddBtn>
         </Link>
       </BoxHeader>
       {scheduleExist ? (

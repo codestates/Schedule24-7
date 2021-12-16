@@ -59,7 +59,7 @@ export default function ScheduleShortcut() {
             navigate("/schedule/add");
           }}
         >
-          새스케줄 추가
+          스케줄 생성
         </AddBtn>
       </BoxHeader>
       <ShortcutContainer>
