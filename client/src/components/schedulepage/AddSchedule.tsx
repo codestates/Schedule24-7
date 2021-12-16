@@ -142,7 +142,7 @@ export default function AddSchedule() {
   //데이트피커 날짜
   const [startDate, setStartDate] = useState<any>(new Date());
 
-  //스케쥴 입력 정보 상태
+  //스케줄 입력 정보 상태
   const [scheduleInfo, setScheduleInfo] = useState({
     groupId: "",
     scheduleName: "",
@@ -158,7 +158,7 @@ export default function AddSchedule() {
   //그룹정보조회
   const groups = useSelector((store: RootState) => store.group.groups);
 
-  //스케쥴 생성 함수
+  //스케줄 생성 함수
   const handleNewSchedule = (): void => {
     axios
       .post(
@@ -185,7 +185,7 @@ export default function AddSchedule() {
         if (scheduleEmoji === "") {
           setErrMessage("이모지를 선택해주세요");
         } else if (scheduleInfo.scheduleName === "") {
-          setErrMessage("스케쥴 이름을 입력해주세요");
+          setErrMessage("스케줄 이름을 입력해주세요");
         } else if (scheduleInfo.groupId === "") {
           setErrMessage("그룹을 선택해주세요");
         } else if (res.message === "Request failed with status code 400") {
@@ -194,7 +194,7 @@ export default function AddSchedule() {
       });
   };
 
-  //신규스케쥴 정보 저장 함수
+  //신규 스케줄 정보 저장 함수
   const handleSelectInfo =
     (key: string) => (e: React.ChangeEvent<HTMLSelectElement>) => {
       setScheduleInfo({ ...scheduleInfo, [key]: e.target.value });
@@ -221,12 +221,12 @@ export default function AddSchedule() {
   return (
     <BoxSection>
       <BoxHeader>
-        <span>신규스케쥴생성</span>
+        <span>신규 스케줄 생성</span>
       </BoxHeader>
       <AddScheduleWrapper>
         <AddDiv>
           <DivWrapper>
-            <TitleHeader>신규스케쥴 생성 설정</TitleHeader>
+            <TitleHeader>신규 스케줄 생성 설정</TitleHeader>
           </DivWrapper>
           <DivWrapper>
             <Title>이름설정</Title>
@@ -235,7 +235,7 @@ export default function AddSchedule() {
               <NameBox
                 type="text"
                 onChange={handleTextInfo("scheduleName")}
-                placeholder="스케쥴 이름 입력"
+                placeholder="스케줄 이름 입력"
               />
             </Div1>
           </DivWrapper>
@@ -267,7 +267,7 @@ export default function AddSchedule() {
               />
             </Div1>
           </DivWrapper>
-          <AddBtn onClick={handleNewSchedule}>스케쥴생성</AddBtn>
+          <AddBtn onClick={handleNewSchedule}>스케줄 생성</AddBtn>
           <ErrMsg className="centered">{errMessage}</ErrMsg>
         </AddDiv>
       </AddScheduleWrapper>

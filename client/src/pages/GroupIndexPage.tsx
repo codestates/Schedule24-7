@@ -37,7 +37,6 @@ const GroupIndexPage: FC = () => {
           <HeaderText>그룹</HeaderText>
           <AddBtn onClick={handleClickLink}>새그룹추가</AddBtn>
         </BoxHeader>
-
         {groups.length !== 0 ? (
           <BoxWrapper>
             {groups.map((group) => (

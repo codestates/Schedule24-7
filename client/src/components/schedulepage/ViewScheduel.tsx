@@ -149,7 +149,7 @@ export default function ViewSchedule() {
     return el._id === params.groupId;
   });
 
-  //현재 스케쥴만 필터링
+  //현재 스케줄만 필터링
   let currentSchedule: any;
   if (currentGroup.length !== 0) {
     currentSchedule = currentGroup[0].schedules.filter((el: any) => {
@@ -185,7 +185,7 @@ export default function ViewSchedule() {
   //드롭다운 바뀔때 캘린더 렌더하는 함수
   let newArr: string[] = Calendar(currentDate);
   const handleCurrentDate = (e: React.ChangeEvent<HTMLSelectElement>): void => {
-    if (e.target.value !== "스케쥴선택") {
+    if (e.target.value !== "스케줄 선택") {
       let url = e.target.value.split(",");
       navigate(`/schedule/view/${url[0]}/${url[1]}`);
     }
@@ -208,7 +208,7 @@ export default function ViewSchedule() {
     return el.split("-")[1] === tmp;
   });
 
-  //스케쥴 이름 및 팀이름
+  //스케줄 이름 및 팀이름
   let tableName: string = currentSchedule[0].scheduleName;
   let tableTeam: string = currentSchedule[0].group.groupName;
 
@@ -216,7 +216,7 @@ export default function ViewSchedule() {
     <ViewScheduleWrapper>
       <TableTopWrapper>
         <SelectBox onChange={handleCurrentDate}>
-          <option>스케쥴선택</option>
+          <option>스케줄 선택</option>
           {groups.map((el: any, idx: any) => {
             return el.schedules.map((item: any, idx: any) => {
               return (

@@ -21,9 +21,6 @@ export const BoxSection = styled.section`
   display: flex;
   flex-direction: column;
   margin-bottom: 1rem;
-  /* &.group {
-    margin-top: 2px;
-  } */
 `;
 
 export const BoxHeader = styled.div`
@@ -39,6 +36,9 @@ export const BoxHeader = styled.div`
   padding-bottom: 0.1rem;
   &.group {
     margin-top: 3px;
+  }
+  &.schedule {
+    margin-top: 4px;
   }
 `;
 
@@ -197,4 +197,17 @@ export const NoSchedule = styled.div`
     padding-top: 12px;
     height: 30px;
   }
+`;
+
+export const ScheduleHeaderText = styled.span`
+  margin-bottom: 3px;
+`;
+
+export const BackGround = styled.div`
+  background-color: rgba(0, 0, 0, 0);
+  position: fixed;
+  top: 0%;
+  left: 0%;
+  bottom: 0%;
+  right: 0%;
 `;

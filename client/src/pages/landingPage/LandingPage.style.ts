@@ -315,10 +315,10 @@ export const GotoMainButton = styled.button`
   /* margin-bottom: 15px; */
 
   :hover {
-    background-color: #e4e4e4;
+    background-color: #e1eaff;
   }
   :active {
-    background-color: #e4e4e4;
+    background-color: #e1eaff;
     box-shadow: inset 1px 1px 1px gray;
   }
   @media screen and (max-width: 450px) {
@@ -334,7 +334,7 @@ export const GotoMainButton = styled.button`
   }
   @media screen and (max-width: 450px) {
     width: 150px;
-    height: 20px;
+    height: 25px;
     font-size: 12px;
   }
   &.last {

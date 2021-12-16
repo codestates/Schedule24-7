@@ -39,9 +39,9 @@ export default function ScheduleMain() {
   return (
     <BoxSection className="schedule">
       <BoxHeader>
-        <span>스케쥴</span>
+        <span>스케줄</span>
         <Link to="/schedule/add">
-          <AddBtn className="schedule">새스케줄추가</AddBtn>
+          <AddBtn className="schedule">새스케줄 추가</AddBtn>
         </Link>
       </BoxHeader>
       {scheduleExist ? (
@@ -53,7 +53,7 @@ export default function ScheduleMain() {
           })}
         </BoxWrapper>
       ) : (
-        <NoSchedule>등록된 스케쥴이 없습니다</NoSchedule>
+        <NoSchedule>등록된 스케줄이 없습니다</NoSchedule>
       )}
     </BoxSection>
   );

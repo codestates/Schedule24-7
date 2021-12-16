@@ -1,7 +1,12 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
-import { BoxHeader, BoxSection, ErrMsg } from "../../style/theme";
+import {
+  BoxHeader,
+  BoxSection,
+  ErrMsg,
+  ScheduleHeaderText,
+} from "../../style/theme";
 import "./react-datepicker.css";
 import { ScheduleDummy } from "./ScheduleDummy";
 import axios from "axios";
@@ -151,7 +156,7 @@ export default function ScheduleInfoMain() {
     return el._id === params.groupId;
   });
 
-  //현재 스케쥴만 필터링
+  //현재 스케줄만 필터링
   let currentSchedule: any;
   if (currentGroup.length !== 0) {
     currentSchedule = currentGroup[0].schedules.filter((el: any) => {
@@ -161,7 +166,7 @@ export default function ScheduleInfoMain() {
     currentSchedule = ScheduleDummy;
   }
 
-  //스케쥴정보상태
+  //스케줄 정보상태
   const [scheduleInfo, setScheduleInfo] = useState({
     scheduleName: "",
   });
@@ -177,7 +182,7 @@ export default function ScheduleInfoMain() {
   //에러메시지 상태
   const [errMessage, setErrMessage] = useState<string>("");
 
-  //스케쥴이름변겸함수
+  //스케줄 이름 변겸 함수
   const handleTextInfo =
     (key: string) => (e: React.ChangeEvent<HTMLInputElement>) => {
       setScheduleInfo({ ...scheduleInfo, [key]: e.target.value });
@@ -229,13 +234,13 @@ export default function ScheduleInfoMain() {
         });
     } else {
       swal({
-        title: "스케쥴이름을 입력해주세요",
+        title: "스케줄 이름을 입력해주세요",
         icon: "error",
       });
     }
   };
 
-  //스케쥴 삭제 함수
+  //스케줄 삭제 함수
   const handleDeleteSchedule = () => {
     axios
       .delete(
@@ -255,10 +260,10 @@ export default function ScheduleInfoMain() {
   };
 
   return (
-    <Layout title="스케쥴">
+    <Layout title="스케줄">
       <BoxSection>
-        <BoxHeader>
-          <span>스케쥴정보</span>
+        <BoxHeader className="schedule">
+          <ScheduleHeaderText>스케줄 정보</ScheduleHeaderText>
         </BoxHeader>
         <AddScheduleWrapper>
           <AddDiv>
@@ -290,9 +295,9 @@ export default function ScheduleInfoMain() {
               </AddBtnWrapper>
             ) : (
               <AddBtnWrapper>
-                <AddBtn onClick={handleEditMode}>스케쥴수정</AddBtn>
+                <AddBtn onClick={handleEditMode}>스케줄 수정</AddBtn>
                 <AddBtn onClick={handleDeleteSchedule} className="delete">
-                  스케쥴삭제
+                  스케줄 삭제
                 </AddBtn>
               </AddBtnWrapper>
             )}

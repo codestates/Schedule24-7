@@ -2,14 +2,12 @@ import axios from "axios";
 import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import swal from "sweetalert";
-import Footer from "../../components/Footer";
 import { loginChange } from "../../redux/actions/loginActions";
 import {
   AllLandingContainer,
   FirstLandingContainer,
   FirstText,
   GotoMainButton,
-  FirstSecondText,
   FirstTextContainer,
   FirstImageContainer,
   ThirLandingContainer,
@@ -17,7 +15,6 @@ import {
   SevLandingContainer,
   ThirImageContainer,
   TitleContainer,
-  DescrContainer,
   AllContainer,
   BodyContainer,
   BodyOutContainer,
@@ -139,11 +136,6 @@ function LandingPage() {
                         return <div key={el[0]}>{el}</div>;
                       })}
                     </TitleContainer>
-                    {/* <DescrContainer>
-                      {el.descr.map((el) => {
-                        return <div key={el[0]}>{el}</div>;
-                      })}
-                    </DescrContainer> */}
                   </ThirTextContainer>
                   <ThirImageContainer idx={idx}>
                     <img src={el.img} alt={el.title[0]}></img>

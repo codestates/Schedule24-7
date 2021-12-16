@@ -6,6 +6,7 @@ import {
   addCurrentData,
   setFirstView,
 } from "../../redux/actions/scheduleActions";
+import { BackGround } from "../../style/theme";
 import ScheduleThreeDot from "./ScheduleThreeDot";
 
 export const MainDiv = styled.div`
@@ -69,15 +70,6 @@ const ToggleMenu = styled.div`
   > div + div {
     margin-top: 2px;
   }
-`;
-
-export const BackGround = styled.div`
-  background-color: rgba(0, 0, 0, 0);
-  position: fixed;
-  top: 0%;
-  left: 0%;
-  bottom: 0%;
-  right: 0%;
 `;
 
 export default function BoxItem({ schedule }: any) {

@@ -10,7 +10,7 @@ import { mediaQuery } from "../../GlobalStyle";
 import { getGroupsApi } from "../../lib/api/group";
 import { getGroups } from "../../redux/actions/Group";
 import { RootState } from "../../redux/reducers";
-import { BoxHeader, BoxSection, ErrMsg } from "../../style/theme";
+import { BoxHeader, BoxSection, ScheduleHeaderText } from "../../style/theme";
 import Layout from "../Layout";
 import { ScheduleDummy } from "./ScheduleDummy";
 
@@ -74,15 +74,12 @@ export const WorkName = styled.div`
 export const WorkerWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  /* width: 500px; */
 `;
 
 export const Worker = styled.div`
   display: flex;
   width: 400px;
   height: 42px;
-  /* padding-top: 13px; */
-  /* padding-left: 10px; */
   border: 1px solid #b4b4b4;
   box-shadow: 0.05rem 0.05rem 0.05rem #6969692d;
   margin: 0.2rem;
@@ -98,7 +95,7 @@ export const Worker = styled.div`
 export const WorkerNameWrapper = styled.div`
   display: flex;
   padding-left: 7px;
-  /* justify-content: left; */
+
   :hover {
     background-color: #ecf6ff;
   }
@@ -132,11 +129,9 @@ export const EditBtn = styled.button`
 `;
 
 export const DeleteBtn = styled.button`
-  /* display: none; */
   border: none;
   background-color: transparent !important;
   background-image: none !important;
-  /* margin-left: 0px; */
   margin-right: 4px;
   margin-top: 13px;
   margin-bottom: 13px;
@@ -155,7 +150,6 @@ export const DeleteBtn = styled.button`
 
 export const SelectBoxWrapper = styled.div`
   display: flex;
-  /* justify-content: center; */
   align-items: center;
   padding-left: 4px;
   select {
@@ -176,7 +170,6 @@ export const EditList = styled.div`
 `;
 
 export const EditMemberList = styled.div`
-  /* border: 1px solid black; */
   font-size: 14px;
 `;
 
@@ -210,7 +203,7 @@ export default function WorkersInfo() {
     });
   }, [dispatch, navigate, params]);
 
-  //현재 스케쥴만 필터링
+  //현재 스케줄만 필터링
   let currentSchedule: any;
   if (currentGroup.length !== 0) {
     currentSchedule = currentGroup[0].schedules.filter((el: any) => {
@@ -229,9 +222,6 @@ export default function WorkersInfo() {
 
   //멤버를 추가할 근무상태관리
   const [currentWork, setCurrentWork] = useState<any>(undefined);
-
-  //에러메시지 상태
-  const [isErr, setIsErr] = useState<boolean>(false);
 
   //원래 근무자들 명단
   const workerArr = currentSchedule[0].contents[Number(params.contentId) - 1];
@@ -426,10 +416,10 @@ export default function WorkersInfo() {
   }
 
   return (
-    <Layout title="스케쥴">
+    <Layout title="스케줄">
       <BoxSection>
-        <BoxHeader>
-          <span>스케쥴명단수정</span>
+        <BoxHeader className="schedule">
+          <ScheduleHeaderText>스케줄 명단 수정</ScheduleHeaderText>
         </BoxHeader>
         <EditScheduleWrapper>
           <ListDiv>

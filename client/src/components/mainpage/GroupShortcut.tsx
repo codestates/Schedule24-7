@@ -1,5 +1,4 @@
 import { useState } from "react";
-import styled from "styled-components";
 import {
   AddBtn,
   BoxHeader,
@@ -30,7 +29,6 @@ export default function GroupShortcut() {
 
   return (
     <BoxSection>
-      {console.log(groups)}
       <BoxHeader className="group">
         <span>그룹</span>
         <AddBtn

@@ -3,7 +3,7 @@ import ViewSchedule from "./ViewScheduel";
 
 function ViewScheduleMain() {
   return (
-    <Layout title="스케쥴">
+    <Layout title="스케줄">
       <ViewSchedule />
     </Layout>
   );
