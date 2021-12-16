@@ -93,7 +93,7 @@ Scheduel24/7는 다양한 조건에 맞는 스케쥴표를 자동으로 만들 �
 
 
 ## 🏗 Architecture stack
-![](https://media.discordapp.net/attachments/876977982760165416/913723797897633812/2021-11-26_6.31.14.png?width=876&height=527)
+![](https://github.com/codestates/Schedule24-7/blob/dev/.github/images/architecture.png?raw=true)
 
 
 ## ⚙️ Flow
