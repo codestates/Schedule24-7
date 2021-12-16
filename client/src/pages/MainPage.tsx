@@ -17,6 +17,8 @@ function MainPage() {
 
   return (
     <Layout title="홈">
+      {console.log(document.cookie)}
+      {console.log("모지")}
       <Main />
     </Layout>
   );

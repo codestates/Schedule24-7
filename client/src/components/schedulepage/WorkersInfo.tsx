@@ -218,7 +218,7 @@ export default function WorkersInfo() {
 
   //추가할 멤버 상태관리
   const [editWorker, setEditWorker] = useState<any[]>([]);
-  const [editWorkerList, setEditWorkerList] = useState<any[]>([]);
+  const [editWorkerList, setEditWorkerList] = useState<any>([]);
 
   //멤버를 추가할 근무상태관리
   const [currentWork, setCurrentWork] = useState<any>(undefined);
@@ -259,29 +259,38 @@ export default function WorkersInfo() {
       return el !== "추가할근무자";
     });
 
+    console.log(filteredEditWorker);
+
     if (
       currentWork &&
       filteredEditWorker.length !== 0 &&
       currentWork !== "근무유형선택"
     ) {
       for (let i = 0; i < filteredEditWorker.length; i++) {
-        let tmpIdx = members[0].members[filteredEditWorker[i]].memberId;
-        let tmpMemberName =
-          members[0].members[filteredEditWorker[i]].memberName;
-        let tmpObj: tmpobj = { memberId: "", memberName: "" };
-        tmpObj.memberId = tmpIdx;
-        tmpObj.memberName = tmpMemberName;
+        // let tmpIdx = members[0].members[filteredEditWorker[i]].memberId;
+        // let tmpMemberName =
+        //   members[0].members[filteredEditWorker[i]].memberName;
+        // let tmpObj: tmpobj = { memberId: "", memberName: "" };
+        // tmpObj.memberId = tmpIdx;
+        // tmpObj.memberName = tmpMemberName;
+
+        let tmpObj = members[0].members.filter((el) => {
+          return el.memberId === Number(filteredEditWorker[i]);
+        });
+
+        console.log(tmpObj);
 
         let checkIdExist: boolean = false;
         editWorkerList.forEach((el: any) => {
-          if (el.memberId === tmpObj.memberId) {
+          if (el.memberId === tmpObj[0].memberId) {
             checkIdExist = true;
           }
         });
 
         if (!checkIdExist) {
-          setEditWorkerList([...editWorkerList, tmpObj]);
+          setEditWorkerList([...editWorkerList, tmpObj[0]]);
         }
+        // setEditWorkerList([...editWorkerList, tmpObj[0]]);
       }
     } else {
       swal({
@@ -417,6 +426,8 @@ export default function WorkersInfo() {
 
   return (
     <Layout title="스케줄">
+      {/* {console.log(workers)} */}
+      {/* {console.log(members)} */}
       <BoxSection>
         <BoxHeader className="schedule">
           <ScheduleHeaderText>스케줄 명단 수정</ScheduleHeaderText>
@@ -510,11 +521,6 @@ export default function WorkersInfo() {
                   <EditBtn className="confirm" onClick={handleScheduleEdit}>
                     확인
                   </EditBtn>
-                  {/* {isErr ? (
-                    <ErrMsg className="err">이미존재하는 근무자입니다</ErrMsg>
-                  ) : (
-                    ""
-                  )} */}
                 </EditList>
               </>
             ) : (
