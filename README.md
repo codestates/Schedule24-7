@@ -19,6 +19,63 @@ Scheduel24/7는 다양한 조건에 맞는 스케쥴표를 자동으로 만들 �
 ## 🏗 Architecture stack
 ![](https://media.discordapp.net/attachments/876977982760165416/913723797897633812/2021-11-26_6.31.14.png?width=876&height=527)
 
+# 👤 Contributors
+<table>
+    <tr>
+        <td align="center" width="130px" height="160px">
+            <a href="https://github.com/heokiroe"><img height="100px" width="100px" src="https://media.discordapp.net/attachments/907157793704931361/910889387523440700/66cbddfc2211b1c0.jpeg" /></a>
+            <br />
+            <a href="https://github.com/heokiro">heokiro</a>
+        </td>
+       <td align="center" width="130px" height="160px">
+            <a href="https://github.com/outclassstudio"><img height="100px" width="100px" src="https://avatars.githubusercontent.com/u/87600115?v=4" /></a>
+            <br />
+            <a href="https://github.com/outclassstudio"outclassstudio</a>
+        </td>
+        <td align="center" width="130px" height="160px">
+            <a href="https://github.com/SiwooPak"><img height="100px" width="100px" src="https://avatars.githubusercontent.com/u/32155255?v=4" /></a>
+            <br />
+            <a href="https://github.com/SiwooPak">SiwooPak</a>
+        </td>
+         <td align="center" width="130px" height="160px">
+            <a href="https://github.com/imdex1009"><img height="100px" width="100px" src="https://media.discordapp.net/attachments/907157793704931361/910889004344422410/20211013_185622.jpg?width=513&height=513" /></a>
+            <br />
+            <a href="https://github.com/imdex1009">imdex1009</a>
+        </td>
+    </tr>
+    <tr>
+      <td align="center">
+        <a>허재혁</a>
+       </td>
+      <td align="center">
+        <a>이민형</a>
+      </td>
+      <td align="center">
+           <a>박시우</a>
+        </td>
+        <td align="center">
+            <a>임대윤</a>
+        </td>
+    </tr>
+    <tr>
+      <td align="center">
+        <a>front-end</a>
+       </td>
+      <td align="center">
+        <a>front-end</a>
+      </td>
+      <td align="center">
+           <a>back-end</a>
+        </td>
+        <td align="center">
+            <a>back-end</a>
+        </td>
+    </tr>
+</table>
+
+<br>
+<br>
+
 ## ⚙️ Flow
 더 궁금하시다면? 👉 [WIKI](https://github.com/codestates/Schedule24-7/wiki)
 
