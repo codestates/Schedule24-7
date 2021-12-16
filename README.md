@@ -27,7 +27,7 @@ Scheduel24/7는 다양한 조건에 맞는 스케쥴표를 자동으로 만들 �
        <td align="center" width="130px" height="160px">
             <a href="https://github.com/outclassstudio"><img height="100px" width="100px" src="https://avatars.githubusercontent.com/u/87600115?v=4" /></a>
             <br />
-            <a href="https://github.com/outclassstudio"outclassstudio</a>
+            <a href="https://github.com/outclassstudio">outclassstudio</a>
         </td>
         <td align="center" width="130px" height="160px">
             <a href="https://github.com/SiwooPak"><img height="100px" width="100px" src="https://avatars.githubusercontent.com/u/32155255?v=4" /></a>
