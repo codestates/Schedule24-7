@@ -35,6 +35,11 @@ const BoxWrapper = styled.div``;
 
 const GroupMemberPage: FC = () => {
   const dispatch = useDispatch();
+  useEffect(() => {
+    getGroupsApi().then((res) => {
+      dispatch(getGroups(res.data));
+    });
+  }, [dispatch]);
   const groups = useSelector((store: RootState) => store.group.groups);
   const { groupId } = useParams();
   const selectgroup = groups.find((item) => item._id === groupId);
@@ -45,11 +50,6 @@ const GroupMemberPage: FC = () => {
     setIsAdd(true);
   }, [setIsAdd]);
 
-  useEffect(() => {
-    getGroupsApi().then((res) => {
-      dispatch(getGroups(res.data));
-    });
-  }, [dispatch]);
 
   const handleAddCancle = useCallback(() => {
     setIsAdd(false);
