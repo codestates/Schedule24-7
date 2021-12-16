@@ -303,7 +303,61 @@ export class AuthService {
     return accessToken;
   }
 
-  async googleTokenCheck(cookies: any) {
+  async tokenCheck(cookies: any) {
     return cookies;
+  }
+
+  async kakaoCallback(code: string) {
+    console.log(process.env.KAKAO_AUTH_CLIENT_SECRET);
+    const KAKAO_AUTH_TOKEN_URL = "https://kauth.kakao.com/oauth";
+    const KAKAO_AUTH_REDIRECT_URL =
+      "https://server.schedule24-7.link/auth/kakao/callback";
+    // const KAKAO_AUTH_REDIRECT_URL = "http://localhost:8080/auth/kakao/callback";
+
+    const { data }: any = await lastValueFrom(
+      this.httpService.request({
+        method: "POST",
+        url: `${KAKAO_AUTH_TOKEN_URL}/token`,
+        headers: {
+          "content-type": "application/x-www-form-urlencoded;charset=utf-8",
+        },
+        params: {
+          grant_type: "authorization_code",
+          client_id: process.env.KAKAO_AUTH_CLIENT_ID,
+          client_secret: process.env.KAKAO_AUTH_SECRET_ID,
+          redirect_uri: KAKAO_AUTH_REDIRECT_URL,
+          code: code,
+        },
+      }),
+    );
+
+    const access_token = data.access_token;
+    const { data: snsData }: any = await lastValueFrom(
+      this.httpService.get(`https://kapi.kakao.com/v2/user/me`, {
+        headers: { authorization: `bearer ${access_token}` },
+      }),
+    );
+
+    const { id, kakao_account } = snsData;
+    const tempPassword = this.authRepository.generateTemporaryPassword();
+
+    const userInfo = {
+      email: kakao_account.email,
+      userId: id,
+      userName: kakao_account.profile.nickname,
+      password: tempPassword,
+      tokenType: "kakao",
+    };
+
+    const isExist = await this.userRepository.getUserByUserId(userInfo.userId);
+
+    let accessToken;
+    if (isExist) {
+      accessToken = this.authRepository.generateToken(isExist);
+    } else {
+      const signUpKakao = await this.userRepository.createUser(userInfo);
+      accessToken = this.authRepository.generateToken(signUpKakao);
+    }
+    return accessToken;
   }
 }
