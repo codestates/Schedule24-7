@@ -67,8 +67,7 @@ export class UserRepository {
   }
   // 회원탈퇴
   async signOut(id: string) {
-    const result: any = await this.userModel.deleteOne({ _id: id });
-    if (!result) throw new HttpError(404, "Not Found");
+    await this.userModel.deleteOne({ _id: id });
   }
   // 신규 그룹 생성시 유저에 그룹 objectId 추가
   async addGroupIdFromGroup(id: string, group: any) {
