@@ -15,9 +15,9 @@ const DescBlock = styled.div`
   display: flex;
   margin-top: 10px;
   margin-left: 10px;
-  margin-right: 10px;
+  margin-right: 20px;
   border-bottom: 1px solid rgba(170, 170, 170, 0.21);
-  padding: 1px;
+  padding: 2px;
 
   > #conditiontitle {
     display: flex;
@@ -26,7 +26,7 @@ const DescBlock = styled.div`
     justify-content: flex-end;
     align-items: flex-end;
     font-style: bold;
-    width: 60px;
+    width: 80px;
   }
 
   > #conditionvalue {
@@ -73,10 +73,10 @@ const WorkInput = styled.div`
   background-color: white;
 
   > .inputValue {
-    width: 100%;
-    height: 100%;
-    margin: 0;
-    padding: 0;
+    width: 90%;
+    height: 90%;
+    margin-left: 0px;
+    padding-left: 15px;
     border: none;
   }
 `;
@@ -117,7 +117,7 @@ const AddConditionList: FC<Props> = ({ groupId, handleAddCancle }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [formState, setFromState] = useState<ConditionAddState>({
-    conditionName: "조건명",
+    conditionName: "",
     conditionDesc: "",
     target: "all",
     cycle: "monthly",
@@ -177,19 +177,17 @@ const AddConditionList: FC<Props> = ({ groupId, handleAddCancle }) => {
   };
 
   const createCondition = async () => {
-    const { conditionDesc, target, cycle, workId, operation, value } =
+    const { conditionName, conditionDesc, target, cycle, workId, operation, value } =
       formState;
     try {
       await createGroupConditionApi({
         groupId,
-        conditionName: `${
-          formState.cycle === "monthly" ? "월간" : "주간"
-        } 연속 ${formState.value}회 ${formState.workName} 불가`,
+        conditionName,
         conditionDesc,
         target,
         cycle,
         workId,
-        operation,
+        operation: "<",
         value,
       });
       const response = await getGroupsApi();
@@ -220,6 +218,18 @@ const AddConditionList: FC<Props> = ({ groupId, handleAddCancle }) => {
   return (
     <>
       <EditBlock>
+        <DescBlock>
+          <div id="conditiontitle">조건명</div>
+          <WorkInput>
+            <input
+              className="inputValue"
+              placeholder="조건명을 입력해 주세요"
+              name="conditionName"
+              onChange={changeInputHandler}
+              value={formState.conditionName}
+            />
+          </WorkInput>
+        </DescBlock>
         <DescBlock>
           <div id="conditiontitle">조건설명</div>
           <WorkInput>
@@ -268,17 +278,7 @@ const AddConditionList: FC<Props> = ({ groupId, handleAddCancle }) => {
           </WorkSelect>
         </DescBlock>
         <DescBlock>
-          <div id="conditiontitle">연산자</div>
-          <WorkSelect
-            name="operation"
-            onChange={changeInputHandler}
-            value={formState.operation}
-          >
-            <option> {String("<")}</option>
-          </WorkSelect>
-        </DescBlock>
-        <DescBlock>
-          <div id="conditiontitle">값</div>
+          <div id="conditiontitle">근무 수</div>
           <WorkInput>
             <input
               className="inputValue"
@@ -288,6 +288,16 @@ const AddConditionList: FC<Props> = ({ groupId, handleAddCancle }) => {
               value={Number(formState.value)}
             />
           </WorkInput>
+        </DescBlock>
+        <DescBlock>
+          <div id="conditiontitle">기준</div>
+          <WorkSelect
+            name="operation"
+            onChange={changeInputHandler}
+            value={formState.operation}
+          >
+            <option> {String("미만")}</option>
+          </WorkSelect>
         </DescBlock>
         <DescBlock className="button">
           <SmallButton

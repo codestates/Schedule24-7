@@ -76,7 +76,7 @@ const WorkSelect = styled.select`
 
 const WorkInput = styled.div`
   width: 208px;
-  min-height: 24px;
+  height: 24px;
   margin-left: 40px;
 
   border: 1px solid #a5a5a5;
@@ -84,10 +84,10 @@ const WorkInput = styled.div`
   background-color: white;
 
   > .inputValue {
-    width: 100%;
-    height: 100%;
-    margin: 0;
-    padding: 0;
+    width: 90%;
+    height: 90%;
+    margin-left: 0px;
+    padding-left: 15px;
     border: none;
   }
 `;
@@ -230,9 +230,7 @@ const MemberListEditItem: FC<Props> = ({
     try {
       await updateGroupConditionApi({
         groupId,
-        conditionName: `${
-          formState.cycle === "monthly" ? "월간" : "주간"
-        } 연속 ${formState.value}회 ${formState.workName} 불가`,
+        conditionName,
         conditionDesc,
         target,
         cycle,
@@ -278,12 +276,12 @@ const MemberListEditItem: FC<Props> = ({
           <div className="conditionvalue">{workName}</div>
         </DescBlock>
         <DescBlock>
-          <div className="conditiontitle">연산자</div>
-          <div className="conditionvalue">{operation}</div>
+          <div className="conditiontitle">근무 수</div>
+          <div className="conditionvalue">{value}</div>
         </DescBlock>
         <DescBlock>
-          <div className="conditiontitle">값</div>
-          <div className="conditionvalue">{value}</div>
+          <div className="conditiontitle">기준</div>
+          <div className="conditionvalue">미만</div>
         </DescBlock>
         <DescBlock className="button">
           <SmallButton title={"수정"} onClick={handleButton} color={"#5c5c5c"} />
@@ -291,6 +289,18 @@ const MemberListEditItem: FC<Props> = ({
         </DescBlock>
       </Block>
       <EditBlock className={isEdit ? "" : "edit"}>
+        <DescBlock>
+          <div className="conditiontitle">조건명</div>
+          <WorkInput>
+            <input
+              className="inputValue"
+              placeholder="조건명을 입력해 주세요"
+              name="conditionName"
+              onChange={changeInputHandler}
+              value={formState.conditionName}
+            />
+          </WorkInput>
+        </DescBlock>
         <DescBlock>
           <div className="conditiontitle">조건설명</div>
           <WorkInput>
@@ -339,17 +349,7 @@ const MemberListEditItem: FC<Props> = ({
           </WorkSelect>
         </DescBlock>
         <DescBlock>
-          <div className="conditiontitle">연산자</div>
-          <WorkSelect
-            name="operation"
-            onChange={changeInputHandler}
-            value={formState.operation}
-          >
-            <option> {String("<")}</option>
-          </WorkSelect>
-        </DescBlock>
-        <DescBlock>
-          <div className="conditiontitle">값</div>
+          <div className="conditiontitle">근무 수</div>
           <WorkInput>
             <input
               className="inputValue"
@@ -359,6 +359,16 @@ const MemberListEditItem: FC<Props> = ({
               value={Number(formState.value)}
             />
           </WorkInput>
+        </DescBlock>
+        <DescBlock>
+          <div className="conditiontitle">기준</div>
+          <WorkSelect
+            name="operation"
+            onChange={changeInputHandler}
+            value={formState.operation}
+          >
+            <option> {String("미만")}</option>
+          </WorkSelect>
         </DescBlock>
         <DescBlock className="button">
           <SmallButton

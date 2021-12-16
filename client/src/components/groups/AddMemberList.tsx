@@ -13,33 +13,42 @@ import { getGroupsApi } from "../../lib/api/group";
 import { useDispatch } from "react-redux";
 import swal from "sweetalert";
 
+const DescBlock2 = styled.div`
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+  margin-left: 10px;
+  margin-right: 20px;
+`
+
 const DescBlock = styled.div`
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   margin-top: 10px;
-  margin-left: 20px;
+  margin-left: 10px;
   margin-right: 20px;
   border-bottom: 1px solid rgba(170, 170, 170, 0.21);
   padding: 20px 1px;
 
-  > #conditiontitle {
+  > .membertitle {
     display: flex;
     font-size: 16px;
+    margin-right: 0px;
     line-height: 20px;
     justify-content: flex-end;
     align-items: flex-end;
     font-style: bold;
-    width: 60px;
+    width: 70px;
   }
 
-  > #conditionvalue {
+  > .membervalue {
     margin-left: 40px;
     display: flex;
     font-size: 16px;
     justify-content: flex-start;
     align-items: flex-end;
     font-style: bold;
-    width: 200px;
+    width: 160px;
   }
 
   &.button {
@@ -170,25 +179,27 @@ const AddMemberList: FC<Props> = ({handleAddCancle}) => {
     <>
       <EditBlock>
         <DescBlock>
-          <div id="membertitle">이름</div>
+          <div className="membertitle">이름</div>        
           <input
             onChange={changeHandler}
             name="memberName"
-            id="membervalue"
+            className="membervalue"
             placeholder="이름을 입력해주세요"
           />
         </DescBlock>
         <DescBlock>
-          <div id="membertitle">직급</div>
+          <div className="membertitle">직급</div>
           <input
             name="memberPosition"
             onChange={changeHandler}
-            id="membervalue"
+            className="membervalue"
             placeholder="직급을 입력해주세요"
           />
         </DescBlock>
+         <DescBlock2>
+          <div className="membertitle">휴가예정일</div>
+         </DescBlock2>
         <DescBlock>
-          <div id="membertitle">휴가예정일</div>
           <DayPicker
             onDayClick={changeSelectDay}
             selectedDays={form.memberVacation}

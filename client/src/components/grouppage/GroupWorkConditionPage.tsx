@@ -64,6 +64,16 @@ const AddBtn = styled.button`
   } */
 `;
 
+const NoMemeber = styled.div`
+  z-index: 3;
+  width: 100%;
+  height: 40px;
+  text-align: center;
+  line-height: 40px;
+  font-size: 14px;
+
+`
+
 const GroupWorkConditionPage: FC = () => {
   const navigate = useNavigate();
   const { groupId } = useParams();
@@ -116,6 +126,9 @@ const GroupWorkConditionPage: FC = () => {
             }
           />
         )}
+      {selectGroup?.conditions.length === 0 ? 
+      <NoMemeber>등록된 조건이 없습니다.</NoMemeber>
+      :null}
       </Box>
     </Layout>
   );

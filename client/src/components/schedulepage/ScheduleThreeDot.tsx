@@ -94,9 +94,9 @@ const ScheduleThreeDot: FC<Props> = ({ schedule }) => {
           connectViewSchedule(schedule);
         }}
       >
-        스케쥴보기
+        스케줄보기
       </div>
-      <div onClick={handleDeleteSchedule}>스케쥴삭제</div>
+      <div onClick={handleDeleteSchedule}>스케줄삭제</div>
     </Block>
   );
 };
