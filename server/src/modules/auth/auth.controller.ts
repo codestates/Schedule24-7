@@ -457,7 +457,7 @@ export class AuthController {
       const accessToken = await this.authService.kakaoCallback(code);
       return res
         .cookie("accessToken", accessToken, {
-          domain: "localhost",
+          domain: "schedule24-7.link",
           sameSite: true,
         })
         .redirect("https://schedule24-7.link");
