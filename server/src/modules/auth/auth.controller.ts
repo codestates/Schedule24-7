@@ -27,7 +27,7 @@ import {
 } from "@nestjs/swagger";
 import { Request, Response } from "express";
 import { Connection } from "mongoose";
-import { Cookies } from "src/commons/cookies";
+
 import {
   BadRequestErr,
   ConflictErr,
@@ -43,6 +43,8 @@ import { AuthCheckIdResDto } from "./dto/response/auth-checkId.dto";
 import { AuthCheckPassResDto } from "./dto/response/auth-checkPass.dto";
 import { AuthCheckPasswordLossResDto } from "./dto/response/auth-checkPasswordLoss.dto";
 import { AuthCheckUserIdLossResDto } from "./dto/response/auth-checkUserIdLoss.dto";
+import { AuthGoogleLoginResDto } from "./dto/response/auth-googleToken.dto";
+import { AuthKakaoLoginResDto } from "./dto/response/auth-kakaoToken.dto";
 import { AuthLoginResDto } from "./dto/response/auth-login.dto";
 import { AuthNumberResDto } from "./dto/response/auth-Number.dto";
 import { AuthSendEmailResDto } from "./dto/response/auth-sendEmail.dto";
@@ -318,11 +320,11 @@ export class AuthController {
   // ! 구글 Oauth
   @Get("/google")
   @ApiOperation({
-    summary: "소셜 구글 계정 확인 요청",
-    description: "구글 계정을 통해 토큰 확인을 한다.",
+    summary: "소셜 구글 계정 인증 요청",
+    description: "구글 계정을 통해 인증 요청을 확인한다.",
   })
   @ApiNoContentResponse({
-    description: "성공시 /auth/googleCallback 리다이렉트된다.",
+    description: "성공시 /auth/google/callback 리다이렉트된다.",
   })
   @ApiInternalServerErrorResponse({
     description: "Internal server error",
@@ -379,9 +381,113 @@ export class AuthController {
   }
 
   @Post("/google/check")
+  @ApiOperation({
+    summary: "쿠키로 온 액세스 토큰 바디로 응답",
+    description: `소셜로그인을 통해 들어온 유저가 가진 쿠키의 액세스 토큰 데이터를 바디에 액세스 토큰으로 보내준다.`,
+  })
+  @ApiHeader({
+    name: "cookies",
+    description: "accessToken",
+    required: true,
+  })
+  @ApiResponse({
+    status: 200,
+    description: "성공시 메인페이지로 리다이렉트된다.",
+    type: AuthGoogleLoginResDto,
+  })
+  @ApiInternalServerErrorResponse({
+    description: "Internal server error",
+    type: InternalSeverErr,
+  })
   async googleTokenCheck(@Req() req: Request, @Res() res: Response) {
     try {
-      const result = await this.authService.googleTokenCheck(req.cookies);
+      const result = await this.authService.tokenCheck(req.cookies);
+      return res.send(result);
+    } catch (err) {
+      return res.status(err.status).send(err);
+    }
+  }
+
+  @Get("/kakao")
+  @ApiOperation({
+    summary: "소셜 카카오 계정 인증 요청",
+    description: "카카오 계정을 통해 인증요청을 확인한다.",
+  })
+  @ApiNoContentResponse({
+    description: "성공시 /auth/kakao/callback 리다이렉트된다.",
+  })
+  @ApiInternalServerErrorResponse({
+    description: "Internal server error",
+    type: InternalSeverErr,
+  })
+  async kakaoAuth(@Res() res: Response) {
+    const KAKAO_AUTH_URL = "https://kauth.kakao.com/oauth";
+    const KAKAO_AUTH_REDIRECT_URL =
+      "https://server.schedule24-7.link/auth/kakao/callback";
+    // const KAKAO_AUTH_REDIRECT_URL = "http://localhost:8080/auth/kakao/callback";
+    try {
+      return res.redirect(
+        `${KAKAO_AUTH_URL}/authorize?client_id=${process.env.KAKAO_AUTH_CLIENT_ID}&redirect_uri=${KAKAO_AUTH_REDIRECT_URL}&response_type=code`,
+      );
+    } catch (err) {
+      throw new InternalServerErrorException(err);
+    }
+  }
+
+  @Get("/kakao/callback")
+  @ApiOperation({
+    summary: "소셜 로그인/회원가입(카카오) 콜백",
+    description: `카카오 계정의 정보를 통해 회원으로 가입된 상태면 로그인,
+    미가입 상태면 회원가입을 한다.`,
+  })
+  @ApiQuery({
+    name: "code",
+    description: "카카오에서 토큰 확인 후 주는 정보(이메일, 아이디,닉네임)",
+    required: true,
+  })
+  @ApiNoContentResponse({
+    description: "성공시 메인페이지로 리다이렉트된다.",
+  })
+  @ApiInternalServerErrorResponse({
+    description: "Internal server error",
+    type: InternalSeverErr,
+  })
+  async kakaoCallback(@Query("code") code: string, @Res() res: Response) {
+    try {
+      const accessToken = await this.authService.kakaoCallback(code);
+      return res
+        .cookie("accessToken", accessToken, {
+          domain: "localhost",
+          sameSite: true,
+        })
+        .redirect("https://schedule24-7.link");
+    } catch (err) {
+      return res.status(err.status).send(err);
+    }
+  }
+
+  @Post("/kakao/check")
+  @ApiOperation({
+    summary: "쿠키로 온 액세스 토큰 바디로 응답",
+    description: `소셜로그인을 통해 들어온 유저가 가진 쿠키의 액세스 토큰 데이터를 바디에 액세스 토큰으로 보내준다.`,
+  })
+  @ApiHeader({
+    name: "cookies",
+    description: "accessToken",
+    required: true,
+  })
+  @ApiResponse({
+    status: 200,
+    description: "성공시 메인페이지로 리다이렉트된다.",
+    type: AuthKakaoLoginResDto,
+  })
+  @ApiInternalServerErrorResponse({
+    description: "Internal server error",
+    type: InternalSeverErr,
+  })
+  async kakaoTokenCheck(@Req() req: Request, @Res() res: Response) {
+    try {
+      const result = await this.authService.tokenCheck(req.cookies);
       return res.send(result);
     } catch (err) {
       return res.status(err.status).send(err);
