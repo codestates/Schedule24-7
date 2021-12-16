@@ -16,10 +16,7 @@ Scheduel24/7는 다양한 조건에 맞는 스케쥴표를 자동으로 만들 �
 - 생성한 스케줄표를 손쉽게 공유할 수 있는 기능
 
 
-## 🏗 Architecture stack
-![](https://media.discordapp.net/attachments/876977982760165416/913723797897633812/2021-11-26_6.31.14.png?width=876&height=527)
-
-# 👤 Contributors
+## 👤 Contributors
 <table>
     <tr>
         <td align="center" width="130px" height="160px">
@@ -73,8 +70,10 @@ Scheduel24/7는 다양한 조건에 맞는 스케쥴표를 자동으로 만들 �
     </tr>
 </table>
 
-<br>
-<br>
+
+## 🏗 Architecture stack
+![](https://media.discordapp.net/attachments/876977982760165416/913723797897633812/2021-11-26_6.31.14.png?width=876&height=527)
+
 
 ## ⚙️ Flow
 더 궁금하시다면? 👉 [WIKI](https://github.com/codestates/Schedule24-7/wiki)
