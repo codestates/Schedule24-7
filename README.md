@@ -71,6 +71,27 @@ Scheduel24/7는 다양한 조건에 맞는 스케쥴표를 자동으로 만들 �
 </table>
 
 
+# 🔨 Development
+### Frontend Stack
+<img src="https://img.shields.io/badge/html-E34F26?style=for-the-badge&logo=html5&logoColor=white"> <img src="https://img.shields.io/badge/css-1572B6?style=for-the-badge&logo=css3&logoColor=white">
+<img src="https://img.shields.io/badge/typescript-F7DF1E?style=for-the-badge&logo=typescript&logoColor=black">
+<img src="https://img.shields.io/badge/react-61DAFB?style=for-the-badge&logo=react&logoColor=black">
+<img src="https://img.shields.io/badge/redux-4169E1?style=for-the-badge&logo=redux&logoColor=white">
+<img src="https://img.shields.io/badge/axios-FA8072?style=for-the-badge&logo=axios&logoColor=white">
+<img src="https://img.shields.io/badge/styled%20component-000000?style=for-the-badge&logo=styled%20component&logoColor=white">
+  
+### Backend Stack
+<img src="https://img.shields.io/badge/typescript-F7DF1E?style=for-the-badge&logo=typescript&logoColor=black"> <img src="https://img.shields.io/badge/node.js-228B22?style=for-the-badge&logo=node.js&logoColor=white"> <img src="https://img.shields.io/badge/nestjs-006400?style=for-the-badge&logo=nestjs&logoColor=white">
+<img src="https://img.shields.io/badge/mongodb-32CD32?style=for-the-badge&logo=mongodb&logoColor=white"> <img src="https://img.shields.io/badge/axios-FA8072?style=for-the-badge&logo=axios&logoColor=white">
+<img src="https://img.shields.io/badge/json%20web%20tokens-8A2BE2?style=for-the-badge&logo=json%20web%20tokens&logoColor=white">
+<img src="https://img.shields.io/badge/nodemailer-1E90FF?style=for-the-badge&logo=nodemailer&logoColor=white">
+<img src="https://img.shields.io/badge/mongoose-C71585?style=for-the-badge&logo=mongoose&logoColor=white">
+<img src="https://img.shields.io/badge/swagger-4682B4?style=for-the-badge&logo=swagger&logoColor=white">
+
+### Deploy Stack
+<img src="https://img.shields.io/badge/amazon%20s3-232F3E?style=for-the-badge&logo=amazon%20s3&logoColor=white"> <img src="https://img.shields.io/badge/amazon%20route%2053&-32CD32?style=for-the-badge&logo=mongodb&logoColor=white"> <img src="https://img.shields.io/badge/amazon%20elb-232F3E?style=for-the-badge&logo=amazon%20elb&logoColor=white"> <img src="https://img.shields.io/badge/amazon%20ecs-232F3E?style=for-the-badge&logo=amazon%20ecs&logoColor=white"> <img src="https://img.shields.io/badge/amazon%20ecr-232F3E?style=for-the-badge&logo=amazon%20ecr&logoColor=white"> <img src="https://img.shields.io/badge/amazon%20fargate-232F3E?style=for-the-badge&logo=amazon%20fargate&logoColor=white"> <img src="https://img.shields.io/badge/codepipeline-232F3E?style=for-the-badge&logo=codepipeline&logoColor=white"> <img src="https://img.shields.io/badge/mongodb%20atlas-32CD32?style=for-the-badge&logo=mongodb&logoColor=white"> <img src="https://img.shields.io/badge/docker-32CD32?style=for-the-badge&logo=docker&logoColor=white">
+
+
 ## 🏗 Architecture stack
 ![](https://media.discordapp.net/attachments/876977982760165416/913723797897633812/2021-11-26_6.31.14.png?width=876&height=527)
 
