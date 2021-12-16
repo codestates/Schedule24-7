@@ -15,17 +15,10 @@ import { getGroupsApi } from "./lib/api/group";
 import { getGroups } from "./redux/actions/Group";
 import "./lib/confirm/index.css";
 import LandingPage from "./pages/landingPage/LandingPage";
-import { Helmet } from "react-helmet"
 
 function App() {
   const loginState = useSelector((state: RootState) => state.loginReducer);
   const dispatch = useDispatch();
-  
-  <div className="application">
-      <Helmet>
-        <script src="//developers.kakao.com/sdk/js/kakao.min.js" type="text/javascript" />
-      </Helmet>
-  </div>
 
   //로그인 유지를 위한 함수
   const keepLogin = () => {
@@ -38,7 +31,16 @@ function App() {
   useEffect(() => {
     keepLogin();
   }, []);
-  
+
+  //토큰저장
+  useEffect(() => {
+    if (document.cookie !== undefined) {
+      let newCookie2 = document.cookie;
+      let finalCookie2 = newCookie2.split("%22")[3];
+      window.localStorage.setItem("token", finalCookie2);
+    }
+  }, [document.cookie]);
+
   //그룹정보 업데이트
   // useEffect(() => {
   //   getGroupsApi().then((res) => {
