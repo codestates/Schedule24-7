@@ -71,16 +71,19 @@ export class AuthController {
     description: "Internal server error",
     type: InternalSeverErr,
   })
-  async login(@Body() authLoginDto: AuthLoginDto): Promise<any> {
+  async login(
+    @Body() authLoginDto: AuthLoginDto,
+    @Res() res: Response,
+  ): Promise<any> {
     const session = await this.mongoConnection.startSession();
     session.startTransaction();
     try {
       const result = await this.authService.login(authLoginDto);
       await session.commitTransaction();
-      return result;
+      return res.status(201).send(result);
     } catch (err) {
       await session.abortTransaction();
-      return err;
+      return res.status(err.status).send(err);
     } finally {
       session.endSession();
     }
