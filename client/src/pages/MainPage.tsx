@@ -1,6 +1,5 @@
-import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import swal from "sweetalert";
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
 import Layout from "../components/Layout";
 import Main from "../components/mainpage/Main";
 import { getGroupsApi } from "../lib/api/group";
@@ -18,7 +17,6 @@ function MainPage() {
 
   return (
     <Layout title="홈">
-      {console.log(window.localStorage.getItem("test"))}
       <Main />
     </Layout>
   );

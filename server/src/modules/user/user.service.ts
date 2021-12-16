@@ -132,7 +132,7 @@ export class UserService {
     const accessToken = this.authRepository.generateToken(userData);
     setTimeout(
       () => this.removeGuest(`Bearer ${accessToken.accessToken}`),
-      1000 * 60 * 2,
+      1000 * 60 * 120,
     );
 
     return accessToken;

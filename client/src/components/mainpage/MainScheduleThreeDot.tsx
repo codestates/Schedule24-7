@@ -56,7 +56,7 @@ const MainScheduleThreeDot: FC<Props> = ({ schedule }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  //스케쥴 삭제 함수
+  //스케줄 삭제 함수
   const handleDeleteSchedule = () => {
     axios
       .delete(
@@ -73,13 +73,13 @@ const MainScheduleThreeDot: FC<Props> = ({ schedule }) => {
         });
         navigate("/");
         swal({
-        title: "스케쥴이 삭제되었습니다",
-        icon: "success",
+          title: "스케쥴이 삭제되었습니다",
+          icon: "success",
         });
       });
   };
 
-  //스케쥴 조회 함수
+  //스케줄 조회 함수
   const connectViewSchedule = (data: any): void => {
     dispatch(setFirstView(data));
     navigate(`/schedule/view/${schedule.group.groupId}/${schedule._id}`);
@@ -99,9 +99,9 @@ const MainScheduleThreeDot: FC<Props> = ({ schedule }) => {
           connectViewSchedule(schedule);
         }}
       >
-        스케쥴보기
+        스케줄보기
       </div>
-      <div onClick={handleDeleteSchedule}>스케쥴삭제</div>
+      <div onClick={handleDeleteSchedule}>스케줄삭제</div>
     </Block>
   );
 };
