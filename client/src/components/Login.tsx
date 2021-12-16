@@ -125,14 +125,16 @@ export default function Login() {
   const socialLoginHandler = () => {
     window.location.assign("https://server.schedule24-7.link/auth/google");
 
-    let newCookie = document.cookie;
-    let newCookieArr = newCookie.split(";");
-    let finalCookie = newCookieArr[0].split("%22")[3];
+    // let newCookie = document.cookie;
+    // let newCookieArr = newCookie.split(";");
+    // let finalCookie = newCookieArr[0].split("%22")[3];
 
-    window.localStorage.setItem("token", finalCookie);
-    if (finalCookie !== undefined) {
-      dispatch(loginChange());
-    }
+    // window.localStorage.setItem("token", finalCookie);
+    // if (finalCookie !== undefined) {
+    //   dispatch(loginChange());
+    // }
+
+    dispatch(loginChange());
   };
 
   //카카오 ouath 로그인 요청 함수
@@ -143,13 +145,15 @@ export default function Login() {
     // let newCookieArr2 = newCookie2.split(";");
     // let finalCookie2 = newCookieArr2[0].split("%22")[3];
 
-    let newCookie2 = document.cookie;
-    let finalCookie2 = newCookie2.split("%22")[3];
+    // let newCookie2 = document.cookie;
+    // let finalCookie2 = newCookie2.split("%22")[3];
 
-    window.localStorage.setItem("token", finalCookie2);
-    if (finalCookie2 !== undefined) {
-      dispatch(loginChange());
-    }
+    // window.localStorage.setItem("token", finalCookie2);
+    // if (finalCookie2 !== undefined) {
+    //   dispatch(loginChange());
+    // }
+
+    dispatch(loginChange());
   };
 
   return (
