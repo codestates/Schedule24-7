@@ -56,7 +56,7 @@ export class UserRepository {
 
   // 비밀 번호 수정
   async updateUserPassword(id: string, new_password: string) {
-    const updateUser: any = await this.userModel.findByIdAndUpdate(
+    const updateUser: any = await this.userModel.findOneAndUpdate(
       { _id: id },
       {
         $set: { password: new_password },
