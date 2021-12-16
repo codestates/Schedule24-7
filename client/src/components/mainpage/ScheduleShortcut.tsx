@@ -13,7 +13,6 @@ import {
   ShortcutBoxWrapper,
   ShortcutContainer,
 } from "../../style/theme";
-// import AddScheduleBoxItem from "../schedulepage/AddScheduleBoxItem";
 import MainBoxItem from "./MainBoxItem";
 
 export default function ScheduleShortcut() {
@@ -54,13 +53,13 @@ export default function ScheduleShortcut() {
   return (
     <BoxSection>
       <BoxHeader>
-        <span>스케쥴</span>
+        <span>스케줄</span>
         <AddBtn
           onClick={() => {
             navigate("/schedule/add");
           }}
         >
-          새스케줄추가
+          새스케줄 추가
         </AddBtn>
       </BoxHeader>
       <ShortcutContainer>
@@ -73,9 +72,8 @@ export default function ScheduleShortcut() {
             })}
           </ShortcutBoxWrapper>
         ) : (
-          <NoSchedule className="main">등록된 스케쥴이 없습니다</NoSchedule>
+          <NoSchedule className="main">등록된 스케줄이 없습니다</NoSchedule>
         )}
-        {/* <AddScheduleBoxItem /> */}
         <SeeMoreWrapper>
           {scheduleExist ? (
             <SeeMore onClick={handleShowBoxes}>더보기</SeeMore>

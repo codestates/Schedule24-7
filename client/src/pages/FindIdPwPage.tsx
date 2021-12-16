@@ -1,5 +1,4 @@
 import { useState } from "react";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { MainLogo, MainWrapper } from "../style/theme";
@@ -46,15 +45,15 @@ export const ChangeBtn = styled.button`
 `;
 
 function FindIdPwPage() {
-  const [inputState, setInputState] = useState(true);
-  //아이디 찾기 비밀번호 찾기 상태변경
-
   let navigate = useNavigate();
 
+  //아이디 찾기 비밀번호 찾기 상태변경
+  const [inputState, setInputState] = useState(true);
+
+  //루트페이지로 이동시키는 함수
   function comeBackHome() {
     navigate("/");
   }
-  //루트페이지로 이동시키는 함수
 
   return (
     <MainWrapper>

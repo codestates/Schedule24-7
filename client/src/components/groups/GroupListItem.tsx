@@ -1,6 +1,7 @@
 import { FC, useState } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
+import { BackGround } from "../../style/theme";
 import ThreeDot from "../ThreeDot";
 
 export const MainDiv = styled.div`
@@ -90,7 +91,14 @@ const GroupListItem: FC<Props> = ({ emoji, desc, name, id }) => {
             <div />
           </ToggleMenu>
         </SubDiv2>
-        {openThreeDot ? <ThreeDot id={id} /> : ""}
+        {openThreeDot ? (
+          <>
+            <ThreeDot id={id} />{" "}
+            <BackGround onClick={handleCloseThreeDot}></BackGround>{" "}
+          </>
+        ) : (
+          ""
+        )}
       </Div1>
       <Link to={`/group/${id}/schedule`}>
         <Div2>{name}</Div2>

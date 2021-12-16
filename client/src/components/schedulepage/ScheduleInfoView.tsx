@@ -56,10 +56,10 @@ export default function ScheduleInfoView({ currentSchedule }: any) {
   return (
     <>
       <DivWrapper>
-        <TitleHeader>스케쥴정보</TitleHeader>
+        <TitleHeader>스케줄 정보</TitleHeader>
       </DivWrapper>
       <DivWrapper>
-        <Title>스케쥴이름</Title>
+        <Title>스케줄 이름</Title>
         <Div1>
           <EmojiDiv>{currentSchedule[0].scheduleEmoji}</EmojiDiv>
           <Div2 className="sub">{currentSchedule[0].scheduleName}</Div2>

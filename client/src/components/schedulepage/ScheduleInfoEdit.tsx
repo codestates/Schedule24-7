@@ -1,10 +1,8 @@
 import { useState } from "react";
-import { useSelector } from "react-redux";
 import styled from "styled-components";
 import { selectBoxOptions } from "./ScheduleDummy";
 import EmojiBox from "./EmojiBox";
 import { useEffect } from "react";
-import { RootState } from "../../redux/reducers";
 import { mediaQuery } from "../../GlobalStyle";
 
 export const AddScheduleWrapper = styled.section`
@@ -107,10 +105,6 @@ export default function ScheduleInfoEdit({
   setScheduleInfo,
 }: any) {
   const [startDate, setStartDate] = useState<any>(new Date());
-  const groups = useSelector((store: RootState) => store.group.groups);
-
-  //에러메시지 상태
-  const [errMessage, setErrMessage] = useState<string>("");
 
   useEffect(() => {
     let newDate = new Date(startDate);
@@ -121,16 +115,16 @@ export default function ScheduleInfoEdit({
   return (
     <>
       <DivWrapper>
-        <TitleHeader>스케쥴정보</TitleHeader>
+        <TitleHeader>스케줄 정보</TitleHeader>
       </DivWrapper>
       <DivWrapper>
-        <Title>스케쥴이름</Title>
+        <Title>스케줄 이름</Title>
         <Div1>
           <EmojiBox options={selectBoxOptions} handleEmoji={handleEmoji} />
           <NameBox
             type="text"
             onChange={handleTextInfo("scheduleName")}
-            placeholder="수정할 스케쥴 이름 입력"
+            placeholder="수정할 스케줄 이름 입력"
           />
         </Div1>
       </DivWrapper>

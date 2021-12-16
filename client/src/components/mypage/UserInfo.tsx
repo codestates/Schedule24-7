@@ -213,7 +213,7 @@ function UserInfo() {
           title: "계정삭제가 정상적으로 처리되었습니다",
           icon: "success",
         });
-        
+
         navigate("/");
       });
   };
@@ -249,9 +249,9 @@ function UserInfo() {
                 <InfoBox>{userInfo.email}</InfoBox>
               </UserInfoItems>
               <UserInfoItems>
-                <InfoHeader className="pwd">비밀번호변경 및 탈퇴</InfoHeader>
+                <InfoHeader className="pwd">비밀번호 변경 및 탈퇴</InfoHeader>
                 <InfoHeader className="sub">
-                  * 계정정보확인 후 가능합니다
+                  * 계정정보 확인 후 가능합니다
                 </InfoHeader>
                 <NormalBox
                   type="password"
