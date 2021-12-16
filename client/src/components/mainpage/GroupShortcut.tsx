@@ -4,6 +4,7 @@ import {
   AddBtn,
   BoxHeader,
   BoxSection,
+  NoSchedule,
   SeeMore,
   SeeMoreWrapper,
   ShortcutBoxWrapper,
@@ -29,30 +30,40 @@ export default function GroupShortcut() {
 
   return (
     <BoxSection>
+      {console.log(groups)}
       <BoxHeader className="group">
         <span>그룹</span>
         <AddBtn
           onClick={() => {
             navigate("/group/add");
           }}
-        >새그룹추가</AddBtn>
+        >
+          새그룹추가
+        </AddBtn>
       </BoxHeader>
       <ShortcutContainer>
-        <ShortcutBoxWrapper className={showBoxes ? "showBoxes" : ""}>
-          {groups
-            ? groups.map((group) => (
-                <GroupListItem
-                  id={group._id}
-                  desc={group.groupDesc}
-                  emoji={group.groupEmoji}
-                  name={group.groupName}
-                  key={group._id}
-                />
-              ))
-            : null}
-        </ShortcutBoxWrapper>
+        {groups.length !== 0 ? (
+          <ShortcutBoxWrapper className={showBoxes ? "showBoxes" : ""}>
+            {groups.map((group) => (
+              <GroupListItem
+                id={group._id}
+                desc={group.groupDesc}
+                emoji={group.groupEmoji}
+                name={group.groupName}
+                key={group._id}
+              />
+            ))}
+          </ShortcutBoxWrapper>
+        ) : (
+          <NoSchedule className="main">등록된 그룹이 없습니다</NoSchedule>
+        )}
+
         <SeeMoreWrapper>
-          <SeeMore onClick={handleShowBoxes}>더보기</SeeMore>
+          {groups.length !== 0 ? (
+            <SeeMore onClick={handleShowBoxes}>더보기</SeeMore>
+          ) : (
+            ""
+          )}
         </SeeMoreWrapper>
       </ShortcutContainer>
     </BoxSection>

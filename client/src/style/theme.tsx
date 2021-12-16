@@ -184,14 +184,17 @@ export const NoSchedule = styled.div`
   justify-content: center;
   border: 1px dotted #696969;
   border-radius: 0.5rem;
-  padding: 0.3rem;
+  padding: 17px 0 0 0;
   background-color: #ececec;
   font-size: 14px;
   z-index: 1;
+  height: 35px;
   /* min-height: 100px; */
   /* position: absolute; */
 
   &.main {
     border: none;
+    padding-top: 12px;
+    height: 30px;
   }
 `;

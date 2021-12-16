@@ -2,6 +2,7 @@ import axios from "axios";
 import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import swal from "sweetalert";
+import Footer from "../../components/Footer";
 import { loginChange } from "../../redux/actions/loginActions";
 import {
   AllLandingContainer,
@@ -28,23 +29,32 @@ import {
   HeaderLogo,
   HeaderRight,
   HeaderItem,
+  FooterDiv,
 } from "./LandingPage.style";
 
 function LandingPage() {
   const dispatch = useDispatch();
   const LandingPageTxt = [
     {
-      title: ["쉽고", "직관적인 UI로", "손쉬운 그룹관리!"],
+      title: [
+        "쉽고 직관적인 UI로",
+        "모바일환경에서도 활용 가능한",
+        "손쉬운 그룹관리!",
+      ],
       img: "https://cdn.discordapp.com/attachments/876977982760165416/920190535275274280/ea0a821c56146d0f.gif",
       descr: [],
     },
     {
-      title: ["스케줄에", "영향을 미치는 상황들을", "간편하게 관리!"],
+      title: [
+        "스케줄에 영향을 미치는",
+        "다양한 조건들과 상황들을",
+        "간편하게 관리!",
+      ],
       img: "https://cdn.discordapp.com/attachments/876977982760165416/920190535275274280/ea0a821c56146d0f.gif",
       descr: [],
     },
     {
-      title: ["알고리즘을 통해", "자동적으로", "스케줄표 생성!"],
+      title: ["알고리즘을 통해", "자동으로 간편하게", "스케줄표 생성!"],
       img: "https://cdn.discordapp.com/attachments/876977982760165416/920190535275274280/ea0a821c56146d0f.gif",
       descr: [],
     },
@@ -97,9 +107,10 @@ function LandingPage() {
             <FirstTextContainer>
               <FirstText>
                 <div>Schedule24/7</div>
-                <div>그 동안 힘들었던 근무 스케줄 관리</div>
-                <div>이제는 스케줄 24/7과 함께 쉽고 빠르게 관리하고</div>
-                <div>스케줄표를 자동으로 만들어보세요!</div>
+                <div>그 동안 힘들었던 근무 스케줄 관리,</div>
+                <div>스케줄표 짜기도 많이 힘드셨다면</div>
+                <div>스케줄 24/7과 함께 쉽고 빠르게 관리하고</div>
+                <div>자동으로 스케줄표도 만들어보세요!</div>
               </FirstText>
               <Link to="/">
                 <GotoMainButton onClick={handleLoginTest}>
@@ -145,11 +156,12 @@ function LandingPage() {
       </ThirdBodyOutContainer>
       <SevLandingContainer>
         <Link to="/">
-          <GotoMainButton className="last" onClick={() => scrollHandler()}>
+          <GotoMainButton onClick={handleLoginTest}>
             Schedule24/7 체험하기
           </GotoMainButton>
         </Link>
       </SevLandingContainer>
+      <FooterDiv>Copyright © Schedule24/7 All Rights Reserved.</FooterDiv>
     </AllLandingContainer>
   );
 }

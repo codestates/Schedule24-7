@@ -178,19 +178,18 @@ export default function AddSchedule() {
         getGroupsApi().then((res) => {
           dispatch(getGroups(res.data));
         });
-        // swal({
-        //   title: "새스케쥴이 추가 되었습니다",
-        //   icon: "success",
-        // });
         navigate(-1);
       })
-      .catch((err) => {
+      .catch((res) => {
+        console.log(res.message);
         if (scheduleEmoji === "") {
           setErrMessage("이모지를 선택해주세요");
         } else if (scheduleInfo.scheduleName === "") {
           setErrMessage("스케쥴 이름을 입력해주세요");
         } else if (scheduleInfo.groupId === "") {
           setErrMessage("그룹을 선택해주세요");
+        } else if (res.message === "Request failed with status code 400") {
+          swal({ title: "근무인원수가 부족합니다", icon: "error" });
         }
       });
   };
