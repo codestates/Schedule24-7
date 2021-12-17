@@ -1,12 +1,10 @@
-import { FC, useCallback, useEffect, useState } from "react";
+import { FC, useCallback, useEffect } from "react";
 import Layout from "../components/Layout";
 import styled from "styled-components";
-import { mediaQuery } from "../GlobalStyle";
 import GroupListItem from "../components/groups/GroupListItem";
 import { useNavigate } from "react-router";
-
 import { BoxSection, BoxWrapper } from "../style/theme";
-import { AddBtn, BoxHeader,NoSchedule } from "../style/theme";
+import { AddBtn, BoxHeader, NoSchedule } from "../style/theme";
 import { getGroupsApi } from "../lib/api/group";
 import { useDispatch, useSelector } from "react-redux";
 import { getGroups } from "../redux/actions/Group";
@@ -54,7 +52,6 @@ const GroupIndexPage: FC = () => {
         ) : (
           <NoSchedule>등록된 그룹이 없습니다</NoSchedule>
         )}
-
       </BoxSection>
     </Layout>
   );

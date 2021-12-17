@@ -36,6 +36,7 @@ export const Div1 = styled.div`
 
 export const SubDiv1 = styled.div`
   margin-left: 0.5rem;
+  margin-top: 3px;
 `;
 export const SubDiv2 = styled.div`
   margin-right: 0.55rem;
@@ -46,15 +47,16 @@ export const Div2 = styled.div`
   font-size: 18px;
   font-weight: bold;
   margin-left: 0.7rem;
-  margin-top: 1.8rem;
+  margin-top: 1.6rem;
   color: black;
-  cursor: pointer;
 `;
 
 export const Div3 = styled.div`
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 300;
   margin-left: 0.7rem;
+  margin-right: 0.7rem;
+  margin-top: 2px;
 `;
 
 const ToggleMenu = styled.div`

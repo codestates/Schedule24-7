@@ -17,8 +17,7 @@ import { mediaQuery } from "../../GlobalStyle";
 import axios from "axios";
 import { ReturnApi } from "../../types/api";
 import apiClient from "../../lib/client";
-import { Helmet } from "react-helmet";
-import swal from "sweetalert"
+import swal from "sweetalert";
 
 export const ViewScheduleWrapper = styled.div`
   display: flex;
@@ -132,7 +131,6 @@ export const SelectBtn = styled.button`
     /* margin-left: 1px; */
   }
 `;
-
 
 export const SelectHome = styled.button`
   display: flex;
@@ -275,28 +273,25 @@ const ShareSchedulePage: FC = () => {
   } = result;
 
   const [year, month] = result.period.split("-");
-  
-
   const handleCopyClipBoard = async (text: string) => {
     try {
       await navigator.clipboard.writeText(text);
-      swal('공유 링크가 복사되었습니다');
-    } catch (error)
-    {
-      swal('공유 링크 복사 실패');
+      swal("공유 링크가 복사되었습니다");
+    } catch (error) {
+      swal("공유 링크 복사 실패");
     }
   };
-  
- const handleSharePage = () => {
-    navigate(`/`)
-  }
+
+  const handleSharePage = () => {
+    navigate(`/`);
+  };
 
   return (
-    <ViewScheduleWrapper>      
+    <ViewScheduleWrapper>
       <TableTopWrapper>
-          <SelectHome onClick={()=>handleSharePage()}>
-            <TableHome src="https://media.discordapp.net/attachments/907157959333785630/916227740267581440/S247_Logoheadertitle.png" />
-          </SelectHome>
+        <SelectHome onClick={() => handleSharePage()}>
+          <TableHome src="https://media.discordapp.net/attachments/907157959333785630/916227740267581440/S247_Logoheadertitle.png" />
+        </SelectHome>
         <DateWrapper>
           <TableTitle>
             <Link to={`/schedule/info/${params.groupId}/${params.scheduleId}`}>

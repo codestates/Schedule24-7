@@ -3,6 +3,8 @@ import styled from "styled-components";
 import { hideMobileCss, mediaQuery } from "../GlobalStyle";
 import { Link, useNavigate } from "react-router-dom";
 import swal from "sweetalert";
+import { useDispatch } from "react-redux";
+import { logoutChange } from "../redux/actions/loginActions";
 
 const Block = styled.nav`
   padding-top: 0.5rem;
@@ -50,8 +52,26 @@ const Block = styled.nav`
   }
 `;
 
+export const LogoutDiv = styled.div`
+  display: none;
+  ${mediaQuery.mobile} {
+    display: block;
+    font-size: 15px;
+    color: #fff;
+    text-decoration: none;
+    padding: 0.7rem;
+    cursor: pointer;
+
+    :hover {
+      color: #252525;
+      background-color: #ddeef8;
+    }
+  }
+`;
+
 const Sidebar: FC = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   //마이페이지 진입 시 필터링
   const goMyPage = () => {
@@ -65,12 +85,22 @@ const Sidebar: FC = () => {
     }
   };
 
+  //로그아웃 실행함수
+  const handleLogout = () => {
+    window.localStorage.removeItem("token");
+    window.localStorage.removeItem("id");
+    window.localStorage.removeItem("test");
+    dispatch(logoutChange());
+    navigate("/");
+  };
+
   return (
     <Block id="sidebar">
       <Link to="/">Home</Link>
       <Link to="/group">Group</Link>
       <Link to="/schedule">Schedule</Link>
       <a onClick={goMyPage}>Mypage</a>
+      <LogoutDiv onClick={handleLogout}>Logout</LogoutDiv>
     </Block>
   );
 };

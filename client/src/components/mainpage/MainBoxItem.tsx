@@ -54,6 +54,8 @@ export const Div3 = styled.div`
   font-size: 14px;
   font-weight: 300;
   margin-left: 0.7rem;
+  margin-right: 0.7em;
+  margin-top: 2px;
 `;
 
 const ToggleMenu = styled.div`
