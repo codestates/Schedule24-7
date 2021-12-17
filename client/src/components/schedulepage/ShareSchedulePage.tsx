@@ -248,8 +248,8 @@ const ShareSchedulePage: FC = () => {
       objectType: `feed`,
       content: {
         title: `Schedule24/7 스케줄`,
-        description: `자동완성 스케줄러 Schedule24/7로 생성된 스케줄표입니다.`,
-        imageUrl: `https://media.discordapp.net/attachments/907157959333785630/914705380070785064/s725_logopng.png`,
+        description: `자동완성 스케줄러 Schedule24/7`,
+        imageUrl: `https://media.discordapp.net/attachments/907157959333785630/919775103275892747/S247_Logomobiletitle.png`,
         link: {
           webUrl: `https://schedule24-7.link/schedule/view/share/${scheduleId}`,
           mobileWebUrl: `https://schedule24-7.link/schedule/view/share/${scheduleId}`

@@ -468,6 +468,27 @@ export const selectBoxOptions: SelectOption[] = [
     text: "🥉",
     value: "🥉",
   },
+  {
+    text: "💉",
+    value: "💉",
+  },
+  {
+    text: "💊",
+    value: "💊",
+  },
+    {
+    text: "🚑️",
+    value: "🚑️",
+  },
+      {
+    text: "🏥",
+    value: "🏥",
+  },
+        {
+    text: "🩺",
+    value: "🩺",
+  },
+ 
 ];
 
 export 
