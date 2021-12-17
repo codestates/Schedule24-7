@@ -53,6 +53,8 @@ function App() {
       document.cookie !== undefined &&
       window.localStorage.getItem("token") === undefined
     ) {
+      console.log(document.cookie);
+
       let newCookie2 = document.cookie;
       let finalCookie2 = newCookie2.split("%22")[3];
 
