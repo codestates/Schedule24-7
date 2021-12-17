@@ -57,6 +57,10 @@ export const LoginBtn = styled.button`
     background-color: #fee500;
     color: black;
   }
+
+  &.d {
+    background-color: #04cf5c;
+  }
 `;
 
 export const LoginText = styled.div`
@@ -82,6 +86,12 @@ export const GoogleLogo = styled.img`
 export const KakaoLogo = styled.img`
   width: 18px;
   margin-right: 2px;
+`;
+
+export const NaverLogo = styled.img`
+  width: 18px;
+  margin-right: 2px;
+  margin-bottom: 2px;
 `;
 
 export default function Login() {
@@ -124,54 +134,18 @@ export default function Login() {
   //구글 ouath 로그인 요청 함수
   const socialLoginHandler = () => {
     window.location.assign("https://server.schedule24-7.link/auth/google");
-
-    // setTimeout(() => {
-    //   let newCookie = document.cookie;
-    //   let newCookieArr = newCookie.split(";");
-    //   let finalCookie = newCookieArr[0].split("%22")[3];
-
-    //   window.localStorage.setItem("token", finalCookie);
-
-    //   if (finalCookie !== undefined) {
-    //     dispatch(loginChange());
-    //   }
-    // }, 0);
-
     dispatch(loginChange());
   };
 
   //카카오 ouath 로그인 요청 함수
   const kakaoLoginHandler = () => {
     window.location.assign("https://server.schedule24-7.link/auth/kakao");
+    dispatch(loginChange());
+  };
 
-    // let newCookie2 = document.cookie;
-    // let newCookieArr2 = newCookie2.split(";");
-    // let finalCookie2 = newCookieArr2[0].split("%22")[3];
-
-    // let newCookie2 = document.cookie;
-    // let finalCookie2 = newCookie2.split("%22")[3];
-
-    // window.localStorage.setItem("token", document.cookie);
-    // if (finalCookie2 !== undefined) {
-    //   dispatch(loginChange());
-    // }
-
-    // if (document.cookie !== undefined) {
-    //   dispatch(loginChange());
-    // }
-
-    // setTimeout(() => {
-    //   let newCookie = document.cookie;
-    //   let newCookieArr = newCookie.split(";");
-    //   let finalCookie = newCookieArr[0].split("%22")[3];
-
-    //   window.localStorage.setItem("token", finalCookie);
-
-    //   if (finalCookie !== undefined) {
-    //     dispatch(loginChange());
-    //   }
-    // }, 0);
-
+  //카카오 ouath 로그인 요청 함수
+  const naverLoginHandler = () => {
+    window.location.assign("https://server.schedule24-7.link/auth/naver");
     dispatch(loginChange());
   };
 
@@ -202,6 +176,10 @@ export default function Login() {
           <LoginBtn className="c" onClick={kakaoLoginHandler}>
             <KakaoLogo src="https://cdn.discordapp.com/attachments/907157959333785630/920856818115280897/kakao_symbol.png" />
             카카오계정으로 로그인
+          </LoginBtn>
+          <LoginBtn className="d" onClick={naverLoginHandler}>
+            <NaverLogo src="https://cdn.discordapp.com/attachments/907157959333785630/921254441217302528/naver_symboledit.png" />
+            네이버계정으로 로그인
           </LoginBtn>
         </LoginItems>
       </form>
