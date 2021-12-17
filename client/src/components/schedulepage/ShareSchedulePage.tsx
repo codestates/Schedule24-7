@@ -211,7 +211,7 @@ const ShareSchedulePage: FC = () => {
   const [result, setResult] = useState<any>(null);
   const [viewMode, setViewMode] = useState(true);
 
-  const getShareSchedule = useCallback((): Promise<ReturnApi<any>> => {
+  const getShareSchedule = useCallback((): Promise<ReturnApi<any>> => {    
     return apiClient().get<any, ReturnApi<any>>(
       `https://server.schedule24-7.link/schedule/share/${scheduleId}`
     );
@@ -235,7 +235,7 @@ const ShareSchedulePage: FC = () => {
     getShareSchedule().then((response) => {
       setResult(response.data.result);
     });
-  }, [getShareSchedule]);
+  }, [getShareSchedule], );
 
   const Kakao = (window as any).Kakao
   useEffect(() => {  

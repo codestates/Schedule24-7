@@ -15,6 +15,7 @@ import { getGroupsApi } from "./lib/api/group";
 import { getGroups } from "./redux/actions/Group";
 import "./lib/confirm/index.css";
 import LandingPage from "./pages/landingPage/LandingPage";
+import ShareSchedulePage from "./components/schedulepage/ShareSchedulePage";
 
 function App() {
   const loginState = useSelector((state: RootState) => state.loginReducer);
@@ -52,14 +53,15 @@ function App() {
     <Router>
       <GlobalStyle />
       <Routes>
-        <Route path="/schedule/*" element={<ScheduleRoutes />} />
         <Route path="/findidpw/*" element={<FindIdPw />} />
         <Route path="/signup" element={<SignUpPage />} />
+        <Route path="/schedule/view/share/:scheduleId" element={<ShareSchedulePage />} />
 
         {loginState.login ? (
           <>
             <Route path="/" element={<MainPage />} />
             <Route path="/group/*" element={<GroupRoutes />} />
+            <Route path="/schedule/*" element={<ScheduleRoutes />} />
             <Route path="/mypage/*" element={<MyRoutes />} />
           </>
         ) : (

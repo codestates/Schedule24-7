@@ -16,7 +16,7 @@ function SchedulePage() {
   }, [dispatch]);
 
   return (
-    <Layout title="스케쥴">
+    <Layout title="스케줄">
       <ScheduleMain />
     </Layout>
   );
