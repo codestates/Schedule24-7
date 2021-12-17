@@ -64,7 +64,7 @@ Schdule 24/7의 핵심 기능은 당직근무와 같은 근무표를 손쉽게 �
             <a href="https://github.com/SiwooPak">SiwooPak</a>
         </td>
          <td align="center" width="130px" height="160px">
-            <a href="https://github.com/imdex1009"><img height="100px" width="100px" src="https://media.discordapp.net/attachments/907157793704931361/910889004344422410/20211013_185622.jpg?width=513&height=513" /></a>
+            <a href="https://github.com/imdex1009"><img height="100px" width="100px" src="https://cdn.discordapp.com/attachments/907157793704931361/921309171222212608/KakaoTalk_Photo_2021-12-17-16-52-03.jpeg" /></a>
             <br />
             <a href="https://github.com/imdex1009">imdex1009</a>
         </td>
@@ -118,7 +118,7 @@ Schdule 24/7의 핵심 기능은 당직근무와 같은 근무표를 손쉽게 �
 <img src="https://img.shields.io/badge/swagger-4682B4?style=for-the-badge&logo=swagger&logoColor=white">
 
 ### Deploy Stack
-<img src="https://img.shields.io/badge/amazon%20s3-232F3E?style=for-the-badge&logo=amazon%20s3&logoColor=white"> <img src="https://img.shields.io/badge/amazon%20route%2053&-32CD32?style=for-the-badge&logo=mongodb&logoColor=white"> <img src="https://img.shields.io/badge/amazon%20elb-232F3E?style=for-the-badge&logo=amazon%20elb&logoColor=white"> <img src="https://img.shields.io/badge/amazon%20ecs-232F3E?style=for-the-badge&logo=amazon%20ecs&logoColor=white"> <img src="https://img.shields.io/badge/amazon%20ecr-232F3E?style=for-the-badge&logo=amazon%20ecr&logoColor=white"> <img src="https://img.shields.io/badge/amazon%20fargate-232F3E?style=for-the-badge&logo=amazon%20fargate&logoColor=white"> <img src="https://img.shields.io/badge/codepipeline-232F3E?style=for-the-badge&logo=codepipeline&logoColor=white"> <img src="https://img.shields.io/badge/mongodb%20atlas-32CD32?style=for-the-badge&logo=mongodb&logoColor=white"> <img src="https://img.shields.io/badge/docker-61DAFB?style=for-the-badge&logo=docker&logoColor=black">
+<img src="https://img.shields.io/badge/amazon%20s3-232F3E?style=for-the-badge&logo=amazon%20s3&logoColor=white"> <img src="https://img.shields.io/badge/amazon%20route%2053&-32CD32?style=for-the-badge&logo=mongodb&logoColor=white"> <img src="https://img.shields.io/badge/amazon%20elb-232F3E?style=for-the-badge&logo=amazon%20elb&logoColor=white"> <img src="https://img.shields.io/badge/amazon%20ecs-232F3E?style=for-the-badge&logo=amazon%20ecs&logoColor=white"> <img src="https://img.shields.io/badge/amazon%20ecr-232F3E?style=for-the-badge&logo=amazon%20ecr&logoColor=white"> <img src="https://img.shields.io/badge/amazon%20fargate-232F3E?style=for-the-badge&logo=amazon%20fargate&logoColor=white"> <img src="https://img.shields.io/badge/codepipeline-232F3E?style=for-the-badge&logo=codepipeline&logoColor=white"> <img src="https://img.shields.io/badge/mongodb%20atlas-32CD32?style=for-the-badge&logo=mongodb&logoColor=white"> <img src="https://img.shields.io/badge/docker-61DAFB2?style=for-the-badge&logo=docker&logoColor=black">
 
 
 ## 🏗 Architecture stack
