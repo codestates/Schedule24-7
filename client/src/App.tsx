@@ -45,15 +45,21 @@ function App() {
   //     }
   //   }
   // }, [document.cookie]);
+
   //최초렌더시 로그인 유지함수 실행
   useEffect(() => {
+    console.log("실행되니");
     if (
       document.cookie !== undefined &&
       window.localStorage.getItem("token") === undefined
     ) {
       let newCookie2 = document.cookie;
       let finalCookie2 = newCookie2.split("%22")[3];
+
+      console.log(finalCookie2);
+
       if (finalCookie2 !== undefined) {
+        dispatch(loginChange());
         window.localStorage.setItem("token", finalCookie2);
       }
     }
