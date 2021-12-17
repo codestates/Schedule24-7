@@ -11,6 +11,7 @@ import { AuthNumberDto } from "./dto/request/authNumber.dto";
 import { AuthCheckUserIdLossDto } from "./dto/request/auth-checkUserIdLoss.dto";
 import { AuthCheckPasswordLossDto } from "./dto/request/auth-checkPasswordLoss.dto";
 import HttpError from "src/commons/httpError";
+import { resourceLimits } from "worker_threads";
 
 @Injectable()
 export class AuthService {
@@ -358,6 +359,69 @@ export class AuthService {
       const signUpKakao = await this.userRepository.createUser(userInfo);
       accessToken = this.authRepository.generateToken(signUpKakao);
     }
+    return accessToken;
+  }
+
+  async naverCallback(code: string, state: string) {
+    const NAVER_TOKEN_URL = "https://nid.naver.com/oauth2.0/token";
+    // const NAVER_AUTH_REDIRECT_URL = "https://schedule24-7/auth/naver/callback"
+    const NAVER_AUTH_REDIRECT_URL = "http://localhost:80/auth/naver/callback";
+    const NAVER_AUTH_CLIENT_ID = process.env.NAVER_AUTH_CLIENT_ID;
+    const NAVER_AUTH_CLIENT_SECRET = process.env.NAVER_AUTH_CLIENT_SECRET;
+
+    const { data }: any = await lastValueFrom(
+      this.httpService.request({
+        method: "POST",
+        url: NAVER_TOKEN_URL,
+        headers: {
+          "X-Naver-Client-Id": NAVER_AUTH_CLIENT_ID,
+          "X-Naver-Client-Secret": NAVER_AUTH_CLIENT_SECRET,
+        },
+        params: {
+          grant_type: "authorization_code",
+          client_id: NAVER_AUTH_CLIENT_ID,
+          client_secret: NAVER_AUTH_CLIENT_SECRET,
+          redirect_uri: NAVER_AUTH_REDIRECT_URL,
+          code: code,
+          state: state,
+        },
+      }),
+    );
+
+    const access_token = data.access_token;
+    const { response: snsData }: any = await lastValueFrom(
+      this.httpService.get(`https://openapi.naver.com/v1/nid/me`, {
+        headers: {
+          Authorization: `Bearer ${access_token}`,
+          "User-Agent":
+            "curl/7.12.1 (i686-redhat-linux-gnu) libcurl/7.12.1 OpenSSL/0.9.7a zlib/1.2.1.2 libidn/0.5.6",
+          Host: "openapi.naver.com",
+          Pragma: "no-cache",
+          Accept: "*/*",
+        },
+      }),
+    );
+    const { id, email, name } = snsData;
+    const tempPassword = this.authRepository.generateTemporaryPassword();
+
+    const userInfo = {
+      email: email,
+      userId: id,
+      userName: name,
+      password: tempPassword,
+      tokenType: "naver",
+    };
+
+    const isExist = await this.userRepository.getUserByUserId(userInfo.userId);
+
+    let accessToken;
+    if (isExist) {
+      accessToken = this.authRepository.generateToken(isExist);
+    } else {
+      const signUpNaver = await this.userRepository.createUser(userInfo);
+      accessToken = this.authRepository.generateToken(signUpNaver);
+    }
+
     return accessToken;
   }
 }

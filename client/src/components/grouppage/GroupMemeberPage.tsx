@@ -68,6 +68,15 @@ const AddBtn = styled.button`
   } */
 `;
 
+const NoMemeber = styled.div`
+  z-index: 3;
+  width: 100%;
+  height: 40px;
+  text-align: center;
+  line-height: 40px;
+  font-size: 14px;
+`
+
 const GroupMemberPage: FC = () => {
   const dispatch = useDispatch();
   useEffect(() => {
@@ -120,6 +129,9 @@ const GroupMemberPage: FC = () => {
             }
           />
         )}
+      {selectgroup?.members.length === 0 ? 
+      <NoMemeber>등록된 멤버가 없습니다.</NoMemeber>
+      :null}
       </Box>
     </Layout>
   );
