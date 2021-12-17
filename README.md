@@ -46,6 +46,8 @@ Schdule 24/7의 핵심 기능은 당직근무와 같은 근무표를 손쉽게 �
 
 
 ## 👤 Contributors
+
+![](https://media.discordapp.net/attachments/907157793704931361/915889010394681404/2021-12-02_5.54.11.png)
 <table>
     <tr>
         <td align="center" width="130px" height="160px">
