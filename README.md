@@ -54,7 +54,7 @@ Schdule 24/7의 핵심 기능은 당직근무와 같은 근무표를 손쉽게 �
             <a href="https://github.com/heokiro">heokiro</a>
         </td>
        <td align="center" width="130px" height="160px">
-            <a href="https://github.com/outclassstudio"><img height="100px" width="100px" src="https://avatars.githubusercontent.com/u/87600115?v=4" /></a>
+            <a href="https://github.com/outclassstudio"><img height="100px" width="100px" src="https://cdn.discordapp.com/attachments/907157793704931361/921312578687344670/6223316da23dc9ab.jpeg" /></a>
             <br />
             <a href="https://github.com/outclassstudio">outclassstudio</a>
         </td>
