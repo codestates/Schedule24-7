@@ -7,7 +7,6 @@ import {
   Patch,
   Delete,
   Res,
-  HttpStatus,
 } from "@nestjs/common";
 import {
   ApiTags,
@@ -43,6 +42,7 @@ import { InjectConnection } from "@nestjs/mongoose";
 import HttpError from "src/commons/httpError";
 import { CreateGuestResDto } from "./dto/response/create-guest.dto";
 import { DeleteGuestResDto } from "./dto/response/delete-guest.dto";
+import { UpdateUserDto } from "./dto/request/update-user.dto";
 
 @Controller("users")
 @ApiTags("User API")
@@ -129,10 +129,12 @@ export class UserController {
   })
   async updatePassword(
     @Headers("Authorization") authorization: string,
-    @Body("new_password") new_password: string,
+    @Body() dto: UpdateUserDto,
   ) {
-    if (!authorization || !new_password)
+    if (!authorization || !Object.keys(dto).length)
       throw new HttpError(400, "Bad Request");
+
+    const { new_password } = dto;
 
     await this.userService.updatePassword(authorization, new_password);
     return {

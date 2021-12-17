@@ -74,9 +74,7 @@ export class UserService {
       const data: any = await this.authRepository.validateToken(auth);
       const { _id } = data;
       if (!_id) throw new HttpError(401, "Unauthorized");
-      const result: any = await this.userRepository.signOut(_id);
-      if (!result) throw new HttpError(404, "Not Found");
-      else return result;
+      await this.userRepository.signOut(_id);
     });
     session.endSession();
   }

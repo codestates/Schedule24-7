@@ -22,6 +22,7 @@ const Block = styled.div`
   height: 42px;
   background-color: white;
   position: relative;
+  cursor: pointer;
 `;
 const VsibleWrapper = styled.div`
   display: flex;

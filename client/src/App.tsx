@@ -1,4 +1,9 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  useNavigate,
+} from "react-router-dom";
 import LoginPage from "./pages/LoginPage";
 import SignUpPage from "./pages/SignUpPage";
 import GroupRoutes from "./components/routes/GroupRoute";
@@ -16,6 +21,7 @@ import { getGroups } from "./redux/actions/Group";
 import "./lib/confirm/index.css";
 import LandingPage from "./pages/landingPage/LandingPage";
 import ShareSchedulePage from "./components/schedulepage/ShareSchedulePage";
+import axios from "axios";
 
 function App() {
   const loginState = useSelector((state: RootState) => state.loginReducer);
@@ -23,31 +29,56 @@ function App() {
 
   //로그인 유지를 위한 함수
   const keepLogin = () => {
+    console.log("로그인유지");
     if (window.localStorage.getItem("token")) {
       dispatch(loginChange());
     }
   };
 
-  //최초렌더시 로그인 유지함수 실행
-  useEffect(() => {
-    keepLogin();
-  }, []);
-
   //토큰저장
+  // useEffect(() => {
+  //   if (document.cookie !== undefined && window.localStorage.getItem("token") !== undefined) {
+  //     let newCookie2 = document.cookie;
+  //     let finalCookie2 = newCookie2.split("%22")[3];
+  //     if (
+  //       finalCookie2 === undefined &&
+  //     ) {
+  //       window.localStorage.setItem("token", finalCookie2);
+  //     }
+  //   }
+  // }, [document.cookie]);
+
+  //최초렌더시 로그인 유지함수 실행..
   useEffect(() => {
-    if (document.cookie !== undefined) {
+    console.log("실행시작");
+    console.log(document.cookie);
+    console.log(window.localStorage.getItem("token"));
+
+    if (
+      document.cookie !== "" &&
+      window.localStorage.getItem("token") === null
+    ) {
+      console.log(document.cookie);
+
       let newCookie2 = document.cookie;
       let finalCookie2 = newCookie2.split("%22")[3];
-      window.localStorage.setItem("token", finalCookie2);
+
+      console.log(finalCookie2);
+
+      if (finalCookie2 !== undefined) {
+        window.localStorage.setItem("token", finalCookie2);
+      }
     }
-  }, [document.cookie]);
+
+    keepLogin();
+  }, []);
 
   //그룹정보 업데이트
   // useEffect(() => {
   //   getGroupsApi().then((res) => {
   //     dispatch(getGroups(res.data));
   //   });
-  // }, [dispatch]);
+  // }, [dispatch])
 
   return (
     <Router>
@@ -68,6 +99,8 @@ function App() {
           <>
             <Route path="/" element={<LandingPage />} />
             <Route path="/login" element={<LoginPage />} />
+            <Route path="/group/*" element={<LandingPage />} />
+            <Route path="/mypage/*" element={<LandingPage />} />
           </>
         )}
       </Routes>
@@ -76,3 +109,29 @@ function App() {
 }
 
 export default App;
+
+// const navigate = useNavigate();
+
+// const getAccessToken = async (authorizationCode: string) => {
+//   await axios
+//     .post("https://server.schedule24-7.link/auth/kakao", {
+//       authorizationCode,
+//     })
+//     .then((res) => {
+//       // console.log(res.data);
+//       let accessToken = res.data.accessToken;
+//       // let refreshToken = res.headers["refresh-token"];
+//       localStorage.setItem("token", accessToken);
+//       // localStorage.setItem("RF_Token", refreshToken);
+//       // navigate(`/`);
+//     });
+// };
+
+// useEffect(() => {
+// const url = new URL(window.location.href);
+// const authorizationCode = url.searchParams.get("code");
+// // console.log('인증 코드', authorizationCode);
+// if (authorizationCode) {
+//   getAccessToken(authorizationCode);
+// }
+// }, []);

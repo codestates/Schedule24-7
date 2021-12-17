@@ -25,7 +25,7 @@ import {
   ApiTags,
   ApiUnauthorizedResponse,
 } from "@nestjs/swagger";
-import { Request, Response } from "express";
+import { query, Request, Response } from "express";
 import { Connection } from "mongoose";
 
 import {
@@ -492,6 +492,44 @@ export class AuthController {
     try {
       const result = await this.authService.tokenCheck(req.cookies);
       return res.send(result);
+    } catch (err) {
+      return res.status(err.status).send(err);
+    }
+  }
+
+  @Get("/naver")
+  async naverOauth(@Res() res: Response) {
+    const NAVER_AUTH_URL = "https://nid.naver.com/oauth2.0/authorize?";
+    // const NAVER_AUTH_REDIRECT_URL = "https://schedule24-7/auth/naver/callback"
+    const NAVER_AUTH_REDIRECT_URL = "http://localhost:80/auth/naver/callback";
+    const API_URL = `${NAVER_AUTH_URL}response_type=code&client_id=${process.env.NAVER_AUTH_CLIENT_ID}&redirect_uri=${NAVER_AUTH_REDIRECT_URL}&state=RANDOM_STATE`;
+    try {
+      return res
+        .writeHead(200, { "Content-Type": "text/html;charset=utf-8" })
+        .end(
+          `
+          <a href=${API_URL}><img height="50" src="http://static.nid.naver.com/oauth/small_g_in.PNG"/></a>
+          `,
+        );
+    } catch (err) {
+      return res.status(err.status).send(err);
+    }
+  }
+
+  @Get("/naver/callback")
+  async naverCallback(
+    @Query("code") code: string,
+    @Query("state") state: string,
+    @Res() res: Response,
+  ) {
+    try {
+      const accessToken = await this.authService.naverCallback(code, state);
+      return res
+        .cookie("accessToken", accessToken, {
+          domain: "schedule24-7.link",
+          sameSite: true,
+        })
+        .redirect("https://schedule24-7.link");
     } catch (err) {
       return res.status(err.status).send(err);
     }

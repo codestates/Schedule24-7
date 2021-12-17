@@ -71,7 +71,7 @@ export class ScheduleService {
     // 3. 조건을 넣어서 나온 스케줄 콘텐츠 뽑기
   }
 
-  // 스케쥴 기본정보 수정 부분
+  // 스케줄 기본정보 수정 부분
   async modifySchedule(
     auth: string,
     groupId: string,
@@ -86,22 +86,22 @@ export class ScheduleService {
     }
     const session = await this.mongooseConnection.startSession();
     session.withTransaction(async () => {
-      // 그룹 도큐먼트에 그룹아이디와 스케쥴 아이디가 있는지 확인
+      // 그룹 도큐먼트에 그룹아이디와 스케줄 아이디가 있는지 확인
       const groupInfo: any =
         await this.groupRepository.checkScheduleIdFromGroup(
           groupId,
           scheduleId,
         );
-      // 있으면 해당 스케쥴의 내용을 수정
+      // 있으면 해당 스케줄의 내용을 수정
       if (!groupInfo) throw new HttpError(404, "Not Found");
 
       await this.scheduleRepository.modifySchedule(scheduleId, schedule);
     });
     session.endSession();
-    return "스케쥴 기본정보가 변경되었습니다.";
+    return "스케줄 기본정보가 변경되었습니다.";
   }
 
-  // 스케쥴 인원 배정 수정
+  // 스케줄 인원 배정 수정
   async updateSchedule(
     auth: string,
     params: { groupId: string; scheduleId: string; contentId: number },
@@ -116,7 +116,7 @@ export class ScheduleService {
     const { groupId, scheduleId, contentId } = params;
     const session = await this.mongooseConnection.startSession();
     session.withTransaction(async () => {
-      // 그룹 도큐먼트에 그룹아이디와 스케쥴 아이디가 있는지 확인
+      // 그룹 도큐먼트에 그룹아이디와 스케줄 아이디가 있는지 확인
       const groupInfo: any =
         await this.groupRepository.checkScheduleIdFromGroup(
           groupId,
@@ -185,7 +185,7 @@ export class ScheduleService {
     session.endSession();
   }
 
-  // 스케쥴 삭제 부분
+  // 스케줄 삭제 부분
   async removeSchedule(auth: string, groupId: string, scheduleId: string) {
     try {
       // 토큰 정보 복호화
@@ -196,15 +196,15 @@ export class ScheduleService {
     }
     const session = await this.mongooseConnection.startSession();
     session.withTransaction(async () => {
-      // 스케쥴 삭제
+      // 스케줄 삭제
       await this.scheduleRepository.removeSchedule(scheduleId);
-      // 그룹에 스케쥴 아이디 삭제
+      // 그룹에 스케줄 아이디 삭제
       await this.groupRepository.removeScheduleIdFromGroup(groupId, scheduleId);
     });
     session.endSession();
   }
 
-  // 스케쥴 정보 공유를 위한 스케쥴 조회 부분
+  // 스케줄 정보 공유를 위한 스케줄 조회 부분
   async shareSchedule(scheduleId: string) {
     return await this.scheduleRepository.shareSchedule(scheduleId);
   }
