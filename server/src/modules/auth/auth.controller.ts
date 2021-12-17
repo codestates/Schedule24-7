@@ -524,6 +524,8 @@ export class AuthController {
     @Res() res: Response,
   ) {
     try {
+      console.log(code);
+      console.log(state);
       const accessToken = await this.authService.naverCallback(code, state);
       return res
         .cookie("accessToken", accessToken, {
