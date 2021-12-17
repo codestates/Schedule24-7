@@ -364,7 +364,8 @@ export class AuthService {
 
   async naverCallback(code: string, state: string) {
     const NAVER_TOKEN_URL = "https://nid.naver.com/oauth2.0/token";
-    const NAVER_AUTH_REDIRECT_URL = "https://schedule24-7/auth/naver/callback";
+    const NAVER_AUTH_REDIRECT_URL =
+      "https://schedule24-7.link/auth/naver/callback";
     // const NAVER_AUTH_REDIRECT_URL = "http://localhost:80/auth/naver/callback";
     const NAVER_AUTH_CLIENT_ID = process.env.NAVER_AUTH_CLIENT_ID;
     const NAVER_AUTH_CLIENT_SECRET = process.env.NAVER_AUTH_CLIENT_SECRET;
