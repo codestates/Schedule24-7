@@ -28,6 +28,7 @@ function App() {
 
   //로그인 유지를 위한 함수
   const keepLogin = () => {
+    console.log("로그인유지");
     if (window.localStorage.getItem("token")) {
       dispatch(loginChange());
     }
@@ -46,12 +47,15 @@ function App() {
   //   }
   // }, [document.cookie]);
 
-  //최초렌더시 로그인 유지함수 실행
+  //최초렌더시 로그인 유지함수 실행..
   useEffect(() => {
-    console.log("실행되니");
+    console.log("실행시작");
+    console.log(document.cookie);
+    console.log(window.localStorage.getItem("token"));
+
     if (
-      document.cookie !== undefined &&
-      window.localStorage.getItem("token") === undefined
+      document.cookie !== "" &&
+      window.localStorage.getItem("token") === null
     ) {
       console.log(document.cookie);
 
@@ -61,7 +65,6 @@ function App() {
       console.log(finalCookie2);
 
       if (finalCookie2 !== undefined) {
-        dispatch(loginChange());
         window.localStorage.setItem("token", finalCookie2);
       }
     }

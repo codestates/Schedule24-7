@@ -137,7 +137,7 @@ export default function Login() {
     //   }
     // }, 0);
 
-    // dispatch(loginChange());
+    dispatch(loginChange());
   };
 
   //카카오 ouath 로그인 요청 함수
@@ -160,7 +160,6 @@ export default function Login() {
     //   dispatch(loginChange());
     // }
 
-    // dispatch(loginChange());
     // setTimeout(() => {
     //   let newCookie = document.cookie;
     //   let newCookieArr = newCookie.split(";");
@@ -172,6 +171,8 @@ export default function Login() {
     //     dispatch(loginChange());
     //   }
     // }, 0);
+
+    dispatch(loginChange());
   };
 
   return (

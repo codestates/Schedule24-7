@@ -78,7 +78,7 @@ function LandingPage() {
 
   return (
     <AllLandingContainer>
-      {console.log(document.cookie)}
+      {/* {console.log(document.cookie)} */}
       <GoTopContainer onClick={() => scrollHandler()}>
         <img
           src="https://media.discordapp.net/attachments/876977982760165416/920198933354008596/topButton.png"

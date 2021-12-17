@@ -21,16 +21,20 @@ function MainPage() {
 
   //토큰저장
   // useEffect(() => {
-  //   if (document.cookie !== undefined && window.localStorage.getItem("token") !== undefined) {
+  //   console.log("실행되니");
+  //   if (document.cookie && !window.localStorage.getItem("token")) {
+  //     console.log(document.cookie);
+
   //     let newCookie2 = document.cookie;
   //     let finalCookie2 = newCookie2.split("%22")[3];
-  //     if (
-  //       finalCookie2 === undefined &&
-  //     ) {
+
+  //     console.log(finalCookie2);
+
+  //     if (finalCookie2 !== undefined) {
   //       window.localStorage.setItem("token", finalCookie2);
   //     }
   //   }
-  // }, [document.cookie]);
+  // }, []);
 
   //토큰 없을 시 로그아웃
   useEffect(() => {
