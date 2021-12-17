@@ -123,6 +123,9 @@ function SignUpPage() {
   //타이머
   const [timer, setTimer] = useState<string>("");
 
+  //이메일인증성공 메시지 상태
+  const [authSuccessMsg, setAuthSuccessMsg] = useState<boolean>(false);
+
   //회원가입 정보를 변경하는 함수
   const handleSignUpValue =
     (key: string) => (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -240,6 +243,7 @@ function SignUpPage() {
         // startTimer(0);
         setViewTimer(false);
         setErrors({ ...errors, permitSignUpBtn: true, authCodeErr: false });
+        setAuthSuccessMsg(true);
       })
       .catch(() => {
         setErrors({ ...errors, authCodeErr: true });
@@ -253,6 +257,7 @@ function SignUpPage() {
 
   //회원가입 서버에 요청하는 함수
   const handleSignUp = () => {
+    setAuthSuccessMsg(false);
     setErrors({ ...errors, emptyBoxCheck: true });
     if (
       strongPassword(signUpInfo.password) &&
@@ -419,6 +424,11 @@ function SignUpPage() {
               </SignUpSubItem>
               {viewTimer ? (
                 <SignUpSubItem className="timer">{timer}</SignUpSubItem>
+              ) : (
+                ""
+              )}
+              {authSuccessMsg ? (
+                <ErrMsg className="ok">이메일 인증 성공!</ErrMsg>
               ) : (
                 ""
               )}

@@ -22,7 +22,7 @@ function App() {
 
   //로그인 유지를 위한 함수
   const keepLogin = () => {
-    if (window.localStorage.getItem("token")) {
+    if (window.localStorage.getItem("token") || document.cookie) {
       dispatch(loginChange());
     }
   };
@@ -31,15 +31,6 @@ function App() {
   useEffect(() => {
     keepLogin();
   }, []);
-
-  //토큰저장
-  useEffect(() => {
-    if (document.cookie !== undefined) {
-      let newCookie2 = document.cookie;
-      let finalCookie2 = newCookie2.split("%22")[3];
-      window.localStorage.setItem("token", finalCookie2);
-    }
-  }, [document.cookie]);
 
   //그룹정보 업데이트
   // useEffect(() => {
@@ -66,6 +57,8 @@ function App() {
           <>
             <Route path="/" element={<LandingPage />} />
             <Route path="/login" element={<LoginPage />} />
+            <Route path="/group/*" element={<LandingPage />} />
+            <Route path="/mypage/*" element={<LandingPage />} />
           </>
         )}
       </Routes>

@@ -132,6 +132,10 @@ export const Div2 = styled.div`
     width: 240px;
   }
 
+  &.noneedit {
+    background-color: #e2e2e2;
+  }
+
   ${mediaQuery.mobile} {
     max-width: 260px;
   }
@@ -280,11 +284,13 @@ export default function ScheduleInfoMain() {
             )}
             <DivWrapper>
               <Title className="sub">그룹</Title>
-              <Div2>{currentSchedule[0].group.groupName}</Div2>
+              <Div2 className="noneedit">
+                {currentSchedule[0].group.groupName}
+              </Div2>
             </DivWrapper>
             <DivWrapper>
               <Title className="sub">날짜</Title>
-              <Div2>{currentSchedule[0].period}</Div2>
+              <Div2 className="noneedit">{currentSchedule[0].period}</Div2>
             </DivWrapper>
             {isEditMode ? (
               <AddBtnWrapper>
@@ -301,6 +307,7 @@ export default function ScheduleInfoMain() {
                 </AddBtn>
               </AddBtnWrapper>
             )}
+            <ErrMsg>* 스케쥴 이름과 이모지만 수정 가능</ErrMsg>
             <ErrMsg className="centered">{errMessage}</ErrMsg>
           </AddDiv>
         </AddScheduleWrapper>
