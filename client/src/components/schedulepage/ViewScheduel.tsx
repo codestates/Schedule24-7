@@ -19,12 +19,15 @@ export const ViewScheduleWrapper = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
+  align-items: center;
+  /* width: 100%; */
 `;
 
 export const TableTopWrapper = styled.div`
+  width: 100%;
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
   margin-bottom: 10px;
   ${mediaQuery.mobile} {
     margin-bottom: 8px;
@@ -32,11 +35,16 @@ export const TableTopWrapper = styled.div`
 `;
 
 export const DateWrapper = styled.div`
-  width: 80vw;
+  /* width: 60vw; */
+  /* min-width: 300px; */
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+
+  ${mediaQuery.mobile} {
+    min-width: 0px;
+  }
 `;
 
 export const SelectBox = styled.select`
@@ -109,6 +117,29 @@ export const ScheduleTable = styled.div`
 export const ScheduleColumnTable = styled.div`
   display: flex;
   flex-direction: column;
+  max-width: 1500px;
+  min-width: 1000px;
+  justify-content: center;
+  /* padding: 0 500px 0 500px; */
+  /* margin: 0 200px 0 200px; */
+
+  @media screen and (max-width: 1200px) {
+    min-width: 750px;
+  }
+
+  @media screen and (max-width: 1000px) {
+    min-width: 500px;
+    max-width: 750px;
+  }
+
+  @media screen and (max-width: 550px) {
+    min-width: 300px;
+    max-width: 350px;
+  }
+
+  /* ${mediaQuery.mobile} {
+    min-width: 420px;
+  } */
 `;
 
 export const SelectBtn = styled.button`
@@ -117,14 +148,22 @@ export const SelectBtn = styled.button`
   align-items: center;
   width: 28px;
   height: 28px;
-  background-color: #797979;
-  /* box-shadow: 0 0 1px #d4d4d4; */
-  border: 1px solid #797979;
+  background-color: #7e7e7e;
+  border: 1px solid #7979796e;
+  box-shadow: 0px 0px 4px #797979;
   border-radius: 3px;
-  margin-left: 2px;
+  margin-left: 4px;
   cursor: pointer;
   &.list {
     /* margin-left: 1px; */
+  }
+
+  :hover {
+    background-color: #4d4d4d;
+  }
+  :active {
+    background-color: #4d4d4d;
+    box-shadow: inset 1px 1px 0px #313131;
   }
 `;
 
@@ -196,11 +235,11 @@ export default function ViewSchedule() {
     setCurrentDate(date);
     newArr = Calendar(date);
   };
-  
+
   const handleSharePage = () => {
     // navigate(`/schedule/view/share/${params.scheduleId}`)
-    window.location.replace(`/schedule/view/share/${params.scheduleId}`)
-  }
+    window.location.replace(`/schedule/view/share/${params.scheduleId}`);
+  };
 
   //목록형 캘린더 만드는 함수
   let columnArr = newArr.filter((el: any) => {
@@ -246,7 +285,7 @@ export default function ViewSchedule() {
           </SubTextWrapper>
         </DateWrapper>
         <ViewSelect>
-          <SelectBtn onClick={()=>handleSharePage()}>
+          <SelectBtn onClick={() => handleSharePage()}>
             <TableIcon src="https://cdn.discordapp.com/attachments/876977982760165416/920911715028308009/pngaaa.com-1385850.png" />
           </SelectBtn>
           <SelectBtn className="list" onClick={() => handleViewChange(true)}>

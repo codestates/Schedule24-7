@@ -25,8 +25,10 @@ const NavBar = styled.nav`
 `;
 
 const MainDiv = styled.main`
+  background-color: #f5f5f5;
+  /* background-color: white; */
   grid-area: main;
-  padding: 0.25rem;
+  padding: 15px 45px 5px 45px;
   ${mediaQuery.mobile} {
     padding: 0;
   }
@@ -38,7 +40,8 @@ const Side = styled.div`
 
 const Foot = styled.footer`
   grid-area: footer;
-  padding: 0.25rem;
+  /* padding: 0.25rem; */
+  background-color: #f5f5f5;
 `;
 
 const UserContentWrapper = styled.div`

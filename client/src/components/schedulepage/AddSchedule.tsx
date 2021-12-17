@@ -67,6 +67,12 @@ export const Title = styled.div`
   &.padding {
     padding-left: 20px;
   }
+
+  ${mediaQuery.mobile} {
+    &.date {
+      padding-left: 20px;
+    }
+  }
 `;
 
 export const NameBox = styled.input`
@@ -183,7 +189,6 @@ export default function AddSchedule() {
         navigate(-1);
       })
       .catch((res) => {
-        console.log(res.message);
         if (scheduleEmoji === "") {
           setErrMessage("이모지를 선택해주세요");
         } else if (scheduleInfo.scheduleName === "") {
@@ -255,7 +260,7 @@ export default function AddSchedule() {
             </TeamSelect>
           </DivWrapper>
           <DivWrapper>
-            <Title>날짜선택</Title>
+            <Title className="date">날짜선택</Title>
             <Div1>
               <DatePicker
                 locale={ko}

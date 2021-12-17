@@ -3,7 +3,12 @@ import Layout from "../components/Layout";
 import styled from "styled-components";
 import GroupListItem from "../components/groups/GroupListItem";
 import { useNavigate } from "react-router";
-import { BoxSection, BoxWrapper } from "../style/theme";
+import {
+  BoxSection,
+  BoxWrapper,
+  ShortcutBoxWrapper,
+  ShortcutContainer,
+} from "../style/theme";
 import { AddBtn, BoxHeader, NoSchedule } from "../style/theme";
 import { getGroupsApi } from "../lib/api/group";
 import { useDispatch, useSelector } from "react-redux";
@@ -36,22 +41,23 @@ const GroupIndexPage: FC = () => {
           <HeaderText>그룹</HeaderText>
           <AddBtn onClick={handleClickLink}>그룹 생성</AddBtn>
         </BoxHeader>
-
-        {groups.length !== 0 ? (
-          <BoxWrapper>
-            {groups.map((group) => (
-              <GroupListItem
-                id={group._id}
-                desc={group.groupDesc}
-                emoji={group.groupEmoji}
-                name={group.groupName}
-                key={group._id}
-              />
-            ))}
-          </BoxWrapper>
-        ) : (
-          <NoSchedule>등록된 그룹이 없습니다</NoSchedule>
-        )}
+        <ShortcutContainer>
+          {groups.length !== 0 ? (
+            <ShortcutBoxWrapper>
+              {groups.map((group) => (
+                <GroupListItem
+                  id={group._id}
+                  desc={group.groupDesc}
+                  emoji={group.groupEmoji}
+                  name={group.groupName}
+                  key={group._id}
+                />
+              ))}
+            </ShortcutBoxWrapper>
+          ) : (
+            <NoSchedule>등록된 그룹이 없습니다</NoSchedule>
+          )}
+        </ShortcutContainer>
       </BoxSection>
     </Layout>
   );

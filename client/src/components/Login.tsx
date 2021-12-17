@@ -120,7 +120,6 @@ export default function Login() {
         password: loginInfo.password,
       })
       .then((res) => {
-        console.log(res.data);
         window.localStorage.setItem("token", res.data.accessToken);
         dispatch(loginChange());
         navigate("/");
@@ -143,11 +142,11 @@ export default function Login() {
     dispatch(loginChange());
   };
 
-  //카카오 ouath 로그인 요청 함수
-  const naverLoginHandler = () => {
-    window.location.assign("https://server.schedule24-7.link/auth/naver");
-    dispatch(loginChange());
-  };
+  //네이버 ouath 로그인 요청 함수
+  // const naverLoginHandler = () => {
+  //   window.location.assign("https://server.schedule24-7.link/auth/naver");
+  //   dispatch(loginChange());
+  // };
 
   return (
     <div>
@@ -177,10 +176,10 @@ export default function Login() {
             <KakaoLogo src="https://cdn.discordapp.com/attachments/907157959333785630/920856818115280897/kakao_symbol.png" />
             카카오계정으로 로그인
           </LoginBtn>
-          <LoginBtn className="d" onClick={naverLoginHandler}>
+          {/* <LoginBtn className="d" onClick={naverLoginHandler}>
             <NaverLogo src="https://cdn.discordapp.com/attachments/907157959333785630/921254441217302528/naver_symboledit.png" />
             네이버계정으로 로그인
-          </LoginBtn>
+          </LoginBtn> */}
         </LoginItems>
       </form>
       <LoginItems>

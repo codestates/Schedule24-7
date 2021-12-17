@@ -9,7 +9,8 @@ import {
 
 export const Box = styled.div`
   display: flex;
-  min-width: 5rem;
+  /* min-width: 15rem; */
+  width: auto;
   min-height: 40px;
   background-color: #ffffff;
   border-radius: 5px;
@@ -17,16 +18,18 @@ export const Box = styled.div`
   border: 1px solid rgba(0, 0, 0, 0.15);
   margin: 0.1rem;
   align-items: center;
+  justify-content: center;
+  padding: 0 30px 0 30px;
 `;
 
 export const Worksdiv = styled.div`
   display: flex;
-  width: 100%;
+  /* width: inherit; */
   min-height: 77px;
   align-items: center;
   justify-content: center;
   margin-bottom: 0.1rem;
-  flex: 1 1 auto;
+  /* flex: 1 1 auto; */
   ${mediaQuery.mobile} {
     flex-direction: column;
     padding: 3px;
@@ -39,10 +42,13 @@ export const Day = styled.span`
   width: 30px;
   color: #494949;
   margin-left: 0.3rem;
+  margin-right: 10px;
   text-align: center;
+  border-right: 1px solid #d3d3d3;
   ${mediaQuery.mobile} {
     font-size: 11px;
     width: 12px;
+    padding-right: 5px;
   }
 `;
 
@@ -91,7 +97,6 @@ export const Worker = styled.div`
     font-size: 13px;
     max-width: 300px;
     border-radius: 5px;
-    /* flex-direction: column; */
   }
 `;
 

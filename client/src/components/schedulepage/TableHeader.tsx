@@ -13,11 +13,12 @@ export const DayName = styled.div`
   font-weight: bold;
   color: white;
   background-color: #4b4b4b;
+
   ${mediaQuery.mobile} {
     font-size: 12px;
     font-weight: 400;
     min-width: 5px;
-    max-width: 47px;
+    max-width: 197px;
     margin: 0;
     box-shadow: none;
     border-radius: 3px;

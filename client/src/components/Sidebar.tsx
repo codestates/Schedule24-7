@@ -10,7 +10,7 @@ const Block = styled.nav`
   padding-top: 0.5rem;
   border-right: 1px solid rgba(0, 0, 0, 0.25);
   height: 95%;
-  width: 140px;
+  width: 170px;
   text-align: center;
   margin: 0px;
 

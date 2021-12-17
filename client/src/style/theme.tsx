@@ -29,7 +29,7 @@ export const BoxHeader = styled.div`
   align-items: center;
   border-width: 0px 0px 1px 0px;
   border-style: solid;
-  border-color: #696969;
+  border-color: #acacac;
   font-size: 1.5rem;
   font-weight: bold;
   margin-bottom: 0.3rem;
@@ -47,32 +47,34 @@ export const BoxWrapper = styled.div`
   grid-template-columns: repeat(auto-fill, minmax(137px, auto));
   border: 1px dotted #696969;
   border-radius: 0.5rem;
-  padding: 0.3rem;
-  background-color: #ececec;
-  grid-column-gap: 10px;
+  padding: 3px;
+  background-color: #fafafa;
+  grid-column-gap: 7px;
 `;
 
 export const ShortcutContainer = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  /* align-items: center; */
-  border: 1px dotted #696969;
+  border: 1px solid #d3d3d3;
   border-radius: 0.5rem;
-  padding: 0.3rem;
-  background-color: #ececec;
+  padding: 3px;
+  /* background-color: none; */
+  background-color: #fafafa;
+
+  ${mediaQuery.mobile} {
+    background-color: #f5f5f5;
+    border: 0px;
+  }
 `;
 
 export const ShortcutBoxWrapper = styled.div`
-  /* position: relative; */
   max-height: 20rem;
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(135px, auto));
-  /* grid-template-rows: repeat(auto-fill, minmax(125px, auto)); */
   margin-right: 0.5rem;
   overflow: hidden;
-  grid-column-gap: 10px;
-  /* transform: inherit; */
+  grid-column-gap: 7px;
   &.showBoxes {
     max-height: 100rem;
   }
@@ -89,30 +91,33 @@ export const SeeMore = styled.div`
   height: 22px;
   border: 1px solid #cfcdcd;
   text-align: center;
-  /* background-color: #fdfdfd; */
+  background-color: #ffffff;
   border-radius: 5px;
   cursor: grab;
   margin-bottom: 3px;
   font-size: 13px;
   :hover {
-    background-color: #bebebe;
+    background-color: #e2eeff;
   }
 `;
 
 export const AddBtn = styled.button`
-  width: 100px;
+  width: 80px;
   height: 30px;
   background-color: white;
-  border: 1px solid #535353;
+  border: 1px solid #d4d4d4;
+  box-shadow: 0px 0px 4px #7070706c;
   border-radius: 3px;
   color: #1b1b1b;
   font-weight: 500;
   margin-bottom: 3px;
   cursor: pointer;
-  box-shadow: 0 0 1px black;
   :hover {
     background-color: #e9e9e9;
     color: #161616;
+  }
+  :active {
+    box-shadow: inset 1px 1px #7070706c;
   }
   /* 
   &.schedule {
@@ -182,10 +187,10 @@ export const ErrMsg = styled.div`
 export const NoSchedule = styled.div`
   display: flex;
   justify-content: center;
-  border: 1px dotted #696969;
+  /* border: 1px dotted #696969; */
   border-radius: 0.5rem;
   padding: 17px 0 0 0;
-  background-color: #ececec;
+  background-color: none;
   font-size: 14px;
   z-index: 1;
   height: 35px;
