@@ -389,6 +389,8 @@ export class AuthService {
       }),
     );
 
+    console.log(data);
+
     const access_token = data.access_token;
     const { response: snsData }: any = await lastValueFrom(
       this.httpService.get(`https://openapi.naver.com/v1/nid/me`, {
