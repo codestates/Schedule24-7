@@ -47,8 +47,8 @@ export class ScheduleController {
   @ApiBearerAuth()
   @Post(":groupId")
   @ApiOperation({
-    summary: "새로운 스케쥴 추가",
-    description: "대상되는 그룹에 새로운 스케쥴을 생성시키는 요청을 보냅니다.",
+    summary: "새로운 스케줄 추가",
+    description: "대상되는 그룹에 새로운 스케줄을 생성시키는 요청을 보냅니다.",
   })
   @ApiHeader({
     name: "Authorization",
@@ -77,7 +77,7 @@ export class ScheduleController {
     @Body() scheduleDto: CreateScheduleDto,
   ) {
     console.log(scheduleDto);
-    // 스케쥴 생성 서비스를 이용하여 생성된 스켸줄 정보를 할당한다.
+    // 스케줄 생성 서비스를 이용하여 생성된 스켸줄 정보를 할당한다.
     await this.scheduleService.createSchedule(
       authorization,
       groupId,
@@ -90,13 +90,13 @@ export class ScheduleController {
     };
   }
 
-  // 스케쥴 수정: 기본 정보(이름, 이모지)
+  // 스케줄 수정: 기본 정보(이름, 이모지)
   @ApiBearerAuth()
   @Patch(":groupId/:scheduleId")
   @ApiOperation({
-    summary: "스케쥴 기본 정보 수정",
+    summary: "스케줄 기본 정보 수정",
     description:
-      "대상되는 그룹의 기존 스케쥴 데이터 중 기본정보(이름, 이모지)를 수정합니다.",
+      "대상되는 그룹의 기존 스케줄 데이터 중 기본정보(이름, 이모지)를 수정합니다.",
   })
   @ApiHeader({
     name: "Authorization",
@@ -111,12 +111,12 @@ export class ScheduleController {
   })
   @ApiParam({
     name: "scheduleId",
-    description: "수정할 스케쥴 도큐먼트 id값",
+    description: "수정할 스케줄 도큐먼트 id값",
     required: true,
   })
   @ApiResponse({
     status: 200,
-    description: "스케쥴의 기본정보가 정상적으로 변경되었습니다.",
+    description: "스케줄의 기본정보가 정상적으로 변경되었습니다.",
     type: ModifyScheduleResDto,
   })
   @ApiBadRequestResponse({ description: "Bad Reqeust", type: BadRequestErr })
@@ -145,7 +145,7 @@ export class ScheduleController {
       throw new HttpError(400, "Bad Requst");
     }
 
-    // 토큰정보, 그룹아이디, 스케쥴 아이디, 스케쥴 기본정보를 통해 스케쥴 기본 정보 수정
+    // 토큰정보, 그룹아이디, 스케줄 아이디, 스케줄 기본정보를 통해 스케줄 기본 정보 수정
     await this.scheduleService.modifySchedule(
       authorization,
       groupId,
@@ -155,16 +155,16 @@ export class ScheduleController {
 
     return {
       statusCode: 200,
-      memssage: "스케쥴의 기본정보가 정상적으로 변경되었습니다.",
+      memssage: "스케줄의 기본정보가 정상적으로 변경되었습니다.",
     };
   }
 
-  // 스케쥴 배정 인원 수정
+  // 스케줄 배정 인원 수정
   @ApiBearerAuth()
   @Patch(":groupId/:scheduleId/:contentId")
   @ApiOperation({
-    summary: "스케쥴 배정 인원 수정",
-    description: "스케쥴 상에 배정된 기존 인원을 변경합니다.",
+    summary: "스케줄 배정 인원 수정",
+    description: "스케줄 상에 배정된 기존 인원을 변경합니다.",
   })
   @ApiHeader({
     name: "Authorization",
@@ -179,7 +179,7 @@ export class ScheduleController {
   })
   @ApiParam({
     name: "scheduleId",
-    description: "수정할 스케쥴 도큐먼트 id값",
+    description: "수정할 스케줄 도큐먼트 id값",
     required: true,
   })
   @ApiParam({
@@ -190,7 +190,7 @@ export class ScheduleController {
   @ApiBody({ type: UpdateScheduleDto })
   @ApiResponse({
     status: 200,
-    description: "스케쥴의 기본정보가 정상적으로 변경되었습니다.",
+    description: "스케줄의 기본정보가 정상적으로 변경되었습니다.",
     type: UpdateScheduleResDto,
   })
   @ApiBadRequestResponse({ description: "Bad Reqeust", type: BadRequestErr })
@@ -223,7 +223,7 @@ export class ScheduleController {
 
     return {
       statusCode: 200,
-      message: "스케쥴 배정 인원 수정이 완료됐습니다.",
+      message: "스케줄 배정 인원 수정이 완료됐습니다.",
     };
   }
 
@@ -231,8 +231,8 @@ export class ScheduleController {
   @ApiBearerAuth()
   @Delete(":groupId/:scheduleId")
   @ApiOperation({
-    summary: "스케쥴 삭제",
-    description: "대상되는 그룹의 기존 스케쥴을 삭제합니다.",
+    summary: "스케줄 삭제",
+    description: "대상되는 그룹의 기존 스케줄을 삭제합니다.",
   })
   @ApiHeader({
     name: "Authorization",
@@ -247,12 +247,12 @@ export class ScheduleController {
   })
   @ApiParam({
     name: "scheduleId",
-    description: "수정할 스케쥴 도큐먼트 id값",
+    description: "수정할 스케줄 도큐먼트 id값",
     required: true,
   })
   @ApiResponse({
     status: 200,
-    description: "스케쥴이 정상적으로 삭제되었습니다.",
+    description: "스케줄이 정상적으로 삭제되었습니다.",
     type: DeleteScheduleResDto,
   })
   @ApiBadRequestResponse({ description: "Bad Reqeust", type: BadRequestErr })
@@ -280,20 +280,20 @@ export class ScheduleController {
     );
     return {
       statusCode: 200,
-      message: "스케쥴이 정상적으로 삭제되었습니다.",
+      message: "스케줄이 정상적으로 삭제되었습니다.",
     };
   }
 
-  // 스케쥴 공유링크로 들어왔을때 해당하는 스케쥴 아이디의 정보 조회
+  // 스케줄 공유링크로 들어왔을때 해당하는 스케줄 아이디의 정보 조회
   @Get("/share/:scheduleId")
   @ApiOperation({
-    summary: "개별 스케쥴 내용 조회",
+    summary: "개별 스케줄 내용 조회",
     description:
-      "공유 링크 생성시, 개별 스케쥴 내용을 조회할 수 있도록 하기 위한 API",
+      "공유 링크 생성시, 개별 스케줄 내용을 조회할 수 있도록 하기 위한 API",
   })
   @ApiParam({
     name: "scheduleId",
-    description: "수정할 스케쥴 도큐먼트 id값",
+    description: "수정할 스케줄 도큐먼트 id값",
     required: true,
   })
   @ApiResponse({
