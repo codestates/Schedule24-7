@@ -500,8 +500,8 @@ export class AuthController {
   @Get("/naver")
   async naverOauth(@Res() res: Response) {
     const NAVER_AUTH_URL = "https://nid.naver.com/oauth2.0/authorize?";
-    // const NAVER_AUTH_REDIRECT_URL = "https://schedule24-7/auth/naver/callback"
-    const NAVER_AUTH_REDIRECT_URL = "http://localhost:80/auth/naver/callback";
+    const NAVER_AUTH_REDIRECT_URL = "https://schedule24-7/auth/naver/callback";
+    // const NAVER_AUTH_REDIRECT_URL = "http://localhost:80/auth/naver/callback";
     const API_URL = `${NAVER_AUTH_URL}response_type=code&client_id=${process.env.NAVER_AUTH_CLIENT_ID}&redirect_uri=${NAVER_AUTH_REDIRECT_URL}&state=RANDOM_STATE`;
     try {
       return res
