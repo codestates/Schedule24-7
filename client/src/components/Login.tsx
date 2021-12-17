@@ -125,17 +125,17 @@ export default function Login() {
   const socialLoginHandler = () => {
     window.location.assign("https://server.schedule24-7.link/auth/google");
 
-    setTimeout(() => {
-      let newCookie = document.cookie;
-      let newCookieArr = newCookie.split(";");
-      let finalCookie = newCookieArr[0].split("%22")[3];
+    // setTimeout(() => {
+    //   let newCookie = document.cookie;
+    //   let newCookieArr = newCookie.split(";");
+    //   let finalCookie = newCookieArr[0].split("%22")[3];
 
-      window.localStorage.setItem("token", finalCookie);
+    //   window.localStorage.setItem("token", finalCookie);
 
-      if (finalCookie !== undefined) {
-        dispatch(loginChange());
-      }
-    }, 0);
+    //   if (finalCookie !== undefined) {
+    //     dispatch(loginChange());
+    //   }
+    // }, 0);
 
     // dispatch(loginChange());
   };
@@ -161,17 +161,17 @@ export default function Login() {
     // }
 
     // dispatch(loginChange());
-    setTimeout(() => {
-      let newCookie = document.cookie;
-      let newCookieArr = newCookie.split(";");
-      let finalCookie = newCookieArr[0].split("%22")[3];
+    // setTimeout(() => {
+    //   let newCookie = document.cookie;
+    //   let newCookieArr = newCookie.split(";");
+    //   let finalCookie = newCookieArr[0].split("%22")[3];
 
-      window.localStorage.setItem("token", finalCookie);
+    //   window.localStorage.setItem("token", finalCookie);
 
-      if (finalCookie !== undefined) {
-        dispatch(loginChange());
-      }
-    }, 0);
+    //   if (finalCookie !== undefined) {
+    //     dispatch(loginChange());
+    //   }
+    // }, 0);
   };
 
   return (
