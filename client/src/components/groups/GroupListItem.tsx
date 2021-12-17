@@ -41,7 +41,8 @@ export const Div2 = styled.div`
   font-size: 18px;
   font-weight: bold;
   margin-left: 0.7rem;
-  margin-top: 1.6rem;
+  margin-right: 0.7rem;
+  margin-top: 1.8rem;
   color: black;
 `;
 
@@ -49,6 +50,7 @@ export const Div3 = styled.div`
   font-size: 13px;
   font-weight: 300;
   margin-left: 0.7rem;
+  margin-right: 0.7rem;
   margin-top: 2px;
 `;
 

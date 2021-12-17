@@ -198,7 +198,8 @@ export default function ViewSchedule() {
   };
   
   const handleSharePage = () => {
-    navigate(`/schedule/view/share/${params.scheduleId}`)
+    // navigate(`/schedule/view/share/${params.scheduleId}`)
+    window.location.replace(`/schedule/view/share/${params.scheduleId}`)
   }
 
   //목록형 캘린더 만드는 함수
