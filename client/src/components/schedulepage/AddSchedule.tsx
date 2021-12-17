@@ -5,7 +5,7 @@ import { BoxHeader, BoxSection, ErrMsg } from "../../style/theme";
 import DatePicker from "react-datepicker";
 import "./react-datepicker.css";
 import { ko } from "date-fns/esm/locale";
-import { selectBoxOptions } from "./ScheduleDummy";
+import { ScheduleDummy, selectBoxOptions } from "./ScheduleDummy";
 import axios from "axios";
 import EmojiBox from "./EmojiBox";
 import { useEffect } from "react";
@@ -150,7 +150,9 @@ export default function AddSchedule() {
   });
 
   //이모지 상태
-  const [scheduleEmoji, setScheduleEmoji] = useState("");
+  const [scheduleEmoji, setScheduleEmoji] = useState(
+    ScheduleDummy[0].scheduleEmoji
+  );
 
   //에러메시지 상태
   const [errMessage, setErrMessage] = useState<string>("");

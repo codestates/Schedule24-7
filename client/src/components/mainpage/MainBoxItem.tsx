@@ -11,13 +11,14 @@ import MainScheduleThreeDot from "./MainScheduleThreeDot";
 export const MainDiv = styled.div`
   display: flex;
   flex-direction: column;
-  width: 9rem;
-  height: 9rem;
+  width: 8rem;
+  height: 8rem;
   border: 1px solid #cfcdcd;
-  /* box-shadow: 1px 1px 1px #a7a7a75c; */
+  box-shadow: 2px 2px 0px #7a7a7abc;
   border-radius: 0.4rem;
   background-color: white;
   margin: 0.5rem;
+  padding: 7px;
 
   a {
     text-decoration: none;
@@ -27,6 +28,14 @@ export const MainDiv = styled.div`
   }
 `;
 
+export const TitleWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  flex: 1 0 auto;
+  padding-bottom: 15px;
+`;
+
 export const Div1 = styled.div`
   display: flex;
   justify-content: space-between;
@@ -34,28 +43,30 @@ export const Div1 = styled.div`
 `;
 
 export const SubDiv1 = styled.div`
-  margin-left: 0.5rem;
+  align-items: center;
+  justify-content: center;
+  display: flex;
 `;
+
 export const SubDiv2 = styled.div`
-  margin-right: 0.55rem;
-  margin-top: 0.35rem;
+  align-items: center;
+  justify-content: center;
+  display: flex;
 `;
 
 export const Div2 = styled.div`
   font-size: 18px;
   font-weight: bold;
-  margin-left: 0.7rem;
-  margin-top: 1.8rem;
   color: black;
+  word-break: break-all;
   cursor: pointer;
 `;
 
 export const Div3 = styled.div`
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 300;
-  margin-left: 0.7rem;
-  margin-right: 0.7em;
   margin-top: 2px;
+  word-break: break-all;
 `;
 
 const ToggleMenu = styled.div`
@@ -124,14 +135,16 @@ export default function MainBoxItem({ schedule }: any) {
           ""
         )}
       </Div1>
-      <Div2
-        onClick={() => {
-          connectViewSchedule(schedule);
-        }}
-      >
-        {schedule.scheduleName}
-      </Div2>
-      <Div3>{schedule.group ? schedule.group.groupName : ""}</Div3>
+      <TitleWrapper>
+        <Div2
+          onClick={() => {
+            connectViewSchedule(schedule);
+          }}
+        >
+          {schedule.scheduleName}
+        </Div2>
+        <Div3>{schedule.group ? schedule.group.groupName : ""}</Div3>
+      </TitleWrapper>
     </MainDiv>
   );
 }
