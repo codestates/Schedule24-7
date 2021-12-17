@@ -5,6 +5,8 @@ import {
   BoxSection,
   BoxWrapper,
   NoSchedule,
+  ShortcutBoxWrapper,
+  ShortcutContainer,
 } from "../../style/theme";
 import { Link } from "react-router-dom";
 import BoxItem from "./BoxItem";
@@ -44,17 +46,19 @@ export default function ScheduleMain() {
           <AddBtn className="schedule">스케줄 생성</AddBtn>
         </Link>
       </BoxHeader>
-      {scheduleExist ? (
-        <BoxWrapper>
-          {groups.map((el: any) => {
-            return el.schedules.map((item: any, idx: any) => {
-              return <BoxItem key={idx} schedule={item} />;
-            });
-          })}
-        </BoxWrapper>
-      ) : (
-        <NoSchedule>등록된 스케줄이 없습니다</NoSchedule>
-      )}
+      <ShortcutContainer>
+        {scheduleExist ? (
+          <ShortcutBoxWrapper>
+            {groups.map((el: any) => {
+              return el.schedules.map((item: any, idx: any) => {
+                return <BoxItem key={idx} schedule={item} />;
+              });
+            })}
+          </ShortcutBoxWrapper>
+        ) : (
+          <NoSchedule>등록된 스케줄이 없습니다</NoSchedule>
+        )}
+      </ShortcutContainer>
     </BoxSection>
   );
 }

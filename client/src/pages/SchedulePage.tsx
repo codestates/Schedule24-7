@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { Navigate, useNavigate } from "react-router";
+import { useNavigate } from "react-router";
 import Layout from "../components/Layout";
 import ScheduleMain from "../components/schedulepage/ScheduleMain";
 import { getGroupsApi } from "../lib/api/group";

@@ -78,7 +78,6 @@ function LandingPage() {
 
   return (
     <AllLandingContainer>
-      {/* {console.log(document.cookie)} */}
       <GoTopContainer onClick={() => scrollHandler()}>
         <img
           src="https://media.discordapp.net/attachments/876977982760165416/920198933354008596/topButton.png"
@@ -96,7 +95,6 @@ function LandingPage() {
           <Link to="/signup">
             <HeaderItem>회원가입</HeaderItem>
           </Link>
-          {/* <HeaderItem>구글아이디로로그인</HeaderItem> */}
         </HeaderRight>
       </LandingHeader>
       <BodyOutContainer>

@@ -12,14 +12,15 @@ import ScheduleThreeDot from "./ScheduleThreeDot";
 export const MainDiv = styled.div`
   display: flex;
   flex-direction: column;
-  width: 9rem;
-  height: 9rem;
-  border: 1px solid #cfcdcd;
-  box-shadow: 2px 2px 0px #7a7a7abc;
-  border-radius: 0.4rem;
+  width: 8rem;
+  height: 8rem;
+  border: 1px solid #e4e4e4;
+  box-shadow: 0px 0px 7px #7070706c;
+  border-radius: 15px;
   background-color: white;
   margin: 0.5rem;
-  padding: 7px;
+  padding: 7px 10px 7px 10px;
+  /* justify-content: center; */
 
   a {
     text-decoration: none;
