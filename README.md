@@ -128,11 +128,6 @@ Schdule 24/7의 핵심 기능은 당직근무와 같은 근무표를 손쉽게 �
 ## ⚙️ Flow
 더 궁금하시다면? 👉 [WIKI](https://github.com/codestates/Schedule24-7/wiki)
 
-#### Signup Page
-![](https://github.com/codestates/Webmarker/blob/dev/.github/public/signup.jpg)
-#### Login Page
-![](https://github.com/codestates/Webmarker/blob/dev/.github/public/loginpage.jpg)
-#### Mypage
-![](https://github.com/codestates/Webmarker/blob/dev/.github/public/mypage.jpg)
-#### Main Page
-![](https://github.com/codestates/Webmarker/blob/dev/.github/public/mainpage.jpg)
+![](https://github.com/codestates/Schedule24-7/blob/dev/.github/images/flowChart1.png?raw=true)
+![](https://github.com/codestates/Schedule24-7/blob/dev/.github/images/flowChart2.png?raw=true)
+![](https://github.com/codestates/Schedule24-7/blob/dev/.github/images/flowChart3.png?raw=true)
