@@ -14,6 +14,7 @@ import { useParams } from "react-router";
 import {FC} from "react"
 import Layout from "../Layout";
 import GroupSelectBar from "../groups/GroupSelectBar";
+import { ShortcutContainer } from "../../style/theme";
 
 export const MainWrapper = styled.div``;
 
@@ -26,6 +27,7 @@ const BoxHeader = styled.div`
   font-size: 1.5rem;
   font-weight: bold;
   margin-bottom: 0.3rem;
+  padding-left: 2px;
   padding-bottom: 0.1rem;
   &.group {
     margin-top: 3px;
@@ -67,14 +69,14 @@ const GroupSchedulePage: FC =() => {
         </Link>
       </BoxHeader>
       {scheduleExist ? (
-        <BoxWrapper>
+        <ShortcutContainer>
             {typeof selectgroup === "undefined"
               ? null
               :
               selectgroup.schedules.map((item) => (
                 <BoxItem schedule={item} />
               ))}
-        </BoxWrapper>
+        </ShortcutContainer>
       ) : (
         <NoSchedule>등록된 스케줄이 없습니다</NoSchedule>
       )}

@@ -8,6 +8,7 @@ const Block = styled.div`
   flex-direction: row;
   align-items: center;
   padding: 11px 6px;
+  justify-content: center;
 
   a {
     display: block;
@@ -28,7 +29,8 @@ const Block = styled.div`
     margin : 1px;
   }
   a.active {
-    background-color: #ddeef8;
+    background-color: #8a8a8a;
+    color: white;
   }
 `;
 

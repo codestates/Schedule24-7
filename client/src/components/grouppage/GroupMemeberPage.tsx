@@ -21,14 +21,16 @@ const Box = styled.div`
   flex-wrap: wrap;
   align-items:flex-start;
   item-alins: center;
-  border: 1px dotted #696969;
+  border: 1px none; #d3d3d3;
   border-radius: 0.5rem;
   padding: 0.3rem;
-  background-color: #ececec;
+  background-color: #f5f5f5;
 
   ${mediaQuery.mobile} {
     flex-direction: column;
     max-width: 320px;
+    background-color: #f5f5f5;
+    border: 0px;
   }
 `;
 
@@ -41,6 +43,7 @@ const BoxHeader = styled.div`
   font-size: 1.5rem;
   font-weight: bold;
   margin-bottom: 0.3rem;
+  padding-left: 2px;
   padding-bottom: 0.1rem;
   &.group {
     margin-top: 3px;
@@ -48,19 +51,23 @@ const BoxHeader = styled.div`
 `;
 
 const AddBtn = styled.button`
-  width: 100px;
+  width: 80px;
   height: 30px;
   background-color: white;
-  border: 1px solid #535353;
+  border: 1px solid #d4d4d4;
+  box-shadow: 0px 0px 4px #7070706c;
   border-radius: 3px;
   color: #1b1b1b;
   font-weight: 500;
   margin-bottom: 3px;
+  margin-right: 3px;
   cursor: pointer;
-  box-shadow: 0 0 1px black;
   :hover {
     background-color: #e9e9e9;
     color: #161616;
+  }
+  :active {
+    box-shadow: inset 1px 1px #7070706c;
   }
   /* 
   &.schedule {
