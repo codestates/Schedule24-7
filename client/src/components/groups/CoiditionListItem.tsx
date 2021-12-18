@@ -13,10 +13,10 @@ const Block = styled.div`
   left: 10px;
   top: 160px;
   background-color: #ffffff;
-  box-shadow: 3px rgba(0, 0, 0, 0.25);
-  border-radius: 0.5rem;
-  border: 0.01rem solid rgba(0, 0, 0, 0.15);
-  margin: 5px;
+  box-shadow: 0px 0px 7px #7070706c;
+  border-radius: 15px;
+  border: 1px solid #e4e4e4;
+  margin: 0.5rem;
   padding: 5px 0;
 
   div.name {

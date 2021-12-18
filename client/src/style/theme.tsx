@@ -71,7 +71,7 @@ export const ShortcutContainer = styled.div`
 export const ShortcutBoxWrapper = styled.div`
   max-height: 20rem;
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(135px, auto));
+  grid-template-columns: repeat(auto-fill, minmax(145px, auto));
   margin-right: 0.5rem;
   overflow: hidden;
   grid-column-gap: 7px;
@@ -111,6 +111,7 @@ export const AddBtn = styled.button`
   color: #1b1b1b;
   font-weight: 500;
   margin-bottom: 3px;
+  margin-right: 3px;
   cursor: pointer;
   :hover {
     background-color: #e9e9e9;

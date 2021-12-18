@@ -14,6 +14,7 @@ import { getGroupsApi } from "../../lib/api/group";
 import { getGroups } from "../../redux/actions/Group";
 import { Link } from "react-router-dom";
 import { mediaQuery } from "../../GlobalStyle";
+import swal from "sweetalert";
 
 export const ViewScheduleWrapper = styled.div`
   display: flex;
@@ -167,6 +168,23 @@ export const SelectBtn = styled.button`
   }
 `;
 
+export const SelectBtn2 = styled.button`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 28px;
+  height: 28px;
+  background-color: white;
+  /* box-shadow: 0 0 1px #d4d4d4; */
+  border: 1px solid white;
+  border-radius: 3px;
+  margin-left: 2px;
+  cursor: pointer;
+  &.list {
+    /* margin-left: 1px; */
+  }
+`;
+
 export const TableIcon = styled.img`
   width: 14px;
 
@@ -175,10 +193,27 @@ export const TableIcon = styled.img`
   }
 `;
 
+export const TableIcon2 = styled.img`
+  width: 28px;
+
+  &.list {
+    height: 16px;
+  }
+`;
+
+export const TableIcon3 = styled.img`
+  width: 20px;
+
+  &.list {
+    height: 16px;
+  }
+`;
+
 export default function ViewSchedule() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const params = useParams();
+  const { scheduleId } = useParams();
 
   //스토리지에서 데이터 호출
   const groups = useSelector((store: RootState) => store.group.groups);
@@ -240,6 +275,45 @@ export default function ViewSchedule() {
     // navigate(`/schedule/view/share/${params.scheduleId}`)
     window.location.replace(`/schedule/view/share/${params.scheduleId}`);
   };
+  
+   const handleCopyClipBoard = async (text: string) => {
+    try {
+      await navigator.clipboard.writeText(text);
+      swal('공유 링크가 복사되었습니다');
+    } catch (error)
+    {
+      swal('공유 링크 복사 실패');
+    }
+   };
+  
+  const Kakao = (window as any).Kakao
+  useEffect(() => {  
+   Kakao.init(`8dede5bcf0c58e058f94673fc4bc25f8`)
+  }, [])
+  
+  const shareKaKao = () => {
+    Kakao.Link.sendDefault({
+      objectType: `feed`,
+      content: {
+        title: `Schedule24/7 스케줄`,
+        description: `자동완성 스케줄러 Schedule24/7`,
+        imageUrl: `https://media.discordapp.net/attachments/907157959333785630/919775103275892747/S247_Logomobiletitle.png`,
+        link: {
+          webUrl: `https://schedule24-7.link/schedule/view/share/${scheduleId}`,
+          mobileWebUrl: `https://schedule24-7.link/schedule/view/share/${scheduleId}`
+        },
+      },
+      buttons: [
+        {
+          title: 'Schedule24/7',
+          link: {
+            webUrl: `https://schedule24-7.link/schedule/view/share/${scheduleId}`,
+            mobileWebUrl: `https://schedule24-7.link/schedule/view/share/${scheduleId}`,          
+          }
+        }
+      ]
+    })
+  }
 
   //목록형 캘린더 만드는 함수
   let columnArr = newArr.filter((el: any) => {
@@ -285,8 +359,11 @@ export default function ViewSchedule() {
           </SubTextWrapper>
         </DateWrapper>
         <ViewSelect>
-          <SelectBtn onClick={() => handleSharePage()}>
-            <TableIcon src="https://cdn.discordapp.com/attachments/876977982760165416/920911715028308009/pngaaa.com-1385850.png" />
+           <SelectBtn2 onClick={()=>shareKaKao()}>
+            <TableIcon2 src="https://cdn.discordapp.com/attachments/876977982760165416/921047924580970497/kakaotalk.png" />
+          </SelectBtn2>
+          <SelectBtn onClick={()=>handleCopyClipBoard(`https://schedule24-7.link/schedule/view/share/${scheduleId}`)}>
+            <TableIcon3 src="https://media.discordapp.net/attachments/876977982760165416/921049999289245756/link.png" />
           </SelectBtn>
           <SelectBtn className="list" onClick={() => handleViewChange(true)}>
             <TableIcon
