@@ -5,10 +5,10 @@ import { Connection } from "mongoose";
 
 import HttpError from "src/commons/httpError";
 import {
-  conditionInfoList,
   generateGuestUserInfo,
-  guestGroupInfo,
-  membersInfoList,
+  guestGroups,
+  membersLists,
+  conditionsCollection,
 } from "src/public/guestUserData";
 import { AuthRepository } from "src/repositories/auth.repository";
 import { GroupRepository } from "src/repositories/group.repository";
@@ -94,37 +94,48 @@ export class UserService {
 
     const userOId = userData._id.toString();
 
-    const groupData = await this.groupRepository.createGroup(guestGroupInfo);
+    /**
+     * * 여러 그룹들을 게스트 계정에 부여하므로 배열로 그룹 데이터 관리
+     * * 가져오는 데이터의 타입이 바뀌므로 그에 맞게 배열에 최적화된 형태로 함수 수정됨
+     */
+    guestGroups.forEach(async (group, idx) => {
+      // * 그룹 도큐먼트 생성 및 생성된 도큐먼트를 게스트 계정과 매핑하는 작업
+      const groupData = await this.groupRepository.createGroup(group);
+      await this.userRepository.addGroupIdFromGroup(userOId, groupData);
 
-    await this.userRepository.addGroupIdFromGroup(userOId, groupData);
+      // 생성된 그룹의 오브젝트 id
+      const group_id = groupData._id.toString();
 
-    const groupOId = groupData._id.toString();
+      // * 확보한 그룹 오브젝트 id를 기준으로 멤버를 추가하는 함수
+      membersLists[idx].forEach(async (member) => {
+        const IdCount: any =
+          await this.groupRepository.increaseMemberIdCountByGroupId(group_id);
+        const newMember = Object.assign(
+          { memberId: IdCount.memberIdCount },
+          member,
+        );
+        await this.groupRepository.addMemberToGroupByGroupId(
+          group_id,
+          newMember,
+        );
+      });
 
-    membersInfoList.forEach(async (member) => {
-      const IdCount: any =
-        await this.groupRepository.increaseMemberIdCountByGroupId(groupOId);
-      const newMember = Object.assign(
-        {},
-        { memberId: IdCount.memberIdCount },
-        member,
-      );
-      await this.groupRepository.addMemberToGroupByGroupId(groupOId, newMember);
-    });
+      // * 확보한 그룹 오브젝트 id를 기준으로 스케줄 생성 조건을 추가하는 함수
+      conditionsCollection[idx].forEach(async (condition) => {
+        const IdCount: any =
+          await this.groupRepository.increaseConditionIdCountByGroupId(
+            group_id,
+          );
+        const newCondition = Object.assign(
+          { conditionId: IdCount.conditionIdCount },
+          condition,
+        );
 
-    conditionInfoList.forEach(async (condition) => {
-      const IdCount: any =
-        await this.groupRepository.increaseConditionIdCountByGroupId(groupOId);
-      const newCondition = Object.assign(
-        {},
-        {
-          conditionId: IdCount.conditionIdCount,
-        },
-        condition,
-      );
-      await this.groupRepository.createConditionByGroupId(
-        groupOId,
-        newCondition,
-      );
+        await this.groupRepository.createConditionByGroupId(
+          group_id,
+          newCondition,
+        );
+      });
     });
 
     const accessToken = this.authRepository.generateToken(userData);
