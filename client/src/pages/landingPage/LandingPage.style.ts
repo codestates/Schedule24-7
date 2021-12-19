@@ -59,6 +59,7 @@ export const HeaderLeft = styled.div`
 
 export const HeaderLogo = styled.img`
   width: 280px;
+  cursor: pointer;
   @media screen and (max-width: 600px) {
     width: 150px;
   }
@@ -468,15 +469,23 @@ export const DescrContainer = styled.div`
 export const ThirImageContainer = styled.div<Idx>`
   /* margin: ${(props) =>
     props.idx % 2 === 0 ? "30px 100px 0 0" : "30px 0 0 30px"}; */
+  display: flex;
+  justify-content: center;
   transition: 0.5s all;
   position: absolute;
   z-index: 1;
   left: ${(props) => (props.idx % 2 === 0 ? "none" : "0")};
   right: ${(props) => (props.idx % 2 === 0 ? "0" : "none")};
+
   img {
     width: 700px;
     transition: 0.5s all;
     box-shadow: 3px 3px 3px #1a1a1a70;
+    &.mobile {
+      margin-right: 50px;
+      width: 210px;
+      height: 420px;
+    }
   }
   @media screen and (max-width: 1150px) {
     left: none;
@@ -487,6 +496,12 @@ export const ThirImageContainer = styled.div<Idx>`
     transition: 0.5s all;
     img {
       width: 500px;
+      &.mobile {
+        margin-right: 10px;
+        margin-left: 10px;
+        /* width: 100px;
+        height: 190px; */
+      }
     }
   }
   @media screen and (max-width: 450px) {
@@ -498,6 +513,12 @@ export const ThirImageContainer = styled.div<Idx>`
       width: 300px;
       /* height: 238px; */
       transition: 0.5s all;
+      &.mobile {
+        margin-right: 10px;
+        margin-left: 10px;
+        width: 100px;
+        height: 190px;
+      }
     }
   }
 `;
@@ -572,4 +593,8 @@ export const FooterDiv = styled.div`
   ${mediaQuery.mobile} {
     font-size: 12px;
   }
+`;
+
+export const MobileImg = styled.img`
+  height: 390px;
 `;

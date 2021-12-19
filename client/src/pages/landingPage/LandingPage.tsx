@@ -38,8 +38,10 @@ function LandingPage() {
         "모바일환경에서도 활용 가능한",
         "손쉬운 그룹관리!",
       ],
-      img: "https://cdn.discordapp.com/attachments/876977982760165416/920190535275274280/ea0a821c56146d0f.gif",
+      img: "https://cdn.discordapp.com/attachments/907157959333785630/922104091717562378/landing1-1.gif",
+      img2: "https://cdn.discordapp.com/attachments/907157959333785630/922115153791688704/landing1-2.gif",
       descr: [],
+      mobile: true,
     },
     {
       title: [
@@ -47,13 +49,17 @@ function LandingPage() {
         "다양한 조건들과 상황들을",
         "간편하게 관리!",
       ],
-      img: "https://cdn.discordapp.com/attachments/876977982760165416/920190535275274280/ea0a821c56146d0f.gif",
+      img: "https://cdn.discordapp.com/attachments/907157959333785630/922102064270692362/Landing2.gif",
+      img2: undefined,
       descr: [],
+      mobile: false,
     },
     {
       title: ["알고리즘을 통해", "자동으로 간편하게", "스케줄표 생성!"],
-      img: "https://cdn.discordapp.com/attachments/876977982760165416/920190535275274280/ea0a821c56146d0f.gif",
+      img: "https://cdn.discordapp.com/attachments/907157959333785630/922115951648997427/Landing3.gif",
+      img2: undefined,
       descr: [],
+      mobile: false,
     },
   ];
 
@@ -70,7 +76,7 @@ function LandingPage() {
       dispatch(loginChange());
 
       swal({
-        text: "💡 체험계정은 기능 체험을 위한 최소한의 데이터가 설정되어 있습니다. 이를 통해서 빠르게 스케줄 생성 기능을 체험해보실 수 있어요. \n\n💡 체험계정은 하루가 지나거나 로그아웃을 하게되면 계정이 사라지게 됩니다. 참고해서 사용해주세요!",
+        text: "체험계정은 기능 체험을 위한 최소한의 데이터가 설정되어 있습니다. 이를 통해서 빠르게 스케줄 생성 기능을 체험해보실 수 있어요. \n\n체험계정은 하루가 지나거나 로그아웃을 하게되면 계정이 사라지게 됩니다. 참고해서 사용해주세요!",
         icon: "info",
       });
     });
@@ -86,7 +92,9 @@ function LandingPage() {
       </GoTopContainer>
       <LandingHeader>
         <HeaderLeft>
-          <HeaderLogo src="https://media.discordapp.net/attachments/907157959333785630/916227740267581440/S247_Logoheadertitle.png" />
+          <Link to="/">
+            <HeaderLogo src="https://media.discordapp.net/attachments/907157959333785630/916227740267581440/S247_Logoheadertitle.png" />
+          </Link>
         </HeaderLeft>
         <HeaderRight>
           <Link to="/login">
@@ -116,7 +124,7 @@ function LandingPage() {
             </FirstTextContainer>
             <FirstImageContainer>
               <img
-                src="https://cdn.discordapp.com/attachments/876977982760165416/920190535275274280/ea0a821c56146d0f.gif"
+                src="https://cdn.discordapp.com/attachments/907157959333785630/922114466211045386/landing_main_1.gif"
                 alt="landingpage_img1"
               ></img>
             </FirstImageContainer>
@@ -137,7 +145,20 @@ function LandingPage() {
                     </TitleContainer>
                   </ThirTextContainer>
                   <ThirImageContainer idx={idx}>
-                    <img src={el.img} alt={el.title[0]}></img>
+                    <img
+                      src={el.img}
+                      alt={el.title[0]}
+                      className={el.mobile === true ? "mobile" : ""}
+                    />
+                    {el.img2 !== undefined ? (
+                      <img
+                        src={el.img2}
+                        alt={el.title[0]}
+                        className={el.mobile === true ? "mobile" : ""}
+                      />
+                    ) : (
+                      ""
+                    )}
                   </ThirImageContainer>
                 </AllContainer>
               </ThirLandingContainer>
@@ -160,3 +181,22 @@ function LandingPage() {
 export default LandingPage;
 
 export {};
+
+// {LandingPageTxt.map((el, idx) => {
+//   return (
+//     <ThirLandingContainer idx={idx} key={el.title[0]}>
+//       <AllContainer idx={idx}>
+//         <ThirTextContainer idx={idx}>
+//           <TitleContainer>
+//             {el.title.map((el) => {
+//               return <div key={el[0]}>{el}</div>;
+//             })}
+//           </TitleContainer>
+//         </ThirTextContainer>
+//         <ThirImageContainer idx={idx}>
+//           <img src={el.img} alt={el.title[0]}></img>
+//         </ThirImageContainer>
+//       </AllContainer>
+//     </ThirLandingContainer>
+//   );
+// })}

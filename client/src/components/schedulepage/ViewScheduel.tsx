@@ -261,7 +261,8 @@ export default function ViewSchedule() {
   const handleCurrentDate = (e: React.ChangeEvent<HTMLSelectElement>): void => {
     if (e.target.value !== "스케줄 선택") {
       let url = e.target.value.split(",");
-      navigate(`/schedule/view/${url[0]}/${url[1]}`);
+      // navigate(`/schedule/view/${url[0]}/${url[1]}`);
+      window.location.replace(`/schedule/view/${url[0]}/${url[1]}`);
     }
   };
 
@@ -275,22 +276,21 @@ export default function ViewSchedule() {
     // navigate(`/schedule/view/share/${params.scheduleId}`)
     window.location.replace(`/schedule/view/share/${params.scheduleId}`);
   };
-  
-   const handleCopyClipBoard = async (text: string) => {
+
+  const handleCopyClipBoard = async (text: string) => {
     try {
       await navigator.clipboard.writeText(text);
-      swal('공유 링크가 복사되었습니다');
-    } catch (error)
-    {
-      swal('공유 링크 복사 실패');
+      swal("공유 링크가 복사되었습니다");
+    } catch (error) {
+      swal("공유 링크 복사 실패");
     }
-   };
-  
-  const Kakao = (window as any).Kakao
-  useEffect(() => {  
-   Kakao.init(`8dede5bcf0c58e058f94673fc4bc25f8`)
-  }, [])
-  
+  };
+
+  const Kakao = (window as any).Kakao;
+  useEffect(() => {
+    Kakao.init(`8dede5bcf0c58e058f94673fc4bc25f8`);
+  }, []);
+
   const shareKaKao = () => {
     Kakao.Link.sendDefault({
       objectType: `feed`,
@@ -300,20 +300,20 @@ export default function ViewSchedule() {
         imageUrl: `https://media.discordapp.net/attachments/907157959333785630/919775103275892747/S247_Logomobiletitle.png`,
         link: {
           webUrl: `https://schedule24-7.link/schedule/view/share/${scheduleId}`,
-          mobileWebUrl: `https://schedule24-7.link/schedule/view/share/${scheduleId}`
+          mobileWebUrl: `https://schedule24-7.link/schedule/view/share/${scheduleId}`,
         },
       },
       buttons: [
         {
-          title: 'Schedule24/7',
+          title: "Schedule24/7",
           link: {
             webUrl: `https://schedule24-7.link/schedule/view/share/${scheduleId}`,
-            mobileWebUrl: `https://schedule24-7.link/schedule/view/share/${scheduleId}`,          
-          }
-        }
-      ]
-    })
-  }
+            mobileWebUrl: `https://schedule24-7.link/schedule/view/share/${scheduleId}`,
+          },
+        },
+      ],
+    });
+  };
 
   //목록형 캘린더 만드는 함수
   let columnArr = newArr.filter((el: any) => {
@@ -359,10 +359,16 @@ export default function ViewSchedule() {
           </SubTextWrapper>
         </DateWrapper>
         <ViewSelect>
-           <SelectBtn2 onClick={()=>shareKaKao()}>
+          <SelectBtn2 onClick={() => shareKaKao()}>
             <TableIcon2 src="https://cdn.discordapp.com/attachments/876977982760165416/921047924580970497/kakaotalk.png" />
           </SelectBtn2>
-          <SelectBtn onClick={()=>handleCopyClipBoard(`https://schedule24-7.link/schedule/view/share/${scheduleId}`)}>
+          <SelectBtn
+            onClick={() =>
+              handleCopyClipBoard(
+                `https://schedule24-7.link/schedule/view/share/${scheduleId}`
+              )
+            }
+          >
             <TableIcon3 src="https://media.discordapp.net/attachments/876977982760165416/921049999289245756/link.png" />
           </SelectBtn>
           <SelectBtn className="list" onClick={() => handleViewChange(true)}>

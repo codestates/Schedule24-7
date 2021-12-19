@@ -1,5 +1,4 @@
-import axios from "axios";
-import { FC, useCallback, useEffect, useState } from "react";
+import { FC, useCallback, useState } from "react";
 import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
@@ -36,12 +35,12 @@ const HeaderRight = styled.div`
   }
 `;
 const HeaderCenter = styled.div`
-    color: white;
+  color: white;
   ${hideMobileCss(true)}
 `;
 
 const MobileHeaderCenter = styled.div`
-    color: white;
+  color: white;
   ${hideMobileCss(false)}
 `;
 
@@ -149,32 +148,6 @@ const Header: FC<Props> = ({ title }) => {
     return openDropdown ? setOpenDropdown(false) : null;
   };
 
-  //불러온 유저정보 저장
-  // const [userInfo, setUserInfo] = useState<any>({
-  //   userId: "",
-  //   userName: "",
-  //   email: "",
-  // });
-
-  //유저정보 불러옴
-  // useEffect(() => {
-  //   axios
-  //     .get("https://server.schedule24-7.link/users", {
-  //       headers: {
-  //         authorization: `Bearer ${window.localStorage.getItem("token")}`,
-  //       },
-  //     })
-  //     .then((res) => {
-  //       setUserInfo({
-  //         ...userInfo,
-  //         userId: res.data.user.userId,
-  //         userName: res.data.user.userName,
-  //         email: res.data.user.email,
-  //       });
-  //       window.localStorage.setItem("id", userInfo.userId);
-  //     });
-  // }, [dispatch]);
-
   const toggleSideBar = useCallback(() => {
     const sideBar = document.getElementById("sidebar");
 
@@ -190,13 +163,18 @@ const Header: FC<Props> = ({ title }) => {
         </Link>
       </HeaderLeft>
       <HeaderCenter>
-        {isEdit
-          ?
-          `오늘은 ${moment().format('YYYY')}년 ${moment().format('MM')}월 ${moment().format('DD')}일 입니다`
-          : (title === undefined ? null : <PageTitle>{title}</PageTitle>)}
+        {isEdit ? (
+          `오늘은 ${moment().format("YYYY")}년 ${moment().format(
+            "MM"
+          )}월 ${moment().format("DD")}일 입니다`
+        ) : title === undefined ? null : (
+          <PageTitle>{title}</PageTitle>
+        )}
       </HeaderCenter>
       <MobileHeaderCenter>
-        {`${moment().format('YY')}년 ${moment().format('MM')}월 ${moment().format('DD')}일`}
+        {`${moment().format("YY")}년 ${moment().format(
+          "MM"
+        )}월 ${moment().format("DD")}일`}
       </MobileHeaderCenter>
       <HeaderRight>
         <UserInfoWrap>
@@ -205,9 +183,6 @@ const Header: FC<Props> = ({ title }) => {
             alt="user-img"
             src="https://media.discordapp.net/attachments/907157959333785630/920107206064611358/noun-user-4433438_1.png"
           />
-          {/* <UserId onClick={handleOpenDropdown}>
-            {window.localStorage.getItem("id")}
-          </UserId> */}
           {openDropdown ? (
             <>
               <HeaderDropdown />

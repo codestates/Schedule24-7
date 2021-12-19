@@ -5,7 +5,6 @@ import { useNavigate } from "react-router";
 import styled from "styled-components";
 import { getGroupsApi } from "../../lib/api/group";
 import { getGroups } from "../../redux/actions/Group";
-import { setFirstView } from "../../redux/actions/scheduleActions";
 import swal from "sweetalert";
 
 const Block = styled.nav`
@@ -80,23 +79,27 @@ const MainScheduleThreeDot: FC<Props> = ({ schedule }) => {
   };
 
   //스케줄 조회 함수
-  const connectViewSchedule = (data: any): void => {
-    dispatch(setFirstView(data));
-    navigate(`/schedule/view/${schedule.group.groupId}/${schedule._id}`);
+  const connectViewSchedule = (): void => {
+    // navigate(`/schedule/view/${schedule.group.groupId}/${schedule._id}`);
+    window.location.replace(
+      `/schedule/view/${schedule.group.groupId}/${schedule._id}`
+    );
   };
 
   //정보조회 아이디설정
-  const handleSetViewId = (data: any): void => {
-    dispatch(setFirstView(data));
-    navigate(`/schedule/info/${schedule.group.groupId}/${schedule._id}`);
+  const handleSetViewId = (): void => {
+    // navigate(`/schedule/info/${schedule.group.groupId}/${schedule._id}`);
+    window.location.replace(
+      `/schedule/info/${schedule.group.groupId}/${schedule._id}`
+    );
   };
 
   return (
     <Block id="ThreeDot">
-      <div onClick={() => handleSetViewId(schedule)}>스케줄정보</div>
+      <div onClick={() => handleSetViewId()}>스케줄정보</div>
       <div
         onClick={() => {
-          connectViewSchedule(schedule);
+          connectViewSchedule();
         }}
       >
         스케줄보기

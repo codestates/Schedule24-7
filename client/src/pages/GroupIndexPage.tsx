@@ -6,8 +6,8 @@ import { useNavigate } from "react-router";
 import {
   BoxSection,
   BoxWrapper,
-  ShortcutBoxWrapper,
-  ShortcutContainer,
+  ShortcutBoxWrapper2,
+  ShortcutContainer2,
 } from "../style/theme";
 import { AddBtn, BoxHeader, NoSchedule } from "../style/theme";
 import { getGroupsApi } from "../lib/api/group";
@@ -41,9 +41,9 @@ const GroupIndexPage: FC = () => {
           <HeaderText>그룹</HeaderText>
           <AddBtn onClick={handleClickLink}>그룹 생성</AddBtn>
         </BoxHeader>
-        <ShortcutContainer>
+        <ShortcutContainer2>
           {groups.length !== 0 ? (
-            <ShortcutBoxWrapper>
+            <ShortcutBoxWrapper2>
               {groups.map((group) => (
                 <GroupListItem
                   id={group._id}
@@ -53,11 +53,11 @@ const GroupIndexPage: FC = () => {
                   key={group._id}
                 />
               ))}
-            </ShortcutBoxWrapper>
+            </ShortcutBoxWrapper2>
           ) : (
             <NoSchedule>등록된 그룹이 없습니다</NoSchedule>
           )}
-        </ShortcutContainer>
+        </ShortcutContainer2>
       </BoxSection>
     </Layout>
   );
