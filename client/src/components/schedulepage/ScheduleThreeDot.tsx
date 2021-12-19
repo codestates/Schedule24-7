@@ -5,7 +5,6 @@ import { useNavigate } from "react-router";
 import styled from "styled-components";
 import { getGroupsApi } from "../../lib/api/group";
 import { getGroups } from "../../redux/actions/Group";
-import { setFirstView } from "../../redux/actions/scheduleActions";
 
 const Block = styled.nav`
   width: 100px;
@@ -76,13 +75,11 @@ const ScheduleThreeDot: FC<Props> = ({ schedule }) => {
 
   //스케쥴 조회 함수
   const connectViewSchedule = (data: any): void => {
-    dispatch(setFirstView(data));
     navigate(`/schedule/view/${schedule.group.groupId}/${schedule._id}`);
   };
 
   //정보조회 아이디설정
   const handleSetViewId = (data: any): void => {
-    dispatch(setFirstView(data));
     navigate(`/schedule/info/${schedule.group.groupId}/${schedule._id}`);
   };
 

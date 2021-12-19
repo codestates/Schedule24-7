@@ -1,11 +1,5 @@
 import { useState } from "react";
-import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import {
-  addCurrentData,
-  setFirstView,
-} from "../../redux/actions/scheduleActions";
 import { BackGround } from "../../style/theme";
 import ScheduleThreeDot from "./ScheduleThreeDot";
 
@@ -87,8 +81,6 @@ const ToggleMenu = styled.div`
 `;
 
 export default function BoxItem({ schedule }: any) {
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
   const [openThreeDot, setOpenThreeDot] = useState(false);
 
   //드롭다운 여는 함수
@@ -103,9 +95,10 @@ export default function BoxItem({ schedule }: any) {
 
   //스케쥴 조회 함수
   const connectViewSchedule = (data: any): void => {
-    dispatch(setFirstView(data));
-    dispatch(addCurrentData(data));
-    navigate(`/schedule/view/${schedule.group.groupId}/${schedule._id}`);
+    // navigate(`/schedule/view/${schedule.group.groupId}/${schedule._id}`);
+    window.location.replace(
+      `/schedule/view/${schedule.group.groupId}/${schedule._id}`
+    );
   };
 
   return (
