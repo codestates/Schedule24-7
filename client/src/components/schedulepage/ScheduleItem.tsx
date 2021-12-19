@@ -1,11 +1,5 @@
-import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router";
 import styled from "styled-components";
 import { mediaQuery } from "../../GlobalStyle";
-import {
-  addCurrentGroupId,
-  addCurrentView,
-} from "../../redux/actions/scheduleActions";
 
 export const Box = styled.div`
   min-width: 5rem;
@@ -117,9 +111,6 @@ export const SingleWorker = styled.span`
 `;
 
 export default function ScheduleItem({ DayNum, NewDummy }: any) {
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
-
   let viewData: any;
   if (NewDummy !== undefined) {
     viewData = NewDummy.contents.filter((el: any) => {
@@ -136,10 +127,8 @@ export default function ScheduleItem({ DayNum, NewDummy }: any) {
     });
   }
 
-  const handleOpenEdit = (data: any, id: string) => {
-    dispatch(addCurrentView(data));
-    dispatch(addCurrentGroupId(id));
-    navigate(
+  const handleOpenEdit = () => {
+    window.location.replace(
       `/schedule/editworker/${NewDummy.group.groupId}/${NewDummy._id}/${viewData[0].contentId}`
     );
   };
@@ -154,12 +143,7 @@ export default function ScheduleItem({ DayNum, NewDummy }: any) {
               let classes: string[] = ["a", "b", "c"];
               let className = classes[idx];
               return (
-                <WorkWrapper
-                  onClick={() =>
-                    handleOpenEdit(viewData, NewDummy.group.groupId)
-                  }
-                  key={idx}
-                >
+                <WorkWrapper onClick={() => handleOpenEdit()} key={idx}>
                   <Work>{el.work.workName}</Work>
                   {
                     <Worker className={className}>

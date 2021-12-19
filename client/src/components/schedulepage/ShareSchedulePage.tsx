@@ -256,7 +256,6 @@ const ShareSchedulePage: FC = () => {
   const Kakao = (window as any).Kakao;
   useEffect(() => {
     Kakao.init(`8dede5bcf0c58e058f94673fc4bc25f8`);
-    console.log(Kakao.isInitialized());
   }, []);
 
   const shareKaKao = () => {

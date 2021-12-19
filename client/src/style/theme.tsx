@@ -80,6 +80,34 @@ export const ShortcutBoxWrapper = styled.div`
   }
 `;
 
+export const ShortcutContainer2 = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  border: 1px solid #d3d3d3;
+  border-radius: 0.5rem;
+  padding: 3px;
+  /* background-color: none; */
+  background-color: #fafafa;
+
+  ${mediaQuery.mobile} {
+    background-color: #f5f5f5;
+    border: 0px;
+  }
+`;
+
+export const ShortcutBoxWrapper2 = styled.div`
+  /* max-height: 20rem; */
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(145px, auto));
+  margin-right: 0.5rem;
+  /* overflow: hidden; */
+  grid-column-gap: 7px;
+  &.showBoxes {
+    max-height: 100rem;
+  }
+`;
+
 export const SeeMoreWrapper = styled.div`
   display: flex;
   justify-content: center;

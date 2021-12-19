@@ -1,11 +1,5 @@
 import { useState } from "react";
-import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import {
-  addCurrentData,
-  setFirstView,
-} from "../../redux/actions/scheduleActions";
 import MainScheduleThreeDot from "./MainScheduleThreeDot";
 
 export const MainDiv = styled.div`
@@ -94,8 +88,6 @@ export const BackGround = styled.div`
 `;
 
 export default function MainBoxItem({ schedule }: any) {
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
   const [openThreeDot, setOpenThreeDot] = useState(false);
 
   //드롭다운 여는 함수
@@ -109,10 +101,11 @@ export default function MainBoxItem({ schedule }: any) {
   };
 
   //스케쥴 조회 함수
-  const connectViewSchedule = (data: any): void => {
-    dispatch(setFirstView(data));
-    dispatch(addCurrentData(data));
-    navigate(`/schedule/view/${schedule.group.groupId}/${schedule._id}`);
+  const connectViewSchedule = (): void => {
+    // navigate(`/schedule/view/${schedule.group.groupId}/${schedule._id}`);
+    window.location.replace(
+      `/schedule/view/${schedule.group.groupId}/${schedule._id}`
+    );
   };
 
   return (
@@ -138,7 +131,7 @@ export default function MainBoxItem({ schedule }: any) {
       <TitleWrapper>
         <Div2
           onClick={() => {
-            connectViewSchedule(schedule);
+            connectViewSchedule();
           }}
         >
           {schedule.scheduleName}
