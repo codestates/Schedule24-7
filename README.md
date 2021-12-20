@@ -133,3 +133,43 @@ Schdule 24/7의 핵심 기능은 당직근무와 같은 근무표를 손쉽게 �
 ![](https://github.com/codestates/Schedule24-7/blob/dev/.github/images/flowChart1.png?raw=true)
 ![](https://github.com/codestates/Schedule24-7/blob/dev/.github/images/flowChart2.png?raw=true)
 ![](https://github.com/codestates/Schedule24-7/blob/dev/.github/images/flowChart3.png?raw=true)
+
+## 🎦주요 기능별 시연 GIF
+    - 랜딩화면
+        ![랜딩페이지.gif](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/86204c2e-9cc4-47e4-a379-0680c3b6c357/랜딩페이지.gif)
+        
+    - **회원가입, 로그인,**
+        
+        ![회원가입 로그인.gif](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/0f5d2204-df96-4f84-90fc-89e104252b0e/회원가입_로그인.gif)
+        
+    - **소셜로그인**
+        
+        ![소셜로그인.gif](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/d7804053-b2b6-4e24-82ab-e1de97fe3cde/소셜로그인.gif)
+        
+    - **마이페이지 (회원정보 수정, 탈퇴)**
+        
+        ![회원정보 수정,삭제.gif](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/d2f49f3a-07b2-4788-b254-7f14fe9b4f33/회원정보_수정삭제.gif)
+        
+    - **그룹 생성, 수정, 삭제**
+        
+        ![그룹CUD.gif](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/47e07dac-fde5-4377-b9db-5adf5a581e5d/그룹CUD.gif)
+        
+    - **멤버 생성, 수정, 삭제**
+        
+        ![멤버CUD.gif](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/043feffd-2278-4f2f-b650-8d1506bfdf66/멤버CUD.gif)
+        
+    - **근무조건 생성, 수정, 삭제**
+        
+        ![근무조건CUD.gif](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/c0833a27-5103-41e3-97d9-be7da8a92490/근무조건CUD.gif)
+        
+    - **스케줄 생성, 수정, 삭제**
+        
+        ![스케줄CUD.gif](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/69d23a5a-4954-48e4-bfab-a53a751bd8d6/스케줄CUD.gif)
+        
+    - **스케줄  카카오톡 공유, 클립 보드 복사**
+        
+        ![스케줄공유.gif](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/21c12869-1c3c-435d-86fb-ddf38a7afe23/스케줄공유.gif)
+        
+    - **반응형 웹페이지(모바일)**
+        
+        ![반응형 웹(모바일).gif](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/c90f8d98-6199-42d2-8196-c4bcb18437fa/반응형_웹(모바일).gif)
