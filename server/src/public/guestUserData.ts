@@ -19,7 +19,7 @@ export function generateGuestUserInfo(): {
 export const guestGroups = [
   {
     groupName: "당직1팀",
-    groupDesc: "당직1팀에 대한 그룹명단 (총 7명)(주간/야간 근무 2명씩)",
+    groupDesc: "총 7명, 주간/야간 근무 2명씩",
     groupEmoji: "😃",
     works: [
       {
