@@ -135,41 +135,32 @@ Schdule 24/7의 핵심 기능은 당직근무와 같은 근무표를 손쉽게 �
 ![](https://github.com/codestates/Schedule24-7/blob/dev/.github/images/flowChart3.png?raw=true)
 
 ## 🎦주요 기능별 시연 GIF
-    - 랜딩화면
-        ![랜딩페이지.gif](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/86204c2e-9cc4-47e4-a379-0680c3b6c357/랜딩페이지.gif)
+- 랜딩화면
+![랜딩페이지.gif](https://www.notion.so/image/https%3A%2F%2Fs3-us-west-2.amazonaws.com%2Fsecure.notion-static.com%2F86204c2e-9cc4-47e4-a379-0680c3b6c357%2F%E1%84%85%E1%85%A2%E1%86%AB%E1%84%83%E1%85%B5%E1%86%BC%E1%84%91%E1%85%A6%E1%84%8B%E1%85%B5%E1%84%8C%E1%85%B5.gif?table=block&id=2bd8f973-c73a-4e4c-bd76-939f5c505269&spaceId=82d63a72-8254-4cde-bf1e-b2597b7c099c&userId=d10be43c-c931-4414-a19b-6b0dcfa3865d&cache=v2)
         
-    - **회원가입, 로그인,**
+- 회원가입, 로그인
+![회원가입 로그인.gif](https://www.notion.so/image/https%3A%2F%2Fs3-us-west-2.amazonaws.com%2Fsecure.notion-static.com%2F0f5d2204-df96-4f84-90fc-89e104252b0e%2F%E1%84%92%E1%85%AC%E1%84%8B%E1%85%AF%E1%86%AB%E1%84%80%E1%85%A1%E1%84%8B%E1%85%B5%E1%86%B8_%E1%84%85%E1%85%A9%E1%84%80%E1%85%B3%E1%84%8B%E1%85%B5%E1%86%AB.gif?table=block&id=4aacba80-4000-4f6c-8a81-1e4641459833&spaceId=82d63a72-8254-4cde-bf1e-b2597b7c099c&userId=d10be43c-c931-4414-a19b-6b0dcfa3865d&cache=v2)
         
-        ![회원가입 로그인.gif](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/0f5d2204-df96-4f84-90fc-89e104252b0e/회원가입_로그인.gif)
+- 소셜로그인
+![소셜로그인.gif](https://www.notion.so/image/https%3A%2F%2Fs3-us-west-2.amazonaws.com%2Fsecure.notion-static.com%2Fd7804053-b2b6-4e24-82ab-e1de97fe3cde%2F%E1%84%89%E1%85%A9%E1%84%89%E1%85%A7%E1%86%AF%E1%84%85%E1%85%A9%E1%84%80%E1%85%B3%E1%84%8B%E1%85%B5%E1%86%AB.gif?table=block&id=a2c56708-f294-4cad-9fc7-a687df3e4549&spaceId=82d63a72-8254-4cde-bf1e-b2597b7c099c&userId=d10be43c-c931-4414-a19b-6b0dcfa3865d&cache=v2)
         
-    - **소셜로그인**
+- 마이페이지 (회원정보 수정, 탈퇴)
+![회원정보 수정,삭제.gif](https://www.notion.so/image/https%3A%2F%2Fs3-us-west-2.amazonaws.com%2Fsecure.notion-static.com%2Fd2f49f3a-07b2-4788-b254-7f14fe9b4f33%2F%E1%84%92%E1%85%AC%E1%84%8B%E1%85%AF%E1%86%AB%E1%84%8C%E1%85%A5%E1%86%BC%E1%84%87%E1%85%A9_%E1%84%89%E1%85%AE%E1%84%8C%E1%85%A5%E1%86%BC%E1%84%89%E1%85%A1%E1%86%A8%E1%84%8C%E1%85%A6.gif?table=block&id=2f9beea6-81d6-4bf4-823f-ae70c76e9cf6&spaceId=82d63a72-8254-4cde-bf1e-b2597b7c099c&userId=d10be43c-c931-4414-a19b-6b0dcfa3865d&cache=v2)
         
-        ![소셜로그인.gif](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/d7804053-b2b6-4e24-82ab-e1de97fe3cde/소셜로그인.gif)
+- 그룹 생성, 수정, 삭제
+![그룹CUD.gif](https://www.notion.so/image/https%3A%2F%2Fs3-us-west-2.amazonaws.com%2Fsecure.notion-static.com%2F47e07dac-fde5-4377-b9db-5adf5a581e5d%2F%E1%84%80%E1%85%B3%E1%84%85%E1%85%AE%E1%86%B8CUD.gif?table=block&id=f1c93ca1-8556-40df-8c34-6b298d695907&spaceId=82d63a72-8254-4cde-bf1e-b2597b7c099c&userId=d10be43c-c931-4414-a19b-6b0dcfa3865d&cache=v2)
         
-    - **마이페이지 (회원정보 수정, 탈퇴)**
+- 멤버 생성, 수정, 삭제
+![멤버CUD.gif](https://www.notion.so/image/https%3A%2F%2Fs3-us-west-2.amazonaws.com%2Fsecure.notion-static.com%2F043feffd-2278-4f2f-b650-8d1506bfdf66%2F%E1%84%86%E1%85%A6%E1%86%B7%E1%84%87%E1%85%A5CUD.gif?table=block&id=6c58061c-71c1-472d-806c-4bb1090b668a&spaceId=82d63a72-8254-4cde-bf1e-b2597b7c099c&userId=d10be43c-c931-4414-a19b-6b0dcfa3865d&cache=v2)
         
-        ![회원정보 수정,삭제.gif](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/d2f49f3a-07b2-4788-b254-7f14fe9b4f33/회원정보_수정삭제.gif)
+- 근무조건 생성, 수정, 삭제
+![근무조건CUD.gif](https://www.notion.so/image/https%3A%2F%2Fs3-us-west-2.amazonaws.com%2Fsecure.notion-static.com%2Fc0833a27-5103-41e3-97d9-be7da8a92490%2F%E1%84%80%E1%85%B3%E1%86%AB%E1%84%86%E1%85%AE%E1%84%8C%E1%85%A9%E1%84%80%E1%85%A5%E1%86%ABCUD.gif?table=block&id=92250b2e-2450-4fcc-adcf-0b85a672d8cd&spaceId=82d63a72-8254-4cde-bf1e-b2597b7c099c&userId=d10be43c-c931-4414-a19b-6b0dcfa3865d&cache=v2)
         
-    - **그룹 생성, 수정, 삭제**
+- 스케줄 생성, 수정, 삭제
+![스케줄CUD.gif](https://www.notion.so/image/https%3A%2F%2Fs3-us-west-2.amazonaws.com%2Fsecure.notion-static.com%2F69d23a5a-4954-48e4-bfab-a53a751bd8d6%2F%E1%84%89%E1%85%B3%E1%84%8F%E1%85%A6%E1%84%8C%E1%85%AE%E1%86%AFCUD.gif?table=block&id=f8148046-927a-414e-a43d-b6d3cdaf4f2f&spaceId=82d63a72-8254-4cde-bf1e-b2597b7c099c&userId=d10be43c-c931-4414-a19b-6b0dcfa3865d&cache=v2)
         
-        ![그룹CUD.gif](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/47e07dac-fde5-4377-b9db-5adf5a581e5d/그룹CUD.gif)
+- 스케줄  카카오톡 공유, 클립 보드 복사
+![스케줄공유.gif](https://www.notion.so/image/https%3A%2F%2Fs3-us-west-2.amazonaws.com%2Fsecure.notion-static.com%2F21c12869-1c3c-435d-86fb-ddf38a7afe23%2F%E1%84%89%E1%85%B3%E1%84%8F%E1%85%A6%E1%84%8C%E1%85%AE%E1%86%AF%E1%84%80%E1%85%A9%E1%86%BC%E1%84%8B%E1%85%B2.gif?table=block&id=2f320072-4b73-4ed7-8fd9-d7554f643a85&spaceId=82d63a72-8254-4cde-bf1e-b2597b7c099c&userId=d10be43c-c931-4414-a19b-6b0dcfa3865d&cache=v2)
         
-    - **멤버 생성, 수정, 삭제**
-        
-        ![멤버CUD.gif](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/043feffd-2278-4f2f-b650-8d1506bfdf66/멤버CUD.gif)
-        
-    - **근무조건 생성, 수정, 삭제**
-        
-        ![근무조건CUD.gif](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/c0833a27-5103-41e3-97d9-be7da8a92490/근무조건CUD.gif)
-        
-    - **스케줄 생성, 수정, 삭제**
-        
-        ![스케줄CUD.gif](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/69d23a5a-4954-48e4-bfab-a53a751bd8d6/스케줄CUD.gif)
-        
-    - **스케줄  카카오톡 공유, 클립 보드 복사**
-        
-        ![스케줄공유.gif](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/21c12869-1c3c-435d-86fb-ddf38a7afe23/스케줄공유.gif)
-        
-    - **반응형 웹페이지(모바일)**
-        
-        ![반응형 웹(모바일).gif](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/c90f8d98-6199-42d2-8196-c4bcb18437fa/반응형_웹(모바일).gif)
+- 반응형 웹페이지(모바일)
+![반응형 웹(모바일).gif](https://www.notion.so/image/https%3A%2F%2Fs3-us-west-2.amazonaws.com%2Fsecure.notion-static.com%2Fc90f8d98-6199-42d2-8196-c4bcb18437fa%2F%E1%84%87%E1%85%A1%E1%86%AB%E1%84%8B%E1%85%B3%E1%86%BC%E1%84%92%E1%85%A7%E1%86%BC_%E1%84%8B%E1%85%B0%E1%86%B8(%E1%84%86%E1%85%A9%E1%84%87%E1%85%A1%E1%84%8B%E1%85%B5%E1%86%AF).gif?table=block&id=55e4c7ab-ac75-48b6-9081-d8b9e436ef96&spaceId=82d63a72-8254-4cde-bf1e-b2597b7c099c&userId=d10be43c-c931-4414-a19b-6b0dcfa3865d&cache=v2)
