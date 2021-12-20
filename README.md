@@ -134,7 +134,9 @@ Schdule 24/7의 핵심 기능은 당직근무와 같은 근무표를 손쉽게 �
 ![](https://github.com/codestates/Schedule24-7/blob/dev/.github/images/flowChart2.png?raw=true)
 ![](https://github.com/codestates/Schedule24-7/blob/dev/.github/images/flowChart3.png?raw=true)
 
+
 ## 🎦주요 기능별 시연 GIF
+   
 - 랜딩화면
 ![랜딩페이지.gif](https://www.notion.so/image/https%3A%2F%2Fs3-us-west-2.amazonaws.com%2Fsecure.notion-static.com%2F86204c2e-9cc4-47e4-a379-0680c3b6c357%2F%E1%84%85%E1%85%A2%E1%86%AB%E1%84%83%E1%85%B5%E1%86%BC%E1%84%91%E1%85%A6%E1%84%8B%E1%85%B5%E1%84%8C%E1%85%B5.gif?table=block&id=2bd8f973-c73a-4e4c-bd76-939f5c505269&spaceId=82d63a72-8254-4cde-bf1e-b2597b7c099c&userId=d10be43c-c931-4414-a19b-6b0dcfa3865d&cache=v2)
         
