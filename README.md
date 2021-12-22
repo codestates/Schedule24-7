@@ -136,3 +136,4 @@ Schdule 24/7의 핵심 기능은 당직근무와 같은 근무표를 손쉽게 �
 
 
 ## 🎦[](https://github.com/codestates/Schedule24-7/wiki/%EC%A3%BC%EC%9A%94-%EA%B8%B0%EB%8A%A5%EB%B3%84-%EC%8B%9C%EC%97%B0-GIF) 주요 기능별 시연 GIF
+![](https://s3.console.aws.amazon.com/s3/buckets/app-files-for-all?prefix=schedule24_7%20gif/&region=ap-northeast-2)
