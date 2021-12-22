@@ -136,4 +136,43 @@ Schdule 24/7의 핵심 기능은 당직근무와 같은 근무표를 손쉽게 �
 
 
 ## 🎦 주요 기능별 시연 GIF
-![](https://app-files-for-all.s3.ap-northeast-2.amazonaws.com/schedule24_7+gif/%E1%84%85%E1%85%A2%E1%86%AB%E1%84%83%E1%85%B5%E1%86%BC%E1%84%91%E1%85%A6%E1%84%8B%E1%85%B5%E1%84%8C%E1%85%B5.gif)
+<details>
+    <summary>랜딩페이지</summary>
+    <img src="https://github.com/codestates/Schedule24-7/blob/dev/.github/schedule24_7%20gif/%E1%84%85%E1%85%A2%E1%86%AB%E1%84%83%E1%85%B5%E1%86%BC%E1%84%91%E1%85%A6%E1%84%8B%E1%85%B5%E1%84%8C%E1%85%B5.gif?raw=true" />
+</details>
+<details>
+    <summary>회원가입, 로그인</summary>
+    <img src="https://github.com/codestates/Schedule24-7/blob/dev/.github/schedule24_7%20gif/%E1%84%92%E1%85%AC%E1%84%8B%E1%85%AF%E1%86%AB%E1%84%80%E1%85%A1%E1%84%8B%E1%85%B5%E1%86%B8%20%E1%84%85%E1%85%A9%E1%84%80%E1%85%B3%E1%84%8B%E1%85%B5%E1%86%AB.gif?raw=true" />
+</details>
+<details>
+    <summary>소셜로그인</summary>
+    <img src="https://github.com/codestates/Schedule24-7/blob/dev/.github/schedule24_7%20gif/%E1%84%89%E1%85%A9%E1%84%89%E1%85%A7%E1%86%AF%E1%84%85%E1%85%A9%E1%84%80%E1%85%B3%E1%84%8B%E1%85%B5%E1%86%AB.gif?raw=true" />
+</details>
+<details>
+    <summary>마이페이지 (회원정보 수정, 탈퇴)</summary>
+    <img src="https://github.com/codestates/Schedule24-7/blob/dev/.github/schedule24_7%20gif/%E1%84%92%E1%85%AC%E1%84%8B%E1%85%AF%E1%86%AB%E1%84%8C%E1%85%A5%E1%86%BC%E1%84%87%E1%85%A9%20%E1%84%89%E1%85%AE%E1%84%8C%E1%85%A5%E1%86%BC,%E1%84%89%E1%85%A1%E1%86%A8%E1%84%8C%E1%85%A6.gif?raw=true" />
+</details>
+<details>
+    <summary>그룹 생성, 수정, 삭제</summary>
+    <img src="https://github.com/codestates/Schedule24-7/blob/dev/.github/schedule24_7%20gif/%E1%84%80%E1%85%B3%E1%84%85%E1%85%AE%E1%86%B8CUD.gif?raw=true" />
+</details>
+<details>
+    <summary>멤버 생성, 수정, 삭제</summary>
+    <img src="https://github.com/codestates/Schedule24-7/blob/dev/.github/schedule24_7%20gif/%E1%84%86%E1%85%A6%E1%86%B7%E1%84%87%E1%85%A5CUD.gif?raw=true" />
+</details>
+<details>
+    <summary>근무조건 생성, 수정, 삭제</summary>
+    <img src="https://github.com/codestates/Schedule24-7/blob/dev/.github/schedule24_7%20gif/%E1%84%80%E1%85%B3%E1%86%AB%E1%84%86%E1%85%AE%E1%84%8C%E1%85%A9%E1%84%80%E1%85%A5%E1%86%ABCUD.gif?raw=true" />
+</details>
+<details>
+    <summary>스케줄 생성, 수정, 삭제</summary>
+    <img src="https://github.com/codestates/Schedule24-7/blob/dev/.github/schedule24_7%20gif/%E1%84%89%E1%85%B3%E1%84%8F%E1%85%A6%E1%84%8C%E1%85%AE%E1%86%AFCUD.gif?raw=true" />
+</details>
+<details>
+    <summary>스케줄 카카오톡 공유, 클립 보드 복사</summary>
+    <img src="https://github.com/codestates/Schedule24-7/blob/dev/.github/schedule24_7%20gif/%E1%84%89%E1%85%B3%E1%84%8F%E1%85%A6%E1%84%8C%E1%85%AE%E1%86%AF%E1%84%80%E1%85%A9%E1%86%BC%E1%84%8B%E1%85%B2.gif?raw=true" />
+</details>
+<details>
+    <summary>반응형 웹페이지(모바일)</summary>
+    <img src="https://github.com/codestates/Schedule24-7/blob/dev/.github/schedule24_7%20gif/%E1%84%87%E1%85%A1%E1%86%AB%E1%84%8B%E1%85%B3%E1%86%BC%E1%84%92%E1%85%A7%E1%86%BC%20%E1%84%8B%E1%85%B0%E1%86%B8(%E1%84%86%E1%85%A9%E1%84%87%E1%85%A1%E1%84%8B%E1%85%B5%E1%86%AF).gif?raw=true" />
+</details>
