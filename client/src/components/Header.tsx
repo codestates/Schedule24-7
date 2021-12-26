@@ -2,7 +2,7 @@ import { FC, useCallback, useState } from "react";
 import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-import { DefaultLayout, hideMobileCss, mediaQuery } from "../GlobalStyle";
+import { hideMobileCss, mediaQuery } from "../GlobalStyle";
 import HeaderDropdown from "./HeaderDropdown";
 import moment from "moment";
 
@@ -31,7 +31,7 @@ const HeaderRight = styled.div`
   width: 115px;
   padding-right: 1rem;
   ${mediaQuery.mobile} {
-    padding-right: 5px;
+    padding-right: 3px;
   }
 `;
 const HeaderCenter = styled.div`
@@ -41,6 +41,7 @@ const HeaderCenter = styled.div`
 
 const MobileHeaderCenter = styled.div`
   color: white;
+  font-size: 13px;
   ${hideMobileCss(false)}
 `;
 
@@ -91,15 +92,9 @@ const UserInfoWrap = styled.div`
   ${hideMobileCss(true, "flex")}
 `;
 
-const LogoWrapper = styled.div`
-  width: 64px;
-  height: 42px;
-  ${hideMobileCss(false)}
-`;
-
 const MenuWrapper = styled.div`
-  width: 40px;
-  height: 30px;
+  width: 28px;
+  height: 20px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -108,7 +103,7 @@ const MenuWrapper = styled.div`
     background-color: #fff;
     border-radius: 100px;
     width: 100%;
-    height: 6px;
+    height: 4px;
   }
 
   ${hideMobileCss(false, "flex")}
@@ -154,6 +149,7 @@ const Header: FC<Props> = ({ title }) => {
     if (sideBar === null) return;
     sideBar.classList.toggle("open");
   }, []);
+
   return (
     <Block>
       <HeaderLeft>

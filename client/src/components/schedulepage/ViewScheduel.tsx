@@ -58,6 +58,7 @@ export const SelectBox = styled.select`
   /* margin-left: 26px; */
   ${mediaQuery.mobile} {
     margin-left: 0px;
+    width: 100px;
   }
 `;
 
@@ -83,7 +84,11 @@ export const TableTitle = styled.div`
 
 export const SubTextWrapper = styled.div`
   display: flex;
-  justify-content: ceneter;
+  justify-content: center;
+  ${mediaQuery.mobile} {
+    flex-direction: column;
+    align-items: center;
+  }
 `;
 
 export const SubText = styled.div`
@@ -91,7 +96,9 @@ export const SubText = styled.div`
   margin-right: 5px;
   text-align: cneter;
   ${mediaQuery.mobile} {
-    font-size: 14px;
+    margin-left: 2px;
+    margin-right: 2px;
+    font-size: 10px;
   }
 `;
 
@@ -101,6 +108,7 @@ export const ViewSelect = styled.div`
   justify-content: right;
   ${mediaQuery.mobile} {
     justify-content: right;
+    width: 100px;
   }
 `;
 
