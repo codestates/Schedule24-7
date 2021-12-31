@@ -25,13 +25,15 @@ export const Div1 = styled.div`
 
 export const Div2 = styled.div`
   width: 288px;
-  height: 29px;
-  padding-top: 13px;
+  height: 42px;
+  /* padding-top: 13px; */
   padding-left: 10px;
   border: 1px solid #a5a5a5;
   box-shadow: 0.05rem 0.05rem 0.05rem #6969692d;
   margin-left: 2px;
   background-color: white;
+  display: flex;
+  align-items: center;
 
   &.sub {
     width: 233px;
@@ -62,7 +64,9 @@ export default function ScheduleInfoView({ currentSchedule }: any) {
         <Title>스케줄 이름</Title>
         <Div1>
           <EmojiDiv>{currentSchedule[0].scheduleEmoji}</EmojiDiv>
-          <Div2 className="sub">{currentSchedule[0].scheduleName}</Div2>
+          <Div2 className="sub">
+            <span>{currentSchedule[0].scheduleName}</span>
+          </Div2>
         </Div1>
       </DivWrapper>
     </>

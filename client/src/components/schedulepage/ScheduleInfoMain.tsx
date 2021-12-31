@@ -120,13 +120,15 @@ export const AddBtn = styled.button`
 
 export const Div2 = styled.div`
   width: 288px;
-  height: 29px;
-  padding-top: 13px;
+  height: 42px;
+  /* padding-top: 13px; */
   padding-left: 10px;
   border: 1px solid #a5a5a5;
   box-shadow: 0.05rem 0.05rem 0.05rem #6969692d;
   margin: 0.2rem;
   background-color: white;
+  display: flex;
+  align-items: center;
 
   &.sub {
     width: 240px;
@@ -285,12 +287,14 @@ export default function ScheduleInfoMain() {
             <DivWrapper>
               <Title className="sub">그룹</Title>
               <Div2 className="noneedit">
-                {currentSchedule[0].group.groupName}
+                <span>{currentSchedule[0].group.groupName}</span>
               </Div2>
             </DivWrapper>
             <DivWrapper>
               <Title className="sub">날짜</Title>
-              <Div2 className="noneedit">{currentSchedule[0].period}</Div2>
+              <Div2 className="noneedit">
+                <span>{currentSchedule[0].period}</span>
+              </Div2>
             </DivWrapper>
             {isEditMode ? (
               <AddBtnWrapper>
