@@ -13,6 +13,7 @@ import GroupListItem from "../groups/GroupListItem";
 import { useSelector } from "react-redux";
 import { RootState } from "../../redux/reducers";
 import { useNavigate } from "react-router";
+import { HeaderText } from "../../pages/GroupIndexPage";
 
 export default function GroupShortcut() {
   const navigate = useNavigate();
@@ -30,7 +31,7 @@ export default function GroupShortcut() {
   return (
     <BoxSection>
       <BoxHeader className="group">
-        <span>그룹</span>
+        <HeaderText>그룹</HeaderText>
         <AddBtn
           onClick={() => {
             navigate("/group/add");

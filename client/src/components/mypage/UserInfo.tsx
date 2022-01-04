@@ -68,14 +68,16 @@ export const InfoHeader = styled.div`
 
 export const InfoBox = styled.div`
   width: 300px;
-  height: 30px;
-  padding-top: 15px;
+  height: 45px;
+  /* padding-top: 15px; */
   padding-left: 10px;
   border: 1px solid #a5a5a5;
   box-shadow: 0.05rem 0.05rem 0.05rem #6969692d;
   margin-bottom: 0.4rem;
   align-items: center;
   background-color: #e2e2e2;
+  display: flex;
+  /* align-items: center; */
   ${mediaQuery.mobile} {
     max-width: 260px;
   }

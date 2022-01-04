@@ -12,6 +12,7 @@ import BoxItem from "./BoxItem";
 import { useSelector } from "react-redux";
 import { RootState } from "../../redux/reducers";
 import { useEffect, useState } from "react";
+import { HeaderText } from "../../pages/GroupIndexPage";
 
 export const MainWrapper = styled.div``;
 
@@ -40,7 +41,7 @@ export default function ScheduleMain() {
   return (
     <BoxSection className="schedule">
       <BoxHeader>
-        <span>스케줄</span>
+        <HeaderText>스케줄</HeaderText>
         <Link to="/schedule/add">
           <AddBtn className="schedule">스케줄 생성</AddBtn>
         </Link>
