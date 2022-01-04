@@ -14,15 +14,15 @@ const Block = styled.div`
   top: 160px;
   background-color: #ffffff;
   box-shadow: 0px 0px 7px #7070706c;
-  border-radius: 15px;
+  border-radius: 5px;
   border: 1px solid #e4e4e4;
   margin: 0.5rem;
-  padding: 5px 0;
+  padding: 3px;
 
   div.name {
     font-style: normal;
     font-weight: bold;
-    font-size: 20px;
+    font-size: 17px;
     line-height: 23px;
   }
 
@@ -37,13 +37,12 @@ const Block = styled.div`
   &.open {
     width: 310px;
     background: #ffffff;
-    border-radius: 0.5rem;
+    border-radius: 5px;
     box-shadow: 3px rgba(0, 0, 0, 0.25);
   }
 
   div.header {
-    padding: 0 40px;
-    padding-top: 10px;
+    padding: 5px 20px 5px 20px;
     display: flex;
     align-items: center;
     justify-content: space-between;

@@ -19,7 +19,7 @@ const DescBlock2 = styled.div`
   margin-top: 20px;
   margin-left: 10px;
   margin-right: 20px;
-`
+`;
 
 const Block = styled.div`
   width: 310px;
@@ -44,7 +44,7 @@ const DescBlock = styled.div`
 
   > #membertitle {
     display: flex;
-    font-size: 16px;
+    font-size: 15px;
     margin-right: 0px;
     line-height: 20px;
     justify-content: flex-end;
@@ -55,14 +55,14 @@ const DescBlock = styled.div`
   > #membervalue {
     margin-left: 30px;
     display: flex;
-    font-size: 20px;
-    justify-content: flex-start;
-    align-items: flex-end;
+    font-size: 15px;
+    /* justify-content: flex-start; */
+    /* align-items: flex-end; */
     font-style: bold;
     width: 165px;
   }
 
- > .membertitle {
+  > .membertitle {
     display: flex;
     font-size: 16px;
     margin-right: 0px;
@@ -123,14 +123,14 @@ const MemberListEditItem: FC<Props> = ({
   vacation,
   memberId,
 }) => {
-    const { groupId } = useParams();
+  const { groupId } = useParams();
   const [form, setForm] = useState<FormState>({
     memberName: "",
     memberPosition: "",
     memberVacation: [],
     memberId: 0,
   });
-  
+
   const changeHandler = useCallback((e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setForm((prev) => ({
@@ -180,7 +180,7 @@ const MemberListEditItem: FC<Props> = ({
         ...formState,
         memberVacation: stringMemberVations,
         groupId: groupId as string,
-        memberId
+        memberId,
       });
       const response = await getGroupsApi();
       dispatch(getGroups(response.data));
@@ -197,7 +197,7 @@ const MemberListEditItem: FC<Props> = ({
     }
   };
   const dispatch = useDispatch();
-   useEffect(() => {
+  useEffect(() => {
     getGroupsApi().then((res) => {
       dispatch(getGroups(res.data));
     });
@@ -233,7 +233,6 @@ const MemberListEditItem: FC<Props> = ({
         title: "멤버삭제 실패",
         icon: "error",
       });
-    
     }
   };
 
@@ -254,8 +253,16 @@ const MemberListEditItem: FC<Props> = ({
           {/* {memberId} */}
         </DescBlock>
         <DescBlock className="button">
-          <SmallButton title={"수정"} onClick={handleButton} color={"#5c5c5c"} />
-          <SmallButton title={"삭제"} onClick={deleteMember} color={"#b60000"} />
+          <SmallButton
+            title={"수정"}
+            onClick={handleButton}
+            color={"#5c5c5c"}
+          />
+          <SmallButton
+            title={"삭제"}
+            onClick={deleteMember}
+            color={"#b60000"}
+          />
         </DescBlock>
       </Block>
       <EditBlock className={isEdit ? "" : "edit"}>
@@ -280,8 +287,8 @@ const MemberListEditItem: FC<Props> = ({
         </DescBlock>
         <DescBlock2>
           <div className="membertitle">휴가예정일</div>
-        </DescBlock2>       
-          <DescBlock>
+        </DescBlock2>
+        <DescBlock>
           <DayPicker
             onDayClick={changeSelectDay}
             selectedDays={form.memberVacation}

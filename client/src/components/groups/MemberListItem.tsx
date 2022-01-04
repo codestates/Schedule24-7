@@ -9,15 +9,15 @@ const Block = styled.div`
   top: 160px;
   background-color: #ffffff;
   box-shadow: 0px 0px 7px #7070706c;
-  border-radius: 15px;
+  border-radius: 5px;
   border: 1px solid #e4e4e4;
   margin: 0.5rem;
-  padding: 5px 0;
+  padding: 3px;
 
   div.name {
     font-style: normal;
     font-weight: bold;
-    font-size: 20px;
+    font-size: 17px;
     line-height: 23px;
   }
 
@@ -33,12 +33,11 @@ const Block = styled.div`
     width: 310px;
     background: #ffffff;
     box-shadow: 3px rgba(0, 0, 0, 0.25);
-    border-radius: 0.5rem;
+    border-radius: 5px;
   }
 
   div.header {
-    padding: 0 40px;
-    padding-top: 10px;
+    padding: 5px 20px 5px 20px;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -51,17 +50,17 @@ const Block = styled.div`
 
 const VsibleWrapper = styled.div`
   display: flex;
-  align-items: center;
   cursor: pointer;
   div:nth-child(1) {
+    margin-bottom: 10px;
     margin-left: 5px;
     width: 20px;
     height: 20px;
     background-color: #323131;
-    clip-path: polygon(50% 0%, 100% 50%, 90% 60%, 50% 20%, 10% 60%, 0% 50%);
+    clip-path: polygon(50% 80%, 90% 40%, 100% 50%, 50% 100%, 0 50%, 10% 40%);
 
     &.open {
-      clip-path: polygon(50% 80%, 90% 40%, 100% 50%, 50% 100%, 0 50%, 10% 40%);
+      clip-path: polygon(50% 0%, 100% 50%, 90% 60%, 50% 20%, 10% 60%, 0% 50%);
     }
   }
 `;

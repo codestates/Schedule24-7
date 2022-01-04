@@ -34,11 +34,11 @@ export const BoxHeader = styled.div`
   font-weight: bold;
   margin-bottom: 0.3rem;
   padding-bottom: 0.1rem;
-  &.group {
-    margin-top: 3px;
-  }
-  &.schedule {
-    margin-top: 4px;
+
+  a {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
   }
 `;
 
