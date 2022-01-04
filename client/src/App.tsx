@@ -21,14 +21,17 @@ function App() {
 
   //로그인 유지를 위한 함수
   const keepLogin = () => {
-    if (window.localStorage.getItem("token")) {
+    if (window.localStorage.getItem("token") && loginState.socialLogin) {
       dispatch(loginChange());
     }
   };
 
   //최초렌더시 로그인 유지함수 실행..
   useEffect(() => {
-    if (loginState.socialLogin) {
+    if (
+      document.cookie !== "" &&
+      window.localStorage.getItem("token") === null
+    ) {
       let newCookie2 = document.cookie;
       let finalCookie2 = newCookie2.split("%22")[3];
 
