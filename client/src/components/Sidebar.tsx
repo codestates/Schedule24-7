@@ -4,7 +4,10 @@ import { hideMobileCss, mediaQuery } from "../GlobalStyle";
 import { Link, useNavigate } from "react-router-dom";
 import swal from "sweetalert";
 import { useDispatch } from "react-redux";
-import { logoutChange } from "../redux/actions/loginActions";
+import {
+  logoutChange,
+  SocialLogoutChange,
+} from "../redux/actions/loginActions";
 
 const Block = styled.nav`
   padding-top: 0.5rem;
@@ -91,6 +94,7 @@ const Sidebar: FC = () => {
     window.localStorage.removeItem("id");
     window.localStorage.removeItem("test");
     dispatch(logoutChange());
+    dispatch(SocialLogoutChange());
     navigate("/");
   };
 

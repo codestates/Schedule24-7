@@ -28,11 +28,7 @@ function App() {
 
   //최초렌더시 로그인 유지함수 실행..
   useEffect(() => {
-    if (
-      loginState.login &&
-      document.cookie !== "" &&
-      window.localStorage.getItem("token") === null
-    ) {
+    if (loginState.socialLogin) {
       let newCookie2 = document.cookie;
       let finalCookie2 = newCookie2.split("%22")[3];
 
