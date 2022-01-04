@@ -16,6 +16,12 @@ function MainPage() {
     getGroupsApi().then((res) => {
       dispatch(getGroups(res.data));
     });
+  }, []);
+
+  useEffect(() => {
+    getGroupsApi().then((res) => {
+      dispatch(getGroups(res.data));
+    });
   }, [dispatch]);
 
   //토큰 없을 시 로그아웃

@@ -21,7 +21,7 @@ function App() {
 
   //로그인 유지를 위한 함수
   const keepLogin = () => {
-    if (window.localStorage.getItem("token")) {
+    if (window.localStorage.getItem("token") !== "") {
       dispatch(loginChange());
     }
   };
