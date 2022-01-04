@@ -21,13 +21,14 @@ function App() {
 
   //로그인 유지를 위한 함수
   const keepLogin = () => {
-    if (window.localStorage.getItem("token") && loginState.socialLogin) {
+    if (window.localStorage.getItem("token")) {
       dispatch(loginChange());
     }
   };
 
   //최초렌더시 로그인 유지함수 실행..
   useEffect(() => {
+    console.log(loginState.socialLogin);
     if (
       document.cookie !== "" &&
       window.localStorage.getItem("token") === null
@@ -39,7 +40,6 @@ function App() {
         window.localStorage.setItem("token", finalCookie2);
       }
     }
-
     keepLogin();
   }, []);
 
