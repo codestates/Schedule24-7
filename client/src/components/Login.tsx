@@ -139,9 +139,9 @@ export default function Login() {
 
   //카카오 ouath 로그인 요청 함수
   const kakaoLoginHandler = () => {
-    dispatch(SocialLoginChange());
     window.location.assign("https://server.schedule24-7.link/auth/kakao");
     dispatch(loginChange());
+    dispatch(SocialLoginChange());
   };
 
   //네이버 ouath 로그인 요청 함수
