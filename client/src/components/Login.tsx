@@ -132,9 +132,9 @@ export default function Login() {
 
   //구글 ouath 로그인 요청 함수
   const socialLoginHandler = () => {
-    dispatch(SocialLoginChange());
     window.location.assign("https://server.schedule24-7.link/auth/google");
     dispatch(loginChange());
+    dispatch(SocialLoginChange());
   };
 
   //카카오 ouath 로그인 요청 함수

@@ -38,7 +38,6 @@ const loginReducer = (state = loginInitialState, action: loginAction) => {
         socialLogin: false,
       });
     }
-
     default: {
       return state;
     }
