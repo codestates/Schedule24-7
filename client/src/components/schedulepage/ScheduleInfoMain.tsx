@@ -175,10 +175,11 @@ export default function ScheduleInfoMain() {
   //스케줄 정보상태
   const [scheduleInfo, setScheduleInfo] = useState({
     scheduleName: "",
+    period: "",
   });
 
   //이모지 상태
-  const [scheduleEmoji, setScheduleEmoji] = useState(
+  const [scheduleEmoji, setScheduleEmoji] = useState<string>(
     currentSchedule[0].scheduleEmoji
   );
 
@@ -278,7 +279,7 @@ export default function ScheduleInfoMain() {
                 handleTextInfo={handleTextInfo}
                 handleEmoji={handleEmoji}
                 scheduleInfo={scheduleInfo}
-                scheduleEmoji={scheduleEmoji}
+                // scheduleEmoji={scheduleEmoji}
                 setScheduleInfo={setScheduleInfo}
               />
             ) : (
