@@ -114,7 +114,6 @@ export default function ScheduleInfoEdit({
 
   return (
     <>
-      {console.log(scheduleInfo)}
       <DivWrapper>
         <TitleHeader>스케줄 정보</TitleHeader>
       </DivWrapper>
