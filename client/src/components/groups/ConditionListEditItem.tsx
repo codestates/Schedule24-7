@@ -14,12 +14,13 @@ import swal from "sweetalert";
 const Block = styled.div`
   width: 300px;
   min-height: 190px;
-  margin-left: 10px;
+  margin-left: 5px;
+  margin-bottom: 7px;
   display: flex;
   flex-direction: column;
 
   &.edit {
-    display: none; !important
+    display: none;
   }
 `;
 
@@ -38,7 +39,7 @@ const DescBlock = styled.div`
     justify-content: flex-end;
     align-items: flex-end;
     font-style: bold;
-    width: 60px;
+    width: 65px;
   }
 
   > .conditionvalue {
@@ -183,7 +184,7 @@ const MemberListEditItem: FC<Props> = ({
       swal({
         title: "조건삭제 완료",
         icon: "success",
-      });     
+      });
     } catch (err) {
       swal({
         title: " 조건삭제 실패",
@@ -266,9 +267,9 @@ const MemberListEditItem: FC<Props> = ({
         <DescBlock>
           <div className="conditiontitle">주기</div>
           {cycle === "monthly" ? (
-            <div className="conditionvalue"> 월간 </div>
+            <div className="conditionvalue">월간</div>
           ) : cycle === "weekly" ? (
-            <div className="conditionvalue"> 주간</div>
+            <div className="conditionvalue">주간</div>
           ) : null}
         </DescBlock>
         <DescBlock>
@@ -284,8 +285,16 @@ const MemberListEditItem: FC<Props> = ({
           <div className="conditionvalue">미만</div>
         </DescBlock>
         <DescBlock className="button">
-          <SmallButton title={"수정"} onClick={handleButton} color={"#5c5c5c"} />
-          <SmallButton title={"삭제"} onClick={deleteCondition} color={"#b60000"} />
+          <SmallButton
+            title={"수정"}
+            onClick={handleButton}
+            color={"#5c5c5c"}
+          />
+          <SmallButton
+            title={"삭제"}
+            onClick={deleteCondition}
+            color={"#b60000"}
+          />
         </DescBlock>
       </Block>
       <EditBlock className={isEdit ? "" : "edit"}>

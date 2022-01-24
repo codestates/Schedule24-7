@@ -1,6 +1,6 @@
 import moment, { Moment as MomentTypes } from "moment";
 
-function Calendar(option: any): any {
+function Calendar(option: string): string[] {
   let date = moment(option);
 
   // chalandar generate logic

@@ -30,8 +30,6 @@ export const AllLandingContainer = styled.div`
 
 export const LandingHeader = styled.div`
   display: flex;
-  /* position: fixed; */
-  /* top: 0px; */
   z-index: 50;
   width: 100%;
   height: 65px;
@@ -39,22 +37,18 @@ export const LandingHeader = styled.div`
 
   a {
     text-decoration: none;
-    /* color: white; */
   }
   a:visited {
     text-decoration: none;
-    /* color: white; */
-  }
-
-  :hover {
-    /* border-bottom: 1px dashed #ffffff80; */
-    /* background-color: #ebfffe50; */
   }
 `;
 
 export const HeaderLeft = styled.div`
   flex: 1 0 auto;
   padding-left: 5%;
+  @media screen and (max-width: 450px) {
+    padding-left: 15px;
+  }
 `;
 
 export const HeaderLogo = styled.img`
@@ -70,6 +64,12 @@ export const HeaderRight = styled.div`
   justify-content: right;
   flex: 1 0 auto;
   padding-right: 5%;
+  @media screen and (max-width: 600px) {
+    padding-right: 10px;
+  }
+  @media screen and (max-width: 450px) {
+    padding-right: 5px;
+  }
 `;
 
 export const HeaderItem = styled.div`
@@ -88,8 +88,10 @@ export const HeaderItem = styled.div`
     box-shadow: 0 0 5px #ffffff20;
   }
   @media screen and (max-width: 450px) {
-    width: 50px;
-    font-size: 12px;
+    width: 55px;
+    margin: 1px;
+    padding: 5px 0 0px 0;
+    font-size: 11px;
   }
 `;
 
@@ -183,6 +185,7 @@ export const FirstTextContainer = styled.div`
   position: absolute;
   right: 0;
   flex: 1 0 auto;
+
   @media screen and (max-width: 1150px) {
     position: static;
     /* bottom: 100; */
@@ -209,9 +212,8 @@ export const FirstTextContainer = styled.div`
 export const FirstText = styled.div`
   font-size: 1.5rem;
   transition: 0.5s all;
-  /* color: #191919; */
   color: white;
-  /* padding-left: 50px; */
+  text-shadow: 1px 1px 1px black;
 
   span {
     margin-bottom: 0.813rem;
@@ -234,33 +236,13 @@ export const FirstText = styled.div`
   @media screen and (max-width: 1150px) {
     div {
       margin-bottom: 4px;
-      color: #191919;
-      /* color: white; */
     }
 
     div:nth-child(3) {
-      color: white;
     }
   }
-  /* @media screen and (max-width: 37.5rem) {
-    font-size: 16px;
-    transition: 0.5s all;
-    div {
-      color: #191919;
-      margin: 5px 0px 5px 0px;
-    }
 
-    div:nth-child(1) {
-      font-size: 20px;
-      font-weight: bold;
-    }
-
-    div:nth-child(n + 2) {
-      font-size: 10px;
-    }
-  } */
   @media screen and (max-width: 450px) {
-    /* font-size: 12px; */
     transition: 0.5s all;
     div {
       margin: 5px 0px 5px 0px;
@@ -273,7 +255,6 @@ export const FirstText = styled.div`
 
     div:nth-child(n + 2) {
       font-size: 12px;
-      color: #191919;
     }
   }
 `;
@@ -302,15 +283,17 @@ export const FirstSecondText = styled.div`
 export const GotoMainButton = styled.button`
   font-weight: 600;
   width: 15rem;
-  height: 3rem;
+  height: 3.3rem;
   background-color: #f0f4ff;
   color: #393939;
+  border: 1px solid #e4e4e4;
+  box-shadow: 0px 0px 7px #7070706c;
   border-radius: 4px;
   box-sizing: border-box;
-  box-shadow: 2px 2px 2px #49494950;
+  /* box-shadow: 2px 2px 2px #49494950; */
   cursor: pointer;
   font-size: 17px;
-  border: none;
+  /* border: none; */
   transition: 0.5s all;
   margin-top: 15px;
   /* margin-bottom: 15px; */
@@ -322,23 +305,14 @@ export const GotoMainButton = styled.button`
     background-color: #e1eaff;
     box-shadow: inset 1px 1px 1px gray;
   }
+
   @media screen and (max-width: 450px) {
-    margin-top: 10px;
-    width: 180px;
-    height: 40px;
-    font-size: 14px;
-    transition: 0.5s all;
-    &.last {
-      background-color: #f0f4ff;
-      color: #393939;
-    }
-  }
-  @media screen and (max-width: 450px) {
-    width: 150px;
-    height: 25px;
+    width: 160px;
+    height: 35px;
     font-size: 12px;
   }
   &.last {
+    border: 0px;
     background-color: #2f5fd7;
     color: #ffffff;
   }
@@ -363,7 +337,6 @@ export const AllContainer = styled.div<Idx>`
 `;
 
 export const ThirLandingContainer = styled.div<Idx>`
-  /* background-color: #17e9e120; */
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -412,28 +385,23 @@ export const TitleContainer = styled.div`
   z-index: 2;
   transition: 0.5s all;
   color: white;
-  /* text-shadow: 2px 2px #fff, 2px -2px #fff, -2px 2px #fff, -2px -2px #fff; */
-  /* padding-left: 70px; */
+  text-shadow: 1px 1px 1px black;
+
   div {
     margin-bottom: 13px;
     transition: 0.5s all;
   }
   @media screen and (max-width: 1150px) {
-    text-shadow: none;
-    /* color: black; */
   }
   @media screen and (max-width: 37.5rem) {
-    /* font-size: 15px; */
     transition: 0.5s all;
     div {
       margin-bottom: 9px;
       transition: 0.5s all;
-      /* color: white; */
     }
   }
   @media screen and (max-width: 450px) {
     font-size: 12px;
-    /* color: white; */
   }
 `;
 

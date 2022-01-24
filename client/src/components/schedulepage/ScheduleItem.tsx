@@ -73,14 +73,14 @@ export const Work = styled.div`
 export const Worker = styled.div`
   border-radius: 5px;
   max-width: 10rem;
-  height: 14px;
+  height: 20px;
   color: #ffffff;
-  padding: 0.2rem 0.5rem;
+  padding-left: 5px;
   font-size: 13px;
   overflow: hidden;
   text-overflow: ellipsis;
   word-break: break-all;
-  padding-bottom: 3px;
+  align-items: center;
 
   &.a {
     background-color: #fdb137;
@@ -110,7 +110,7 @@ export const SingleWorker = styled.span`
   }
 `;
 
-export default function ScheduleItem({ DayNum, NewDummy }: any) {
+export default function ScheduleItem({ DayNum, NewDummy }: scheduleItemType) {
   let viewData: any;
   if (NewDummy !== undefined) {
     viewData = NewDummy.contents.filter((el: any) => {

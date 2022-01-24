@@ -118,8 +118,8 @@ export const AddBtn = styled.button`
   margin: 0.5rem;
   background-color: #5c5c5c;
   &.delete {
-      background-color: #b60000;
-    }
+    background-color: #b60000;
+  }
 `;
 
 const AddBtnWrapper = styled.div`
@@ -129,13 +129,17 @@ const AddBtnWrapper = styled.div`
 `;
 
 const EmojiDiv = styled.div`
-  width: 46px;
+  width: 43px;
   height: 35px;
   padding-top: 7px;
+  margin-left: 3px;
   text-align: center;
   border: 1px solid #a5a5a5;
   box-shadow: 0.05rem 0.05rem 0.05rem #6969692d;
   background-color: white;
+  ${mediaQuery.mobile} {
+    width: 42px;
+  }
 `;
 
 export const Div1 = styled.div`
@@ -144,40 +148,36 @@ export const Div1 = styled.div`
 `;
 
 const Div2 = styled.div`
-  width: 288px;
-  height: 29px;
-  padding-top: 13px;
+  width: 240px;
+  height: 42px;
+  /* padding-top: 13px; */
   padding-left: 10px;
   border: 1px solid #a5a5a5;
   box-shadow: 0.05rem 0.05rem 0.05rem #6969692d;
   margin: 0.2rem;
   background-color: white;
-
-  &.sub {
-    width: 240px;
-  }
+  display: flex;
+  align-items: center;
 
   ${mediaQuery.mobile} {
-    max-width: 260px;
+    max-width: 220px;
   }
 `;
 
 const Div3 = styled.div`
   width: 288px !important;
-  height: 29px;
-  padding-top: 13px;
+  height: 42px;
+  /* padding-top: 13px; */
   padding-left: 10px;
   border: 1px solid #a5a5a5;
   box-shadow: 0.05rem 0.05rem 0.05rem #6969692d;
   margin: 0.2rem;
   background-color: white;
-
-  &.sub {
-    width: 240px;
-  }
+  display: flex;
+  align-items: center;
 
   ${mediaQuery.mobile} {
-    max-width: 288px;
+    max-width: 268px;
   }
 `;
 const GroupBasicInfoPage: FC = () => {
@@ -225,37 +225,34 @@ const GroupBasicInfoPage: FC = () => {
         <AddGroupWrapper>
           <AddDiv>
             <DivWrapper>
-            <TitleHeader>기본정보</TitleHeader>
+              <TitleHeader>기본정보</TitleHeader>
             </DivWrapper>
-              <DivWrapper>
-                <Title>그룹이름</Title>
-                <Div1>
-                  <EmojiDiv>{selectgroup.groupEmoji}</EmojiDiv>
-                  <Div2 className="sub">{selectgroup.groupName}</Div2>
-                </Div1>
-                  <Div3 className="sub">{selectgroup.groupDesc}</Div3>
+            <DivWrapper>
+              <Title>그룹이름</Title>
+              <Div1>
+                <EmojiDiv>{selectgroup.groupEmoji}</EmojiDiv>
+                <Div2>{selectgroup.groupName}</Div2>
+              </Div1>
+              <Div3>{selectgroup.groupDesc}</Div3>
             </DivWrapper>
             <DivWrapper>
               <Title className="sub">하루 근무 교대 횟수</Title>
-              <Div2>하루 {selectgroup.works.length}회</Div2>
+              <Div3>하루 {selectgroup.works.length}회</Div3>
             </DivWrapper>
             <DivWrapper>
               <Title className="bold">근무명 및 근무인원</Title>
               {selectgroup.works.map((item) => (
-                <Div2>
+                <Div3>
                   {item.workName}: {item.limit}
-                </Div2>
+                </Div3>
               )) ?? null}
             </DivWrapper>
             <AddBtnWrapper>
-              <AddBtn
-                onClick={handleEditButton}
-              >수정</AddBtn>
-              <AddBtn
-                onClick={deleteGroup}
-                className="delete"
-            >그룹삭제</AddBtn>
-            </AddBtnWrapper>          
+              <AddBtn onClick={handleEditButton}>수정</AddBtn>
+              <AddBtn onClick={deleteGroup} className="delete">
+                그룹삭제
+              </AddBtn>
+            </AddBtnWrapper>
           </AddDiv>
         </AddGroupWrapper>
       </BoxSection>

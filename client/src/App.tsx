@@ -7,7 +7,7 @@ import { GlobalStyle } from "./GlobalStyle";
 import ScheduleRoutes from "./components/routes/ScheduleRoute";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "./redux/reducers";
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { loginChange } from "./redux/actions/loginActions";
 import FindIdPw from "./components/routes/FindIdPw";
 import MyRoutes from "./components/routes/MyRoutes";
@@ -28,6 +28,7 @@ function App() {
 
   //최초렌더시 로그인 유지함수 실행..
   useEffect(() => {
+    console.log(loginState.socialLogin);
     if (
       document.cookie !== "" &&
       window.localStorage.getItem("token") === null
@@ -39,7 +40,6 @@ function App() {
         window.localStorage.setItem("token", finalCookie2);
       }
     }
-
     keepLogin();
   }, []);
 

@@ -19,10 +19,10 @@ import { Link } from "react-router-dom";
 const Box = styled.div`
   display: flex;
   flex-wrap: wrap;
-  align-items:flex-start;
-  item-alins: center;
-  border: 1px none; #d3d3d3;
-  border-radius: 0.5rem;
+  align-items: flex-start;
+  align-items: center;
+  border: 1px none #d3d3d3;
+  /* border-radius: 3px; */
   padding: 0.3rem;
   background-color: #f5f5f5;
 
@@ -82,7 +82,7 @@ const NoMemeber = styled.div`
   text-align: center;
   line-height: 40px;
   font-size: 14px;
-`
+`;
 
 const GroupMemberPage: FC = () => {
   const dispatch = useDispatch();
@@ -101,19 +101,17 @@ const GroupMemberPage: FC = () => {
     setIsAdd(true);
   }, [setIsAdd]);
 
-
   const handleAddCancle = useCallback(() => {
     setIsAdd(false);
   }, []);
   return (
     <Layout title="그룹">
       <GroupSelectBar activeIdx={1} id={groupId ?? ""} />
-        <BoxHeader>
-          <span></span>
-        <AddBtn
-          className="schedule"
-          onClick={handler}        
-        >멤버 생성</AddBtn>
+      <BoxHeader>
+        <span></span>
+        <AddBtn className="schedule" onClick={handler}>
+          멤버 생성
+        </AddBtn>
       </BoxHeader>
       <Box>
         {typeof selectgroup === "undefined"
@@ -136,9 +134,9 @@ const GroupMemberPage: FC = () => {
             }
           />
         )}
-      {selectgroup?.members.length === 0 ? 
-      <NoMemeber>등록된 멤버가 없습니다.</NoMemeber>
-      :null}
+        {selectgroup?.members.length === 0 ? (
+          <NoMemeber>등록된 멤버가 없습니다.</NoMemeber>
+        ) : null}
       </Box>
     </Layout>
   );

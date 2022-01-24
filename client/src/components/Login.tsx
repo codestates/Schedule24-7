@@ -3,7 +3,7 @@ import axios from "axios";
 import { Link, Navigate, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import styled from "styled-components";
-import { loginChange } from "../redux/actions/loginActions";
+import { loginChange, SocialLoginChange } from "../redux/actions/loginActions";
 import { ErrMsg } from "../style/theme";
 
 axios.defaults.withCredentials = true;
@@ -134,12 +134,14 @@ export default function Login() {
   const socialLoginHandler = () => {
     window.location.assign("https://server.schedule24-7.link/auth/google");
     dispatch(loginChange());
+    dispatch(SocialLoginChange());
   };
 
   //카카오 ouath 로그인 요청 함수
   const kakaoLoginHandler = () => {
     window.location.assign("https://server.schedule24-7.link/auth/kakao");
     dispatch(loginChange());
+    dispatch(SocialLoginChange());
   };
 
   //네이버 ouath 로그인 요청 함수

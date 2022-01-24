@@ -16,13 +16,13 @@ import { RootState } from "../../redux/reducers";
 const Box = styled.div`
   display: flex;
   flex-wrap: wrap;
-  align-items:flex-start;
-  border: 1px none; #d3d3d3;
+  align-items: flex-start;
+  border: 1px none;
   border-radius: 0.5rem;
   padding: 0.3rem;
   background-color: #f5f5f5;
 
-   ${mediaQuery.mobile} {
+  ${mediaQuery.mobile} {
     flex-direction: column;
     max-width: 320px;
     background-color: #f5f5f5;
@@ -77,8 +77,7 @@ const NoMemeber = styled.div`
   text-align: center;
   line-height: 40px;
   font-size: 14px;
-
-`
+`;
 
 const GroupWorkConditionPage: FC = () => {
   const navigate = useNavigate();
@@ -96,12 +95,11 @@ const GroupWorkConditionPage: FC = () => {
   return (
     <Layout title="그룹">
       <GroupSelectBar id={groupId ?? ""} activeIdx={3} />
-        <BoxHeader>
-          <span></span>
-        <AddBtn
-          className="schedule"
-          onClick={handler}        
-        >조건 생성</AddBtn>
+      <BoxHeader>
+        <span></span>
+        <AddBtn className="schedule" onClick={handler}>
+          조건 생성
+        </AddBtn>
       </BoxHeader>
       <Box>
         {selectGroup
@@ -132,9 +130,9 @@ const GroupWorkConditionPage: FC = () => {
             }
           />
         )}
-      {selectGroup?.conditions.length === 0 ? 
-      <NoMemeber>등록된 조건이 없습니다.</NoMemeber>
-      :null}
+        {selectGroup?.conditions.length === 0 ? (
+          <NoMemeber>등록된 조건이 없습니다.</NoMemeber>
+        ) : null}
       </Box>
     </Layout>
   );

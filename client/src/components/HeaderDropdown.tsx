@@ -4,7 +4,10 @@ import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import swal from "sweetalert";
-import { logoutChange } from "../redux/actions/loginActions";
+import {
+  logoutChange,
+  SocialLogoutChange,
+} from "../redux/actions/loginActions";
 
 const Block = styled.nav`
   width: 120px;
@@ -82,6 +85,7 @@ const HeaderDropdown: FC = ({}: any) => {
     window.localStorage.removeItem("id");
     window.localStorage.removeItem("test");
     dispatch(logoutChange());
+    dispatch(SocialLogoutChange());
     navigate("/");
   };
 

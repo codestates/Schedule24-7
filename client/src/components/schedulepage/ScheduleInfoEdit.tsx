@@ -103,7 +103,7 @@ export default function ScheduleInfoEdit({
   handleTextInfo,
   handleEmoji,
   setScheduleInfo,
-}: any) {
+}: scheduleInfoTypes) {
   const [startDate, setStartDate] = useState<any>(new Date());
 
   useEffect(() => {
@@ -114,6 +114,7 @@ export default function ScheduleInfoEdit({
 
   return (
     <>
+      {console.log(scheduleInfo)}
       <DivWrapper>
         <TitleHeader>스케줄 정보</TitleHeader>
       </DivWrapper>
