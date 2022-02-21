@@ -98,7 +98,10 @@ export const SingleWorker = styled.div`
   margin: 0.2rem;
 `;
 
-export default function ScheduleItemColumn({ DayNum, NewDummy }: any) {
+export default function ScheduleItemColumn({
+  DayNum,
+  NewDummy,
+}: scheduleItemType) {
   let viewData: any;
   if (NewDummy !== undefined) {
     viewData = NewDummy.contents.filter((el: any) => {

@@ -40,6 +40,7 @@ export default function ScheduleMain() {
 
   return (
     <BoxSection className="schedule">
+      {console.log(groups)}
       <BoxHeader>
         <HeaderText>스케줄</HeaderText>
         <Link to="/schedule/add">

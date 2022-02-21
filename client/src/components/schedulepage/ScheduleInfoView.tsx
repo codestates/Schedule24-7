@@ -54,7 +54,9 @@ export const EmojiDiv = styled.div`
   background-color: white;
 `;
 
-export default function ScheduleInfoView({ currentSchedule }: any) {
+export default function ScheduleInfoView({
+  currentSchedule,
+}: currentScheduleType) {
   return (
     <>
       <DivWrapper>

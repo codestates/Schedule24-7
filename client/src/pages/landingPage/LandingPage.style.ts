@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { mediaQuery } from "../../GlobalStyle";
+import { FadeAction, mediaQuery } from "../../GlobalStyle";
 
 interface Idx {
   idx: number;
@@ -34,6 +34,15 @@ export const LandingHeader = styled.div`
   width: 100%;
   height: 65px;
   align-items: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  /* padding: ${(props) => (props.theme > 100 ? "0px" : "10px")}; */
+  background-color: ${(props) =>
+    props.theme > 100 ? "rgba(255, 255, 255, 0.2)" : "none"};
+  box-shadow: ${(props) =>
+    props.theme > 100 ? "rgba(0, 0, 0, 0.1) 0px 3px 2px 0px" : "none"};
 
   a {
     text-decoration: none;
@@ -115,11 +124,12 @@ export const BodyOutContainer = styled.main`
 
 export const FirstLandingContainer = styled.div`
   width: 100%;
-  height: 51.313rem;
+  height: 52rem;
   display: flex;
   align-items: center;
   transition: 0.5s all;
   position: relative;
+  animation: 0.7s ease-in-out ${FadeAction};
 
   @media screen and (max-width: 1150px) {
     margin: 10px 0 0 0;

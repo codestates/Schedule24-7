@@ -1,4 +1,6 @@
 import axios from "axios";
+import { useEffect, useState } from "react";
+import { Fade, Slide } from "react-awesome-reveal";
 import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import swal from "sweetalert";
@@ -31,6 +33,19 @@ import {
 
 function LandingPage() {
   const dispatch = useDispatch();
+  //스크롤 포지션 상태
+  const [scrollPosition, setScrollPosition] = useState(0);
+
+  //스크롤 포지션 업데이트 함수
+  const updateScroll = () => {
+    setScrollPosition(window.scrollY || document.documentElement.scrollTop);
+  };
+
+  //스크롤 될 때 마다 실행
+  useEffect(() => {
+    window.addEventListener("scroll", updateScroll);
+  });
+
   const LandingPageTxt = [
     {
       title: [
@@ -90,7 +105,7 @@ function LandingPage() {
           alt="gotop_icon"
         ></img>
       </GoTopContainer>
-      <LandingHeader>
+      <LandingHeader theme={scrollPosition}>
         <HeaderLeft>
           <Link to="/">
             <HeaderLogo src="https://media.discordapp.net/attachments/907157959333785630/916227740267581440/S247_Logoheadertitle.png" />
@@ -135,33 +150,35 @@ function LandingPage() {
         <ThirdBodyContainer>
           {LandingPageTxt.map((el, idx) => {
             return (
-              <ThirLandingContainer idx={idx} key={el.title[0]}>
-                <AllContainer idx={idx}>
-                  <ThirTextContainer idx={idx}>
-                    <TitleContainer>
-                      {el.title.map((el) => {
-                        return <div key={el[0]}>{el}</div>;
-                      })}
-                    </TitleContainer>
-                  </ThirTextContainer>
-                  <ThirImageContainer idx={idx}>
-                    <img
-                      src={el.img}
-                      alt={el.title[0]}
-                      className={el.mobile === true ? "mobile" : ""}
-                    />
-                    {el.img2 !== undefined ? (
+              <Fade direction={"up"} triggerOnce>
+                <ThirLandingContainer idx={idx} key={el.title[0]}>
+                  <AllContainer idx={idx}>
+                    <ThirTextContainer idx={idx}>
+                      <TitleContainer>
+                        {el.title.map((el) => {
+                          return <div key={el[0]}>{el}</div>;
+                        })}
+                      </TitleContainer>
+                    </ThirTextContainer>
+                    <ThirImageContainer idx={idx}>
                       <img
-                        src={el.img2}
+                        src={el.img}
                         alt={el.title[0]}
                         className={el.mobile === true ? "mobile" : ""}
                       />
-                    ) : (
-                      ""
-                    )}
-                  </ThirImageContainer>
-                </AllContainer>
-              </ThirLandingContainer>
+                      {el.img2 !== undefined ? (
+                        <img
+                          src={el.img2}
+                          alt={el.title[0]}
+                          className={el.mobile === true ? "mobile" : ""}
+                        />
+                      ) : (
+                        ""
+                      )}
+                    </ThirImageContainer>
+                  </AllContainer>
+                </ThirLandingContainer>
+              </Fade>
             );
           })}
         </ThirdBodyContainer>

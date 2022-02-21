@@ -103,7 +103,7 @@ export default function ScheduleInfoEdit({
   handleTextInfo,
   handleEmoji,
   setScheduleInfo,
-}: any) {
+}: scheduleInfoTypes) {
   const [startDate, setStartDate] = useState<any>(new Date());
 
   useEffect(() => {

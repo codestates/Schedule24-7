@@ -80,7 +80,27 @@ const ToggleMenu = styled.div`
   }
 `;
 
-export default function BoxItem({ schedule }: any) {
+interface singleSchedule {
+  schedule: {
+    contents: contentArray[];
+    createdAt: string;
+    group: {
+      groupId: string;
+      groupName: string;
+    };
+    period: string;
+    scheduleEmoji: string;
+    scheduleName: string;
+    _id: string;
+  };
+}
+interface contentArray {
+  contentId: number;
+  date: string;
+  team: any[];
+}
+
+export default function BoxItem({ schedule }: singleSchedule) {
   const [openThreeDot, setOpenThreeDot] = useState(false);
 
   //드롭다운 여는 함수
