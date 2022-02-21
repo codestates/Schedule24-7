@@ -123,7 +123,6 @@ export default function BoxItem({ schedule }: singleSchedule) {
 
   return (
     <MainDiv>
-      {/* {console.log(schedule)} */}
       <Div1>
         <SubDiv1>{schedule.scheduleEmoji}</SubDiv1>
         <SubDiv2>

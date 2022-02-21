@@ -1,4 +1,5 @@
 import styled, { createGlobalStyle, css } from "styled-components";
+import { keyframes } from "styled-components";
 
 const LAYOUT_BREAK_POINT = {
   MOBILE: 768,
@@ -47,5 +48,16 @@ export const DefaultLayout = styled.div`
 
   ${mediaQuery.mac} {
     width: 100%;
+  }
+`;
+
+export const FadeAction = keyframes`
+  0% {
+    opacity: 0;
+    transform: translateY(25px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0px);
   }
 `;
