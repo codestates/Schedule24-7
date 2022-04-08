@@ -130,7 +130,7 @@ export const SeeMore = styled.div`
 `;
 
 export const AddBtn = styled.button`
-  width: 80px;
+  width: 90px;
   height: 30px;
   background-color: white;
   border: 1px solid #d4d4d4;

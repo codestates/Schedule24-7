@@ -28,8 +28,8 @@ export const ListDiv = styled.div`
   justify-content: center;
   align-items: center;
   background-color: #f9f9f9;
-  width: 450px;
-  height: 350px;
+  min-width: 450px;
+  min-height: 350px;
   margin-top: 1rem;
   padding: 1rem;
   border-radius: 0.5rem;
@@ -37,7 +37,8 @@ export const ListDiv = styled.div`
   box-shadow: 1px 1px 1px #cacaca57;
 
   ${mediaQuery.mobile} {
-    width: 290px;
+    min-width: 200px;
+    max-width: 290px;
   }
 `;
 
@@ -61,9 +62,9 @@ export const WorkNameWrapper = styled.div`
 
 export const WorkName = styled.div`
   display: flex;
-  max-width: 90px;
-  padding-left: 3px;
-  padding-right: 3px;
+  max-width: 100px;
+  padding-left: 10px;
+  padding-right: 10px;
   height: 44px;
   /* padding-top: 13px; */
   box-shadow: 0.05rem 0.05rem 0.05rem #6969692d;
@@ -84,7 +85,7 @@ export const WorkerWrapper = styled.div`
 
 export const Worker = styled.div`
   display: flex;
-  width: 350px;
+  min-width: 250px;
   height: 42px;
   border: 1px solid #b4b4b4;
   box-shadow: 0.05rem 0.05rem 0.05rem #6969692d;
